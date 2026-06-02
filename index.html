@@ -365,8 +365,8 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
     </div>
-    <button class="hdr-btn-outline" onclick="scrollToSignup()" id="hdrFree">List Free</button>
-    <button class="hdr-btn" onclick="switchToTab('pro')" id="hdrPro">Join Network →</button>
+    <a href="/form" class="hdr-btn-outline" style="text-decoration:none;display:inline-block;">List Your Business</a>
+    <a href="/form" class="hdr-btn" style="text-decoration:none;display:inline-block;">Get Started →</a>
   </div>
 </header>
 
@@ -546,60 +546,15 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
   </div>
 </section>
 
-<!-- SIGNUP SECTION -->
-<section class="signup-section" id="signupSection">
+<!-- CTA SECTION -->
+<section class="signup-section">
   <div class="signup-hd">
-    <h2 id="signupHeading">Join the <em>FiTEN Directory</em></h2>
-    <p id="signupSub">Get your business in front of Tamil professionals and decision-makers worldwide.<br>Founding members lock in the best rates.</p>
+    <h2>Ready to List Your Business?</h2>
+    <p>Join thousands of Tamil entrepreneurs and businesses in the FiTEN Directory.<br>Get discovered by professionals and decision-makers worldwide.</p>
   </div>
-
-  <div class="form-tabs">
-    <button class="form-tab active" id="tab-detailed" onclick="switchTab('detailed',this)">📋 Free Listing</button>
-    <button class="form-tab" id="tab-pro" onclick="switchTab('pro',this)">⭐ Join PRO</button>
-  </div>
-
-  <div class="form-panels">
-    <div class="form-panel active" id="panel-detailed">
-      <form id="detailedForm" onsubmit="handleSubmit(event,'detailed')">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-          <div><label class="sidebar-title">Business Name *</label><input class="form-input" type="text" placeholder="Your business" required></div>
-          <div><label class="sidebar-title">Contact Person *</label><input class="form-input" type="text" placeholder="Your name" required></div>
-          <div><label class="sidebar-title">Email *</label><input class="form-input" type="email" placeholder="you@business.com" required></div>
-          <div><label class="sidebar-title">Phone</label><input class="form-input" type="tel" placeholder="+1 (555) 000-0000"></div>
-          <div><label class="sidebar-title">Industry *</label><select class="form-select" required><option value="">Select...</option><option>Technology</option><option>Healthcare</option><option>Finance</option></select></div>
-          <div><label class="sidebar-title">City / Country *</label><input class="form-input" type="text" placeholder="e.g. Edison, NJ, USA" required></div>
-        </div>
-        <div style="margin-bottom:1rem"><label class="sidebar-title">Brief Description *</label><textarea class="form-textarea" placeholder="What does your business do?" required></textarea></div>
-        <button type="submit" class="form-submit">📋 Submit Listing — It's Free</button>
-        <div class="form-hint">Reviewed within 48 hours</div>
-      </form>
-      <div class="form-success" id="success-detailed" style="display:none">
-        <div class="form-success-icon">✅</div>
-        <h3>Listing submitted!</h3>
-        <p>We'll review and activate your FiTEN profile within 48 hours.</p>
-      </div>
-    </div>
-
-    <div class="form-panel" id="panel-pro">
-      <form id="proForm" onsubmit="handleSubmit(event,'pro')">
-        <div style="text-align:center;margin-bottom:1.5rem">
-          <label class="sidebar-title">Billing Cycle</label>
-          <div style="display:flex;gap:1rem;justify-content:center;margin-top:0.8rem">
-            <button type="button" class="form-tab active" id="btn-monthly" onclick="setPlan('monthly')">Monthly</button>
-            <button type="button" class="form-tab" id="btn-annual" onclick="setPlan('annual')">Annual (Save 20%)</button>
-          </div>
-        </div>
-        <input class="form-input" type="text" placeholder="Business Name *" required>
-        <input class="form-input" type="email" placeholder="Email *" required>
-        <button type="submit" class="form-submit" id="proSubmitBtn">Start PRO - $29/mo</button>
-        <div class="form-hint">Founding members lock in this rate. Cancel anytime.</div>
-      </form>
-      <div class="form-success" id="success-pro" style="display:none">
-        <div class="form-success-icon">⭐</div>
-        <h3>Welcome, Founding Member!</h3>
-        <p>You're among the first to join FiTEN PRO. We'll contact you within 24 hours.</p>
-      </div>
-    </div>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="/form" style="display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:1rem 2.5rem;border-radius:0.8rem;font-weight:700;font-size:1rem;transition:all 0.2s;box-shadow:var(--shadow-md);" onmouseover="this.style.background='#B08500';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.background='var(--gold)';this.style.boxShadow='var(--shadow-md)'">List Your Business →</a>
+    <p style="margin-top:1.2rem;font-size:0.95rem;opacity:0.9;">Takes just 5 minutes. Free to get started.</p>
   </div>
 </section>
 
