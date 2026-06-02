@@ -1,0 +1,19 @@
+{
+  "name": "fiten-business-directory",
+  "version": "1.0.0",
+  "description": "FiTEN Tamil Business Directory - Connect entrepreneurs and businesses globally",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Static HTML site - no build needed'",
+    "start": "echo 'Served by Vercel'"
+  },
+  "keywords": [
+    "business",
+    "directory",
+    "tamil",
+    "entrepreneur",
+    "network"
+  ],
+  "author": "FiTEN",
+  "license": "MIT"
+}
