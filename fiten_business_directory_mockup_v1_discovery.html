@@ -1,0 +1,295 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--brand:#8B1A1A;--gold:#C69400;--gold-lt:#FFF8E7;--brand-lt:#FFF0F0;--teal:#006B75}
+body{font-family:var(--font-sans,system-ui);background:var(--color-background-tertiary);color:var(--color-text-primary)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.site-header{background:#8B1A1A;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:52px;border-radius:12px 12px 0 0}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-text{color:#fff;font-weight:500;font-size:16px;letter-spacing:0.3px}
+.logo-dot{color:#C69400;font-weight:500}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.15);border-radius:20px;padding:2px}
+.lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.75);font-size:12px;padding:4px 12px;border-radius:18px;cursor:pointer;font-family:inherit}
+.lang-btn.active{background:#fff;color:#8B1A1A;font-weight:500}
+.hero{background:linear-gradient(135deg,#8B1A1A 0%,#6B1414 60%,#4A0E0E 100%);padding:32px 20px;text-align:center}
+.hero-title{color:#fff;font-size:22px;font-weight:500;margin-bottom:6px}
+.hero-sub{color:rgba(255,255,255,0.75);font-size:14px;margin-bottom:20px}
+.hero-tamil{color:#C69400;font-size:13px;margin-bottom:16px}
+.search-bar{display:flex;gap:0;max-width:560px;margin:0 auto;background:#fff;border-radius:10px;overflow:hidden;border:2.5px solid #C69400}
+.search-bar input{flex:1;border:none;padding:10px 14px;font-size:14px;outline:none;background:transparent;color:#333}
+.search-bar select{border:none;border-left:1px solid #eee;padding:10px 12px;font-size:13px;background:transparent;color:#555;cursor:pointer;outline:none}
+.search-bar button{background:#8B1A1A;color:#fff;border:none;padding:10px 18px;cursor:pointer;font-size:14px;font-weight:500;transition:background 0.15s}
+.search-bar button:hover{background:#6B1414}
+.stats-bar{background:#fff;border-bottom:1px solid #eee;padding:8px 20px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.stat-item{font-size:13px;color:var(--color-text-secondary)}
+.stat-item span{color:#8B1A1A;font-weight:500}
+.main-layout{display:grid;grid-template-columns:200px 1fr;gap:0;min-height:400px}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:16px}
+.sidebar-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.cat-list{list-style:none}
+.cat-item{padding:6px 10px;font-size:13px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;display:flex;justify-content:space-between;align-items:center;transition:background 0.1s}
+.cat-item:hover,.cat-item.active{background:var(--color-background-secondary);color:#8B1A1A;font-weight:500}
+.cat-item.active{border-left:3px solid #8B1A1A;padding-left:7px}
+.cat-badge{background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:11px;padding:1px 7px;border-radius:10px}
+.cat-item.active .cat-badge{background:rgba(139,26,26,0.1);color:#8B1A1A}
+.content{padding:16px 20px;background:var(--color-background-secondary)}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.result-count{font-size:13px;color:var(--color-text-secondary)}
+.sort-select{border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:5px 10px;font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.biz-card{background:var(--color-background-primary);border-radius:10px;border:0.5px solid var(--color-border-tertiary);overflow:hidden;cursor:pointer;transition:border-color 0.15s}
+.biz-card:hover{border-color:rgba(139,26,26,0.4)}
+.biz-card.featured{border:1.5px solid #C69400}
+.card-top{padding:14px 14px 10px;display:flex;gap:12px;align-items:flex-start}
+.biz-avatar{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:16px;flex-shrink:0}
+.biz-info{flex:1;min-width:0}
+.biz-name{font-size:14px;font-weight:500;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.biz-name-tamil{font-size:11px;color:var(--color-text-secondary);margin-top:1px;display:none}
+.biz-category{font-size:11px;color:#006B75;margin-top:3px}
+.biz-location{font-size:11px;color:var(--color-text-secondary);margin-top:2px;display:flex;align-items:center;gap:3px}
+.badges{display:flex;gap:4px;flex-wrap:wrap;padding:0 14px 6px}
+.badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+.badge-member{background:rgba(139,26,26,0.1);color:#8B1A1A}
+.badge-speaker{background:rgba(198,148,0,0.12);color:#8B6500}
+.badge-featured{background:rgba(198,148,0,0.2);color:#7A5000}
+.badge-women{background:rgba(180,60,120,0.1);color:#8B1A5E}
+.card-desc{font-size:12px;color:var(--color-text-secondary);padding:0 14px 10px;line-height:1.5}
+.card-footer{border-top:0.5px solid var(--color-border-tertiary);padding:8px 14px;display:flex;justify-content:space-between;align-items:center}
+.rating{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--color-text-secondary)}
+.stars{color:#C69400;font-size:12px}
+.card-action{background:#8B1A1A;color:#fff;border:none;font-size:11px;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit}
+.card-action:hover{background:#6B1414}
+.featured-banner{background:#C69400;font-size:10px;padding:3px 10px;color:#fff;font-weight:500;text-align:center;letter-spacing:0.5px}
+.no-results{text-align:center;padding:40px 20px;color:var(--color-text-secondary);font-size:14px}
+.pagination{display:flex;justify-content:center;gap:8px;padding:16px;border-top:0.5px solid var(--color-border-tertiary)}
+.page-btn{width:32px;height:32px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);border-radius:6px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;color:var(--color-text-primary)}
+.page-btn.active{background:#8B1A1A;color:#fff;border-color:#8B1A1A}
+.site-footer{background:#8B1A1A;color:rgba(255,255,255,0.7);font-size:12px;padding:14px 20px;text-align:center;border-radius:0 0 12px 12px}
+.site-footer a{color:#C69400;text-decoration:none}
+.pill{display:inline-block;background:rgba(139,26,26,0.08);color:#8B1A1A;font-size:11px;padding:2px 9px;border-radius:10px;margin:0 2px 6px;cursor:pointer;border:0.5px solid rgba(139,26,26,0.2)}
+.pill.active{background:#8B1A1A;color:#fff}
+.filter-row{padding:0 20px 10px;display:flex;flex-wrap:wrap;gap:4px;background:var(--color-background-secondary)}
+</style>
+
+<h2 class="sr-only">FiTEN Business Directory — interactive mockup showing search, category filters, and sample Tamil business listings</h2>
+
+<div style="border-radius:12px;overflow:hidden;border:0.5px solid var(--color-border-tertiary)">
+
+<div class="site-header">
+  <div class="logo-area">
+    <i class="ti ti-building-community" style="color:#C69400;font-size:20px" aria-hidden="true"></i>
+    <div class="logo-text">Fi<span class="logo-dot">TEN</span> Business Directory</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn active" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+    <button style="background:rgba(255,255,255,0.15);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit" onclick="sendPrompt('How do I add my business to the FiTEN directory?')">+ List your business ↗</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-title" id="heroTitle">Discover Tamil Businesses Worldwide</div>
+  <div class="hero-tamil" id="heroTamil">உலகின் தமிழ் வணிகங்களை கண்டறியுங்கள்</div>
+  <div class="hero-sub" id="heroSub">Find trusted Tamil-owned businesses across technology, healthcare, food, professional services, and more</div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search businesses, services, or names..." oninput="filterBiz()">
+    <select id="locationSelect" onchange="filterBiz()">
+      <option value="">All Locations</option>
+      <option>New Jersey, USA</option>
+      <option>California, USA</option>
+      <option>Texas, USA</option>
+      <option>Coimbatore, India</option>
+      <option>Chennai, India</option>
+    </select>
+    <button onclick="filterBiz()">Search</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><span>847</span> businesses</div>
+  <div class="stat-item"><span>23</span> categories</div>
+  <div class="stat-item"><span>14</span> countries</div>
+  <div class="stat-item"><span>312</span> FiTEN members</div>
+</div>
+
+<div class="filter-row" id="filterRow">
+  <span class="pill active" onclick="setFilter(this,'All')">All</span>
+  <span class="pill" onclick="setFilter(this,'Tech')">Technology</span>
+  <span class="pill" onclick="setFilter(this,'Healthcare')">Healthcare</span>
+  <span class="pill" onclick="setFilter(this,'Food')">Food & Hospitality</span>
+  <span class="pill" onclick="setFilter(this,'Finance')">Finance</span>
+  <span class="pill" onclick="setFilter(this,'Legal')">Legal</span>
+  <span class="pill" onclick="setFilter(this,'Education')">Education</span>
+  <span class="pill" onclick="setFilter(this,'Retail')">Retail</span>
+  <span class="pill" onclick="setFilter(this,'FiTEN')">FiTEN Members ★</span>
+</div>
+
+<div class="main-layout">
+  <div class="sidebar">
+    <div class="sidebar-title" id="sideTitle">Categories</div>
+    <ul class="cat-list" id="catList">
+      <li class="cat-item active" onclick="setCat(this,'All')">All Businesses <span class="cat-badge">847</span></li>
+      <li class="cat-item" onclick="setCat(this,'Tech')"><i class="ti ti-cpu" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Technology <span class="cat-badge">198</span></li>
+      <li class="cat-item" onclick="setCat(this,'Healthcare')"><i class="ti ti-heart" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Healthcare <span class="cat-badge">124</span></li>
+      <li class="cat-item" onclick="setCat(this,'Food')"><i class="ti ti-tools-kitchen" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Food & Dining <span class="cat-badge">112</span></li>
+      <li class="cat-item" onclick="setCat(this,'Finance')"><i class="ti ti-coin" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Finance & CPA <span class="cat-badge">89</span></li>
+      <li class="cat-item" onclick="setCat(this,'Legal')"><i class="ti ti-scale" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Legal Services <span class="cat-badge">63</span></li>
+      <li class="cat-item" onclick="setCat(this,'Education')"><i class="ti ti-school" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Education <span class="cat-badge">58</span></li>
+      <li class="cat-item" onclick="setCat(this,'Retail')"><i class="ti ti-shopping-bag" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Retail & Goods <span class="cat-badge">77</span></li>
+      <li class="cat-item" onclick="setCat(this,'Real Estate')"><i class="ti ti-home" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Real Estate <span class="cat-badge">46</span></li>
+      <li class="cat-item" onclick="setCat(this,'Media')"><i class="ti ti-device-tv" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Media & Arts <span class="cat-badge">38</span></li>
+    </ul>
+    <div style="margin-top:16px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary)">
+      <div class="sidebar-title">Filters</div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:4px 0">
+        <input type="checkbox" id="chkMember" onchange="filterBiz()"> FiTEN Members
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:4px 0">
+        <input type="checkbox" id="chkSpeaker" onchange="filterBiz()"> FiTEN Speakers
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:4px 0">
+        <input type="checkbox" id="chkWomen" onchange="filterBiz()"> Women-Led
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <div class="content">
+      <div class="content-header">
+        <div class="result-count" id="resultCount">Showing 8 of 847 businesses</div>
+        <select class="sort-select" onchange="filterBiz()">
+          <option>Sort: Relevance</option>
+          <option>Sort: Newest</option>
+          <option>Sort: Rating</option>
+          <option>Sort: A–Z</option>
+        </select>
+      </div>
+      <div class="biz-grid" id="bizGrid"></div>
+      <div id="noResults" class="no-results" style="display:none">
+        <i class="ti ti-search-off" style="font-size:32px;color:var(--color-border-tertiary)" aria-hidden="true"></i>
+        <div style="margin-top:8px">No businesses found. Try a different search or category.</div>
+        <button style="margin-top:12px;background:#8B1A1A;color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-family:inherit" onclick="sendPrompt('What businesses should we add to the FiTEN directory?')">Suggest a business ↗</button>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">…</button>
+      <button class="page-btn">47</button>
+      <button class="page-btn" style="width:auto;padding:0 10px"><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  FiTEN Business Directory &mdash; A <a href="#">FeTNA</a> initiative &nbsp;|&nbsp; <a href="#">Add your business</a> &nbsp;|&nbsp; <a href="#">fiten.org</a>
+</div>
+
+</div>
+
+<script>
+const businesses=[
+  {name:"AccuKnox Cloud Security",nameTamil:"AccuKnox கிளவுட் பாதுகாப்பு",cat:"Tech",loc:"Silicon Valley, CA",desc:"Cloud-native security platform built in partnership with Stanford Research Institute. Zero-trust policy enforcement.",rating:4.9,reviews:42,member:true,speaker:true,women:false,featured:true,color:"#E6F1FB",textColor:"#0C447C",initials:"AK"},
+  {name:"TamilMed Clinics",nameTamil:"தமிழ் மருத்துவமனை",cat:"Healthcare",loc:"Edison, NJ",desc:"Tamil-speaking family medicine practice. Primary care, preventive health, and geriatric care in English & Tamil.",rating:4.8,reviews:87,member:true,speaker:false,women:true,featured:false,color:"#EAF3DE",textColor:"#27500A",initials:"TM"},
+  {name:"Kovai Bites Restaurant",nameTamil:"கோவை கடித்தகம்",cat:"Food",loc:"Fremont, CA",desc:"Authentic Chettinad and Kongunadu cuisine. Catering for Tamil events and corporate lunches.",rating:4.7,reviews:213,member:false,speaker:false,women:false,featured:false,color:"#FAEEDA",textColor:"#633806",initials:"KB"},
+  {name:"Rocketship.vc",nameTamil:"ராக்கெட்ஷிப் முதலீட்டு நிறுவனம்",cat:"Finance",loc:"San Francisco, CA",desc:"Silicon Valley fund investing globally in early-stage startups. Partner led by FiTEN speaker Madhu Shalini Iyer.",rating:4.9,reviews:28,member:true,speaker:true,women:true,featured:true,color:"#EEEDFE",textColor:"#3C3489",initials:"RV"},
+  {name:"ERP Logic Inc.",nameTamil:"ERP லாஜிக் நிறுவனம்",cat:"Tech",loc:"Dallas, TX",desc:"Enterprise resource planning consulting with 30+ years experience. SAP, Oracle, and Microsoft Dynamics implementations.",rating:4.6,reviews:56,member:true,speaker:true,women:false,featured:false,color:"#E1F5EE",textColor:"#085041",initials:"EL"},
+  {name:"Chennai Spice Kitchen",nameTamil:"சென்னை மசாலா சமையலறை",cat:"Food",loc:"Jersey City, NJ",desc:"Street food of Chennai brought to New Jersey. Dosai, idly, and South Indian breakfasts served all day.",rating:4.5,reviews:341,member:false,speaker:false,women:true,featured:false,color:"#FAECE7",textColor:"#712B13",initials:"CS"},
+  {name:"Tamil Legal Group",nameTamil:"தமிழ் சட்ட குழு",cat:"Legal",loc:"Houston, TX",desc:"Immigration, family law, and business formation for Tamil-speaking clients. Free initial 30-minute consultation.",rating:4.7,reviews:95,member:true,speaker:false,women:false,featured:false,color:"#F1EFE8",textColor:"#444441",initials:"TL"},
+  {name:"Vani Language Academy",nameTamil:"வாணி மொழி கல்வி நிறுவனம்",cat:"Education",loc:"Coimbatore, India",desc:"Tamil language, Carnatic music, and Bharatanatyam classes online and in-person. FiTEN certified institute.",rating:4.8,reviews:134,member:true,speaker:false,women:true,featured:false,color:"#FBEAF0",textColor:"#72243E",initials:"VL"},
+];
+
+let lang='en';
+let activeCat='All';
+let activeFilter='All';
+
+const labels={
+  en:{search:"Search businesses, services, or names...",heroTitle:"Discover Tamil Businesses Worldwide",heroSub:"Find trusted Tamil-owned businesses across technology, healthcare, food, professional services, and more",sideTitle:"Categories",listBiz:"List your business",noResult:"No businesses found."},
+  ta:{search:"வணிகங்கள், சேவைகள் அல்லது பெயர்களைத் தேடுங்கள்...",heroTitle:"உலகளாவிய தமிழ் வணிகங்களை கண்டறியுங்கள்",heroSub:"தொழில்நுட்பம், சுகாதாரம், உணவு, தொழில்முறை சேவைகள் மற்றும் பலவற்றில் நம்பகமான தமிழர் வணிகங்களைக் கண்டறியுங்கள்",sideTitle:"வகைகள்",listBiz:"உங்கள் வணிகத்தை பட்டியலிடுங்கள்",noResult:"வணிகங்கள் எதுவும் கிடைக்கவில்லை."},
+};
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn:${l==='en'?'first':'last'}-child`).classList.add('active');
+  document.getElementById('heroTitle').textContent=labels[l].heroTitle;
+  document.getElementById('heroSub').textContent=labels[l].heroSub;
+  document.getElementById('heroTamil').style.display=l==='ta'?'none':'block';
+  document.getElementById('searchInput').placeholder=labels[l].search;
+  document.getElementById('sideTitle').textContent=labels[l].sideTitle;
+  document.querySelectorAll('.biz-name-tamil').forEach(el=>el.style.display=l==='ta'?'block':'none');
+}
+
+function setFilter(el,filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter=filter;
+  if(filter==='FiTEN'){document.getElementById('chkMember').checked=true;}
+  else{document.getElementById('chkMember').checked=false;}
+  filterBiz();
+}
+
+function setCat(el,cat){
+  document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  filterBiz();
+}
+
+function filterBiz(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const loc=document.getElementById('locationSelect').value;
+  const chkM=document.getElementById('chkMember').checked;
+  const chkS=document.getElementById('chkSpeaker').checked;
+  const chkW=document.getElementById('chkWomen').checked;
+  let filtered=businesses.filter(b=>{
+    if(activeCat!=='All'&&b.cat!==activeCat)return false;
+    if(activeFilter==='FiTEN'&&!b.member)return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!b.cat.toLowerCase().includes(q))return false;
+    if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
+    if(chkM&&!b.member)return false;
+    if(chkS&&!b.speaker)return false;
+    if(chkW&&!b.women)return false;
+    return true;
+  });
+  renderBiz(filtered);
+}
+
+function renderBiz(list){
+  const grid=document.getElementById('bizGrid');
+  const noR=document.getElementById('noResults');
+  document.getElementById('resultCount').textContent=`Showing ${list.length} of 847 businesses`;
+  if(list.length===0){grid.style.display='none';noR.style.display='block';return;}
+  grid.style.display='grid';noR.style.display='none';
+  grid.innerHTML=list.map(b=>`
+    <div class="biz-card${b.featured?' featured':''}">
+      ${b.featured?`<div class="featured-banner">★ FEATURED LISTING</div>`:''}
+      <div class="card-top">
+        <div class="biz-avatar" style="background:${b.color};color:${b.textColor}">${b.initials}</div>
+        <div class="biz-info">
+          <div class="biz-name">${b.name}</div>
+          <div class="biz-name-tamil" style="display:${lang==='ta'?'block':'none'}">${b.nameTamil}</div>
+          <div class="biz-category"><i class="ti ti-tag" style="font-size:10px" aria-hidden="true"></i> ${b.cat}</div>
+          <div class="biz-location"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> ${b.loc}</div>
+        </div>
+      </div>
+      <div class="badges">
+        ${b.member?`<span class="badge badge-member">✓ FiTEN Member</span>`:''}
+        ${b.speaker?`<span class="badge badge-speaker">★ FiTEN Speaker</span>`:''}
+        ${b.women?`<span class="badge badge-women">♀ Women-Led</span>`:''}
+        ${b.featured?`<span class="badge badge-featured">Gold Listing</span>`:''}
+      </div>
+      <div class="card-desc">${b.desc}</div>
+      <div class="card-footer">
+        <div class="rating"><span class="stars">${'★'.repeat(Math.floor(b.rating))}${'☆'.repeat(5-Math.floor(b.rating))}</span>${b.rating} (${b.reviews})</div>
+        <button class="card-action" onclick="sendPrompt('Tell me more about ${b.name}')">View profile ↗</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderBiz(businesses);
+</script>

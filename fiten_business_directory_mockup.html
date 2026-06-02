@@ -1,0 +1,1230 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#8B1A1A;--red-dk:#6B1414;--red-dkk:#4A0E0E;--gold:#C69400;--gold-lt:#FFF8E7;--teal:#006B75;--border:#E0E0E0;--text:#1A1A1A;--text2:#555;--text3:#888}
+body{font-family:var(--font-sans,system-ui);background:var(--color-background-tertiary,#F0F0F0);color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+.site-header{background:var(--red);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px;border-radius:12px 12px 0 0}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-text{color:#fff;font-weight:600;font-size:16px;letter-spacing:0.2px}
+.logo-dot{color:var(--gold)}
+.logo-tag{font-size:10px;color:rgba(255,255,255,0.58);letter-spacing:0.8px;text-transform:uppercase;margin-left:2px;align-self:flex-end;padding-bottom:2px}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.15);border-radius:20px;padding:2px}
+.lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.75);font-size:12px;padding:4px 12px;border-radius:18px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.lang-btn.active{background:#fff;color:var(--red);font-weight:500}
+.hdr-cta{background:var(--gold);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s;margin-left:6px}
+.hdr-cta:hover{opacity:0.88}
+.hdr-cta-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.4);padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.hdr-cta-outline:hover{background:rgba(255,255,255,0.1)}
+
+.hero{background:linear-gradient(135deg,var(--red) 0%,var(--red-dk) 55%,var(--red-dkk) 100%);padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(198,148,0,0.18);border:1px solid rgba(198,148,0,0.35);border-radius:20px;padding:4px 16px;font-size:11px;color:var(--gold);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px}
+.hero-eyebrow-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
+.hero-title{color:#fff;font-size:24px;font-weight:700;margin-bottom:6px;line-height:1.25}
+.hero-title em{color:var(--gold);font-style:normal}
+.hero-sub{color:rgba(255,255,255,0.72);font-size:13px;margin-bottom:6px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.5}
+.hero-tamil{color:rgba(198,148,0,0.85);font-size:12px;margin-bottom:16px}
+
+/* SEARCH WITH SUGGESTIONS */
+.search-wrap{position:relative;max-width:580px;margin:0 auto}
+.search-bar{display:flex;background:#fff;border-radius:10px;overflow:visible;border:2.5px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,0.18);position:relative;z-index:10}
+.search-bar input{flex:1;border:none;padding:10px 14px;font-size:14px;outline:none;background:transparent;color:#333;border-radius:8px 0 0 8px}
+.search-bar select{border:none;border-left:1px solid #eee;padding:10px 12px;font-size:13px;background:transparent;color:#555;cursor:pointer;outline:none}
+.search-bar button{background:var(--red);color:#fff;border:none;padding:10px 20px;cursor:pointer;font-size:13px;font-weight:600;transition:background 0.15s;border-radius:0 7px 7px 0}
+.search-bar button:hover{background:var(--red-dk)}
+.suggestion-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:100;display:none;overflow:hidden}
+.suggestion-item{padding:9px 14px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #F5F5F5;color:var(--text)}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item:hover{background:#FFF8E7}
+.suggestion-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.suggestion-meta{font-size:11px;color:var(--text3);margin-left:auto}
+.suggestion-empty{padding:10px 14px;font-size:12px;color:var(--text3);text-align:center}
+
+.stats-bar{background:#fff;border-bottom:1px solid #eee;padding:10px 20px;display:flex;justify-content:center;flex-wrap:wrap}
+.stat-item{font-size:12px;color:var(--text2);padding:2px 20px;border-right:1px solid #eee;display:flex;flex-direction:column;align-items:center;gap:1px}
+.stat-item:last-child{border-right:none}
+.stat-item strong{color:var(--red);font-size:16px;font-weight:700}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text3)}
+
+.opp-strip{background:linear-gradient(90deg,#FFF8E7,#fff);border-bottom:1px solid #F0E8C8;padding:8px 20px;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap}
+.opp-label{font-size:11px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.6px;flex-shrink:0}
+.opp-tag{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #E8D98A;border-radius:20px;padding:4px 12px;font-size:11px;color:#7A5000;cursor:pointer;margin-right:4px;transition:all 0.12s;flex-shrink:0;font-weight:500}
+.opp-tag:hover{background:#FFF8E7}
+.opp-tag.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.opp-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.6;display:inline-block}
+
+.filter-row{padding:10px 20px 8px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;background:var(--color-background-secondary,#F8F8F8);border-bottom:1px solid var(--border)}
+.pill{display:inline-block;background:rgba(139,26,26,0.07);color:var(--red);font-size:11px;padding:3px 11px;border-radius:12px;cursor:pointer;border:0.5px solid rgba(139,26,26,0.18);transition:all 0.12s;font-weight:500}
+.pill.active{background:var(--red);color:#fff;border-color:var(--red)}
+.pill:hover:not(.active){background:rgba(139,26,26,0.12)}
+.clear-btn{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:6px;display:none;font-family:inherit}
+.clear-btn:hover{color:var(--red);background:rgba(139,26,26,0.07)}
+.clear-btn.visible{display:inline-block}
+.filter-row-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;background:var(--color-background-primary,#fff);border:0.5px solid var(--border);border-radius:7px;overflow:hidden}
+.view-btn{border:none;background:transparent;padding:4px 10px;cursor:pointer;font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;transition:all 0.12s;font-family:inherit}
+.view-btn.active{background:var(--red);color:#fff}
+.view-btn:hover:not(.active){background:var(--color-background-secondary,#F5F5F5)}
+
+.main-layout{display:grid;grid-template-columns:210px 1fr}
+.sidebar{background:var(--color-background-primary,#fff);border-right:0.5px solid var(--border);padding:16px 14px}
+.sidebar-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px}
+.cat-list{list-style:none}
+.cat-item{padding:6px 10px;font-size:12px;color:var(--text);cursor:pointer;border-radius:7px;display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;transition:background 0.1s}
+.cat-item:hover,.cat-item.active{background:var(--color-background-secondary,#F5F5F5);color:var(--red);font-weight:500}
+.cat-item.active{border-left:3px solid var(--red);padding-left:7px}
+.cat-badge{background:var(--color-background-secondary,#F0F0F0);color:var(--text3);font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500}
+.cat-item.active .cat-badge{background:rgba(139,26,26,0.1);color:var(--red)}
+.cat-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle;flex-shrink:0}
+.sidebar-divider{border:none;border-top:0.5px solid var(--border);margin:12px 0}
+.filter-check{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;padding:5px 4px;border-radius:5px;color:var(--text2)}
+.filter-check:hover{color:var(--text)}
+.filter-check input{accent-color:var(--red)}
+.b2b-badge-filter{font-size:10px;background:rgba(0,107,117,0.1);color:var(--teal);border-radius:8px;padding:1px 7px;margin-left:auto}
+
+.content{padding:16px 18px;background:var(--color-background-secondary,#F8F8F8)}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.result-count{font-size:13px;color:var(--text2)}
+.sort-select{border:0.5px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;background:var(--color-background-primary,#fff);color:var(--text);cursor:pointer}
+
+/* CARDS */
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;align-items:start}
+.biz-card{background:var(--color-background-primary,#fff);border-radius:10px;border:0.5px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.biz-card:hover{border-color:rgba(139,26,26,0.35);box-shadow:0 2px 12px rgba(0,0,0,0.07)}
+.biz-card.pro-card{border:1.5px solid var(--gold)}
+.pro-banner{background:linear-gradient(90deg,var(--red-dkk),var(--red-dk));font-size:10px;padding:4px 10px;color:rgba(255,255,255,0.92);font-weight:700;text-align:center;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:6px;border-bottom:1.5px solid var(--gold)}
+.card-top{padding:13px 13px 8px;display:flex;gap:11px;align-items:flex-start}
+.biz-avatar{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;flex-shrink:0}
+.biz-info{flex:1;min-width:0}
+.biz-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.biz-name-tamil{font-size:11px;color:var(--teal);margin-top:2px;font-weight:500}
+.biz-category{font-size:11px;color:var(--teal);margin-top:3px;font-weight:500}
+.biz-location{font-size:11px;color:var(--text3);margin-top:2px}
+
+.b2b-signals{display:flex;gap:4px;flex-wrap:wrap;padding:0 13px 6px}
+.b2b-signal{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500}
+.sig-partner{background:rgba(0,107,117,0.1);color:#005560}
+.sig-hire{background:rgba(39,80,10,0.1);color:#275010}
+.sig-invest{background:rgba(60,52,137,0.1);color:#3C3489}
+.sig-client{background:rgba(113,43,19,0.1);color:#712B13}
+.sig-speaker{background:rgba(198,148,0,0.12);color:#8B6500}
+.sig-women{background:rgba(180,60,120,0.1);color:#8B1A5E}
+.sig-convention{background:rgba(139,26,26,0.08);color:var(--red);border:1px solid rgba(139,26,26,0.2)}
+
+.card-desc{font-size:11.5px;color:var(--text2);padding:0 13px 8px;line-height:1.5}
+.card-footer{border-top:0.5px solid var(--border);padding:8px 13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.connect-btn{background:var(--red);color:#fff;border:none;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0}
+.connect-btn:hover{background:var(--red-dk)}
+.connect-locked{border:0.5px solid #DDD;background:transparent;color:#BBB;font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;flex-shrink:0;display:flex;align-items:center;gap:4px}
+.connect-locked:hover{border-color:var(--gold);color:var(--gold)}
+.profile-btn{border:0.5px solid var(--border);background:transparent;color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit}
+.claim-btn{border:0.5px solid var(--teal);background:transparent;color:var(--teal);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500}
+.claim-btn:hover{background:rgba(0,107,117,0.08)}
+.card-rating{font-size:11px;color:var(--text3)}
+.rating-stars{color:var(--gold);letter-spacing:-1px}
+.rating-locked{font-size:10px;color:#CCC;font-style:italic}
+
+/* CLAIM MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.claim-modal{background:#fff;border-radius:14px;padding:28px;max-width:400px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,0.2);position:relative}
+.claim-modal h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.claim-modal p{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5}
+.claim-biz-name{color:var(--red);font-weight:600}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text3);line-height:1}
+.modal-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;margin-bottom:10px;transition:border-color 0.15s}
+.modal-input:focus{border-color:var(--red)}
+.modal-submit{width:100%;padding:11px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.modal-submit:hover{opacity:0.9}
+.modal-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:8px}
+.modal-success{display:none;text-align:center;padding:10px 0}
+.modal-success-mark{width:44px;height:44px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#fff;font-size:20px}
+.modal-success h4{color:var(--text);font-size:15px;margin-bottom:6px}
+.modal-success p{color:var(--text2);font-size:12px}
+
+/* REGION VIEW */
+.region-section{margin-bottom:20px}
+.region-heading{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;padding:8px 0 6px;border-bottom:1px solid var(--border);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.region-flag{font-size:16px}
+.region-count{font-size:11px;background:rgba(139,26,26,0.08);color:var(--red);border-radius:10px;padding:1px 8px;font-weight:600}
+.region-list{display:flex;flex-direction:column;gap:6px}
+.region-row{background:var(--color-background-primary,#fff);border-radius:8px;border:0.5px solid var(--border);padding:10px 13px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.12s}
+.region-row:hover{border-color:rgba(139,26,26,0.3)}
+.region-row.pro-row{border-color:var(--gold)}
+.region-avatar{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0}
+.region-name{font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-sub{font-size:11px;color:var(--text3)}
+.region-signals{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+
+/* TESTIMONIALS */
+.testimonials-section{background:linear-gradient(135deg,#FFF8E7 0%,#FFFCF5 100%);border-top:1px solid #F0E8C8;border-bottom:1px solid #F0E8C8;padding:28px 20px}
+.testimonials-hd{text-align:center;margin-bottom:20px}
+.testimonials-hd h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px}
+.testimonials-hd p{font-size:12px;color:var(--text2)}
+.testimonials-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.testimonial-card{background:#fff;border-radius:12px;border:1px solid #EDE0A8;padding:18px 16px;position:relative}
+.testimonial-card::before{content:'\201C';position:absolute;top:10px;left:14px;font-size:36px;color:var(--gold);opacity:0.3;line-height:1;font-family:Georgia,serif}
+.testimonial-text{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:14px;padding-top:16px}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+.testimonial-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.testimonial-name{font-size:12px;font-weight:600;color:var(--text)}
+.testimonial-biz{font-size:11px;color:var(--teal)}
+.testimonial-stars{color:var(--gold);font-size:11px;letter-spacing:-0.5px;margin-top:2px}
+
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:6px;padding:14px;border-top:0.5px solid var(--border);background:var(--color-background-primary,#fff)}
+.page-btn{width:30px;height:30px;border:0.5px solid var(--border);background:var(--color-background-primary,#fff);border-radius:6px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all 0.12s}
+.page-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+.page-btn:hover:not(.active){border-color:var(--red);color:var(--red)}
+
+/* PRICING */
+.pricing-section{background:#FFFCF0;border-top:3px solid var(--gold);border-bottom:3px solid var(--gold);padding:32px 20px}
+.pricing-hd{text-align:center;margin-bottom:22px}
+.pricing-hd h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:5px}
+.pricing-hd p{font-size:12.5px;color:var(--text2)}
+.plan-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:580px;margin:0 auto 16px}
+.plan-card{background:#fff;border-radius:14px;padding:22px 20px;border:1.5px solid #E0E0E0;position:relative}
+.plan-card.plan-pro{border:2px solid var(--gold);box-shadow:0 4px 24px rgba(198,148,0,0.14)}
+.plan-best-tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 14px;border-radius:12px;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap}
+.plan-tier-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;margin-bottom:8px}
+.free-tier-label{color:#888}
+.pro-tier-label{color:var(--gold)}
+.plan-price-row{display:flex;align-items:baseline;gap:3px;margin-bottom:3px}
+.plan-price-amt{font-size:30px;font-weight:800;color:var(--text);line-height:1}
+.plan-price-unit{font-size:13px;color:var(--text2);font-weight:400}
+.plan-price-annual{font-size:11px;color:var(--teal);margin-bottom:16px;font-weight:500}
+.plan-features{list-style:none;margin:0 0 18px;padding:0}
+.plan-features li{font-size:12px;color:var(--text2);padding:4px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.4;border-bottom:0.5px solid #F5F5F5}
+.plan-features li:last-child{border-bottom:none}
+.feat-chk{font-weight:700;font-size:11px;flex-shrink:0;margin-top:2px}
+.feat-chk-teal{color:var(--teal)}
+.feat-chk-grey{color:#CCC}
+.plan-cta{width:100%;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;letter-spacing:0.2px}
+.plan-cta-free{border:1.5px solid var(--red);background:transparent;color:var(--red)}
+.plan-cta-free:hover{background:var(--red);color:#fff}
+.plan-cta-pro{border:none;background:var(--gold);color:#fff}
+.plan-cta-pro:hover{opacity:0.9}
+.founding-note{text-align:center;background:#FFF8E7;border:1px solid #E8D98A;border-radius:10px;padding:14px 22px;max-width:580px;margin:0 auto;font-size:13px;color:#7A5000;line-height:1.6}
+
+/* SIGNUP */
+.signup-section{background:linear-gradient(135deg,var(--red-dkk) 0%,var(--red-dk) 50%,#7A1A1A 100%);padding:32px 24px;position:relative;overflow:hidden}
+.signup-section::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(198,148,0,0.08);pointer-events:none}
+.signup-inner{max-width:620px;margin:0 auto;position:relative}
+.signup-heading{color:#fff;font-size:20px;font-weight:700;margin-bottom:4px;text-align:center}
+.signup-heading em{color:var(--gold);font-style:normal}
+.signup-sub{color:rgba(255,255,255,0.65);font-size:13px;text-align:center;margin-bottom:20px;line-height:1.5}
+.form-tabs{display:flex;background:rgba(255,255,255,0.1);border-radius:8px;padding:3px;margin-bottom:20px;gap:2px}
+.form-tab{flex:1;padding:8px;border:none;background:transparent;color:rgba(255,255,255,0.65);font-size:13px;font-weight:500;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.15s;text-align:center}
+.form-tab.active{background:#fff;color:var(--red);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.form-panel{display:none}
+.form-panel.active{display:block}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:0.3px}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;border-radius:7px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.12);color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.4)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);background:rgba(255,255,255,0.16)}
+.form-select{cursor:pointer}
+.form-select option{background:#3A0A0A;color:#fff}
+.form-textarea{resize:vertical;min-height:70px}
+.form-checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.form-check-item{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);cursor:pointer}
+.form-check-item input{accent-color:var(--gold)}
+.plan-toggle{display:flex;background:rgba(255,255,255,0.12);border-radius:8px;padding:3px;gap:2px;margin-bottom:14px}
+.plan-toggle-btn{flex:1;padding:9px;border:none;background:transparent;color:rgba(255,255,255,0.65);font-size:12px;font-weight:500;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.15s;text-align:center}
+.plan-toggle-btn.active{background:var(--gold);color:#fff;font-weight:700}
+.form-submit{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:opacity 0.15s;margin-top:4px}
+.form-submit:hover{opacity:0.9}
+.form-hint{font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-top:10px}
+.form-success{display:none;text-align:center;padding:28px;background:rgba(255,255,255,0.08);border-radius:10px;border:1px solid rgba(198,148,0,0.3)}
+.form-success-mark{width:48px;height:48px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#fff;font-size:22px;font-weight:700}
+.form-success h3{color:#fff;font-size:16px;margin-bottom:6px}
+.form-success p{color:rgba(255,255,255,0.65);font-size:13px}
+
+.site-footer{background:var(--red-dkk);color:rgba(255,255,255,0.55);font-size:11px;padding:12px 20px;text-align:center;border-radius:0 0 12px 12px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.site-footer a{color:var(--gold);text-decoration:none;font-weight:500}
+.footer-sep{opacity:0.25}
+.no-results{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── DARK MODE ── */
+.dark-mode .content{background:#141414}
+.dark-mode .stats-bar,.dark-mode .sidebar,.dark-mode .biz-card,.dark-mode .testimonial-card,.dark-mode .plan-card{background:#1E1E1E;border-color:#3A3A3A}
+.dark-mode .filter-row{background:#222;border-color:#3A3A3A}
+.dark-mode .biz-card:hover{border-color:rgba(139,26,26,0.5);box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+.dark-mode .biz-name,.dark-mode .region-name,.dark-mode .result-count,.dark-mode .plan-price-amt{color:#DCDCDC}
+.dark-mode .biz-category,.dark-mode .biz-location,.dark-mode .card-desc,.dark-mode .region-sub{color:#999}
+.dark-mode .opp-strip{background:linear-gradient(90deg,#1E1800,#1A1A1A);border-color:#3A3200}
+.dark-mode .opp-tag{background:#222;border-color:#444;color:#CCAA44}
+.dark-mode .opp-tag.active{background:var(--gold);color:#fff}
+.dark-mode .region-row{background:#1E1E1E;border-color:#3A3A3A}
+.dark-mode .suggestion-dropdown{background:#1E1E1E;border-color:#3A3A3A}
+.dark-mode .suggestion-item{border-color:#2A2A2A;color:#DCDCDC}
+.dark-mode .suggestion-item:hover{background:#252515}
+.dark-mode .sort-select{background:#1E1E1E;border-color:#3A3A3A;color:#DCDCDC}
+.dark-mode .modal-input{background:#2A2A2A;border-color:#4A4A4A;color:#E0E0E0}
+.dark-mode .claim-modal,.dark-mode .detail-panel{background:#1E1E1E}
+.dark-mode .claim-modal h3,.dark-mode .claim-modal p,.dark-mode .modal-success h4{color:#DCDCDC}
+.dark-mode .detail-header,.dark-mode .detail-footer,.dark-mode .detail-info-row{border-color:#3A3A3A}
+.dark-mode .detail-close{background:rgba(255,255,255,0.1);color:#AAAAAA}
+.dark-mode .detail-share{background:transparent;border-color:#3A3A3A;color:#AAAAAA}
+.dark-mode .detail-name{color:#DCDCDC}
+.dark-mode .detail-cat-loc{color:#888}
+.dark-mode .detail-desc{color:#AAAAAA}
+.dark-mode .detail-info-row{color:#AAAAAA}
+.dark-mode .pricing-section{background:#1A1400;border-color:#5A4A00}
+.dark-mode .testimonials-section{background:linear-gradient(135deg,#1A1500,#141414);border-color:#3A3200}
+.dark-mode .testimonial-card{background:#1E1E1E;border-color:#3A3200}
+.dark-mode .testimonial-text,.dark-mode .testimonial-name{color:#DCDCDC}
+.dark-mode .founding-note{background:#1A1400;border-color:#5A4A00;color:#C8A800}
+.dark-mode .cat-item{color:#CCCCCC}
+.dark-mode .cat-item:hover,.dark-mode .cat-item.active{background:#2A2A2A;color:var(--red)}
+.dark-mode .stat-item{border-color:#2E2E2E;color:#AAAAAA}
+.dark-mode .stats-bar{border-color:#2E2E2E}
+.dark-mode .load-more-wrap{background:#1E1E1E;border-color:#3A3A3A}
+.dark-mode .sidebar-divider{border-color:#3A3A3A}
+.dark-mode .filter-check{color:#AAAAAA}
+.dark-mode .card-footer{border-color:#2E2E2E}
+.dark-mode .pill{background:rgba(139,26,26,0.15);color:var(--red);border-color:rgba(139,26,26,0.25)}
+.dark-mode .view-toggle{background:#1E1E1E;border-color:#3A3A3A}
+.dark-mode .view-btn:hover:not(.active){background:#2A2A2A}
+.dark-mode .pro-banner{background:linear-gradient(90deg,#3A0A0A,#5A1414)}
+.dark-mode .search-bar{background:#1E1E1E}
+.dark-mode .search-bar input,.dark-mode .search-bar select{background:transparent;color:#DCDCDC}
+.dark-mode .export-btn{background:#1E1E1E;border-color:#3A3A3A;color:#AAAAAA}
+.dark-mode .export-btn:hover{border-color:var(--teal);color:var(--teal)}
+.dark-mode .connect-locked{border-color:#444;color:#666}
+.dark-mode .claim-btn{border-color:#006B75;color:#4AABB5}
+.dark-mode .fav-pill{background:rgba(224,80,112,0.12);color:#E07090;border-color:rgba(224,80,112,0.3)}
+/* ── DARK TOGGLE ── */
+.dark-toggle-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.dark-label{font-size:15px;cursor:pointer;line-height:1;opacity:0.7;transition:opacity 0.15s;user-select:none}
+.dark-label:hover{opacity:1}
+.dark-toggle{width:34px;height:19px;border-radius:10px;background:rgba(255,255,255,0.22);border:none;cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0;display:block}
+.dark-toggle::after{content:'';position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform 0.2s}
+.dark-mode .dark-toggle{background:var(--gold)}
+.dark-mode .dark-toggle::after{transform:translateX(15px)}
+/* ── FAVORITES ── */
+.fav-btn{background:none;border:none;cursor:pointer;font-size:15px;color:#CCC;padding:0 2px;line-height:1;transition:color 0.15s,transform 0.1s;flex-shrink:0}
+.fav-btn:hover{color:#E05070;transform:scale(1.2)}
+.fav-btn.favd{color:#E05070}
+.fav-pill{display:inline-block;background:rgba(224,80,112,0.07);color:#C0385A;font-size:11px;padding:3px 11px;border-radius:12px;cursor:pointer;border:0.5px solid rgba(224,80,112,0.22);transition:all 0.12s;font-weight:500}
+.fav-pill.active{background:#E05070;color:#fff;border-color:#E05070}
+.fav-pill:hover:not(.active){background:rgba(224,80,112,0.14)}
+/* ── ANALYTICS BADGE ── */
+.analytics-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:#7A5000;background:rgba(198,148,0,0.1);border-radius:8px;padding:2px 7px;font-weight:500;margin-left:4px}
+.dark-mode .analytics-badge{color:#C8A800;background:rgba(198,148,0,0.18)}
+/* ── EXPORT BUTTON ── */
+.export-btn{border:0.5px solid var(--border);background:var(--color-background-primary,#fff);color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;transition:all 0.12s;white-space:nowrap}
+.export-btn:hover{border-color:var(--teal);color:var(--teal)}
+/* ── DETAIL PANEL ── */
+.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:900;justify-content:flex-end}
+.detail-overlay.open{display:flex}
+.detail-panel{background:#fff;width:min(440px,100vw);height:100%;overflow-y:auto;box-shadow:-8px 0 32px rgba(0,0,0,0.14);display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.28s cubic-bezier(0.4,0,0.2,1)}
+.detail-overlay.open .detail-panel{transform:translateX(0)}
+.detail-header{padding:18px 18px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;gap:14px;position:relative;padding-right:48px}
+.detail-close{position:absolute;top:12px;right:14px;background:rgba(0,0,0,0.07);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--text2);line-height:1}
+.detail-close:hover{background:rgba(0,0,0,0.13)}
+.detail-avatar-lg{width:58px;height:58px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex-shrink:0}
+.detail-name{font-size:15px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:2px}
+.detail-name-sub{font-size:12px;color:var(--teal);margin-bottom:4px}
+.detail-cat-loc{font-size:12px;color:var(--text3)}
+.detail-body{padding:16px 18px;flex:1}
+.detail-sec{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;margin-top:16px}
+.detail-sec:first-child{margin-top:0}
+.detail-desc{font-size:13px;color:var(--text2);line-height:1.65}
+.detail-info-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text2);padding:6px 0;border-bottom:0.5px solid var(--border)}
+.detail-info-row:last-child{border-bottom:none}
+.detail-icon{font-size:13px;width:20px;text-align:center;flex-shrink:0}
+.detail-footer{padding:14px 18px;border-top:0.5px solid var(--border);display:flex;gap:8px;flex-shrink:0}
+.detail-connect{flex:1;padding:10px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.detail-connect:hover{opacity:0.88}
+.detail-share{padding:10px 14px;border:0.5px solid var(--border);background:transparent;color:var(--text2);border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s;white-space:nowrap}
+.detail-share:hover{border-color:var(--teal);color:var(--teal)}
+.share-ok{color:var(--teal)!important;border-color:var(--teal)!important}
+/* ── MOBILE SIDEBAR BUTTON ── */
+.mob-sidebar-btn{display:none;background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:inherit;align-items:center;gap:4px}
+.mob-sidebar-btn:hover{background:rgba(255,255,255,0.25)}
+/* ── LOAD MORE ── */
+.load-more-wrap{text-align:center;padding:14px 14px 18px;background:var(--color-background-primary,#fff);border-top:0.5px solid var(--border)}
+.load-more-btn{background:transparent;border:1.5px solid var(--red);color:var(--red);padding:9px 30px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.load-more-btn:hover{background:var(--red);color:#fff}
+.load-more-count{font-size:11px;color:var(--text3);margin-top:6px}
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+  .main-layout{grid-template-columns:1fr!important}
+  .sidebar{display:none;border-right:none;border-bottom:0.5px solid var(--border)}
+  .sidebar.mob-open{display:block}
+  .mob-sidebar-btn{display:inline-flex}
+  .biz-grid{grid-template-columns:1fr!important}
+  .plan-row{grid-template-columns:1fr!important}
+  .form-2col{grid-template-columns:1fr!important}
+  .hero{padding:20px 12px 16px}
+  .hero-title{font-size:18px}
+  .stats-bar{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}
+  .stat-item{flex-shrink:0;padding:2px 10px}
+  .filter-row{padding:7px 10px 5px;gap:3px;overflow-x:auto;flex-wrap:nowrap}
+  .content{padding:10px 10px}
+  .opp-strip{padding:6px 10px}
+  .dark-label{display:none}
+  .detail-panel{width:100vw}
+  .hdr-cta-outline{display:none}
+  .testimonials-track{grid-template-columns:1fr}
+  .dark-toggle-wrap{gap:3px}
+}
+</style>
+
+<h2 class="sr-only">FiTEN Business Directory</h2>
+
+<!-- DEMO BANNER -->
+<div style="background:linear-gradient(90deg,#4A0E0E,#8B1A1A);color:#fff;text-align:center;padding:9px 20px;font-size:12px;font-weight:500;letter-spacing:0.3px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:8px 8px 0 0;margin-bottom:2px">
+  <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(198,148,0,0.25);border:1px solid rgba(198,148,0,0.5);border-radius:20px;padding:2px 10px;font-size:10px;font-weight:700;color:#C69400;text-transform:uppercase;letter-spacing:0.8px">
+    <span style="width:6px;height:6px;background:#C69400;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite"></span>
+    Live Preview
+  </span>
+  <span style="color:rgba(255,255,255,0.85)">FiTEN Business Directory &mdash; coming to <strong style="color:#C69400">fiten.org</strong></span>
+  <span style="color:rgba(255,255,255,0.4)">|</span>
+  <span style="color:rgba(255,255,255,0.65)">Click anything &mdash; search, filter, and sign-up forms are all live</span>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailOverlay(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-header" id="detailHeader">
+      <button class="detail-close" onclick="closeDetail()">&times;</button>
+    </div>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="detail-footer">
+      <button class="detail-connect" id="detailConnectBtn">Connect</button>
+      <button class="detail-share" id="detailShareBtn" onclick="shareDetail()">&#128279; Share</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM MODAL -->
+<div class="modal-overlay" id="claimModal" onclick="closeClaimModal(event)">
+  <div class="claim-modal">
+    <button class="modal-close" onclick="closeClaimModal()">&times;</button>
+    <div id="claimFormWrap">
+      <h3>Claim this listing</h3>
+      <p>Are you the owner of <span class="claim-biz-name" id="claimBizName"></span>? Enter your email and we&rsquo;ll send a verification link to confirm ownership.</p>
+      <input class="modal-input" type="email" id="claimEmail" placeholder="you@yourbusiness.com">
+      <button class="modal-submit" onclick="submitClaim()">Send Verification Email</button>
+      <div class="modal-hint">Your listing will be upgraded to owner-managed within 24 hrs.</div>
+    </div>
+    <div class="modal-success" id="claimSuccess">
+      <div style="font-size:32px;margin-bottom:10px">✉️</div>
+      <h4>Verification email sent!</h4>
+      <p>Check your inbox to confirm ownership of this listing. We&rsquo;ll activate your owner dashboard within 24 hours.</p>
+    </div>
+  </div>
+</div>
+
+<div id="mainWrapper" style="border-radius:0 0 12px 12px;overflow:hidden;border:0.5px solid var(--color-border-tertiary,#DDD)">
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="logo-area">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C69400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div style="display:flex;align-items:baseline;gap:6px">
+      <div class="logo-text">Fi<span class="logo-dot">TEN</span></div>
+      <div class="logo-tag" id="logoTag">Business Directory</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ta')">&#2980;&#2990;&#3007;&#2996;&#3021;</button>
+    </div>
+    <button class="mob-sidebar-btn" onclick="toggleMobSidebar()" id="mobSidebarBtn">&#9776; Filters</button>
+    <button class="hdr-cta-outline" onclick="scrollToSignup()" id="hdrFree">List Free</button>
+    <button class="hdr-cta" onclick="scrollToSignup()" id="hdrPro">Join Network &rarr;</button>
+    <div class="dark-toggle-wrap">
+      <span class="dark-label" onclick="toggleDark()" title="Toggle dark mode">&#9790;</span>
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-eyebrow-dot"></span>
+    <span id="eyebrowText">Tamil Business Network &nbsp;|&nbsp; A FeTNA Initiative</span>
+  </div>
+  <div class="hero-title" id="heroTitle">Connect with <em>Tamil Businesses</em> Worldwide</div>
+  <div class="hero-sub" id="heroSub">Discover partners, clients, talent, and investment across the global Tamil business community</div>
+  <div class="hero-tamil" id="heroTamil">&#3009;&#2994;&#2965;&#2995;&#3006;&#2997;&#3007;&#2991; &#2980;&#2990;&#3007;&#2996;&#3021; &#2997;&#2979;&#3007;&#2965; &#2984;&#3046;&#2993;&#3021;&#2993;&#3019;&#2992;&#2965;&#2995;</div>
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search businesses, services, or names..." oninput="onSearchInput()" onblur="hideSuggestionsDelayed()" autocomplete="off">
+      <select id="locationSelect" onchange="filterBiz()">
+        <option value="">All Locations</option>
+        <option>New Jersey, USA</option>
+        <option>California, USA</option>
+        <option>Texas, USA</option>
+        <option>Coimbatore, India</option>
+        <option>Chennai, India</option>
+      </select>
+      <button onclick="filterBiz()" id="searchBtn">Search</button>
+    </div>
+    <div class="suggestion-dropdown" id="suggestionDropdown"></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><strong>847</strong><span class="stat-label" data-en="Businesses Listed" data-ta="&#2997;&#2979;&#3007;&#2965;&#2969;&#3021;&#2965;&#2995;&#3021;">Businesses Listed</span></div>
+  <div class="stat-item"><strong>23</strong><span class="stat-label" data-en="Industries" data-ta="&#2980;&#3018;&#2996;&#3007;&#2994;&#3021;&#2965;&#2995;&#3021;">Industries</span></div>
+  <div class="stat-item"><strong>14</strong><span class="stat-label" data-en="Countries" data-ta="&#2984;&#3006;&#2975;&#3009;&#2965;&#2995;&#3021;">Countries</span></div>
+  <div class="stat-item"><strong>190+</strong><span class="stat-label" data-en="Partnerships Formed" data-ta="&#2965;&#3010;&#2975;&#3021;&#2975;&#3009;&#2993;&#2997;&#3009;&#2965;&#2995;&#3021;">Partnerships Formed</span></div>
+  <div class="stat-item"><strong>3,200+</strong><span class="stat-label" data-en="FiTEN Members" data-ta="FiTEN &#2953;&#2993;&#3009;&#2986;&#3021;&#2986;&#3007;&#2985;&#2992;&#3021;&#2965;&#2995;&#3021;">FiTEN Members</span></div>
+</div>
+
+<!-- B2B STRIP -->
+<div class="opp-strip">
+  <span class="opp-label" id="oppLabel">Looking for &rarr;</span>
+  <span class="opp-tag active" onclick="setOpp(this,'All')"><span class="opp-dot"></span> All</span>
+  <span class="opp-tag" onclick="setOpp(this,'partner')"><span class="opp-dot"></span> Partners</span>
+  <span class="opp-tag" onclick="setOpp(this,'client')"><span class="opp-dot"></span> Clients</span>
+  <span class="opp-tag" onclick="setOpp(this,'invest')"><span class="opp-dot"></span> Investment</span>
+  <span class="opp-tag" onclick="setOpp(this,'hire')"><span class="opp-dot"></span> Talent</span>
+</div>
+
+<!-- PILLS + VIEW TOGGLE -->
+<div class="filter-row">
+  <span class="pill active" onclick="setFilter(this,'All')">All</span>
+  <span class="pill" onclick="setFilter(this,'Tech')">Technology</span>
+  <span class="pill" onclick="setFilter(this,'Healthcare')">Healthcare</span>
+  <span class="pill" onclick="setFilter(this,'Finance')">Finance</span>
+  <span class="pill" onclick="setFilter(this,'Legal')">Legal</span>
+  <span class="pill" onclick="setFilter(this,'Food')">Food &amp; Hospitality</span>
+  <span class="pill" onclick="setFilter(this,'Education')">Education</span>
+  <span class="pill" onclick="setFilter(this,'Retail')">Retail</span>
+  <span class="pill" onclick="setFilter(this,'Pro')">&#11088; Founding Members</span>
+  <span class="fav-pill" id="favPill" onclick="toggleFavsFilter()">&#10084; Saved</span>
+  <div class="filter-row-right">
+    <button class="clear-btn" id="clearBtn" onclick="clearFilters()">&#10005; Clear all</button>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnGrid" onclick="setView('grid')" title="Grid view">&#9783; Grid</button>
+      <button class="view-btn" id="btnRegion" onclick="setView('region')" title="By region">&#127760; Region</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+  <div class="sidebar" id="mainSidebar">
+    <div class="sidebar-title" id="sideTitle">Categories</div>
+    <ul class="cat-list" id="catList">
+      <li class="cat-item active" onclick="setCat(this,'All')">All Businesses <span class="cat-badge">847</span></li>
+      <li class="cat-item" onclick="setCat(this,'Tech')">💻 Technology <span class="cat-badge">198</span></li>
+      <li class="cat-item" onclick="setCat(this,'Healthcare')">❤️ Healthcare <span class="cat-badge">124</span></li>
+      <li class="cat-item" onclick="setCat(this,'Finance')">💰 Finance &amp; CPA <span class="cat-badge">89</span></li>
+      <li class="cat-item" onclick="setCat(this,'Legal')">⚖️ Legal <span class="cat-badge">63</span></li>
+      <li class="cat-item" onclick="setCat(this,'Food')">🍛 Food &amp; Dining <span class="cat-badge">112</span></li>
+      <li class="cat-item" onclick="setCat(this,'Education')">🎓 Education <span class="cat-badge">58</span></li>
+      <li class="cat-item" onclick="setCat(this,'Retail')">🛍️ Retail &amp; Goods <span class="cat-badge">77</span></li>
+      <li class="cat-item" onclick="setCat(this,'Real Estate')">🏠 Real Estate <span class="cat-badge">46</span></li>
+      <li class="cat-item" onclick="setCat(this,'Media')">📺 Media &amp; Arts <span class="cat-badge">38</span></li>
+    </ul>
+    <hr class="sidebar-divider">
+    <div class="sidebar-title" id="sideB2B">B2B Filters</div>
+    <label class="filter-check"><input type="checkbox" id="chkPartner" onchange="syncOppFromSidebar('partner',this)"> Open to Partner <span class="b2b-badge-filter">B2B</span></label>
+    <label class="filter-check"><input type="checkbox" id="chkHire" onchange="syncOppFromSidebar('hire',this)"> Hiring Talent</label>
+    <label class="filter-check"><input type="checkbox" id="chkInvest" onchange="syncOppFromSidebar('invest',this)"> Seeking Investment</label>
+    <hr class="sidebar-divider">
+    <div class="sidebar-title" id="sideMembership">Membership</div>
+    <label class="filter-check"><input type="checkbox" id="chkPro" onchange="filterBiz()"> Founding Members</label>
+    <label class="filter-check"><input type="checkbox" id="chkSpeaker" onchange="filterBiz()"> FiTEN Speakers</label>
+    <label class="filter-check"><input type="checkbox" id="chkWomen" onchange="filterBiz()"> Women-Led</label>
+    <label class="filter-check"><input type="checkbox" id="chkConvention" onchange="filterBiz()"> &#127963; FeTNA Convention</label>
+    <hr class="sidebar-divider">
+    <div style="background:var(--gold-lt);border:1px solid #E8D98A;border-radius:8px;padding:10px;margin-top:4px">
+      <div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">&#11088; Founding Member</div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px" id="proBlurb">Logo, bilingual profile, B2B connect, reviews &amp; analytics.</div>
+      <button onclick="scrollToSignup()" style="width:100%;padding:7px;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit" id="proSideBtn">Join as Founding Member</button>
+    </div>
+  </div>
+
+  <div>
+    <div class="content">
+      <div class="content-header">
+        <div class="result-count" id="resultCount">Showing 8 of 847 businesses</div>
+        <button class="export-btn" onclick="exportCSV()" title="Export CSV">&#8659; Export</button>
+        <select class="sort-select" onchange="filterBiz()">
+          <option>Sort: PRO First</option>
+          <option>Sort: Newest</option>
+          <option>Sort: Most Connected</option>
+          <option>Sort: A-Z</option>
+        </select>
+      </div>
+      <div id="bizGrid" class="biz-grid"></div>
+      <div id="bizRegion" style="display:none"></div>
+      <div id="noResults" class="no-results" style="display:none">
+        <div style="font-size:32px;margin-bottom:8px">🔍</div>
+        <div id="noResultsMsg">No businesses found. Try a different search or category.</div>
+        <button style="margin-top:12px;background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px" onclick="clearFilters()">Clear filters &amp; show all</button>
+      <button style="margin-top:12px;margin-left:8px;background:var(--teal);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px" onclick="scrollToSignup()">List your business</button>
+      </div>
+    </div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="load-more-btn" id="loadMoreBtn" onclick="loadMore()">Load more</button>
+      <div class="load-more-count" id="loadMoreCount"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-section">
+  <div class="testimonials-hd">
+    <h3>What FiTEN members are saying</h3>
+    <p>Real results from Tamil businesses listed on the directory</p>
+  </div>
+  <div class="testimonials-track" id="testimonialsTrack"></div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-section" id="pricingSection">
+  <div class="pricing-hd">
+    <h3 id="pricingTitle">Simple, Transparent Pricing</h3>
+    <p id="pricingSub">Start free. Upgrade to PRO when you&rsquo;re ready to grow your network.</p>
+  </div>
+  <div class="plan-row">
+    <div class="plan-card">
+      <div class="plan-tier-label free-tier-label">FREE</div>
+      <div class="plan-price-row"><span class="plan-price-amt">$0</span><span class="plan-price-unit">/month</span></div>
+      <div class="plan-price-annual" style="color:var(--text3);margin-bottom:16px">Always free to list</div>
+      <ul class="plan-features">
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Business name, category &amp; location</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Short business description</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Searchable in the directory</li>
+        <li><span class="feat-chk feat-chk-grey">&#10003;</span> <span style="color:#CCC">Logo &amp; photos</span></li>
+        <li><span class="feat-chk feat-chk-grey">&#10003;</span> <span style="color:#CCC">Bilingual profile</span></li>
+        <li><span class="feat-chk feat-chk-grey">&#10003;</span> <span style="color:#CCC">Priority placement</span></li>
+        <li><span class="feat-chk feat-chk-grey">&#10003;</span> <span style="color:#CCC">B2B connection requests</span></li>
+        <li><span class="feat-chk feat-chk-grey">&#10003;</span> <span style="color:#CCC">Customer reviews</span></li>
+      </ul>
+      <button class="plan-cta plan-cta-free" onclick="switchToTab('simple')">List My Business Free</button>
+    </div>
+    <div class="plan-card plan-pro">
+      <div class="plan-best-tag">&#11088; Founding Rate</div>
+      <div class="plan-tier-label pro-tier-label">PRO</div>
+      <div class="plan-price-row"><span class="plan-price-amt">$29</span><span class="plan-price-unit">/month</span></div>
+      <div class="plan-price-annual">or $290/yr &mdash; save $58 (2 months free)</div>
+      <ul class="plan-features">
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Everything in Free, plus:</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Logo + up to 5 photos</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Full bilingual profile (EN + Tamil)</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Social media links</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Priority search placement</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> B2B connection requests</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Customer reviews enabled</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Monthly Tamil business digest</li>
+        <li><span class="feat-chk feat-chk-teal">&#10003;</span> Owner analytics dashboard</li>
+      </ul>
+      <button class="plan-cta plan-cta-pro" onclick="switchToTab('pro')">Get PRO &mdash; $29/mo</button>
+    </div>
+  </div>
+  <div class="founding-note">
+    &#127381; <strong>Founding offer:</strong> Early members who join before launch lock in <strong>$290/yr</strong> for life &mdash; just $24.17/mo. Spots are limited.
+  </div>
+</div>
+
+<!-- SIGNUP -->
+<div class="signup-section" id="signupSection">
+  <div class="signup-inner">
+    <div class="signup-heading" id="signupHeading">Join the <em>FiTEN Directory</em></div>
+    <div class="signup-sub" id="signupSub">Get your business in front of Tamil professionals and decision-makers worldwide.<br>Founding members lock in the best rates &mdash; list free or go PRO from day one.</div>
+    <div class="form-tabs">
+      <button class="form-tab active" id="tab-simple" onclick="switchTab('simple',this)">List Free &mdash; 1 min</button>
+      <button class="form-tab" id="tab-pro" onclick="switchTab('pro',this)">Go PRO &mdash; $29/mo</button>
+      <button class="form-tab" id="tab-detailed" onclick="switchTab('detailed',this)">Full Profile &mdash; 3 min</button>
+    </div>
+    <div class="form-panel active" id="panel-simple">
+      <form id="simpleForm" onsubmit="handleSubmit(event,'simple')">
+        <div class="form-2col">
+          <div class="form-row"><label class="form-label">Business Name *</label><input class="form-input" type="text" placeholder="e.g. Kovai Tech Inc." required></div>
+          <div class="form-row"><label class="form-label">Your Email *</label><input class="form-input" type="email" placeholder="you@business.com" required></div>
+          <div class="form-row"><label class="form-label">Industry *</label><select class="form-select" required><option value="">Select category...</option><option>Technology</option><option>Healthcare</option><option>Finance &amp; CPA</option><option>Legal Services</option><option>Food &amp; Hospitality</option><option>Education</option><option>Retail &amp; Goods</option><option>Real Estate</option><option>Media &amp; Arts</option><option>Consulting</option><option>Other</option></select></div>
+          <div class="form-row"><label class="form-label">City / Country *</label><input class="form-input" type="text" placeholder="e.g. Edison, NJ, USA" required></div>
+        </div>
+        <button type="submit" class="form-submit">🚀 Join the FiTEN Network &mdash; It's Free</button>
+        <div class="form-hint">No spam. We&rsquo;ll reach out to complete your listing.</div>
+      </form>
+      <div class="form-success" id="success-simple"><div class="form-success-icon" style="font-size:36px;margin-bottom:8px">🎉</div><h3>You're on the list!</h3><p>We'll be in touch shortly to activate your FiTEN network listing.</p></div>
+    </div>
+    <div class="form-panel" id="panel-pro">
+      <form id="proForm" onsubmit="handleSubmit(event,'pro')">
+        <div class="plan-toggle">
+          <button type="button" class="plan-toggle-btn active" id="btn-monthly" onclick="setPlan('monthly')">Monthly &mdash; $29/mo</button>
+          <button type="button" class="plan-toggle-btn" id="btn-annual" onclick="setPlan('annual')">Annual &mdash; $290/yr &nbsp;&#127381; Save $58</button>
+        </div>
+        <div class="form-2col">
+          <div class="form-row"><label class="form-label">Business Name *</label><input class="form-input" type="text" placeholder="Legal business name" required></div>
+          <div class="form-row"><label class="form-label">Contact Person *</label><input class="form-input" type="text" placeholder="Your full name" required></div>
+          <div class="form-row"><label class="form-label">Email *</label><input class="form-input" type="email" placeholder="you@business.com" required></div>
+          <div class="form-row"><label class="form-label">Industry *</label><select class="form-select" required><option value="">Select category...</option><option>Technology</option><option>Healthcare</option><option>Finance &amp; CPA</option><option>Legal Services</option><option>Food &amp; Hospitality</option><option>Education</option><option>Retail &amp; Goods</option><option>Real Estate</option><option>Media &amp; Arts</option><option>Consulting</option><option>Other</option></select></div>
+        </div>
+        <button type="submit" class="form-submit" id="proSubmitBtn">⭐ Become a Founding PRO Member</button>
+        <div class="form-hint">Founding members lock in this rate. Cancel anytime.</div>
+      </form>
+      <div class="form-success" id="success-pro"><div class="form-success-icon" style="font-size:36px;margin-bottom:8px">⭐</div><h3>Welcome, Founding Member!</h3><p>You're among the first to join FiTEN PRO. We'll be in touch within 24 hours.</p></div>
+    </div>
+    <div class="form-panel" id="panel-detailed">
+      <form id="detailedForm" onsubmit="handleSubmit(event,'detailed')">
+        <div class="form-2col">
+          <div class="form-row"><label class="form-label">Business Name *</label><input class="form-input" type="text" placeholder="Legal business name" required></div>
+          <div class="form-row"><label class="form-label">Contact Person *</label><input class="form-input" type="text" placeholder="Your full name" required></div>
+          <div class="form-row"><label class="form-label">Email *</label><input class="form-input" type="email" placeholder="you@business.com" required></div>
+          <div class="form-row"><label class="form-label">Phone</label><input class="form-input" type="tel" placeholder="+1 (555) 000-0000"></div>
+          <div class="form-row"><label class="form-label">Industry *</label><select class="form-select" required><option value="">Select category...</option><option>Technology</option><option>Healthcare</option><option>Finance &amp; CPA</option><option>Legal Services</option><option>Food &amp; Hospitality</option><option>Education</option><option>Retail &amp; Goods</option><option>Real Estate</option><option>Media &amp; Arts</option><option>Consulting</option><option>Other</option></select></div>
+          <div class="form-row"><label class="form-label">City / Country *</label><input class="form-input" type="text" placeholder="e.g. Edison, NJ, USA" required></div>
+          <div class="form-row"><label class="form-label">Website</label><input class="form-input" type="url" placeholder="https://yourbusiness.com"></div>
+          <div class="form-row"><label class="form-label">Years in Business</label><select class="form-select"><option value="">Select...</option><option>Less than 1 year</option><option>1-3 years</option><option>3-10 years</option><option>10+ years</option></select></div>
+        </div>
+        <div class="form-row" style="margin-bottom:10px"><label class="form-label">Brief Business Description *</label><textarea class="form-textarea" placeholder="What does your business do? Who do you serve? (2-3 sentences)" required></textarea></div>
+        <div class="form-row" style="margin-bottom:14px"><label class="form-label">I&rsquo;m looking for... (select all that apply)</label>
+          <div class="form-checks">
+            <label class="form-check-item"><input type="checkbox"> Business Partners</label>
+            <label class="form-check-item"><input type="checkbox"> New Clients</label>
+            <label class="form-check-item"><input type="checkbox"> Investment</label>
+            <label class="form-check-item"><input type="checkbox"> Talent / Hiring</label>
+            <label class="form-check-item"><input type="checkbox"> Visibility only</label>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">📋 Submit Full Listing &mdash; It's Free</button>
+        <div class="form-hint">Reviewed within 48 hrs. Upgrade to PRO anytime.</div>
+      </form>
+      <div class="form-success" id="success-detailed"><div class="form-success-icon" style="font-size:36px;margin-bottom:8px">✅</div><h3>Full listing submitted!</h3><p>Our team will review your details and activate your FiTEN profile within 48 hours.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <span>FiTEN Business Directory &mdash; A <a href="https://fiten.org">FeTNA</a> initiative</span>
+  <span class="footer-sep">|</span>
+  <a href="#" onclick="scrollToSignup();return false;">Add your business</a>
+  <span class="footer-sep">|</span>
+  <span>Connecting Tamil Entrepreneurs &mdash; Across Borders</span>
+  <span class="footer-sep">|</span>
+  <a href="https://fiten.org">fiten.org</a>
+  <span class="footer-sep">|</span>
+  <span>&copy; 2026 FiTEN</span>
+</div>
+</div>
+
+<script>
+const businesses=[
+  {name:"AccuKnox Cloud Security",nameTamil:"AccuKnox கிளாவட் பாதுகாப்பு",cat:"Tech",loc:"Silicon Valley, CA",region:"North America",desc:"Cloud-native zero-trust security platform built in partnership with Stanford Research Institute.",rating:4.9,reviews:42,pro:true,speaker:true,women:false,convention:true,color:"#E6F1FB",textColor:"#0C447C",initials:"AK",looking:["partner","invest"],views:312,website:"accuknox.com",phone:"+1 (650) 555-0101"},
+  {name:"TamilMed Clinics",nameTamil:"&#2980;&#2990;&#3007;&#2996;&#3021;&#2990;&#3014;&#2975;&#3021; &#2965;&#3021;&#2994;&#3007;&#2985;&#3007;&#2965;&#3021;",cat:"Healthcare",loc:"Edison, NJ",region:"North America",desc:"Tamil-speaking family medicine practice. Primary care, preventive health, and geriatric care.",rating:4.8,reviews:87,pro:true,speaker:false,women:true,convention:true,color:"#EAF3DE",textColor:"#27500A",initials:"TM",looking:["client","partner"],views:489,website:"tamilmedclinics.com",phone:"+1 (732) 555-0188"},
+  {name:"Kovai Bites Restaurant",nameTamil:"&#2965;&#3019;&#2997;&#3016; &#2965;&#2975;&#3007;&#2980;&#3021;&#2980;&#2965;&#2990;&#3021;",cat:"Food",loc:"Fremont, CA",region:"North America",desc:"Authentic Chettinad and Kongunadu cuisine. Catering for Tamil events and corporate functions.",rating:4.7,reviews:213,pro:false,speaker:false,women:false,convention:false,color:"#FAEEDA",textColor:"#633806",initials:"KB",looking:["client"],website:"kovaibitesrestaurant.com"},
+  {name:"Rocketship.vc",nameTamil:"ராக்கெட்ஷிப் முதலீட்டு நிறுவனம்",cat:"Finance",loc:"San Francisco, CA",region:"North America",desc:"Silicon Valley fund investing globally in early-stage startups. Led by FiTEN speaker Madhu Shalini Iyer.",rating:4.9,reviews:28,pro:true,speaker:true,women:true,convention:true,color:"#EEEDFE",textColor:"#3C3489",initials:"RV",looking:["invest","partner"],views:271,website:"rocketship.vc",phone:"+1 (415) 555-0247"},
+  {name:"ERP Logic Inc.",nameTamil:"ERP லாஜிக் நிறுவனம்",cat:"Tech",loc:"Dallas, TX",region:"North America",desc:"Enterprise resource planning consulting with 30+ years experience. SAP, Oracle, and Microsoft Dynamics.",rating:4.6,reviews:56,pro:true,speaker:true,women:false,convention:false,color:"#E1F5EE",textColor:"#085041",initials:"EL",looking:["partner","client","hire"],views:198,website:"erplogic.com",phone:"+1 (972) 555-0334"},
+  {name:"Chennai Spice Kitchen",nameTamil:"&#2970;&#3014;&#2985;&#3021;&#2985;&#3016; &#2990;&#2970;&#2990;&#3016;&#2991;&#2994;&#2993;&#3016;",cat:"Food",loc:"Jersey City, NJ",region:"North America",desc:"Street food of Chennai brought to New Jersey. Dosai, idly, and South Indian breakfasts all day.",rating:4.5,reviews:341,pro:false,speaker:false,women:true,convention:false,color:"#FAECE7",textColor:"#712B13",initials:"CS",looking:["client"],website:"chennaispicekitchen.com"},
+  {name:"Tamil Legal Group",nameTamil:"&#2980;&#2990;&#3007;&#2996;&#3021; &#2970;&#2975;&#3021;&#2975; &#2965;&#3009;&#2996;&#3009;",cat:"Legal",loc:"Houston, TX",region:"North America",desc:"Immigration, family law, and business formation for Tamil-speaking clients. Free initial consultation.",rating:4.7,reviews:95,pro:false,speaker:false,women:false,convention:false,color:"#F1EFE8",textColor:"#444441",initials:"TL",looking:["client","partner"],website:"tamillegal.com",phone:"+1 (713) 555-0092"},
+  {name:"Vani Language Academy",nameTamil:"&#2997;&#3006;&#2979;&#3007; &#2990;&#3018;&#2996;&#3007; &#2965;&#2994;&#3021;&#2997;&#3007;",cat:"Education",loc:"Coimbatore, India",region:"South Asia",desc:"Tamil language, Carnatic music, and Bharatanatyam classes online and in-person. FiTEN certified.",rating:4.8,reviews:134,pro:false,speaker:false,women:true,convention:true,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"],website:"vaniacademy.in",phone:"+91 422 555 0176"},
+];
+
+const testimonials=[
+  {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar of the PRO listing.",name:"Karthik R.",biz:"AccuKnox Cloud Security",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
+  {text:"As a Tamil-speaking clinic, our patients find us through FiTEN more than any other directory. The bilingual profile makes all the difference.",name:"Dr. Priya M.",biz:"TamilMed Clinics",stars:5,color:"#EAF3DE",textColor:"#27500A",initials:"PM"},
+  {text:"Three partnership conversations started from my FiTEN PRO profile in the first quarter. The B2B connect feature is genuinely useful.",name:"Madhu I.",biz:"Rocketship.vc",stars:5,color:"#EEEDFE",textColor:"#3C3489",initials:"MI"},
+  {text:"The bilingual profile brought in Tamil-speaking students I never could have reached otherwise. Our enrollment doubled in six months.",name:"Vani S.",biz:"Vani Language Academy",stars:5,color:"#FBEAF0",textColor:"#72243E",initials:"VS"},
+];
+
+const regionMeta={
+  "North America":{flag:"&#127482;&#127480;",label:"North America"},
+  "South Asia":{flag:"&#127470;&#127475;",label:"South Asia"},
+  "Europe":{flag:"&#127466;&#127482;",label:"Europe"},
+  "Middle East":{flag:"&#127462;&#127466;",label:"Middle East"},
+};
+
+let lang='en';
+let activeCat='All';
+let activeFilter='All';
+let activeOpp='All';
+let activeView='grid';
+let selectedPlan='monthly';
+let suggestTimer=null;
+
+const oppLabels={partner:"🤝 Open to Partner",client:"🎯 Seeking Clients",invest:"💼 Seeking Investment",hire:"👥 Hiring"};
+const sigClass={partner:"sig-partner",client:"sig-client",invest:"sig-invest",hire:"sig-hire"};
+
+const i18n={
+  en:{heroTitle:'Connect with <em>Tamil Businesses</em> Worldwide',heroSub:'Discover partners, clients, talent, and investment across the global Tamil business community',heroTamilVisible:true,searchPlaceholder:'Search businesses, services, or names...',sideTitle:'Categories',sideB2B:'B2B Filters',sideMembership:'Membership',oppLabel:'Looking for &rarr;',resultCount:(n,t)=>'Showing '+n+' of '+t+' businesses',noResult:'No businesses found. Try a different search or category.',eyebrow:'Tamil Business Network &nbsp;|&nbsp; A FeTNA Initiative',logoTag:'Business Directory',hdrFree:'List Free',hdrPro:'Join Network &rarr;',pricingTitle:'Simple, Transparent Pricing',pricingSub:"Start free. Upgrade to PRO when you're ready to grow your network.",signupHeading:'Join the <em>FiTEN Directory</em>',signupSub:"Get your business in front of Tamil professionals and decision-makers worldwide.<br>Founding members lock in the best rates.",proBlurb:'Logo, bilingual profile, B2B connect, reviews &amp; analytics.',proSideBtn:'Join as Founding Member',searchBtn:'Search',clearBtn:'&#10005; Clear all'},
+  ta:{heroTitle:'<em>&#2980;&#2990;&#3007;&#2996;&#3021; &#2997;&#2979;&#3007;&#2965;&#2969;&#3021;&#2965;&#2995;&#3009;&#2975;&#2985;&#3021;</em> &#2907;&#2979;&#3016;&#2991;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;',heroSub:'&#3009;&#2994;&#2965;&#2995;&#3006;&#2997;&#3007;&#2991; &#2980;&#2990;&#3007;&#2996;&#3021; &#2997;&#2979;&#3007;&#2965; &#2970;&#2990;&#3010;&#2980;&#3021;&#2980;&#3007;&#2994;&#3021; &#2986;&#2969;&#3021;&#2965;&#3006;&#2995;&#3007;&#2965;&#2995;&#3021;, &#2997;&#3006;&#2975;&#3007;&#2965;&#3021;&#2965;&#3016;&#2991;&#3006;&#2995;&#2992;&#3021;&#2965;&#2995;&#3021;, &#2980;&#3007;&#2993;&#2990;&#3016; &#2990;&#2993;&#3021;&#2993;&#3009;&#2990;&#3021; &#2990;&#3009;&#2980;&#2994;&#3008;&#2975;&#3021;&#2975;&#3016; &#2965;&#2979;&#3021;&#2975;&#2993;&#3007;&#2991;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;',heroTamilVisible:false,searchPlaceholder:'&#2997;&#2979;&#3007;&#2965;&#2969;&#3021;&#2965;&#2995;&#3021;, &#2970;&#3014;&#2997;&#3016;&#2965;&#2995;&#3021; &#2905;&#2994;&#3021;&#2994;&#2980;&#3009; &#2986;&#3014;&#2991;&#2992;&#3021;&#2965;&#2995;&#3016;&#2980;&#3021; &#2980;&#3014;&#2975;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;...',sideTitle:'&#2997;&#2965;&#3016;&#2965;&#2995;&#3021;',sideB2B:'B2B &#2997;&#2975;&#3007;&#2986;&#3021;&#2986;&#3006;&#2985;&#3021;&#2965;&#2995;&#3021;',sideMembership:'&#2953;&#2993;&#3009;&#2986;&#3021;&#2986;&#3007;&#2985;&#2992;&#3021;',oppLabel:'&#2980;&#3014;&#2975;&#3009;&#2965;&#3007;&#2993;&#3019;&#2990;&#3021; &rarr;',resultCount:(n,t)=>t+' &#2997;&#2979;&#3007;&#2965;&#2969;&#3021;&#2965;&#2995;&#3007;&#2994;&#3021; '+n+' &#2965;&#3006;&#2975;&#3021;&#2975;&#3009;&#2965;&#3007;&#2993;&#2980;&#3009;',noResult:'&#2997;&#2979;&#3007;&#2965;&#2969;&#3021;&#2965;&#2995;&#3021; &#2915;&#2980;&#3009;&#2997;&#3009;&#2990;&#3021; &#2965;&#3007;&#2975;&#3016;&#2965;&#3021;&#2965;&#2997;&#3007;&#2994;&#3021;&#2994;&#3016;.',eyebrow:'&#2980;&#2990;&#3007;&#2996;&#3021; &#2997;&#2979;&#3007;&#2965; &#2997;&#2994;&#3016;&#2991;&#2990;&#3016;&#2986;&#3021;&#2986;&#3009; &nbsp;|&nbsp; FeTNA &#2990;&#3009;&#2991;&#2993;&#3021;&#2970;&#3007;',logoTag:'&#2997;&#2979;&#3007;&#2965; &#2905;&#2975;&#3016;&#2997;&#3009;',hdrFree:'&#2907;&#2994;&#2997;&#2970;&#2990;&#3006;&#2965; &#2986;&#2975;&#3021;&#2975;&#3007;&#2991;&#2994;&#3007;&#2975;&#3009;',hdrPro:'PRO &#2970;&#3014;&#2994;&#3021; &rarr;',pricingTitle:'&#2915;&#2995;&#3007;&#2991; &#2997;&#3009;&#2994;&#3016;',pricingSub:'&#2907;&#2994;&#2997;&#2970;&#2990;&#3006;&#2965; &#2980;&#3018;&#2975;&#2969;&#3021;&#2965;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;. PRO &#2965;&#3021;&#2965;&#3009; &#2990;&#3014;&#2990;&#3021;&#2986;&#2975;&#3009;&#2980;&#3021;&#2980;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;.',signupHeading:'<em>FiTEN &#2905;&#2975;&#3016;&#2997;&#3007;&#2994;&#3021;</em> &#2970;&#3014;&#2992;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;',signupSub:'&#3009;&#2994;&#2965;&#2995;&#3006;&#2997;&#3007;&#2991; &#2980;&#2990;&#3007;&#2996;&#3021; &#2984;&#3007;&#2986;&#3009;&#2979;&#2992;&#3021;&#2965;&#2995;&#3021; &#2990;&#3009;&#2985;&#3021; &#3009;&#2999;&#2991;&#2992;&#3021; &#2997;&#2979;&#3007;&#2965;&#2980;&#3021;&#2980;&#3016; &#2965;&#3018;&#2979;&#3021;&#2975;&#3009; &#2970;&#3014;&#2994;&#3021;&#2994;&#3009;&#2969;&#3021;&#2965;&#2995;&#3021;.',proBlurb:'&#2994;&#3019;&#2965;&#3019;, &#2907;&#2992;&#3009;&#2990;&#3018;&#2996;&#3007; &#2970;&#3009;&#2991;&#2997;&#3007;&#2997;&#3007;&#2986;&#2992;&#2990;&#3021;, B2B &#2907;&#2979;&#3016;&#2986;&#3021;&#2986;&#3009;.',proSideBtn:'PRO &#2970;&#3014;&#2994;&#3021; &mdash; $29/&#2990;&#3006;&#2980;&#2990;&#3021;',searchBtn:'&#2980;&#3014;&#2975;&#3009;',clearBtn:'&#10005; &#2905;&#2985;&#3016;&#2980;&#3021;&#2980;&#3016;&#2991;&#3009;&#2990;&#3021; &#2905;&#2996;&#3007;'}
+};
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn:'+(l==='en'?'first':'last')+'-child').classList.add('active');
+  const t=i18n[l];
+  document.getElementById('heroTitle').innerHTML=t.heroTitle;
+  document.getElementById('heroSub').textContent=t.heroSub;
+  document.getElementById('heroTamil').style.display=t.heroTamilVisible?'block':'none';
+  document.getElementById('searchInput').placeholder=t.searchPlaceholder;
+  document.getElementById('searchBtn').textContent=t.searchBtn;
+  document.getElementById('eyebrowText').innerHTML=t.eyebrow;
+  document.getElementById('logoTag').textContent=t.logoTag;
+  document.getElementById('hdrFree').textContent=t.hdrFree;
+  document.getElementById('hdrPro').innerHTML=t.hdrPro;
+  document.getElementById('sideTitle').textContent=t.sideTitle;
+  document.getElementById('sideB2B').textContent=t.sideB2B;
+  document.getElementById('sideMembership').textContent=t.sideMembership;
+  document.getElementById('oppLabel').innerHTML=t.oppLabel;
+  document.getElementById('clearBtn').innerHTML=t.clearBtn;
+  document.getElementById('proBlurb').innerHTML=t.proBlurb;
+  document.getElementById('proSideBtn').textContent=t.proSideBtn;
+  document.getElementById('pricingTitle').textContent=t.pricingTitle;
+  document.getElementById('pricingSub').textContent=t.pricingSub;
+  document.getElementById('signupHeading').innerHTML=t.signupHeading;
+  document.getElementById('signupSub').innerHTML=t.signupSub;
+  document.getElementById('noResultsMsg').innerHTML=t.noResult;
+  document.querySelectorAll('.stat-label[data-'+l+']').forEach(el=>el.textContent=el.getAttribute('data-'+l));
+  filterBiz();
+}
+
+function setFilter(el,filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter=filter;
+  // Sync sidebar category to avoid conflicting active states
+  if(filter==='All'||filter==='Pro'){
+    activeCat='All';
+    document.querySelectorAll('.cat-item').forEach((i,idx)=>i.classList.toggle('active',idx===0));
+  } else {
+    // Category pill clicked — sync sidebar highlight
+    activeCat=filter;
+    document.querySelectorAll('.cat-item').forEach(i=>{
+      var oc=i.getAttribute('onclick')||'';
+      i.classList.toggle('active',oc.includes("'"+filter+"'"));
+    });
+  }
+  document.getElementById('chkPro').checked=(filter==='Pro');
+  updateClearBtn();filterBiz();
+}
+function setCat(el,cat){
+  document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  // Reset pill filter to avoid conflicting active state
+  // (keep 'Pro' pill active if Pro is selected, otherwise go to 'All')
+  if(activeFilter!=='Pro'){
+    activeFilter='All';
+    document.querySelectorAll('.pill').forEach((p,i)=>p.classList.toggle('active',i===0));
+  }
+  updateClearBtn();filterBiz();
+}
+function setOpp(el,opp){
+  document.querySelectorAll('.opp-tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');activeOpp=opp;
+  ['Partner','Hire','Invest'].forEach(k=>{const c=document.getElementById('chk'+k);if(c)c.checked=(opp===k.toLowerCase());});
+  updateClearBtn();filterBiz();
+}
+function syncOppFromSidebar(opp,chkEl){
+  const any=['chkPartner','chkHire','chkInvest'].some(id=>document.getElementById(id).checked);
+  if(!any){document.querySelectorAll('.opp-tag').forEach((t,i)=>t.classList.toggle('active',i===0));activeOpp='All';}
+  else if(chkEl.checked){
+    document.querySelectorAll('.opp-tag').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.opp-tag').forEach(t=>{const m=t.getAttribute('onclick')&&t.getAttribute('onclick').match(/'(\w+)'/);if(m&&m[1]===opp)t.classList.add('active');});
+    activeOpp=opp;
+  }
+  updateClearBtn();filterBiz();
+}
+function clearFilters(){
+  activeCat='All';activeFilter='All';activeOpp='All';
+  document.querySelectorAll('.cat-item').forEach((el,i)=>el.classList.toggle('active',i===0));
+  document.querySelectorAll('.pill').forEach((el,i)=>el.classList.toggle('active',i===0));
+  document.querySelectorAll('.opp-tag').forEach((el,i)=>el.classList.toggle('active',i===0));
+  ['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].forEach(id=>document.getElementById(id).checked=false);
+  document.getElementById('searchInput').value='';
+  document.getElementById('locationSelect').value='';
+  updateClearBtn();filterBiz();
+}
+function updateClearBtn(){
+  const btn=document.getElementById('clearBtn');
+  const active=activeCat!=='All'||activeFilter!=='All'||activeOpp!=='All'||document.getElementById('searchInput').value||document.getElementById('locationSelect').value||['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].some(id=>document.getElementById(id).checked);
+  btn.classList.toggle('visible',!!active);
+}
+function setView(v){
+  activeView=v;
+  document.getElementById('btnGrid').classList.toggle('active',v==='grid');
+  document.getElementById('btnRegion').classList.toggle('active',v==='region');
+  filterBiz();
+}
+function filterBiz(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const loc=document.getElementById('locationSelect').value;
+  const chkPro=document.getElementById('chkPro').checked;
+  const chkS=document.getElementById('chkSpeaker').checked;
+  const chkW=document.getElementById('chkWomen').checked;
+  const chkP=document.getElementById('chkPartner').checked;
+  const chkH=document.getElementById('chkHire').checked;
+  const chkI=document.getElementById('chkInvest').checked;
+  const chkC=document.getElementById('chkConvention').checked;
+  let filtered=businesses.filter(b=>{
+    if(showFavs&&!favorites.has(b.name))return false;
+    // activeCat is kept in sync with pills (setFilter/setCat both update it)
+    if(activeCat!=='All'&&b.cat!==activeCat)return false;
+    if(activeFilter==='Pro'&&!b.pro)return false;
+    if(activeOpp!=='All'&&!b.looking.includes(activeOpp))return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!b.cat.toLowerCase().includes(q))return false;
+    if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
+    if(chkPro&&!b.pro)return false;
+    if(chkS&&!b.speaker)return false;
+    if(chkW&&!b.women)return false;
+    if(chkP&&!b.looking.includes('partner'))return false;
+    if(chkH&&!b.looking.includes('hire'))return false;
+    if(chkI&&!b.looking.includes('invest'))return false;
+    if(chkC&&!b.convention)return false;
+    return true;
+  });
+  // Apply selected sort order
+  var sortEl=document.querySelector('.sort-select');
+  var sortVal=sortEl?sortEl.value:'';
+  if(sortVal==='Sort: A-Z'){
+    filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  } else if(sortVal==='Sort: Most Connected'){
+    filtered.sort((a,b)=>(b.reviews||0)-(a.reviews||0));
+  } else if(sortVal==='Sort: Newest'){
+    filtered.sort((a,b)=>(b.views||0)-(a.views||0));
+  } else {
+    // Default: PRO / Founding Members first
+    filtered.sort((a,b)=>(b.pro?1:0)-(a.pro?1:0));
+  }
+  if(activeView==='grid') renderGrid(filtered);
+  else renderRegion(filtered);
+  updateClearBtn();
+}
+
+function starsHtml(r){let s='<span class="rating-stars">';for(let i=1;i<=5;i++)s+=(i<=Math.round(r)?'&#9733;':'&#9734;');return s+'</span>';}
+
+function cardHtml(b,idx){
+  if(idx===undefined)idx=businesses.indexOf(b);
+  const taName=(lang==='ta'&&b.nameTamil&&b.nameTamil!==b.name)?b.nameTamil:b.name;
+  const showTamilSub=(lang==='en'&&b.nameTamil&&b.nameTamil!==b.name);
+  const isFavd=favorites.has(b.name);
+  return '<div class="biz-card'+(b.pro?' pro-card':'')+'" onclick="openDetail('+idx+')" style="cursor:pointer">'+
+    (b.pro?'<div class="pro-banner">★ Founding Member'+(b.views?'<span class="analytics-badge" style="background:rgba(255,255,255,0.2);color:#fff;margin-left:8px">🔥 '+b.views+' views</span>':'')+'</div>':'')+
+    '<div class="card-top">'+
+      '<div class="biz-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<div class="biz-info">'+
+        '<div class="biz-name">'+taName+'</div>'+
+        (showTamilSub?'<div class="biz-name-tamil" style="display:block">'+b.nameTamil+'</div>':'')+
+        '<div class="biz-category">'+b.cat+'</div>'+
+        '<div class="biz-location">📍 '+b.loc+'</div>'+
+      '</div>'+
+      '<button class="fav-btn'+(isFavd?' favd':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+b.name+'\',this)" title="Save">'+(isFavd?'&#10084;':'&#9825;')+'</button>'+
+    '</div>'+
+    '<div class="b2b-signals">'+
+      b.looking.map(function(l){return'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>';}).join('')+
+      (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+      (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+      (b.convention?'<span class="b2b-signal sig-convention">&#127963; FeTNA Conv.</span>':'')+
+    '</div>'+
+    '<div class="card-desc">'+b.desc+'</div>'+
+    '<div class="card-footer" onclick="event.stopPropagation()">'+
+      '<span class="card-rating">'+starsHtml(b.rating)+' '+b.rating+' · '+b.reviews+' reviews</span>'+
+      '<div style="display:flex;gap:5px">'+
+        (b.pro
+          ?'<button class="connect-btn" onclick="sendPrompt(\'I want to connect with '+b.name+'\')">Connect</button>'
+          :'<button class="claim-btn" onclick="openClaimModal(\''+b.name+'\')">Claim</button>'+
+           '<button class="connect-locked" onclick="scrollToSignup()" title="PRO feature">&#128274; PRO</button>')+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+const PAGE_SIZE=6;
+let visibleCount=PAGE_SIZE;
+let lastFiltered=[];
+
+function renderGrid(list){
+  lastFiltered=list;
+  visibleCount=PAGE_SIZE;
+  _renderPage();
+}
+function loadMore(){
+  visibleCount=Math.min(visibleCount+PAGE_SIZE,lastFiltered.length);
+  _renderPage();
+}
+function _renderPage(){
+  const grid=document.getElementById('bizGrid');
+  const noR=document.getElementById('noResults');
+  const lmw=document.getElementById('loadMoreWrap');
+  const t=i18n[lang];
+  document.getElementById('resultCount').innerHTML=t.resultCount(lastFiltered.length,847);
+  grid.style.display='';
+  document.getElementById('bizRegion').style.display='none';
+  if(lastFiltered.length===0){grid.style.display='none';noR.style.display='block';lmw.style.display='none';return;}
+  noR.style.display='none';
+  grid.innerHTML=lastFiltered.slice(0,visibleCount).map(function(b){return cardHtml(b,businesses.indexOf(b));}).join('');
+  var rem=lastFiltered.length-visibleCount;
+  if(rem>0){
+    lmw.style.display='block';
+    document.getElementById('loadMoreBtn').textContent='Load '+Math.min(rem,PAGE_SIZE)+' more businesses';
+    document.getElementById('loadMoreCount').textContent='Showing '+visibleCount+' of '+lastFiltered.length;
+  } else { lmw.style.display='none'; }
+}
+
+function renderRegion(list){
+  const grid=document.getElementById('bizGrid');
+  const regionEl=document.getElementById('bizRegion');
+  const noR=document.getElementById('noResults');
+  const t=i18n[lang];
+  document.getElementById('resultCount').innerHTML=t.resultCount(list.length,847);
+  grid.style.display='none';
+  if(list.length===0){regionEl.style.display='none';noR.style.display='block';return;}
+  noR.style.display='none';
+  regionEl.style.display='';
+  const groups={};
+  list.forEach(b=>{if(!groups[b.region])groups[b.region]=[];groups[b.region].push(b);});
+  regionEl.innerHTML=Object.entries(groups).map(([region,items])=>{
+    const meta=regionMeta[region]||{flag:'&#127760;',label:region};
+    return '<div class="region-section">'+
+      '<div class="region-heading"><span class="region-flag">'+meta.flag+'</span>'+meta.label+' <span class="region-count">'+items.length+'</span></div>'+
+      '<div class="region-list">'+
+        items.map(b=>'<div class="region-row'+(b.pro?' pro-row':'')+' region-row-link" onclick="openDetail('+businesses.indexOf(b)+')" style="cursor:pointer">'+
+          '<div class="region-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div class="region-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+            '<div class="region-sub">'+b.cat+' &middot; '+b.loc+'</div>'+
+          '</div>'+
+          '<div class="region-signals">'+
+            (b.pro?'<span class="b2b-signal sig-speaker" style="font-size:9px">&#11088; PRO</span>':'')+
+            (b.convention?'<span class="b2b-signal sig-convention" style="font-size:9px">&#127963;</span>':'')+
+            (b.speaker?'<span class="b2b-signal sig-speaker" style="font-size:9px">Speaker</span>':'')+
+          '</div>'+
+        '</div>').join('')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* SEARCH SUGGESTIONS */
+function onSearchInput(){
+  clearTimeout(suggestTimer);
+  suggestTimer=setTimeout(()=>{
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q.length<2){hideSuggestions();filterBiz();return;}
+    const matches=businesses.filter(b=>b.name.toLowerCase().includes(q)||b.cat.toLowerCase().includes(q)||b.desc.toLowerCase().includes(q)).slice(0,5);
+    showSuggestions(matches,q);
+    filterBiz();
+  },120);
+}
+function showSuggestions(matches,q){
+  const dd=document.getElementById('suggestionDropdown');
+  if(matches.length===0){dd.innerHTML='<div class="suggestion-empty">No matching businesses</div>';dd.style.display='block';return;}
+  dd.innerHTML=matches.map(b=>{
+    const hl=b.name.replace(new RegExp('('+q+')','gi'),'<strong>$1</strong>');
+    return '<div class="suggestion-item" onmousedown="selectSuggestion(\''+b.name+'\')">'+
+      '<div class="suggestion-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<span>'+hl+'</span>'+
+      '<span class="suggestion-meta">'+b.cat+'</span>'+
+    '</div>';
+  }).join('');
+  dd.style.display='block';
+}
+function hideSuggestions(){document.getElementById('suggestionDropdown').style.display='none';}
+function hideSuggestionsDelayed(){setTimeout(hideSuggestions,200);}
+function selectSuggestion(name){
+  document.getElementById('searchInput').value=name;
+  hideSuggestions();filterBiz();
+}
+
+/* CLAIM MODAL */
+function openClaimModal(bizName){
+  document.getElementById('claimBizName').textContent=bizName;
+  document.getElementById('claimEmail').value='';
+  document.getElementById('claimFormWrap').style.display='';
+  document.getElementById('claimSuccess').style.display='none';
+  document.getElementById('claimModal').classList.add('open');
+}
+function closeClaimModal(e){
+  if(!e||e.target===document.getElementById('claimModal'))
+    document.getElementById('claimModal').classList.remove('open');
+}
+function submitClaim(){
+  const email=document.getElementById('claimEmail').value;
+  if(!email||!email.includes('@'))return;
+  document.getElementById('claimFormWrap').style.display='none';
+  document.getElementById('claimSuccess').style.display='block';
+}
+
+/* TESTIMONIALS */
+function renderTestimonials(){
+  document.getElementById('testimonialsTrack').innerHTML=testimonials.map(t=>
+    '<div class="testimonial-card">'+
+      '<div class="testimonial-text">'+t.text+'</div>'+
+      '<div class="testimonial-author">'+
+        '<div class="testimonial-avatar" style="background:'+t.color+';color:'+t.textColor+'">'+t.initials+'</div>'+
+        '<div>'+
+          '<div class="testimonial-name">'+t.name+'</div>'+
+          '<div class="testimonial-biz">'+t.biz+'</div>'+
+          '<div class="testimonial-stars">'+'&#9733;'.repeat(t.stars)+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'
+  ).join('');
+}
+
+function setPlan(plan){
+  selectedPlan=plan;
+  document.getElementById('btn-monthly').classList.toggle('active',plan==='monthly');
+  document.getElementById('btn-annual').classList.toggle('active',plan==='annual');
+  document.getElementById('proSubmitBtn').textContent=plan==='monthly'?'Start PRO - $29/mo':'Start PRO - $290/yr (Save $58)';
+}
+function switchTab(tab,el){
+  document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  const tabEl=el||document.getElementById('tab-'+tab);
+  if(tabEl)tabEl.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+function switchToTab(tab){scrollToSignup();setTimeout(()=>switchTab(tab),350);}
+function handleSubmit(e,type){e.preventDefault();e.target.style.display='none';document.getElementById('success-'+type).style.display='block';}
+function scrollToSignup(){try{document.getElementById('signupSection').scrollIntoView({behavior:'smooth'});}catch(e){}}
+
+/* ═══ FAVORITES — must initialize BEFORE renderGrid to avoid undefined error ═══ */
+var favorites=(function(){try{return new Set(JSON.parse(localStorage.getItem('fitenFavs')||'[]'));}catch(e){return new Set();}})();
+var showFavs=false;
+
+renderGrid(businesses);
+renderTestimonials();
+
+
+/* ═══ DARK MODE ═══ */
+function toggleDark(){
+  var w=document.getElementById('mainWrapper');
+  var on=w.classList.toggle('dark-mode');
+  // Also apply to body so #detailOverlay and #claimModal (outside mainWrapper) get dark styling
+  document.body.classList.toggle('dark-mode',on);
+  try{localStorage.setItem('fitenDark',on?'1':'0');}catch(e){}
+}
+(function(){
+  try{
+    if(localStorage.getItem('fitenDark')==='1'){
+      var w=document.getElementById('mainWrapper');
+      if(w){w.classList.add('dark-mode');document.body.classList.add('dark-mode');}
+    }
+  }catch(e){}
+})();
+
+/* ═══ FAVORITES (moved to before renderGrid) ═══ */
+function toggleFavorite(name,btn){
+  if(favorites.has(name)){favorites.delete(name);btn.classList.remove('favd');btn.innerHTML='&#9825;';}
+  else{favorites.add(name);btn.classList.add('favd');btn.innerHTML='&#10084;';}
+  try{localStorage.setItem('fitenFavs',JSON.stringify([...favorites]));}catch(e){}
+  if(showFavs)filterBiz();
+}
+function toggleFavsFilter(){
+  showFavs=!showFavs;
+  document.getElementById('favPill').classList.toggle('active',showFavs);
+  filterBiz();
+}
+
+/* ═══ DETAIL PANEL ═══ */
+var currentDetailIdx=-1;
+function openDetail(idx){
+  var b=businesses[idx];currentDetailIdx=idx;
+  document.getElementById('detailHeader').innerHTML=
+    '<button class="detail-close" onclick="closeDetail()">&times;</button>'+
+    '<div class="detail-avatar-lg" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+    '<div>'+
+      '<div class="detail-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+      (b.nameTamil&&b.nameTamil!==b.name?'<div class="detail-name-sub">'+b.nameTamil+'</div>':'')+
+      '<div class="detail-cat-loc">'+b.cat+' &middot; '+b.loc+'</div>'+
+      (b.pro?'<span class="b2b-signal sig-speaker" style="font-size:10px;margin-top:5px;display:inline-block">&#11088; PRO Member</span>':'')+
+    '</div>';
+  var body='<div class="detail-sec">About</div><div class="detail-desc">'+b.desc+'</div>';
+  body+='<div class="detail-sec">Contact &amp; Links</div>';
+  if(b.website)body+='<div class="detail-info-row"><span class="detail-icon">&#127760;</span><a href="https://'+b.website+'" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">'+b.website+'</a></div>';
+  if(b.phone)body+='<div class="detail-info-row"><span class="detail-icon">&#128222;</span>'+b.phone+'</div>';
+  body+='<div class="detail-info-row"><span class="detail-icon">&#128205;</span>'+b.loc+' &mdash; '+(b.region||'')+'</div>';
+  body+='<div class="detail-sec">B2B Signals</div><div class="b2b-signals" style="padding:0;margin-bottom:4px">'+
+    b.looking.map(function(l){return'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>';}).join('')+
+    (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+    (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+    (b.convention?'<span class="b2b-signal sig-convention">&#127963; FeTNA Conv.</span>':'')+
+    '</div>';
+  if(b.pro){
+    body+='<div class="detail-sec">Reviews</div>'+
+      '<div style="display:flex;align-items:center;gap:8px;font-size:13px">'+starsHtml(b.rating)+'<strong>'+b.rating+'</strong><span style="color:var(--text3)">('+b.reviews+' reviews)</span></div>';
+    if(b.views)body+='<div style="margin-top:10px"><span class="analytics-badge">&#128293; '+b.views+' views this month</span></div>';
+  } else {
+    body+='<div style="font-size:12px;color:var(--text3);margin-top:8px;padding:10px;background:rgba(198,148,0,0.06);border-radius:8px;border:1px solid rgba(198,148,0,0.15)">&#11088; Upgrade to PRO to show reviews and monthly analytics on this profile.</div>';
+  }
+  document.getElementById('detailBody').innerHTML=body;
+  var cb=document.getElementById('detailConnectBtn');
+  if(b.pro){cb.textContent='Connect';cb.onclick=function(){sendPrompt('I want to connect with '+b.name);};}
+  else{cb.textContent='Upgrade to Connect';cb.onclick=function(){closeDetail();scrollToSignup();};}
+  document.getElementById('detailOverlay').classList.add('open');
+  try{var u=new URL(location.href);u.searchParams.set('biz',b.name);history.pushState({},'',u.toString());}catch(e){}
+}
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  currentDetailIdx=-1;
+  try{var u=new URL(location.href);u.searchParams.delete('biz');history.pushState({},'',u.toString());}catch(e){}
+}
+function closeDetailOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetail();}
+
+/* ═══ SHAREABLE LINKS ═══ */
+function shareDetail(){
+  var url=location.href;
+  var btn=document.getElementById('detailShareBtn');
+  function ok(){btn.textContent='✓ Copied!';btn.classList.add('share-ok');setTimeout(function(){btn.innerHTML='&#128279; Share';btn.classList.remove('share-ok');},2200);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(ok).catch(function(){prompt('Copy this link:',url);});}
+  else{prompt('Copy this link:',url);}
+}
+(function(){
+  try{var p=new URLSearchParams(location.search),n=p.get('biz');if(n){var i=businesses.findIndex(function(b){return b.name===n;});if(i>=0)setTimeout(function(){openDetail(i);},350);}}catch(e){}
+})();
+
+/* ═══ EXPORT CSV ═══ */
+function exportCSV(){
+  var rows=[['Name','Tamil Name','Category','Location','Region','Tier','Website','Phone','B2B Signals','Rating','Reviews','Monthly Views']];
+  lastFiltered.forEach(function(b){
+    rows.push(['"'+(b.name||'').replace(/"/g,'""')+'"','"'+(b.nameTamil||'').replace(/"/g,'""')+'"',b.cat||'',b.loc||'',b.region||'',b.pro?'PRO':'Free',b.website||'',b.phone||'','"'+b.looking.join(', ')+'"',b.pro?b.rating:'',b.pro?b.reviews:'',b.views||'']);
+  });
+  var csv=rows.map(function(r){return r.join(',');}).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='fiten_businesses_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+/* ═══ MOBILE SIDEBAR ═══ */
+function toggleMobSidebar(){
+  var s=document.getElementById('mainSidebar');
+  var open=s.classList.toggle('mob-open');
+  document.getElementById('mobSidebarBtn').textContent=open?'✕ Close':'☰ Filters';
+}
+
+/* ═══ SENDPROMPT FALLBACK (for non-Cowork environments) ═══ */
+if(typeof sendPrompt==='undefined'){
+  window.sendPrompt=function(msg){
+    // Scroll to signup and show a friendly message
+    scrollToSignup();
+    setTimeout(function(){
+      var el=document.getElementById('signupHeading');
+      if(el){var orig=el.innerHTML;el.innerHTML='<span style="color:var(--teal)">✓ Message noted! Sign up to connect.</span>';setTimeout(function(){el.innerHTML=orig;},3000);}
+    },400);
+  };
+}
+
+/* ═══ KEYBOARD SHORTCUTS ═══ */
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(document.getElementById('detailOverlay').classList.contains('open'))closeDetail();
+    if(document.getElementById('claimModal').classList.contains('open'))closeClaimModal();
+  }
+});
+
+</script>

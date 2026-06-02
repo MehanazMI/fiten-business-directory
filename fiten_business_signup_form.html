@@ -1,0 +1,83 @@
+<div style="background: var(--color-background-primary); max-width: 500px; margin: 0 auto; padding: 0;">
+  <div style="padding: 2rem 2rem 1.5rem;">
+    <h1 style="font-size: 24px; font-weight: 500; margin: 0 0 0.5rem; color: var(--color-text-primary);">Add your business</h1>
+    <p style="font-size: 15px; color: var(--color-text-secondary); margin: 0 0 1.5rem; line-height: 1.5;">List your business on Fiten and reach customers in your area.</p>
+    
+    <form id="signupForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
+      
+      <!-- Business Name -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Business name <span style="color: var(--color-text-danger);">*</span></label>
+        <input type="text" placeholder="Enter business name" required style="width: 100%; font-size: 15px;" />
+      </div>
+
+      <!-- Category -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Category <span style="color: var(--color-text-danger);">*</span></label>
+        <select required style="width: 100%; font-size: 15px;">
+          <option value="">Select a category</option>
+          <option value="retail">Retail</option>
+          <option value="food">Food & Beverage</option>
+          <option value="services">Services</option>
+          <option value="health">Health & Wellness</option>
+          <option value="tech">Technology</option>
+          <option value="finance">Finance & Insurance</option>
+          <option value="education">Education</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="real-estate">Real Estate</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <!-- Contact Email -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Email address <span style="color: var(--color-text-danger);">*</span></label>
+        <input type="email" placeholder="business@example.com" required style="width: 100%; font-size: 15px;" />
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Phone <span style="color: var(--color-text-danger);">*</span></label>
+        <input type="tel" placeholder="+1 (555) 000-0000" required style="width: 100%; font-size: 15px;" />
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">City <span style="color: var(--color-text-danger);">*</span></label>
+        <input type="text" placeholder="City or neighborhood" required style="width: 100%; font-size: 15px;" />
+      </div>
+
+      <!-- Website -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Website <span style="font-size: 13px; color: var(--color-text-tertiary); font-weight: 400;">(optional)</span></label>
+        <input type="url" placeholder="https://www.example.com" style="width: 100%; font-size: 15px;" />
+      </div>
+
+      <!-- Business Description -->
+      <div>
+        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Business description <span style="color: var(--color-text-danger);">*</span></label>
+        <textarea placeholder="Tell customers what your business does (50-300 characters)" required style="width: 100%; font-size: 15px; min-height: 100px; resize: vertical; font-family: inherit;" ></textarea>
+      </div>
+
+      <!-- Terms -->
+      <div style="display: flex; gap: 8px; align-items: flex-start;">
+        <input type="checkbox" id="terms" required style="margin-top: 4px;" />
+        <label for="terms" style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; cursor: pointer;">I agree that my business information will be published on fiten.org and available to the public.</label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" style="padding: 0.75rem 1.5rem; font-size: 15px; font-weight: 500; background: var(--color-background-info); color: var(--color-text-info); border: none; border-radius: var(--border-radius-md); cursor: pointer; margin-top: 0.5rem;">Add my business</button>
+
+      <p style="font-size: 12px; color: var(--color-text-tertiary); margin: 0.5rem 0 0; text-align: center;">Your listing will be live immediately</p>
+    </form>
+  </div>
+</div>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const businessName = this.querySelector('input[type="text"]').value;
+  sendPrompt(`I just submitted the business signup form for "${businessName}". What should be next?`);
+});
+</script>

@@ -1,0 +1,590 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#8B1A1A;--red-dk:#6B1414;--red-dkk:#4A0E0E;--gold:#C69400;--gold-lt:#FFF8E7;--teal:#006B75;--bg:#F5F5F5;--bg2:#fff;--border:#E0E0E0;--text:#1A1A1A;--text2:#555;--text3:#888}
+body{font-family:var(--font-sans,system-ui);background:var(--color-background-tertiary,#F0F0F0);color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* HEADER */
+.site-header{background:var(--red);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px;border-radius:12px 12px 0 0}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-text{color:#fff;font-weight:600;font-size:16px;letter-spacing:0.2px}
+.logo-dot{color:var(--gold)}
+.logo-tag{font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.8px;text-transform:uppercase;margin-left:4px;align-self:flex-end;padding-bottom:1px}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.15);border-radius:20px;padding:2px}
+.lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.75);font-size:12px;padding:4px 12px;border-radius:18px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.lang-btn.active{background:#fff;color:var(--red);font-weight:500}
+.hdr-cta{background:var(--gold);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.2px;transition:opacity 0.15s}
+.hdr-cta:hover{opacity:0.88}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--red) 0%,var(--red-dk) 55%,var(--red-dkk) 100%);padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(198,148,0,0.18);border:1px solid rgba(198,148,0,0.35);border-radius:20px;padding:4px 14px;font-size:11px;color:var(--gold);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px}
+.hero-title{color:#fff;font-size:24px;font-weight:700;margin-bottom:6px;line-height:1.25}
+.hero-title em{color:var(--gold);font-style:normal}
+.hero-sub{color:rgba(255,255,255,0.72);font-size:13px;margin-bottom:6px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.5}
+.hero-tamil{color:rgba(198,148,0,0.85);font-size:12px;margin-bottom:20px}
+.search-bar{display:flex;gap:0;max-width:580px;margin:0 auto;background:#fff;border-radius:10px;overflow:hidden;border:2.5px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,0.18)}
+.search-bar input{flex:1;border:none;padding:10px 14px;font-size:14px;outline:none;background:transparent;color:#333}
+.search-bar select{border:none;border-left:1px solid #eee;padding:10px 12px;font-size:13px;background:transparent;color:#555;cursor:pointer;outline:none}
+.search-bar button{background:var(--red);color:#fff;border:none;padding:10px 20px;cursor:pointer;font-size:13px;font-weight:600;transition:background 0.15s}
+.search-bar button:hover{background:var(--red-dk)}
+
+/* STATS */
+.stats-bar{background:#fff;border-bottom:1px solid #eee;padding:10px 20px;display:flex;gap:0;justify-content:center;flex-wrap:wrap}
+.stat-item{font-size:12px;color:var(--text2);padding:2px 20px;border-right:1px solid #eee;display:flex;flex-direction:column;align-items:center;gap:1px}
+.stat-item:last-child{border-right:none}
+.stat-item strong{color:var(--red);font-size:16px;font-weight:700}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text3)}
+
+/* OPPORTUNITY STRIP */
+.opp-strip{background:linear-gradient(90deg,#FFF8E7,#fff);border-bottom:1px solid #F0E8C8;padding:8px 20px;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap}
+.opp-label{font-size:11px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.6px;flex-shrink:0}
+.opp-tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #E8D98A;border-radius:20px;padding:3px 10px;font-size:11px;color:#7A5000;cursor:pointer;margin-right:4px;transition:background 0.12s;flex-shrink:0}
+.opp-tag:hover{background:#FFF8E7}
+.opp-tag.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.opp-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.6}
+
+/* FILTER PILLS */
+.filter-row{padding:10px 20px 8px;display:flex;flex-wrap:wrap;gap:5px;background:var(--color-background-secondary,#F8F8F8);border-bottom:1px solid var(--border)}
+.pill{display:inline-block;background:rgba(139,26,26,0.07);color:var(--red);font-size:11px;padding:3px 11px;border-radius:12px;cursor:pointer;border:0.5px solid rgba(139,26,26,0.18);transition:all 0.12s;font-weight:500}
+.pill.active{background:var(--red);color:#fff;border-color:var(--red)}
+.pill:hover:not(.active){background:rgba(139,26,26,0.12)}
+
+/* LAYOUT */
+.main-layout{display:grid;grid-template-columns:210px 1fr;gap:0;min-height:420px}
+.sidebar{background:var(--color-background-primary,#fff);border-right:0.5px solid var(--border);padding:16px 14px}
+.sidebar-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px}
+.cat-list{list-style:none}
+.cat-item{padding:6px 10px;font-size:13px;color:var(--text);cursor:pointer;border-radius:7px;display:flex;justify-content:space-between;align-items:center;transition:background 0.1s;margin-bottom:2px}
+.cat-item:hover,.cat-item.active{background:var(--color-background-secondary,#F5F5F5);color:var(--red);font-weight:500}
+.cat-item.active{border-left:3px solid var(--red);padding-left:7px}
+.cat-badge{background:var(--color-background-secondary,#F0F0F0);color:var(--text3);font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500}
+.cat-item.active .cat-badge{background:rgba(139,26,26,0.1);color:var(--red)}
+.sidebar-divider{border:none;border-top:0.5px solid var(--border);margin:12px 0}
+.filter-check{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;padding:5px 4px;border-radius:5px;color:var(--text2)}
+.filter-check:hover{color:var(--text)}
+.filter-check input{accent-color:var(--red)}
+.b2b-badge-filter{font-size:10px;background:rgba(0,107,117,0.1);color:var(--teal);border-radius:8px;padding:1px 7px;margin-left:auto}
+
+/* CONTENT */
+.content{padding:16px 18px;background:var(--color-background-secondary,#F8F8F8)}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.result-count{font-size:13px;color:var(--text2)}
+.sort-select{border:0.5px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;background:var(--color-background-primary,#fff);color:var(--text);cursor:pointer}
+
+/* CARDS */
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.biz-card{background:var(--color-background-primary,#fff);border-radius:10px;border:0.5px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.biz-card:hover{border-color:rgba(139,26,26,0.35);box-shadow:0 2px 12px rgba(0,0,0,0.07)}
+.biz-card.featured{border:1.5px solid var(--gold)}
+.featured-banner{background:var(--gold);font-size:10px;padding:3px 10px;color:#fff;font-weight:600;text-align:center;letter-spacing:0.6px}
+.card-top{padding:13px 13px 8px;display:flex;gap:11px;align-items:flex-start}
+.biz-avatar{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;flex-shrink:0}
+.biz-info{flex:1;min-width:0}
+.biz-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.biz-name-tamil{font-size:11px;color:var(--text2);margin-top:1px;display:none}
+.biz-category{font-size:11px;color:var(--teal);margin-top:3px;font-weight:500}
+.biz-location{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* B2B SIGNALS */
+.b2b-signals{display:flex;gap:4px;flex-wrap:wrap;padding:0 13px 6px}
+.b2b-signal{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500;display:flex;align-items:center;gap:3px}
+.sig-partner{background:rgba(0,107,117,0.1);color:#005560}
+.sig-hire{background:rgba(39,80,10,0.1);color:#275010}
+.sig-invest{background:rgba(60,52,137,0.1);color:#3C3489}
+.sig-client{background:rgba(113,43,19,0.1);color:#712B13}
+.sig-member{background:rgba(139,26,26,0.1);color:var(--red)}
+.sig-speaker{background:rgba(198,148,0,0.12);color:#8B6500}
+.sig-women{background:rgba(180,60,120,0.1);color:#8B1A5E}
+.sig-gold{background:rgba(198,148,0,0.2);color:#7A5000}
+
+.card-desc{font-size:11.5px;color:var(--text2);padding:0 13px 8px;line-height:1.5}
+.card-footer{border-top:0.5px solid var(--border);padding:8px 13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.connect-btn{background:var(--red);color:#fff;border:none;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0}
+.connect-btn:hover{background:var(--red-dk)}
+.profile-btn{border:0.5px solid var(--border);background:transparent;color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit}
+.card-industry{font-size:11px;color:var(--text3)}
+
+/* SIGNUP SECTION */
+.signup-section{background:linear-gradient(135deg,var(--red-dkk) 0%,var(--red-dk) 50%,#7A1A1A 100%);padding:32px 24px;position:relative;overflow:hidden}
+.signup-section::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(198,148,0,0.08);pointer-events:none}
+.signup-section::after{content:'';position:absolute;left:-40px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none}
+.signup-inner{max-width:620px;margin:0 auto;position:relative}
+.signup-heading{color:#fff;font-size:20px;font-weight:700;margin-bottom:4px;text-align:center}
+.signup-heading em{color:var(--gold);font-style:normal}
+.signup-sub{color:rgba(255,255,255,0.65);font-size:13px;text-align:center;margin-bottom:20px;line-height:1.5}
+.form-tabs{display:flex;background:rgba(255,255,255,0.1);border-radius:8px;padding:3px;margin-bottom:20px;gap:2px}
+.form-tab{flex:1;padding:8px;border:none;background:transparent;color:rgba(255,255,255,0.65);font-size:13px;font-weight:500;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.15s;text-align:center}
+.form-tab.active{background:#fff;color:var(--red);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.form-panel{display:none}
+.form-panel.active{display:block}
+.form-grid{display:grid;gap:10px}
+.form-grid-2{grid-template-columns:1fr 1fr}
+.form-row{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:0.3px}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;border-radius:7px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.12);color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.4)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);background:rgba(255,255,255,0.16)}
+.form-select{cursor:pointer}
+.form-select option{background:#3A0A0A;color:#fff}
+.form-textarea{resize:vertical;min-height:70px}
+.form-checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.form-check-item{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);cursor:pointer}
+.form-check-item input{accent-color:var(--gold)}
+.form-submit{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:opacity 0.15s;margin-top:4px}
+.form-submit:hover{opacity:0.9}
+.form-hint{font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-top:10px}
+.form-success{display:none;text-align:center;padding:24px;background:rgba(255,255,255,0.08);border-radius:10px;border:1px solid rgba(198,148,0,0.3)}
+.form-success-icon{font-size:36px;margin-bottom:8px}
+.form-success h3{color:#fff;font-size:16px;margin-bottom:6px}
+.form-success p{color:rgba(255,255,255,0.65);font-size:13px}
+
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:6px;padding:14px;border-top:0.5px solid var(--border);background:var(--color-background-primary,#fff)}
+.page-btn{width:30px;height:30px;border:0.5px solid var(--border);background:var(--color-background-primary,#fff);border-radius:6px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all 0.12s}
+.page-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+.page-btn:hover:not(.active){border-color:var(--red);color:var(--red)}
+
+/* FOOTER */
+.site-footer{background:var(--red-dkk);color:rgba(255,255,255,0.55);font-size:11px;padding:12px 20px;text-align:center;border-radius:0 0 12px 12px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.site-footer a{color:var(--gold);text-decoration:none;font-weight:500}
+.footer-dot{opacity:0.3}
+.no-results{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px}
+</style>
+
+<h2 class="sr-only">FiTEN B2B Network Directory — Tamil business network with search, category filters, B2B connection signals, and business signup form</h2>
+
+<div style="border-radius:12px;overflow:hidden;border:0.5px solid var(--color-border-tertiary,#DDD)">
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="logo-area">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C69400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div style="display:flex;align-items:baseline;gap:6px">
+      <div class="logo-text">Fi<span class="logo-dot">TEN</span></div>
+      <div class="logo-tag">B2B Network</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn active" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+    <button class="hdr-cta" onclick="scrollToSignup()">+ Join Network ↗</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span>●</span> Tamil B2B Network &nbsp;·&nbsp; FeTNA Initiative
+  </div>
+  <div class="hero-title" id="heroTitle">Connect with <em>Tamil Businesses</em> Worldwide</div>
+  <div class="hero-sub" id="heroSub">Discover partners, clients, talent, and investment across the global Tamil business community</div>
+  <div class="hero-tamil" id="heroTamil">உலகளாவிய தமிழ் வணிக நெட்வொர்க்கில் இணைந்திருங்கள்</div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search businesses, services, or names…" oninput="filterBiz()">
+    <select id="locationSelect" onchange="filterBiz()">
+      <option value="">All Locations</option>
+      <option>New Jersey, USA</option>
+      <option>California, USA</option>
+      <option>Texas, USA</option>
+      <option>Coimbatore, India</option>
+      <option>Chennai, India</option>
+    </select>
+    <button onclick="filterBiz()">Search</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><strong>847</strong><span class="stat-label">Businesses</span></div>
+  <div class="stat-item"><strong>23</strong><span class="stat-label">Categories</span></div>
+  <div class="stat-item"><strong>14</strong><span class="stat-label">Countries</span></div>
+  <div class="stat-item"><strong>312</strong><span class="stat-label">FiTEN Members</span></div>
+  <div class="stat-item"><strong>190+</strong><span class="stat-label">Partnerships Formed</span></div>
+</div>
+
+<!-- B2B OPPORTUNITY STRIP -->
+<div class="opp-strip">
+  <span class="opp-label">Looking for →</span>
+  <span class="opp-tag active" onclick="setOpp(this,'All')"><span class="opp-dot"></span> All</span>
+  <span class="opp-tag" onclick="setOpp(this,'partner')"><span class="opp-dot"></span> Partners</span>
+  <span class="opp-tag" onclick="setOpp(this,'client')"><span class="opp-dot"></span> Clients</span>
+  <span class="opp-tag" onclick="setOpp(this,'invest')"><span class="opp-dot"></span> Investment</span>
+  <span class="opp-tag" onclick="setOpp(this,'hire')"><span class="opp-dot"></span> Talent</span>
+</div>
+
+<!-- CATEGORY PILLS -->
+<div class="filter-row" id="filterRow">
+  <span class="pill active" onclick="setFilter(this,'All')">All</span>
+  <span class="pill" onclick="setFilter(this,'Tech')">Technology</span>
+  <span class="pill" onclick="setFilter(this,'Healthcare')">Healthcare</span>
+  <span class="pill" onclick="setFilter(this,'Finance')">Finance</span>
+  <span class="pill" onclick="setFilter(this,'Legal')">Legal</span>
+  <span class="pill" onclick="setFilter(this,'Food')">Food & Hospitality</span>
+  <span class="pill" onclick="setFilter(this,'Education')">Education</span>
+  <span class="pill" onclick="setFilter(this,'Retail')">Retail</span>
+  <span class="pill" onclick="setFilter(this,'FiTEN')">FiTEN Members ★</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-title" id="sideTitle">Categories</div>
+    <ul class="cat-list" id="catList">
+      <li class="cat-item active" onclick="setCat(this,'All')">All Businesses <span class="cat-badge">847</span></li>
+      <li class="cat-item" onclick="setCat(this,'Tech')">💻 Technology <span class="cat-badge">198</span></li>
+      <li class="cat-item" onclick="setCat(this,'Healthcare')">❤️ Healthcare <span class="cat-badge">124</span></li>
+      <li class="cat-item" onclick="setCat(this,'Finance')">💰 Finance & CPA <span class="cat-badge">89</span></li>
+      <li class="cat-item" onclick="setCat(this,'Legal')">⚖️ Legal <span class="cat-badge">63</span></li>
+      <li class="cat-item" onclick="setCat(this,'Food')">🍛 Food & Dining <span class="cat-badge">112</span></li>
+      <li class="cat-item" onclick="setCat(this,'Education')">🎓 Education <span class="cat-badge">58</span></li>
+      <li class="cat-item" onclick="setCat(this,'Retail')">🛍️ Retail & Goods <span class="cat-badge">77</span></li>
+      <li class="cat-item" onclick="setCat(this,'Real Estate')">🏠 Real Estate <span class="cat-badge">46</span></li>
+      <li class="cat-item" onclick="setCat(this,'Media')">📺 Media & Arts <span class="cat-badge">38</span></li>
+    </ul>
+
+    <hr class="sidebar-divider">
+    <div class="sidebar-title">B2B Filters</div>
+    <label class="filter-check"><input type="checkbox" id="chkPartner" onchange="filterBiz()"> Open to Partner <span class="b2b-badge-filter">B2B</span></label>
+    <label class="filter-check"><input type="checkbox" id="chkHire" onchange="filterBiz()"> Hiring Talent</label>
+    <label class="filter-check"><input type="checkbox" id="chkInvest" onchange="filterBiz()"> Seeking Investment</label>
+
+    <hr class="sidebar-divider">
+    <div class="sidebar-title">Network</div>
+    <label class="filter-check"><input type="checkbox" id="chkMember" onchange="filterBiz()"> FiTEN Members</label>
+    <label class="filter-check"><input type="checkbox" id="chkSpeaker" onchange="filterBiz()"> FiTEN Speakers</label>
+    <label class="filter-check"><input type="checkbox" id="chkWomen" onchange="filterBiz()"> Women-Led</label>
+  </div>
+
+  <!-- CONTENT -->
+  <div>
+    <div class="content">
+      <div class="content-header">
+        <div class="result-count" id="resultCount">Showing 8 of 847 businesses</div>
+        <select class="sort-select" onchange="filterBiz()">
+          <option>Sort: Relevance</option>
+          <option>Sort: Newest</option>
+          <option>Sort: Most Connected</option>
+          <option>Sort: A–Z</option>
+        </select>
+      </div>
+      <div class="biz-grid" id="bizGrid"></div>
+      <div id="noResults" class="no-results" style="display:none">
+        <div style="font-size:32px;margin-bottom:8px">🔍</div>
+        <div>No businesses found. Try a different search or category.</div>
+        <button style="margin-top:12px;background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px" onclick="sendPrompt('What businesses should we add to the FiTEN B2B network?')">Suggest a business ↗</button>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">…</button>
+      <button class="page-btn">47</button>
+      <button class="page-btn" style="width:auto;padding:0 10px">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN THE NETWORK SIGNUP SECTION -->
+<div class="signup-section" id="signupSection">
+  <div class="signup-inner">
+    <div class="signup-heading">Join the <em>FiTEN B2B Network</em></div>
+    <div class="signup-sub">Get your business in front of Tamil professionals and decision-makers worldwide.<br>Founding members get priority listing &amp; free access to all network features.</div>
+
+    <!-- TAB TOGGLE -->
+    <div class="form-tabs">
+      <button class="form-tab active" onclick="switchTab('simple',this)">⚡ Quick Sign Up (1 min)</button>
+      <button class="form-tab" onclick="switchTab('detailed',this)">📋 Full Listing (3 min)</button>
+    </div>
+
+    <!-- SIMPLE FORM -->
+    <div class="form-panel active" id="panel-simple">
+      <form id="simpleForm" onsubmit="handleSubmit(event,'simple')">
+        <div class="form-grid form-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="form-row">
+            <label class="form-label">Business Name *</label>
+            <input class="form-input" type="text" name="business_name" placeholder="e.g. Kovai Tech Inc." required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Your Email *</label>
+            <input class="form-input" type="email" name="email" placeholder="you@business.com" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Industry *</label>
+            <select class="form-select" name="industry" required>
+              <option value="">Select category…</option>
+              <option>Technology</option>
+              <option>Healthcare</option>
+              <option>Finance & CPA</option>
+              <option>Legal Services</option>
+              <option>Food & Hospitality</option>
+              <option>Education</option>
+              <option>Retail & Goods</option>
+              <option>Real Estate</option>
+              <option>Media & Arts</option>
+              <option>Consulting</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">City / Country *</label>
+            <input class="form-input" type="text" name="location" placeholder="e.g. Edison, NJ, USA" required>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">🚀 Join the FiTEN Network — It's Free</button>
+        <div class="form-hint">No spam. We'll reach out to complete your listing. Founding member spots are limited.</div>
+      </form>
+      <div class="form-success" id="success-simple">
+        <div class="form-success-icon">🎉</div>
+        <h3>You're on the list!</h3>
+        <p>We'll be in touch shortly to complete your FiTEN network listing.</p>
+      </div>
+    </div>
+
+    <!-- DETAILED FORM -->
+    <div class="form-panel" id="panel-detailed">
+      <form id="detailedForm" onsubmit="handleSubmit(event,'detailed')">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="form-row">
+            <label class="form-label">Business Name *</label>
+            <input class="form-input" type="text" name="business_name" placeholder="Legal business name" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Contact Person *</label>
+            <input class="form-input" type="text" name="contact_name" placeholder="Your full name" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Email *</label>
+            <input class="form-input" type="email" name="email" placeholder="you@business.com" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Phone</label>
+            <input class="form-input" type="tel" name="phone" placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Industry *</label>
+            <select class="form-select" name="industry" required>
+              <option value="">Select category…</option>
+              <option>Technology</option>
+              <option>Healthcare</option>
+              <option>Finance & CPA</option>
+              <option>Legal Services</option>
+              <option>Food & Hospitality</option>
+              <option>Education</option>
+              <option>Retail & Goods</option>
+              <option>Real Estate</option>
+              <option>Media & Arts</option>
+              <option>Consulting</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">City / Country *</label>
+            <input class="form-input" type="text" name="location" placeholder="e.g. Edison, NJ, USA" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Website</label>
+            <input class="form-input" type="url" name="website" placeholder="https://yourbusiness.com">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Years in Business</label>
+            <select class="form-select" name="years">
+              <option value="">Select…</option>
+              <option>Less than 1 year</option>
+              <option>1–3 years</option>
+              <option>3–10 years</option>
+              <option>10+ years</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:10px">
+          <label class="form-label">Brief Business Description *</label>
+          <textarea class="form-textarea" name="description" placeholder="What does your business do? Who do you serve? (2–3 sentences)" required></textarea>
+        </div>
+        <div class="form-row" style="margin-bottom:14px">
+          <label class="form-label">I'm looking for… (select all that apply)</label>
+          <div class="form-checks">
+            <label class="form-check-item"><input type="checkbox" name="looking_for" value="partners"> Business Partners</label>
+            <label class="form-check-item"><input type="checkbox" name="looking_for" value="clients"> New Clients</label>
+            <label class="form-check-item"><input type="checkbox" name="looking_for" value="investment"> Investment</label>
+            <label class="form-check-item"><input type="checkbox" name="looking_for" value="talent"> Talent / Hiring</label>
+            <label class="form-check-item"><input type="checkbox" name="looking_for" value="visibility"> Visibility only</label>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">📋 Submit Full Listing — It's Free</button>
+        <div class="form-hint">Your submission will be reviewed within 48 hrs. Founding member spots are limited.</div>
+      </form>
+      <div class="form-success" id="success-detailed">
+        <div class="form-success-icon">✅</div>
+        <h3>Full listing submitted!</h3>
+        <p>Our team will review your details and activate your FiTEN network profile within 48 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <span>FiTEN B2B Network — A <a href="https://fiten.org">FeTNA</a> initiative</span>
+  <span class="footer-dot">|</span>
+  <a href="#" onclick="scrollToSignup();return false">Join the Network</a>
+  <span class="footer-dot">|</span>
+  <a href="https://fiten.org">fiten.org</a>
+  <span class="footer-dot">|</span>
+  <span>© 2025 FiTEN</span>
+</div>
+
+</div><!-- end wrapper -->
+
+<script>
+const businesses=[
+  {name:"AccuKnox Cloud Security",nameTamil:"AccuKnox கிளவுட் பாதுகாப்பு",cat:"Tech",loc:"Silicon Valley, CA",desc:"Cloud-native zero-trust security platform built in partnership with Stanford Research Institute.",rating:4.9,reviews:42,member:true,speaker:true,women:false,featured:true,color:"#E6F1FB",textColor:"#0C447C",initials:"AK",looking:["partner","invest"],b2b:true},
+  {name:"TamilMed Clinics",nameTamil:"தமிழ் மருத்துவமனை",cat:"Healthcare",loc:"Edison, NJ",desc:"Tamil-speaking family medicine practice. Primary care, preventive health, and geriatric care.",rating:4.8,reviews:87,member:true,speaker:false,women:true,featured:false,color:"#EAF3DE",textColor:"#27500A",initials:"TM",looking:["client","partner"],b2b:true},
+  {name:"Kovai Bites Restaurant",nameTamil:"கோவை கடித்தகம்",cat:"Food",loc:"Fremont, CA",desc:"Authentic Chettinad and Kongunadu cuisine. Catering for Tamil events and corporate functions.",rating:4.7,reviews:213,member:false,speaker:false,women:false,featured:false,color:"#FAEEDA",textColor:"#633806",initials:"KB",looking:["client"],b2b:false},
+  {name:"Rocketship.vc",nameTamil:"ராக்கெட்ஷிப் முதலீட்டு நிறுவனம்",cat:"Finance",loc:"San Francisco, CA",desc:"Silicon Valley fund investing globally in early-stage startups. Partner led by FiTEN speaker Madhu Shalini Iyer.",rating:4.9,reviews:28,member:true,speaker:true,women:true,featured:true,color:"#EEEDFE",textColor:"#3C3489",initials:"RV",looking:["invest","partner"],b2b:true},
+  {name:"ERP Logic Inc.",nameTamil:"ERP லாஜிக் நிறுவனம்",cat:"Tech",loc:"Dallas, TX",desc:"Enterprise resource planning consulting with 30+ years experience. SAP, Oracle, and Microsoft Dynamics.",rating:4.6,reviews:56,member:true,speaker:true,women:false,featured:false,color:"#E1F5EE",textColor:"#085041",initials:"EL",looking:["partner","client","hire"],b2b:true},
+  {name:"Chennai Spice Kitchen",nameTamil:"சென்னை மசாலா சமையலறை",cat:"Food",loc:"Jersey City, NJ",desc:"Street food of Chennai brought to New Jersey. Dosai, idly, and South Indian breakfasts all day.",rating:4.5,reviews:341,member:false,speaker:false,women:true,featured:false,color:"#FAECE7",textColor:"#712B13",initials:"CS",looking:["client"],b2b:false},
+  {name:"Tamil Legal Group",nameTamil:"தமிழ் சட்ட குழு",cat:"Legal",loc:"Houston, TX",desc:"Immigration, family law, and business formation for Tamil-speaking clients. Free initial consultation.",rating:4.7,reviews:95,member:true,speaker:false,women:false,featured:false,color:"#F1EFE8",textColor:"#444441",initials:"TL",looking:["client","partner"],b2b:true},
+  {name:"Vani Language Academy",nameTamil:"வாணி மொழி கல்வி நிறுவனம்",cat:"Education",loc:"Coimbatore, India",desc:"Tamil language, Carnatic music, and Bharatanatyam classes online and in-person. FiTEN certified.",rating:4.8,reviews:134,member:true,speaker:false,women:true,featured:false,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"],b2b:true},
+];
+
+let lang='en';
+let activeCat='All';
+let activeFilter='All';
+let activeOpp='All';
+
+const labels={
+  en:{search:"Search businesses, services, or names…",heroTitle:"Connect with Tamil Businesses Worldwide",heroSub:"Discover partners, clients, talent, and investment across the global Tamil business community",sideTitle:"Categories"},
+  ta:{search:"வணிகங்கள், சேவைகள் அல்லது பெயர்களைத் தேடுங்கள்…",heroTitle:"உலகளாவிய தமிழ் வணிகங்களுடன் இணையுங்கள்",heroSub:"உலகளாவிய தமிழ் வணிக சமூகத்தில் கூட்டாளர்கள், வாடிக்கையாளர்கள், திறமை மற்றும் முதலீட்டைக் கண்டறியுங்கள்",sideTitle:"வகைகள்"},
+};
+
+const oppLabels={partner:"Open to Partner",client:"Seeking Clients",invest:"Seeking Investment",hire:"Hiring"};
+const sigClass={partner:"sig-partner",client:"sig-client",invest:"sig-invest",hire:"sig-hire"};
+const sigEmoji={partner:"🤝",client:"🎯",invest:"💼",hire:"👥"};
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn:${l==='en'?'first':'last'}-child`).classList.add('active');
+  document.getElementById('heroTitle').textContent=labels[l].heroTitle;
+  document.getElementById('heroSub').textContent=labels[l].heroSub;
+  document.getElementById('heroTamil').style.display=l==='ta'?'none':'block';
+  document.getElementById('searchInput').placeholder=labels[l].search;
+  document.getElementById('sideTitle').textContent=labels[l].sideTitle;
+  document.querySelectorAll('.biz-name-tamil').forEach(el=>el.style.display=l==='ta'?'block':'none');
+}
+
+function setFilter(el,filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter=filter;
+  if(filter==='FiTEN'){document.getElementById('chkMember').checked=true;}
+  else{document.getElementById('chkMember').checked=false;}
+  filterBiz();
+}
+
+function setCat(el,cat){
+  document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  filterBiz();
+}
+
+function setOpp(el,opp){
+  document.querySelectorAll('.opp-tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  activeOpp=opp;
+  filterBiz();
+}
+
+function filterBiz(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const loc=document.getElementById('locationSelect').value;
+  const chkM=document.getElementById('chkMember').checked;
+  const chkS=document.getElementById('chkSpeaker').checked;
+  const chkW=document.getElementById('chkWomen').checked;
+  const chkP=document.getElementById('chkPartner').checked;
+  const chkH=document.getElementById('chkHire').checked;
+  const chkI=document.getElementById('chkInvest').checked;
+  let filtered=businesses.filter(b=>{
+    if(activeCat!=='All'&&b.cat!==activeCat)return false;
+    if(activeFilter==='FiTEN'&&!b.member)return false;
+    if(activeOpp!=='All'&&!b.looking.includes(activeOpp))return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!b.cat.toLowerCase().includes(q))return false;
+    if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
+    if(chkM&&!b.member)return false;
+    if(chkS&&!b.speaker)return false;
+    if(chkW&&!b.women)return false;
+    if(chkP&&!b.looking.includes('partner'))return false;
+    if(chkH&&!b.looking.includes('hire'))return false;
+    if(chkI&&!b.looking.includes('invest'))return false;
+    return true;
+  });
+  renderBiz(filtered);
+}
+
+function renderBiz(list){
+  const grid=document.getElementById('bizGrid');
+  const noR=document.getElementById('noResults');
+  document.getElementById('resultCount').textContent=`Showing ${list.length} of 847 businesses`;
+  if(list.length===0){grid.style.display='none';noR.style.display='block';return;}
+  grid.style.display='grid';noR.style.display='none';
+  grid.innerHTML=list.map(b=>`
+    <div class="biz-card${b.featured?' featured':''}">
+      ${b.featured?`<div class="featured-banner">★ FOUNDING MEMBER</div>`:''}
+      <div class="card-top">
+        <div class="biz-avatar" style="background:${b.color};color:${b.textColor}">${b.initials}</div>
+        <div class="biz-info">
+          <div class="biz-name">${b.name}</div>
+          <div class="biz-name-tamil" style="display:${lang==='ta'?'block':'none'}">${b.nameTamil}</div>
+          <div class="biz-category">${b.cat}</div>
+          <div class="biz-location">📍 ${b.loc}</div>
+        </div>
+      </div>
+      <div class="b2b-signals">
+        ${b.looking.map(l=>`<span class="b2b-signal ${sigClass[l]}">${sigEmoji[l]} ${oppLabels[l]}</span>`).join('')}
+        ${b.member?`<span class="b2b-signal sig-member">✓ FiTEN</span>`:''}
+        ${b.speaker?`<span class="b2b-signal sig-speaker">★ Speaker</span>`:''}
+        ${b.women?`<span class="b2b-signal sig-women">♀ Women-Led</span>`:''}
+      </div>
+      <div class="card-desc">${b.desc}</div>
+      <div class="card-footer">
+        <span class="card-industry">⭐ ${b.rating} · ${b.reviews} reviews</span>
+        <div style="display:flex;gap:5px">
+          <button class="profile-btn" onclick="sendPrompt('Tell me more about ${b.name}')">View</button>
+          <button class="connect-btn" onclick="sendPrompt('I want to connect with ${b.name}')">Connect ↗</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchTab(tab, el){
+  document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+function handleSubmit(e, type){
+  e.preventDefault();
+  const form=e.target;
+  form.style.display='none';
+  document.getElementById('success-'+type).style.display='block';
+  // TODO: Replace this with your Google Form POST URL or Formspree endpoint
+  // Example: fetch('https://formspree.io/f/YOUR_ID', {method:'POST', body: new FormData(form)})
+}
+
+function scrollToSignup(){
+  document.getElementById('signupSection').scrollIntoView({behavior:'smooth'});
+}
+
+renderBiz(businesses);
+</script>

@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiTEN Business Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B2E3B;
+            --primary-hover: #6B1F2C;
+            --accent: #2D7F8F;
+            --accent-light: #3FA3BA;
+            --success: #28A745;
+            --bg-white: #FFFFFF;
+            --bg-light: #F8F9FA;
+            --bg-lighter: #F5F7FA;
+            --border: #E0E0E0;
+            --border-light: #EEF2F7;
+            --text-dark: #1A1A1A;
+            --text-muted: #666666;
+            --text-light: #999999;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-dot {
+            color: var(--accent);
+        }
+
+        .navbar-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .lang-btn.active {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            margin-bottom: 0;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* SEARCH SECTION */
+        .search-section {
+            background: white;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.95rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45, 127, 143, 0.1);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 0.65rem 1.25rem;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--accent);
+            background: rgba(45, 127, 143, 0.05);
+        }
+
+        .filter-chip.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+        }
+
+        /* RESULTS SECTION */
+        .results-section {
+            padding: 2.5rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .results-header {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .results-count {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .sort-dropdown {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* BUSINESS CARD */
+        .business-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+        }
+
+        .business-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-6px);
+            border-color: var(--accent);
+        }
+
+        .business-card.pro {
+            border: 1.5px solid var(--accent);
+        }
+
+        .pro-badge {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #f0f4f8, #e8eef7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.25rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title-group {
+            flex: 1;
+        }
+
+        .business-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .business-category {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-verified {
+            background: var(--success);
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* B2B SIGNALS */
+        .b2b-signals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .signal {
+            font-size: 0.75rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.35rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .signal-partner {
+            background: rgba(45, 127, 143, 0.12);
+            color: #1a5f6a;
+        }
+
+        .signal-invest {
+            background: rgba(139, 46, 59, 0.12);
+            color: #6b1f2c;
+        }
+
+        .signal-hire {
+            background: rgba(40, 167, 69, 0.12);
+            color: #1a5e3f;
+        }
+
+        .signal-client {
+            background: rgba(255, 193, 7, 0.12);
+            color: #8b6500;
+        }
+
+        /* CARD ACTIONS */
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-view {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-contact {
+            border: 1.5px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-contact:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* DETAIL PAGE */
+        .detail-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .detail-hero {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .detail-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .detail-title-group h1 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-meta {
+            display: grid;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .detail-meta-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .detail-body {
+            padding: 3rem 2rem;
+            background: white;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* LISTING FORM */
+        .listing-hero {
+            padding: 3rem 2rem;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1.5px solid var(--border);
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45, 127, 143, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tier-card {
+            border: 2px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.75rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tier-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tier-card.selected {
+            border-color: var(--primary);
+            background: rgba(139, 46, 59, 0.05);
+        }
+
+        .tier-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .tier-features {
+            text-align: left;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tier-features li {
+            margin-bottom: 0.5rem;
+            list-style-position: inside;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .detail-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-tiers {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-center {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .tab {
+                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a class="navbar-brand" onclick="showPage('home')">FiTEN<span class="brand-dot">•</span></a>
+        <div class="navbar-center">
+            <a class="nav-link active" onclick="showPage('home')">Search</a>
+            <a class="nav-link" onclick="showPage('listing')">List Your Business</a>
+            <a class="nav-link" href="#">About</a>
+        </div>
+        <div class="navbar-right">
+            <div class="lang-toggle">
+                <button class="lang-btn active">EN</button>
+                <button class="lang-btn">தமிழ்</button>
+            </div>
+            <button class="btn btn-outline">Sign In</button>
+            <button class="btn btn-primary">Get Listed</button>
+        </div>
+    </nav>
+
+    <!-- PAGE 1: HOMEPAGE -->
+    <div class="container active" id="home-page">
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Find Tamil Entrepreneurs</h1>
+                <p>Connect with verified businesses across borders. Search partners, investors, and collaborators in one trusted directory.</p>
+            </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search businesses, names, or keywords...">
+                    <button class="btn btn-primary">Search</button>
+                </div>
+                <div class="search-filters">
+                    <button class="filter-chip active">All Categories</button>
+                    <button class="filter-chip">Technology</button>
+                    <button class="filter-chip">Finance</button>
+                    <button class="filter-chip">Consulting</button>
+                    <button class="filter-chip">Manufacturing</button>
+                    <button class="filter-chip">Education</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results-section">
+            <div class="results-header">
+                <div>
+                    <div class="results-title">Featured Businesses</div>
+                    <div class="results-count">1,247 verified members</div>
+                </div>
+                <select class="sort-dropdown">
+                    <option>Newest</option>
+                    <option>Most Verified</option>
+                    <option>Most Connections</option>
+                </select>
+            </div>
+
+            <div class="results-grid">
+                <!-- CARD 1: Pro with signals -->
+                <div class="business-card pro" onclick="showPage('detail')">
+                    <div class="pro-badge">✓ PROFESSIONAL TIER</div>
+                    <div class="card-image">🏢</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">TechVision Solutions</div>
+                                <div class="business-category">Software Development</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 Chennai, India</div>
+                            <div class="meta-item">🌐 US/India Clients</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-client">💼 Seeking Clients</span>
+                            <span class="signal signal-partner">🤝 Open to Partners</span>
+                        </div>
+                        <div class="card-description">Full-stack development, AI/ML solutions, and digital transformation for US-based Tamil businesses.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="business-card">
+                    <div class="card-image">💼</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">Maven Ventures</div>
+                                <div class="business-category">Venture Capital</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 Boston, MA</div>
+                            <div class="meta-item">🔍 Seed - Series B</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-invest">💰 Investing</span>
+                        </div>
+                        <div class="card-description">Investing in South Asian founders building globally-relevant technology companies with strong unit economics.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="business-card">
+                    <div class="card-image">⚖️</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">Arjun & Associates</div>
+                                <div class="business-category">Legal Services</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 New York, NY</div>
+                            <div class="meta-item">📋 Corporate Law</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-client">💼 Seeking Clients</span>
+                        </div>
+                        <div class="card-description">Immigration, business law, and taxation for diaspora entrepreneurs. Full Tamil and English services available.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="business-card">
+                    <div class="card-image">🎨</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">Nila Design Studio</div>
+                                <div class="business-category">Design & Branding</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 Toronto, Canada</div>
+                            <div class="meta-item">🌟 Bilingual Design</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-partner">🤝 Open to Partners</span>
+                            <span class="signal signal-client">💼 Seeking Clients</span>
+                        </div>
+                        <div class="card-description">Brand identity, UX/UI, and Tamil-language design for startups and established companies worldwide.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5 -->
+                <div class="business-card pro">
+                    <div class="pro-badge">✓ PROFESSIONAL TIER</div>
+                    <div class="card-image">🏭</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">Lakshmi Manufacturing</div>
+                                <div class="business-category">Manufacturing</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 Coimbatore, India</div>
+                            <div class="meta-item">🔗 B2B Exports</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-client">💼 Seeking Clients</span>
+                            <span class="signal signal-partner">🤝 Open to Partners</span>
+                        </div>
+                        <div class="card-description">Precision engineering and contract manufacturing for North American companies. ISO 9001 certified.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 6 -->
+                <div class="business-card">
+                    <div class="card-image">📚</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="business-name">Kalvi Academy</div>
+                                <div class="business-category">Education Tech</div>
+                            </div>
+                            <span class="badge-verified">VERIFIED</span>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">📍 Singapore</div>
+                            <div class="meta-item">🎓 Global Reach</div>
+                        </div>
+                        <div class="b2b-signals">
+                            <span class="signal signal-client">💼 Seeking Clients</span>
+                            <span class="signal signal-hire">👥 Hiring</span>
+                        </div>
+                        <div class="card-description">Online Tamil language and cultural education for diaspora youth. 10K+ active learners globally.</div>
+                        <div class="card-actions">
+                            <button class="btn-card btn-view">View Profile</button>
+                            <button class="btn-card btn-contact">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>FiTEN Business Directory</strong> — Connecting Tamil Entrepreneurs Worldwide</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">40 years of trust. Now online. © 2026</p>
+        </div>
+    </div>
+
+    <!-- PAGE 2: DETAIL -->
+    <div class="container" id="detail-page">
+        <div class="detail-header">
+            <div class="detail-container">
+                <div class="detail-hero">
+                    <div class="detail-image">🏢</div>
+                    <div class="detail-title-group">
+                        <h1>TechVision Solutions</h1>
+                        <div class="detail-badges">
+                            <span class="badge-verified">VERIFIED MEMBER</span>
+                            <span style="background: rgba(255,255,255,0.25); padding: 0.4rem 1rem; border-radius: 0.5rem; font-size: 0.95rem;">Since 2015 (11 years)</span>
+                        </div>
+                        <div class="detail-meta">
+                            <div class="detail-meta-item">📍 Chennai, India</div>
+                            <div class="detail-meta-item">🌐 www.techvision.in</div>
+                            <div class="detail-meta-item">👥 45 employees</div>
+                            <div class="detail-meta-item">💰 Revenue: $2M+</div>
+                        </div>
+                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                            <button class="btn btn-primary">Send Inquiry</button>
+                            <button class="btn btn-outline">Schedule Call</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-body">
+            <div class="detail-container">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(event, 'overview')">Overview</button>
+                    <button class="tab" onclick="switchTab(event, 'services')">Services</button>
+                    <button class="tab" onclick="switchTab(event, 'team')">Team</button>
+                    <button class="tab" onclick="switchTab(event, 'contact')">Contact</button>
+                </div>
+
+                <div id="overview" class="tab-content active">
+                    <div class="section">
+                        <h2>About TechVision</h2>
+                        <p>TechVision Solutions is a Chennai-based software development firm specializing in enterprise applications for US and Canadian companies. With 10+ years of experience, we've partnered with 50+ businesses across fintech, healthcare, and e-commerce sectors.</p>
+                        <p>We are FiTEN-verified members and proud supporters of the Tamil entrepreneurship ecosystem. Our team brings deep expertise in full-stack development, cloud architecture, and AI/ML solutions.</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>What We're Looking For</h2>
+                        <p><strong style="color: var(--accent);">💼 Seeking Clients</strong> — Companies looking for offshore development expertise with reliable, verified partners</p>
+                        <p><strong style="color: var(--accent);">🤝 Open to Partnerships</strong> — B2B collaborations with US-based tech firms and agencies for joint projects</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Expertise & Tech Stack</h2>
+                        <div class="tags">
+                            <span class="tag">Full-Stack Development</span>
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">Cloud (AWS)</span>
+                            <span class="tag">Fintech</span>
+                            <span class="tag">Healthcare IT</span>
+                            <span class="tag">E-commerce</span>
+                            <span class="tag">React.js</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">DevOps</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="services" class="tab-content">
+                    <div class="section">
+                        <h2>Core Services</h2>
+                        <ul style="line-height: 2; color: var(--text-muted); margin-left: 1.5rem;">
+                            <li>Custom software development (web & mobile)</li>
+                            <li>AI/ML model development and integration</li>
+                            <li>Cloud infrastructure design (AWS, Azure, GCP)</li>
+                            <li>Legacy system modernization</li>
+                            <li>API development and integration</li>
+                            <li>Quality assurance and testing</li>
+                            <li>Dedicated development teams (10-50 engineers)</li>
+                            <li>Technical consulting and architecture</li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Engagement Models</h2>
+                        <p><strong>Project-Based:</strong> Fixed scope, timeline, and cost — ideal for specific projects or MVPs</p>
+                        <p><strong>Time & Materials:</strong> Hourly billing for exploratory or ongoing work with variable scope</p>
+                        <p><strong>Dedicated Teams:</strong> Full-time engineers assigned to your company for 3-12 months or longer</p>
+                    </div>
+                </div>
+
+                <div id="team" class="tab-content">
+                    <div class="section">
+                        <h2>Leadership</h2>
+                        <p><strong>Founder & CEO:</strong> Ravi Kumar — 15 years in software development. Previously led 50-person team at Infosys.</p>
+                        <p><strong>CTO:</strong> Priya Sharma — Full-stack engineer with expertise in AI/ML. IIT graduate, 12 years experience.</p>
+                        <p><strong>VP Operations:</strong> Arun Krishnan — Manages client relationships and project delivery. Based in Boston to serve US clients.</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Team Size & Capacity</h2>
+                        <p>Current team: <strong>45 engineers</strong></p>
+                        <p>Available capacity: <strong>2-3 new projects or 15+ dedicated engineers</strong></p>
+                        <p>Average experience: <strong>8+ years</strong></p>
+                    </div>
+                </div>
+
+                <div id="contact" class="tab-content">
+                    <div class="section">
+                        <h2>Get in Touch</h2>
+                        <form onsubmit="alert('Message sent! We will respond within 24 hours.'); return false;">
+                            <div class="form-group">
+                                <label>Your Name *</label>
+                                <input type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel">
+                            </div>
+                            <div class="form-group">
+                                <label>Subject *</label>
+                                <input type="text" placeholder="e.g., Project Inquiry, Partnership, etc." required>
+                            </div>
+                            <div class="form-group">
+                                <label>Message *</label>
+                                <textarea placeholder="Tell us about your project or interest..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Send Inquiry</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>Direct Contact</h2>
+                        <p><strong>Email:</strong> hello@techvision.in</p>
+                        <p><strong>Phone:</strong> +91-44-4259-5959</p>
+                        <p><strong>US Contact:</strong> Arun Krishnan — +1-617-555-0123 (Boston)</p>
+                        <p><strong>Website:</strong> www.techvision.in</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>FiTEN Business Directory</strong> — Connecting Tamil Entrepreneurs Worldwide</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">40 years of trust. Now online. © 2026</p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: LIST YOUR BUSINESS -->
+    <div class="container" id="listing-page">
+        <div class="listing-hero">
+            <div class="detail-container">
+                <h1 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">List Your Business on FiTEN</h1>
+                <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 600px;">Reach Tamil entrepreneurs, investors, and collaborators across North America and beyond. Join 1,200+ verified members.</p>
+            </div>
+        </div>
+
+        <div class="detail-body" style="background: var(--bg-light);">
+            <div class="detail-container">
+                <div class="form-container">
+                    <div class="form-section-title">Choose Your Tier</div>
+
+                    <div class="pricing-tiers">
+                        <div class="tier-card selected" onclick="selectTier(this)">
+                            <div class="tier-name">Community</div>
+                            <div style="color: var(--text-muted); margin-bottom: 1rem;">Free forever</div>
+                            <ul class="tier-features">
+                                <li>✓ Searchable listing</li>
+                                <li>✓ Business profile</li>
+                                <li>✓ Contact information</li>
+                                <li>✓ Verified FiTEN badge</li>
+                            </ul>
+                        </div>
+
+                        <div class="tier-card" onclick="selectTier(this)">
+                            <div class="tier-name">Professional</div>
+                            <div class="tier-price">$29<span style="font-size: 0.5em; color: var(--text-muted);">/month</span></div>
+                            <ul class="tier-features">
+                                <li>✓ Everything in Free</li>
+                                <li>✓ Business photos</li>
+                                <li>✓ Full bilingual profile</li>
+                                <li>✓ Priority search placement</li>
+                                <li>✓ B2B connection requests</li>
+                                <li>✓ Analytics dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <form style="margin-top: 3rem;" onsubmit="alert('Listing submitted! We will verify your business within 24 hours and contact you.'); return false;">
+                        <div class="form-section-title">Business Information</div>
+
+                        <div class="form-group">
+                            <label>Business Name *</label>
+                            <input type="text" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select required>
+                                <option value="">Select a category</option>
+                                <option>Technology / Software</option>
+                                <option>Finance & Banking</option>
+                                <option>Business Consulting</option>
+                                <option>Manufacturing</option>
+                                <option>Retail & E-commerce</option>
+                                <option>Healthcare & Medicine</option>
+                                <option>Education & Training</option>
+                                <option>Legal Services</option>
+                                <option>Design & Marketing</option>
+                                <option>Real Estate</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Primary Location (City, Country) *</label>
+                            <input type="text" placeholder="e.g., New York, USA or Chennai, India" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Website / LinkedIn</label>
+                            <input type="url" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Business Description *</label>
+                            <textarea placeholder="Tell us about your business, what you do, and what makes you unique..." required></textarea>
+                        </div>
+
+                        <div class="form-section-title" style="margin-top: 2rem;">What Are You Looking For?</div>
+
+                        <div class="checkboxes">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="partner" name="partner">
+                                <label for="partner">💼 Business Partnerships & Collaborations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="clients" name="clients">
+                                <label for="clients">💼 Seeking Clients / Customers</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="invest" name="invest">
+                                <label for="invest">💰 Seeking Investment / Funding</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mentor" name="mentor">
+                                <label for="mentor">🎓 Looking for Mentorship</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hire" name="hire">
+                                <label for="hire">👥 Hiring</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="vendors" name="vendors">
+                                <label for="vendors">🔗 Seeking Vendors / Suppliers</label>
+                            </div>
+                        </div>
+
+                        <div class="form-section-title" style="margin-top: 2rem;">Contact Information</div>
+
+                        <div class="form-group">
+                            <label>Email (Business) *</label>
+                            <input type="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Person Name *</label>
+                            <input type="text" placeholder="Who should we reach out to?" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem; margin-top: 1.5rem;">Submit Listing for Review</button>
+                        <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">Your listing will be reviewed and verified within 24 hours</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>FiTEN Business Directory</strong> — Connecting Tamil Entrepreneurs Worldwide</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">40 years of trust. Now online. © 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function showPage(page) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(c => c.classList.remove('active'));
+
+            if (page === 'home') {
+                document.getElementById('home-page').classList.add('active');
+                document.querySelector('[onclick="showPage(\'home\')"]').classList.add('active');
+            } else if (page === 'detail') {
+                document.getElementById('detail-page').classList.add('active');
+            } else if (page === 'listing') {
+                document.getElementById('listing-page').classList.add('active');
+                document.querySelector('[onclick="showPage(\'listing\')"]').classList.add('active');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function switchTab(event, tabName) {
+            event.preventDefault();
+            const tabs = event.target.parentElement.querySelectorAll('.tab');
+            const contents = event.target.parentElement.parentElement.querySelectorAll('.tab-content');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function selectTier(card) {
+            document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FiTEN Business Directory | Tamil Business Network</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --red:#8B1A1A;
+  --red-dk:#6B1414;
+  --red-dkk:#4A0E0E;
+  --gold:#C69400;
+  --gold-lt:#FFF8E7;
+  --teal:#006B75;
+  --border:#E8E8E8;
+  --text:#1A1A1A;
+  --text2:#555;
+  --text3:#888;
+  --font-sans:system-ui,-apple-system,'Segoe UI','Roboto',sans-serif;
+  --shadow-xs:0 1px 3px rgba(0,0,0,0.05);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg:0 8px 24px rgba(0,0,0,0.15);
+}
+body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-height:100vh;display:flex;flex-direction:column;padding:0;-webkit-font-smoothing:antialiased}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ━━━ HEADER ━━━ */
+.site-header{background:var(--red);padding:0.8rem 1.5rem;display:flex;align-items:center;justify-content:space-between;height:auto;border-radius:0;box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:10px;cursor:pointer;transition:opacity 0.2s}
+.logo-area:hover{opacity:0.85}
+.logo-text{color:#fff;font-weight:700;font-size:1.4rem;letter-spacing:-0.5px}
+.logo-dot{color:var(--gold);font-size:1.6rem}
+.logo-tag{font-size:0.65rem;color:rgba(255,255,255,0.65);letter-spacing:1px;text-transform:uppercase;margin-left:6px;font-weight:700}
+.nav-hdr{display:flex;align-items:center;gap:1.5rem;flex:1;justify-content:center}
+.nav-link{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.95rem;font-weight:500;transition:color 0.2s;cursor:pointer}
+.nav-link:hover{color:#fff}
+.hdr-right{display:flex;align-items:center;gap:1rem}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.12);border-radius:20px;padding:3px;gap:2px}
+.lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.7);font-size:0.8rem;padding:5px 12px;border-radius:18px;cursor:pointer;font-family:inherit;transition:all 0.2s;font-weight:600}
+.lang-btn.active{background:#fff;color:var(--red);box-shadow:var(--shadow-sm)}
+.hdr-btn{background:var(--gold);color:#fff;border:none;padding:0.6rem 1.3rem;border-radius:0.6rem;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.hdr-btn:hover{background:#B08500;box-shadow:var(--shadow-md)}
+.hdr-btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4);padding:0.6rem 1.3rem;border-radius:0.6rem;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.hdr-btn-outline:hover{background:rgba(255,255,255,0.1);border-color:#fff}
+
+/* ━━━ HERO ━━━ */
+.hero{background:linear-gradient(135deg,var(--red) 0%,var(--red-dk) 55%,var(--red-dkk) 100%);padding:4rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;opacity:0.5}
+.hero-content{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(198,148,0,0.18);border:1px solid rgba(198,148,0,0.35);border-radius:22px;padding:8px 18px;font-size:0.8rem;color:var(--gold);font-weight:700;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:1.5rem}
+.eyebrow-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
+.hero h1{color:#fff;font-size:2.8rem;font-weight:700;margin-bottom:0.8rem;line-height:1.2;letter-spacing:-0.5px}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{color:rgba(255,255,255,0.85);font-size:1.1rem;margin-bottom:0.4rem;line-height:1.6;font-weight:400}
+.hero-tamil{color:rgba(198,148,0,0.9);font-size:0.9rem;margin-bottom:1rem;margin-top:0.8rem;letter-spacing:0.3px}
+
+/* ━━━ SEARCH SECTION ━━━ */
+.search-wrap{position:relative;max-width:620px;margin:0 auto;padding:2.5rem 1.5rem 0}
+.search-bar{display:flex;background:#fff;border-radius:0.8rem;overflow:visible;border:2.5px solid var(--gold);box-shadow:var(--shadow-md);position:relative;z-index:10}
+.search-bar input{flex:1;border:none;padding:1rem 1.2rem;font-size:1rem;outline:none;background:transparent;color:var(--text);font-weight:500}
+.search-bar input::placeholder{color:#AAA}
+.search-bar select{border:none;border-left:1px solid #EEE;padding:1rem 1rem;font-size:0.9rem;background:transparent;color:var(--text2);cursor:pointer;outline:none;font-weight:500}
+.search-bar button{background:var(--red);color:#fff;border:none;padding:1rem 1.8rem;cursor:pointer;font-size:0.9rem;font-weight:700;transition:all 0.2s;border-radius:0 0.6rem 0.6rem 0}
+.search-bar button:hover{background:var(--red-dk);box-shadow:inset 0 -2px 6px rgba(0,0,0,0.2)}
+.suggestion-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border-radius:0.8rem;border:1px solid var(--border);box-shadow:var(--shadow-lg);z-index:200;display:none;overflow:hidden}
+.suggestion-item{padding:10px 14px;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid #F5F5F5;color:var(--text);transition:background 0.15s}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item:hover{background:#FEFEF8;color:var(--red)}
+.suggestion-avatar{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0}
+.suggestion-meta{font-size:0.8rem;color:var(--text3);margin-left:auto}
+
+/* ━━━ STATS BAR ━━━ */
+.stats-bar{background:linear-gradient(90deg,var(--gold-lt),rgba(198,148,0,0.05) 100%);border-bottom:1.5px solid rgba(198,148,0,0.2);padding:1.8rem 1.5rem;display:flex;justify-content:center;flex-wrap:wrap;gap:3rem}
+.stat-item{text-align:center}
+.stat-item strong{color:var(--red);font-size:1.8rem;font-weight:700;display:block;letter-spacing:-0.3px}
+.stat-label{font-size:0.8rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-top:0.4rem;font-weight:600}
+
+/* ━━━ FILTER ROW ━━━ */
+.filter-row{padding:1rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;background:#fff;border-bottom:1px solid var(--border)}
+.pill{display:inline-block;background:rgba(139,26,26,0.08);color:var(--red);font-size:0.9rem;padding:0.55rem 1.2rem;border-radius:24px;cursor:pointer;border:1.5px solid rgba(139,26,26,0.15);transition:all 0.2s;font-weight:600}
+.pill.active{background:var(--red);color:#fff;border-color:var(--red)}
+.pill:hover:not(.active){background:rgba(139,26,26,0.12);border-color:var(--red)}
+.clear-btn{font-size:0.8rem;color:var(--text3);background:none;border:none;cursor:pointer;padding:0.4rem 0.8rem;border-radius:6px;display:none;font-family:inherit;font-weight:600}
+.clear-btn:hover{color:var(--red);background:rgba(139,26,26,0.08)}
+.clear-btn.visible{display:inline-block}
+.filter-row-right{margin-left:auto;display:flex;align-items:center;gap:0.8rem}
+
+/* ━━━ VIEW TOGGLE ━━━ */
+.view-toggle{display:flex;background:#fff;border:1px solid var(--border);border-radius:0.6rem;overflow:hidden;box-shadow:var(--shadow-xs)}
+.view-btn{border:none;background:transparent;padding:0.6rem 1rem;cursor:pointer;font-size:0.85rem;color:var(--text3);display:flex;align-items:center;gap:4px;transition:all 0.15s;font-weight:600}
+.view-btn.active{background:var(--red);color:#fff}
+.view-btn:hover:not(.active){background:var(--border)}
+.sort-select{border:1px solid var(--border);border-radius:0.6rem;padding:0.6rem 1rem;font-size:0.9rem;background:#fff;color:var(--text2);cursor:pointer;font-weight:600;transition:all 0.2s}
+.sort-select:hover{border-color:var(--red)}
+
+/* ━━━ MAIN LAYOUT ━━━ */
+.main-layout{display:grid;grid-template-columns:200px 1fr;max-width:1400px;margin:0 auto;width:100%;min-height:calc(100vh - 400px)}
+.sidebar{background:#fff;border-right:1px solid var(--border);padding:1.5rem;overflow-y:auto;max-height:calc(100vh - 200px)}
+.sidebar-title{font-size:0.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:1rem}
+.cat-list{list-style:none}
+.cat-item{padding:0.65rem 0.9rem;font-size:0.9rem;color:var(--text);cursor:pointer;border-radius:0.6rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;transition:all 0.15s;font-weight:500}
+.cat-item:hover{background:var(--border);color:var(--red)}
+.cat-item.active{background:rgba(139,26,26,0.08);color:var(--red);font-weight:600;border-left:3px solid var(--red);padding-left:0.6rem}
+.cat-badge{background:var(--border);color:var(--text3);font-size:0.75rem;padding:2px 7px;border-radius:10px;font-weight:700}
+.cat-item.active .cat-badge{background:rgba(139,26,26,0.12);color:var(--red)}
+.sidebar-divider{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.filter-check{display:flex;align-items:center;gap:8px;font-size:0.9rem;cursor:pointer;padding:0.6rem 0;border-radius:5px;color:var(--text2);transition:color 0.2s;font-weight:500}
+.filter-check:hover{color:var(--red)}
+.filter-check input{accent-color:var(--red);width:18px;height:18px;cursor:pointer}
+
+/* ━━━ CONTENT AREA ━━━ */
+.content{padding:1.5rem;background:#F5F7FA}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.result-count{font-size:0.95rem;color:var(--text2);font-weight:600}
+
+/* ━━━ BUSINESS GRID ━━━ */
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.3rem;align-items:start}
+.biz-card{background:#fff;border-radius:0.8rem;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all 0.25s ease;box-shadow:var(--shadow-xs)}
+.biz-card:hover{border-color:rgba(139,26,26,0.3);box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.biz-card.pro-card{border:1.5px solid var(--gold)}
+.pro-banner{background:linear-gradient(90deg,var(--red-dkk) 0%,var(--red-dk) 100%);font-size:0.8rem;padding:0.6rem 1rem;color:rgba(255,255,255,0.95);font-weight:700;text-align:center;letter-spacing:0.6px;display:flex;align-items:center;justify-content:center;gap:8px;border-bottom:1.5px solid var(--gold)}
+.card-top{padding:1rem 1.1rem 0.8rem;display:flex;gap:0.85rem;align-items:flex-start}
+.biz-avatar{width:46px;height:46px;border-radius:0.6rem;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;flex-shrink:0}
+.biz-info{flex:1;min-width:0}
+.biz-name{font-size:0.95rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.2px}
+.biz-name-tamil{font-size:0.8rem;color:var(--teal);margin-top:2px;font-weight:500}
+.biz-category{font-size:0.8rem;color:var(--teal);margin-top:3px;font-weight:600}
+.biz-location{font-size:0.8rem;color:var(--text3);margin-top:2px}
+.fav-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:0;color:#DDD;transition:all 0.2s}
+.fav-btn:hover{color:var(--gold)}
+.fav-btn.favd{color:var(--red)}
+
+/* ━━━ B2B SIGNALS ━━━ */
+.b2b-signals{display:flex;gap:4px;flex-wrap:wrap;padding:0.8rem 1.1rem 0;margin-bottom:0}
+.b2b-signal{font-size:0.75rem;padding:3px 8px;border-radius:0.4rem;font-weight:600;white-space:nowrap}
+.sig-partner{background:rgba(0,107,117,0.12);color:#005560}
+.sig-hire{background:rgba(39,80,10,0.12);color:#27500A}
+.sig-invest{background:rgba(139,26,26,0.12);color:var(--red)}
+.sig-client{background:rgba(198,148,0,0.12);color:#8B6500}
+.sig-speaker{background:rgba(198,148,0,0.15);color:#8B6500}
+.sig-women{background:rgba(180,60,120,0.12);color:#8B1A5E}
+.sig-convention{background:rgba(139,26,26,0.08);color:var(--red);border:1px solid rgba(139,26,26,0.2)}
+.analytics-badge{background:rgba(255,107,107,0.1);color:#C41E3A;font-size:0.75rem;padding:3px 8px;border-radius:0.35rem;font-weight:600;margin-left:4px}
+
+/* ━━━ CARD CONTENT ━━━ */
+.card-desc{font-size:0.85rem;color:var(--text2);padding:0.8rem 1.1rem;line-height:1.5}
+.card-footer{border-top:1px solid var(--border);padding:0.8rem 1.1rem;display:flex;justify-content:space-between;align-items:center;gap:8px;background:#FAFBFC}
+.connect-btn{background:var(--red);color:#fff;border:none;font-size:0.8rem;padding:0.6rem 1rem;border-radius:0.5rem;cursor:pointer;font-family:inherit;font-weight:700;flex-shrink:0;transition:all 0.2s;letter-spacing:0.3px}
+.connect-btn:hover{background:var(--red-dk);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.profile-btn{border:1px solid var(--border);background:transparent;color:var(--text2);font-size:0.8rem;padding:0.6rem 1rem;border-radius:0.5rem;cursor:pointer;font-family:inherit;transition:all 0.2s;font-weight:600}
+.profile-btn:hover{border-color:var(--red);color:var(--red)}
+.claim-btn{border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-size:0.8rem;padding:0.6rem 1rem;border-radius:0.5rem;cursor:pointer;font-family:inherit;font-weight:700;transition:all 0.2s}
+.claim-btn:hover{background:rgba(0,107,117,0.08);border-color:var(--red);color:var(--red)}
+.card-rating{font-size:0.8rem;color:var(--text3);font-weight:600}
+.rating-stars{color:var(--gold);letter-spacing:-1px}
+
+/* ━━━ DETAIL PANEL ━━━ */
+.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;overflow-y:auto;align-items:center;justify-content:center}
+.detail-overlay.open{display:flex}
+.detail-panel{background:#fff;border-radius:1rem;width:90%;max-width:500px;box-shadow:var(--shadow-xl);position:relative;margin:2rem auto}
+.detail-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;font-size:1.8rem;cursor:pointer;color:var(--text3);line-height:1;transition:color 0.2s}
+.detail-close:hover{color:var(--text)}
+.detail-header{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start}
+.detail-avatar-lg{width:64px;height:64px;border-radius:0.8rem;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:2rem;flex-shrink:0}
+.detail-name{font-size:1.4rem;font-weight:700;color:var(--text);letter-spacing:-0.3px}
+.detail-name-sub{font-size:0.95rem;color:var(--teal);margin-top:0.3rem;font-weight:500}
+.detail-cat-loc{font-size:0.85rem;color:var(--text3);margin-top:0.4rem;font-weight:500}
+.detail-body{padding:1.5rem;max-height:400px;overflow-y:auto}
+.detail-sec{font-size:0.85rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-top:1.2rem;margin-bottom:0.8rem}
+.detail-sec:first-child{margin-top:0}
+.detail-desc{font-size:0.95rem;color:var(--text2);line-height:1.6;margin-bottom:0.8rem}
+.detail-info-row{display:flex;align-items:flex-start;gap:0.8rem;font-size:0.9rem;color:var(--text2);margin-bottom:0.6rem}
+.detail-icon{font-size:1.1rem;flex-shrink:0}
+.detail-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);background:#FAFBFC;display:flex;gap:0.8rem}
+.detail-connect-btn{flex:1;background:var(--red);color:#fff;border:none;padding:0.8rem;border-radius:0.6rem;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.detail-connect-btn:hover{background:var(--red-dk);box-shadow:var(--shadow-md)}
+.detail-share-btn{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:0.8rem 1.2rem;border-radius:0.6rem;cursor:pointer;font-weight:600;transition:all 0.2s}
+.detail-share-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ━━━ CLAIM MODAL ━━━ */
+.claim-modal{background:#fff;border-radius:1.2rem;padding:2rem;max-width:420px;width:90%;box-shadow:var(--shadow-xl);position:relative}
+.claim-modal h3{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.8rem}
+.claim-modal p{font-size:0.95rem;color:var(--text2);margin-bottom:1.5rem;line-height:1.6}
+.claim-biz-name{color:var(--red);font-weight:700}
+.modal-input{width:100%;padding:0.8rem;border:1.5px solid var(--border);border-radius:0.6rem;font-size:0.9rem;font-family:inherit;outline:none;margin-bottom:0.8rem;transition:all 0.2s;background:#FAFBFC}
+.modal-input:focus{border-color:var(--red);background:#fff;box-shadow:0 0 0 3px rgba(139,26,26,0.1)}
+.modal-submit{width:100%;padding:0.9rem;background:var(--red);color:#fff;border:none;border-radius:0.6rem;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;letter-spacing:0.3px}
+.modal-submit:hover{background:var(--red-dk);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.modal-success{display:none;text-align:center;padding:1rem 0}
+.modal-success-mark{width:56px;height:56px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:#fff;font-size:1.8rem}
+.modal-success h4{color:var(--text);font-size:1.1rem;margin-bottom:0.5rem;font-weight:700}
+.modal-success p{color:var(--text2);font-size:0.9rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text3);transition:color 0.2s;line-height:1}
+.modal-close:hover{color:var(--text)}
+
+/* ━━━ TESTIMONIALS ━━━ */
+.testimonials-section{background:linear-gradient(135deg,var(--gold-lt) 0%,#FFFCF5 100%);border-top:2px solid rgba(198,148,0,0.3);border-bottom:2px solid rgba(198,148,0,0.3);padding:3rem 1.5rem}
+.testimonials-hd{text-align:center;margin-bottom:2rem}
+.testimonials-hd h3{font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.3px}
+.testimonials-hd p{font-size:1rem;color:var(--text2)}
+.testimonials-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.testimonial-card{background:#fff;border-radius:1rem;border:1.5px solid #F0E8C8;padding:1.5rem;position:relative;box-shadow:var(--shadow-xs);transition:all 0.25s}
+.testimonial-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.testimonial-card::before{content:'\201C';position:absolute;top:12px;left:16px;font-size:2.5rem;color:var(--gold);opacity:0.3;line-height:1;font-family:Georgia,serif}
+.testimonial-text{font-size:0.95rem;color:var(--text2);line-height:1.6;margin-bottom:1.2rem;padding-top:1rem}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+.testimonial-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0}
+.testimonial-name{font-size:0.9rem;font-weight:700;color:var(--text)}
+.testimonial-biz{font-size:0.8rem;color:var(--teal);margin-top:1px;font-weight:500}
+.testimonial-stars{color:var(--gold);font-size:0.8rem;letter-spacing:-0.5px;margin-top:2px}
+
+/* ━━━ PRICING ━━━ */
+.pricing-section{background:linear-gradient(135deg,#FFFCF0 0%,#FFFBF5 100%);border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);padding:3rem 1.5rem}
+.pricing-hd{text-align:center;margin-bottom:2rem}
+.pricing-hd h3{font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;letter-spacing:-0.3px}
+.pricing-hd p{font-size:1rem;color:var(--text2)}
+.plan-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:600px;margin:0 auto;margin-bottom:1.5rem}
+.plan-card{background:#fff;border-radius:1rem;padding:1.8rem;border:1.5px solid var(--border);position:relative;transition:all 0.3s}
+.plan-card:hover{box-shadow:var(--shadow-lg);border-color:var(--red)}
+.plan-card.plan-pro{border:2px solid var(--gold);box-shadow:0 4px 24px rgba(198,148,0,0.15)}
+.plan-best-tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 16px;border-radius:14px;letter-spacing:0.6px;text-transform:uppercase}
+.plan-name{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:0.8rem}
+.plan-price{font-size:2rem;font-weight:700;color:var(--red);margin-bottom:0.5rem}
+.plan-price-period{font-size:0.85rem;color:var(--text3);font-weight:600}
+.plan-features{list-style:none;margin:1.5rem 0;font-size:0.9rem;color:var(--text2);line-height:1.8}
+.plan-features li{display:flex;align-items:center;gap:0.6rem}
+.plan-features li::before{content:'✓';color:var(--gold);font-weight:700;font-size:1.2rem}
+.plan-cta{width:100%;padding:0.9rem;background:var(--red);color:#fff;border:none;border-radius:0.6rem;font-size:0.95rem;font-weight:700;cursor:pointer;margin-top:1rem;transition:all 0.2s}
+.plan-cta:hover{background:var(--red-dk);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.plan-cta.outlined{background:transparent;color:var(--red);border:1.5px solid var(--red)}
+.plan-cta.outlined:hover{background:rgba(139,26,26,0.05)}
+
+/* ━━━ SIGNUP SECTION ━━━ */
+.signup-section{background:linear-gradient(135deg,var(--red) 0%,var(--red-dk) 55%,var(--red-dkk) 100%);color:#fff;padding:2.5rem 1.5rem;position:relative;overflow:hidden}
+.signup-hd{text-align:center;max-width:600px;margin:0 auto 2rem}
+.signup-hd h2{font-size:1.8rem;font-weight:700;margin-bottom:0.8rem;letter-spacing:-0.4px}
+.signup-hd h2 em{color:var(--gold);font-style:normal;font-weight:700}
+.signup-hd p{font-size:1rem;opacity:0.9;line-height:1.7;margin-bottom:1.5rem}
+.form-tabs{display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.form-tab{background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);border:none;padding:0.8rem 1.5rem;border-radius:0.6rem;cursor:pointer;font-size:0.95rem;font-weight:700;transition:all 0.2s;font-family:inherit}
+.form-tab:hover{background:rgba(255,255,255,0.25)}
+.form-tab.active{background:#fff;color:var(--red)}
+.form-panels{max-width:500px;margin:0 auto}
+.form-panel{display:none;background:#fff;color:var(--text);border-radius:1rem;padding:2rem;box-shadow:var(--shadow-xl)}
+.form-panel.active{display:block}
+.form-input,.form-textarea,.form-select{width:100%;padding:0.85rem;border:1.5px solid var(--border);border-radius:0.6rem;font-size:0.95rem;font-family:inherit;margin-bottom:1rem;outline:none;transition:all 0.2s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(139,26,26,0.1)}
+.form-submit{width:100%;padding:1rem;background:var(--red);color:#fff;border:none;border-radius:0.6rem;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px}
+.form-submit:hover{background:var(--red-dk);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.form-hint{font-size:0.8rem;color:#888;text-align:center;margin-top:1rem}
+.form-success{display:none;text-align:center;padding:2rem 0}
+.form-success-icon{font-size:3rem;margin-bottom:1rem}
+.form-success h3{font-size:1.3rem;font-weight:700;margin-bottom:0.8rem;color:var(--red)}
+.form-success p{color:var(--text2);line-height:1.6}
+
+/* ━━━ TOAST NOTIFICATIONS ━━━ */
+#toastContainer{position:fixed;bottom:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:10px}
+.toast{background:#333;color:#fff;padding:1rem 1.5rem;border-radius:0.6rem;box-shadow:var(--shadow-lg);font-size:0.9rem;font-weight:500;min-width:250px;opacity:0;transform:translateY(30px);transition:all 0.3s ease;animation:slideIn 0.3s ease forwards}
+.toast-show{opacity:1;transform:translateY(0)}
+.toast-out{opacity:0;transform:translateY(30px)}
+@keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.toast-ok{background:var(--teal)}
+.toast-info{background:#2D7F8F}
+.toast-heart{background:var(--red)}
+
+/* ━━━ FOOTER ━━━ */
+.footer-v3{background:var(--text);color:#fff;padding:2.5rem 1.5rem;position:relative;z-index:10}
+.footer-v3-grid{max-width:1200px;margin:0 auto 1.5rem;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.fv3-brand-row{display:flex;align-items:center;gap:0.6rem;font-size:1.2rem;font-weight:700;margin-bottom:1rem}
+.fv3-brand-dot{color:var(--gold)}
+.fv3-brand-name{letter-spacing:-0.3px}
+.fv3-tagline{font-size:0.9rem;opacity:0.75;line-height:1.7;margin-bottom:1.2rem}
+.fv3-social{display:flex;gap:0.8rem}
+.fv3-soc{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:rgba(255,255,255,0.1);border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:all 0.2s;cursor:pointer}
+.fv3-soc:hover{background:var(--red)}
+.fv3-col-title{font-size:0.9rem;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.6px;opacity:0.9}
+.fv3-links{list-style:none}
+.fv3-links li{margin-bottom:0.7rem}
+.fv3-links span,.fv3-links a{font-size:0.9rem;opacity:0.8;cursor:pointer;transition:all 0.2s;text-decoration:none;color:#fff}
+.fv3-links a:hover,.fv3-links span:hover{opacity:1;color:var(--gold)}
+.fv3-divider{border:none;border-top:1px solid rgba(255,255,255,0.1);margin:1.5rem 0}
+.fv3-bottom{text-align:center;max-width:1200px;margin:0 auto}
+.fv3-btxt{font-size:0.8rem;opacity:0.6;display:block;line-height:1.8}
+
+/* ━━━ RESPONSIVE ━━━ */
+@media (max-width:1024px){
+  .main-layout{grid-template-columns:160px 1fr}
+  .sidebar{padding:1rem}
+  .biz-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+}
+
+@media (max-width:768px){
+  .main-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .hero h1{font-size:1.8rem}
+  .search-bar{flex-direction:column}
+  .search-bar select{border-left:none;border-top:1px solid #EEE}
+  .search-bar button{border-radius:0 0 0.6rem 0.6rem}
+  .biz-grid{grid-template-columns:1fr}
+  .footer-v3-grid{grid-template-columns:1fr;gap:1.5rem}
+  .stats-bar{gap:1.5rem}
+  .plan-row{grid-template-columns:1fr}
+  .testimonials-track{grid-template-columns:1fr}
+  .detail-panel{width:95%;margin:1rem auto}
+  .hdr-right{flex-wrap:wrap;width:100%;justify-content:space-between}
+  .nav-hdr{display:none}
+}
+
+/* ━━━ LOAD MORE ━━━ */
+.load-more-wrap{text-align:center;padding:2rem 1.5rem}
+.load-more-btn{background:var(--red);color:#fff;border:none;padding:0.9rem 2rem;border-radius:0.6rem;cursor:pointer;font-size:0.95rem;font-weight:700;transition:all 0.2s}
+.load-more-btn:hover{background:var(--red-dk);box-shadow:var(--shadow-md)}
+.load-more-count{font-size:0.85rem;color:var(--text3);margin-top:0.8rem;font-weight:600}
+
+/* ━━━ NO RESULTS ━━━ */
+#noResults{display:none;text-align:center;padding:3rem 1.5rem;color:var(--text3);font-size:1rem}
+
+/* ━━━ REGION VIEW ━━━ */
+#bizRegion{display:none}
+.region-section{margin-bottom:2rem}
+.region-heading{font-size:0.9rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;padding:0.8rem 0 0.6rem;border-bottom:1.5px solid var(--border);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+.region-flag{font-size:1.4rem}
+.region-count{font-size:0.8rem;background:rgba(139,26,26,0.08);color:var(--red);border-radius:10px;padding:2px 8px;font-weight:700;margin-left:auto}
+.region-list{display:flex;flex-direction:column;gap:0.8rem}
+.region-row{background:#fff;border-radius:0.8rem;border:1px solid var(--border);padding:1rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all 0.2s}
+.region-row:hover{border-color:var(--red);box-shadow:var(--shadow-md)}
+.region-row.pro-row{border-color:var(--gold)}
+.region-avatar{width:40px;height:40px;border-radius:0.6rem;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;flex-shrink:0}
+.region-name{font-size:0.95rem;font-weight:700;color:var(--text);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-sub{font-size:0.8rem;color:var(--text3);margin-top:2px;font-weight:500}
+.region-signals{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+
+/* ━━━ MAP VIEW ━━━ */
+#bizMap{display:none}
+.map-canvas{text-align:center;margin:2rem 0}
+
+.rv{opacity:0;transform:translateY(20px)}
+.rv-in{animation:revealIn 0.6s ease forwards}
+@keyframes revealIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.card-in{animation:cardSlideIn 0.5s ease forwards}
+@keyframes cardSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div id="mainWrapper">
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo-area" onclick="window.scrollTo(0,0)">
+    <div class="logo-text">FiTEN<span class="logo-dot">•</span></div>
+    <span class="logo-tag" id="logoTag">Business Directory</span>
+  </div>
+  <nav class="nav-hdr">
+    <a class="nav-link" href="#directory" id="navDir">Directory</a>
+    <a class="nav-link" href="#about">About</a>
+    <a class="nav-link" href="#contact">Contact</a>
+  </nav>
+  <div class="hdr-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+    <button class="hdr-btn-outline" onclick="scrollToSignup()" id="hdrFree">List Free</button>
+    <button class="hdr-btn" onclick="switchToTab('pro')" id="hdrPro">Join Network →</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      <span id="eyebrowText">Tamil Business Network | A FeTNA Initiative</span>
+    </div>
+    <h1 id="heroTitle">Connect with <em>Tamil Businesses</em> Worldwide</h1>
+    <p id="heroSub">Discover partners, clients, talent, and investment across the global Tamil business community</p>
+    <p class="hero-tamil" id="heroTamil">தமிழ் வணிகங்களுடன் இணைக்க | உலகளாவிய தமிழ் வணிக சமூகத்தைக் கண்டறியுங்கள்</p>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-wrap" id="searchSection">
+  <div class="search-bar" onsubmit="return false">
+    <input type="text" class="search-bar" id="searchInput" placeholder="Search businesses..." oninput="onSearchInput()">
+    <select id="locationSelect" onchange="filterBiz()">
+      <option value="">All Regions</option>
+      <option value="North America">North America</option>
+      <option value="South Asia">South Asia</option>
+      <option value="Europe">Europe</option>
+    </select>
+    <button onclick="filterBiz()" id="searchBtn">Search</button>
+    <div class="suggestion-dropdown" id="suggestionDropdown"></div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><strong id="stat1">847</strong><div class="stat-label" data-en="Verified Members" data-ta="சரிபார்க்கப்பட்ட உறுப்பினர்கள்">Verified Members</div></div>
+  <div class="stat-item"><strong id="stat2">23</strong><div class="stat-label" data-en="Industries" data-ta="தொழில்கள்">Industries</div></div>
+  <div class="stat-item"><strong id="stat3">14</strong><div class="stat-label" data-en="Countries" data-ta="நாடுகள்">Countries</div></div>
+  <div class="stat-item"><strong id="stat4">190</strong><div class="stat-label" data-en="PRO Members" data-ta="PRO உறுப்பினர்கள்">PRO Members</div></div>
+  <div class="stat-item"><strong id="stat5">3200</strong><div class="stat-label" data-en="Total Connections" data-ta="மொத்த இணைப்புகள்">Total Connections</div></div>
+</div>
+
+<!-- FILTER ROW -->
+<div class="filter-row">
+  <button class="pill active" onclick="setFilter(this,'All')">All Businesses</button>
+  <button class="pill" onclick="setFilter(this,'Pro')">Pro Members</button>
+  <button class="pill" id="favPill" onclick="toggleFavsFilter()">❤️ Saved</button>
+  <button class="clear-btn" id="clearBtn" onclick="clearFilters()" id="clearBtn">✕ Clear all</button>
+  <div class="filter-row-right">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnGrid" onclick="setView('grid')">Grid</button>
+      <button class="view-btn" id="btnRegion" onclick="setView('region')">Region</button>
+    </div>
+    <select class="sort-select" onchange="filterBiz()">
+      <option value="">PRO First</option>
+      <option value="Sort: A-Z">Sort: A-Z</option>
+      <option value="Sort: Most Connected">Most Connected</option>
+      <option value="Sort: Newest">Newest First</option>
+    </select>
+  </div>
+  <button class="hdr-btn" onclick="exportCSV()" style="padding:0.5rem 1rem;font-size:0.8rem">📊 Export CSV</button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="mainSidebar">
+    <div>
+      <h3 class="sidebar-title" id="sideTitle">Categories</h3>
+      <ul class="cat-list">
+        <li class="cat-item active" onclick="setCat(this,'All')"><span>All Categories</span><span class="cat-badge">847</span></li>
+        <li class="cat-item" onclick="setCat(this,'Tech')"><span>Technology</span><span class="cat-badge">280</span></li>
+        <li class="cat-item" onclick="setCat(this,'Healthcare')"><span>Healthcare</span><span class="cat-badge">145</span></li>
+        <li class="cat-item" onclick="setCat(this,'Finance')"><span>Finance</span><span class="cat-badge">92</span></li>
+        <li class="cat-item" onclick="setCat(this,'Legal')"><span>Legal Services</span><span class="cat-badge">78</span></li>
+        <li class="cat-item" onclick="setCat(this,'Food')"><span>Food & Hospitality</span><span class="cat-badge">64</span></li>
+      </ul>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div>
+      <h3 class="sidebar-title" id="sideB2B">B2B Filters</h3>
+      <div style="display:flex;flex-direction:column;gap:0.5rem">
+        <label class="filter-check"><input type="checkbox" id="chkPro" onchange="filterBiz()"> Pro Members</label>
+        <label class="filter-check"><input type="checkbox" id="chkSpeaker" onchange="filterBiz()"> Speakers</label>
+        <label class="filter-check"><input type="checkbox" id="chkWomen" onchange="filterBiz()"> Women-Led</label>
+        <label class="filter-check"><input type="checkbox" id="chkConvention" onchange="filterBiz()"> FeTNA Convention</label>
+      </div>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div>
+      <h3 class="sidebar-title">Looking For?</h3>
+      <div style="display:flex;flex-direction:column;gap:0.5rem">
+        <label class="filter-check"><input type="checkbox" id="chkPartner" onchange="syncOppFromSidebar('partner',this)"> Business Partners</label>
+        <label class="filter-check"><input type="checkbox" id="chkHire" onchange="syncOppFromSidebar('hire',this)"> Hiring</label>
+        <label class="filter-check"><input type="checkbox" id="chkInvest" onchange="syncOppFromSidebar('invest',this)"> Investment</label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="content-header">
+      <div>
+        <div class="result-count" id="resultCount">Showing 10 of 847 businesses</div>
+      </div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="bizGrid" class="biz-grid"></div>
+
+    <!-- REGION VIEW -->
+    <div id="bizRegion"></div>
+
+    <!-- MAP VIEW -->
+    <div id="bizMap" class="map-canvas"><div id="mapCanvas"></div><div id="mapRegions"></div></div>
+
+    <!-- NO RESULTS -->
+    <div id="noResults" style="text-align:center;padding:3rem 1.5rem;color:var(--text3)">
+      <p style="font-size:1rem" id="noResultsMsg">No businesses found. Try a different search.</p>
+    </div>
+
+    <!-- LOAD MORE -->
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="load-more-btn" id="loadMoreBtn" onclick="loadMore()">Load more</button>
+      <div class="load-more-count" id="loadMoreCount"></div>
+    </div>
+  </main>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="testimonials-hd">
+    <h3>What Members Say</h3>
+    <p>Real stories from the FiTEN community</p>
+  </div>
+  <div class="testimonials-track" id="testimonialsTrack"></div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="pricing-hd">
+    <h3 id="pricingTitle">Simple, Transparent Pricing</h3>
+    <p id="pricingSub">Start free. Upgrade to PRO when you're ready to grow your network.</p>
+  </div>
+  <div class="form-panels">
+    <div class="plan-row">
+      <div class="plan-card">
+        <div class="plan-name">Starter (Free)</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-price-period">Forever</div>
+        <ul class="plan-features">
+          <li>Basic business listing</li>
+          <li>Industry & location tags</li>
+          <li>Bilingual support (EN/தமிழ்)</li>
+          <li>1 year listing</li>
+        </ul>
+        <button class="plan-cta outlined" onclick="switchToTab('detailed')">Get Listed Free</button>
+      </div>
+      <div class="plan-card plan-pro">
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 14px;border-radius:12px;text-transform:uppercase">Best Value</div>
+        <div class="plan-name">PRO (Founding Member)</div>
+        <div class="plan-price">$29<span style="font-size:1rem;font-weight:400">/mo</span></div>
+        <div class="plan-price-period">Lock in founders rate forever</div>
+        <ul class="plan-features">
+          <li>✓ Premium badge & logo</li>
+          <li>✓ Full analytics dashboard</li>
+          <li>✓ Lead tracking & CRM</li>
+          <li>✓ Featured placement</li>
+          <li>✓ Priority support</li>
+          <li>✓ Reviews & ratings</li>
+        </ul>
+        <button class="plan-cta" onclick="switchToTab('pro')">Become a Founding Member</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP SECTION -->
+<section class="signup-section" id="signupSection">
+  <div class="signup-hd">
+    <h2 id="signupHeading">Join the <em>FiTEN Directory</em></h2>
+    <p id="signupSub">Get your business in front of Tamil professionals and decision-makers worldwide.<br>Founding members lock in the best rates.</p>
+  </div>
+
+  <div class="form-tabs">
+    <button class="form-tab active" id="tab-detailed" onclick="switchTab('detailed',this)">📋 Free Listing</button>
+    <button class="form-tab" id="tab-pro" onclick="switchTab('pro',this)">⭐ Join PRO</button>
+  </div>
+
+  <div class="form-panels">
+    <div class="form-panel active" id="panel-detailed">
+      <form id="detailedForm" onsubmit="handleSubmit(event,'detailed')">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label class="sidebar-title">Business Name *</label><input class="form-input" type="text" placeholder="Your business" required></div>
+          <div><label class="sidebar-title">Contact Person *</label><input class="form-input" type="text" placeholder="Your name" required></div>
+          <div><label class="sidebar-title">Email *</label><input class="form-input" type="email" placeholder="you@business.com" required></div>
+          <div><label class="sidebar-title">Phone</label><input class="form-input" type="tel" placeholder="+1 (555) 000-0000"></div>
+          <div><label class="sidebar-title">Industry *</label><select class="form-select" required><option value="">Select...</option><option>Technology</option><option>Healthcare</option><option>Finance</option></select></div>
+          <div><label class="sidebar-title">City / Country *</label><input class="form-input" type="text" placeholder="e.g. Edison, NJ, USA" required></div>
+        </div>
+        <div style="margin-bottom:1rem"><label class="sidebar-title">Brief Description *</label><textarea class="form-textarea" placeholder="What does your business do?" required></textarea></div>
+        <button type="submit" class="form-submit">📋 Submit Listing — It's Free</button>
+        <div class="form-hint">Reviewed within 48 hours</div>
+      </form>
+      <div class="form-success" id="success-detailed" style="display:none">
+        <div class="form-success-icon">✅</div>
+        <h3>Listing submitted!</h3>
+        <p>We'll review and activate your FiTEN profile within 48 hours.</p>
+      </div>
+    </div>
+
+    <div class="form-panel" id="panel-pro">
+      <form id="proForm" onsubmit="handleSubmit(event,'pro')">
+        <div style="text-align:center;margin-bottom:1.5rem">
+          <label class="sidebar-title">Billing Cycle</label>
+          <div style="display:flex;gap:1rem;justify-content:center;margin-top:0.8rem">
+            <button type="button" class="form-tab active" id="btn-monthly" onclick="setPlan('monthly')">Monthly</button>
+            <button type="button" class="form-tab" id="btn-annual" onclick="setPlan('annual')">Annual (Save 20%)</button>
+          </div>
+        </div>
+        <input class="form-input" type="text" placeholder="Business Name *" required>
+        <input class="form-input" type="email" placeholder="Email *" required>
+        <button type="submit" class="form-submit" id="proSubmitBtn">Start PRO - $29/mo</button>
+        <div class="form-hint">Founding members lock in this rate. Cancel anytime.</div>
+      </form>
+      <div class="form-success" id="success-pro" style="display:none">
+        <div class="form-success-icon">⭐</div>
+        <h3>Welcome, Founding Member!</h3>
+        <p>You're among the first to join FiTEN PRO. We'll contact you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailOverlay(event)">
+  <div class="detail-panel">
+    <div class="detail-header" id="detailHeader"></div>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="detail-footer">
+      <button class="detail-connect-btn" id="detailConnectBtn">Connect</button>
+      <button class="detail-share-btn" id="detailShareBtn" onclick="shareDetail()">📋 Share</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM MODAL -->
+<div class="detail-overlay" id="claimModal" onclick="closeClaimModal(event)">
+  <div class="claim-modal">
+    <button class="modal-close" onclick="closeClaimModal()">&times;</button>
+    <div id="claimFormWrap">
+      <h3>Claim <span class="claim-biz-name" id="claimBizName"></span></h3>
+      <p>Enter your email to claim and manage this business listing.</p>
+      <input class="modal-input" type="email" id="claimEmail" placeholder="your@email.com">
+      <button class="modal-submit" onclick="submitClaim()">Claim Listing</button>
+    </div>
+    <div class="modal-success" id="claimSuccess">
+      <div class="modal-success-mark">✓</div>
+      <h4>Claim submitted!</h4>
+      <p>Check your email for next steps to verify ownership.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-v3">
+  <div class="footer-v3-grid">
+    <div>
+      <div class="fv3-brand-row">
+        <span class="fv3-brand-name">Fi<span class="fv3-brand-dot">TEN</span></span>
+        <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.6px">Business Directory</span>
+      </div>
+      <div class="fv3-tagline">Connecting Tamil entrepreneurs worldwide. A FeTNA initiative.</div>
+      <div class="fv3-social">
+        <a class="fv3-soc" href="https://fiten.org" target="_blank">🌐</a>
+        <a class="fv3-soc" href="#" onclick="showToast('LinkedIn coming soon','info');return false">👨‍💼</a>
+        <a class="fv3-soc" href="#" onclick="showToast('Follow us on X','info');return false">🐦</a>
+      </div>
+    </div>
+    <div>
+      <div class="fv3-col-title">Directory</div>
+      <ul class="fv3-links">
+        <li><span onclick="scrollToSignup()">Add Your Business</span></li>
+        <li><span onclick="clearFilters()">Browse All</span></li>
+        <li><span onclick="switchToTab('pro')">Go PRO</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fv3-col-title">Community</div>
+      <ul class="fv3-links">
+        <li><a href="https://fiten.org" target="_blank">fiten.org</a></li>
+        <li><a href="https://fetna.org" target="_blank">FeTNA Convention</a></li>
+        <li><span onclick="showToast('Contact: hello@fiten.org','ok')">Contact</span></li>
+      </ul>
+    </div>
+  </div>
+  <hr class="fv3-divider">
+  <div class="fv3-bottom">
+    <span class="fv3-btxt">&copy; 2026 FiTEN &mdash; Connecting Tamil Entrepreneurs Worldwide</span>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+</div><!-- mainWrapper -->
+
+<script>
+// BUSINESS DATA & CONFIG
+const businesses=[
+  {name:"AccuKnox Cloud Security",nameTamil:"AccuKnox",cat:"Tech",loc:"Silicon Valley, CA",region:"North America",desc:"Cloud-native zero-trust security platform.",rating:4.9,reviews:42,pro:true,speaker:true,women:false,convention:true,color:"#E6F1FB",textColor:"#0C447C",initials:"AK",looking:["partner","invest"],views:312,website:"accuknox.com"},
+  {name:"TamilMed Clinics",nameTamil:"TamilMed",cat:"Healthcare",loc:"Edison, NJ",region:"North America",desc:"Tamil-speaking family medicine practice.",rating:4.8,reviews:87,pro:true,speaker:false,women:true,convention:true,color:"#EAF3DE",textColor:"#27500A",initials:"TM",looking:["client","partner"],views:489,website:"tamilmedclinics.com"},
+  {name:"Kovai Bites Restaurant",nameTamil:"Kovai",cat:"Food",loc:"Fremont, CA",region:"North America",desc:"Authentic Chettinad cuisine & catering.",rating:4.7,reviews:213,pro:false,speaker:false,women:false,convention:false,color:"#FAEEDA",textColor:"#633806",initials:"KB",looking:["client"]},
+  {name:"Rocketship.vc",nameTamil:"Rocketship",cat:"Finance",loc:"San Francisco, CA",region:"North America",desc:"Silicon Valley fund investing in startups.",rating:4.9,reviews:28,pro:true,speaker:true,women:true,convention:true,color:"#EEEDFE",textColor:"#3C3489",initials:"RV",looking:["invest","partner"],views:271},
+  {name:"ERP Logic Inc.",nameTamil:"ERP Logic",cat:"Tech",loc:"Dallas, TX",region:"North America",desc:"Enterprise resource planning consulting.",rating:4.6,reviews:56,pro:true,speaker:true,women:false,convention:false,color:"#E1F5EE",textColor:"#085041",initials:"EL",looking:["partner","client","hire"],views:198},
+  {name:"Chennai Spice Kitchen",nameTamil:"Chennai",cat:"Food",loc:"Jersey City, NJ",region:"North America",desc:"Street food of Chennai. Dosai & idly.",rating:4.5,reviews:341,pro:false,speaker:false,women:true,convention:false,color:"#FAECE7",textColor:"#712B13",initials:"CS",looking:["client"]},
+  {name:"Tamil Legal Group",nameTamil:"Tamil Legal",cat:"Legal",loc:"Houston, TX",region:"North America",desc:"Immigration, family law & business formation.",rating:4.7,reviews:95,pro:false,speaker:false,women:false,convention:false,color:"#F1EFE8",textColor:"#444",initials:"TL",looking:["client","partner"]},
+  {name:"Vani Language Academy",nameTamil:"Vani",cat:"Education",loc:"Coimbatore, India",region:"South Asia",desc:"Tamil language & Carnatic music classes.",rating:4.8,reviews:134,pro:false,speaker:false,women:true,convention:true,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"]},
+];
+
+const testimonials=[
+  {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar.",name:"Karthik R.",biz:"AccuKnox",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
+  {text:"Our patients find us through FiTEN more than any other directory. The bilingual profile makes all the difference.",name:"Dr. Priya M.",biz:"TamilMed",stars:5,color:"#EAF3DE",textColor:"#27500A",initials:"PM"},
+  {text:"Three partnership conversations started from my FiTEN PRO profile. Genuinely useful.",name:"Madhu I.",biz:"Rocketship",stars:5,color:"#EEEDFE",textColor:"#3C3489",initials:"MI"},
+  {text:"The bilingual profile brought in Tamil-speaking students. Our enrollment doubled in six months.",name:"Vani S.",biz:"Vani Academy",stars:5,color:"#FBEAF0",textColor:"#72243E",initials:"VS"},
+];
+
+let lang='en';
+let activeCat='All';
+let activeFilter='All';
+let activeView='grid';
+let selectedPlan='monthly';
+let suggestTimer=null;
+let showFavs=false;
+let favorites=new Set();
+let currentDetailIdx=-1;
+
+const oppLabels={partner:"🤝 Business Partners",client:"🎯 Seeking Clients",invest:"💼 Seeking Investment",hire:"👥 Hiring"};
+const sigClass={partner:"sig-partner",client:"sig-client",invest:"sig-invest",hire:"sig-hire"};
+
+const i18n={
+  en:{heroTitle:'Connect with <em>Tamil Businesses</em> Worldwide',heroSub:'Discover partners, clients, talent, and investment across the global Tamil business community',searchPlaceholder:'Search businesses, keywords...',searchBtn:'Search'},
+  ta:{heroTitle:'<em>தமிழ் வணிகங்களுடன்</em> இணையுங்கள்',heroSub:'உலகளாவிய தமிழ் வணிக சமூகத்தில் கண்டறியுங்கள்',searchPlaceholder:'வணிகங்களைத் தேடுங்கள்...',searchBtn:'தேடு'}
+};
+
+function showToast(msg,type='ok',duration=2600){
+  var tc=document.getElementById('toastContainer');
+  if(!tc)return;
+  var el=document.createElement('div');
+  el.className='toast toast-'+type;
+  el.innerHTML=msg;
+  tc.appendChild(el);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('toast-show')));
+  setTimeout(()=>{
+    el.classList.remove('toast-show');el.classList.add('toast-out');
+    setTimeout(()=>el.remove(),300);
+  },duration);
+}
+
+// ANIMATED STATS
+(function(){
+  var data=[{end:847,suffix:''},{end:23,suffix:''},{end:14,suffix:''},{end:190,suffix:'+'},{end:3200,suffix:'+'}];
+  var els=document.querySelectorAll('.stat-item strong');
+  function animCount(el,end,suffix,dur){
+    var start=performance.now();
+    function step(now){
+      var p=Math.min((now-start)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      var val=Math.round(end*ease);
+      el.textContent=val.toLocaleString()+(p>=1?suffix:'');
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  els.forEach((el,i)=>{
+    if(!data[i])return;
+    el.textContent='0';
+    setTimeout(()=>animCount(el,data[i].end,data[i].suffix,1600),400+i*120);
+  });
+})();
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn:'+(l==='en'?'first':'last')+'-child').classList.add('active');
+  const t=i18n[l];
+  document.getElementById('heroTitle').innerHTML=t.heroTitle;
+  document.getElementById('heroSub').innerHTML=t.heroSub;
+  filterBiz();
+}
+
+function onSearchInput(){
+  clearTimeout(suggestTimer);
+  suggestTimer=setTimeout(()=>{
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q.length<2){hideSuggestions();filterBiz();return;}
+    const matches=businesses.filter(b=>b.name.toLowerCase().includes(q)||b.cat.toLowerCase().includes(q)).slice(0,5);
+    showSuggestions(matches,q);
+    filterBiz();
+  },120);
+}
+
+function showSuggestions(matches,q){
+  const dd=document.getElementById('suggestionDropdown');
+  if(matches.length===0){dd.innerHTML='<div class="suggestion-empty">No matches</div>';dd.style.display='block';return;}
+  dd.innerHTML=matches.map(b=>{
+    const hl=b.name.replace(new RegExp('('+q+')','gi'),'<strong>$1</strong>');
+    return '<div class="suggestion-item" onmousedown="selectSuggestion(\''+b.name+'\')">'+
+      '<div class="suggestion-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<span>'+hl+'</span>'+
+      '<span class="suggestion-meta">'+b.cat+'</span>'+
+    '</div>';
+  }).join('');
+  dd.style.display='block';
+}
+
+function hideSuggestions(){document.getElementById('suggestionDropdown').style.display='none';}
+function selectSuggestion(name){
+  document.getElementById('searchInput').value=name;
+  hideSuggestions();filterBiz();
+}
+
+function setFilter(el,filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter=filter;
+  if(filter==='All'||filter==='Pro'){
+    activeCat='All';
+    document.querySelectorAll('.cat-item').forEach((i,idx)=>i.classList.toggle('active',idx===0));
+  }
+  document.getElementById('chkPro').checked=(filter==='Pro');
+  updateClearBtn();filterBiz();
+}
+
+function setCat(el,cat){
+  document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  if(activeFilter!=='Pro'){
+    activeFilter='All';
+    document.querySelectorAll('.pill').forEach((p,i)=>p.classList.toggle('active',i===0));
+  }
+  updateClearBtn();filterBiz();
+}
+
+function syncOppFromSidebar(opp,chkEl){
+  const any=['chkPartner','chkHire','chkInvest'].some(id=>document.getElementById(id).checked);
+  updateClearBtn();filterBiz();
+}
+
+function clearFilters(){
+  activeCat='All';activeFilter='All';
+  document.querySelectorAll('.cat-item').forEach((el,i)=>el.classList.toggle('active',i===0));
+  document.querySelectorAll('.pill').forEach((el,i)=>el.classList.toggle('active',i===0));
+  ['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].forEach(id=>document.getElementById(id).checked=false);
+  document.getElementById('searchInput').value='';
+  document.getElementById('locationSelect').value='';
+  updateClearBtn();filterBiz();
+}
+
+function updateClearBtn(){
+  const btn=document.getElementById('clearBtn');
+  const active=activeCat!=='All'||activeFilter!=='All'||document.getElementById('searchInput').value||document.getElementById('locationSelect').value||['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].some(id=>document.getElementById(id).checked);
+  btn.classList.toggle('visible',!!active);
+}
+
+function setView(v){
+  activeView=v;
+  document.getElementById('btnGrid').classList.toggle('active',v==='grid');
+  document.getElementById('btnRegion').classList.toggle('active',v==='region');
+  filterBiz();
+}
+
+function filterBiz(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const loc=document.getElementById('locationSelect').value;
+  const chkPro=document.getElementById('chkPro').checked;
+  const chkS=document.getElementById('chkSpeaker').checked;
+  const chkW=document.getElementById('chkWomen').checked;
+  const chkP=document.getElementById('chkPartner').checked;
+  const chkH=document.getElementById('chkHire').checked;
+  const chkI=document.getElementById('chkInvest').checked;
+  const chkC=document.getElementById('chkConvention').checked;
+
+  let filtered=businesses.filter(b=>{
+    if(showFavs&&!favorites.has(b.name))return false;
+    if(activeCat!=='All'&&b.cat!==activeCat)return false;
+    if(activeFilter==='Pro'&&!b.pro)return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!b.cat.toLowerCase().includes(q))return false;
+    if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
+    if(chkPro&&!b.pro)return false;
+    if(chkS&&!b.speaker)return false;
+    if(chkW&&!b.women)return false;
+    if(chkP&&!b.looking.includes('partner'))return false;
+    if(chkH&&!b.looking.includes('hire'))return false;
+    if(chkI&&!b.looking.includes('invest'))return false;
+    if(chkC&&!b.convention)return false;
+    return true;
+  });
+
+  var sortEl=document.querySelector('.sort-select');
+  var sortVal=sortEl?sortEl.value:'';
+  if(sortVal==='Sort: A-Z'){
+    filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  } else if(sortVal==='Sort: Most Connected'){
+    filtered.sort((a,b)=>(b.reviews||0)-(a.reviews||0));
+  } else if(sortVal==='Sort: Newest'){
+    filtered.sort((a,b)=>(b.views||0)-(a.views||0));
+  } else {
+    filtered.sort((a,b)=>(b.pro?1:0)-(a.pro?1:0));
+  }
+
+  if(activeView==='grid') renderGrid(filtered);
+  else renderRegion(filtered);
+  updateClearBtn();
+}
+
+function starsHtml(r){let s='<span class="rating-stars">';for(let i=1;i<=5;i++)s+=(i<=Math.round(r)?'★':'☆');return s+'</span>';}
+
+function cardHtml(b,idx){
+  const taName=(lang==='ta'&&b.nameTamil)?b.nameTamil:b.name;
+  const isFavd=favorites.has(b.name);
+  return '<div class="biz-card'+(b.pro?' pro-card':'')+'" style="cursor:pointer">'+
+    (b.pro?'<div class="pro-banner">★ PRO Member'+(b.views?'<span class="analytics-badge">🔥 '+b.views+' views</span>':'')+'</div>':'')+
+    '<div class="card-top">'+
+      '<div class="biz-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<div class="biz-info">'+
+        '<div class="biz-name">'+taName+'</div>'+
+        '<div class="biz-category">'+b.cat+'</div>'+
+        '<div class="biz-location">📍 '+b.loc+'</div>'+
+      '</div>'+
+      '<button class="fav-btn'+(isFavd?' favd':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+b.name+'\',this)" style="border:none;background:none;cursor:pointer;font-size:1.2rem">'+(isFavd?'❤️':'🤍')+'</button>'+
+    '</div>'+
+    '<div class="b2b-signals">'+
+      b.looking.map(l=>'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>').join('')+
+      (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+      (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+      (b.convention?'<span class="b2b-signal sig-convention">🎉 FeTNA Conv.</span>':'')+
+    '</div>'+
+    '<div class="card-desc">'+b.desc+'</div>'+
+    '<div class="card-footer" onclick="event.stopPropagation()">'+
+      '<span class="card-rating">'+starsHtml(b.rating)+' '+b.rating+' · '+b.reviews+'</span>'+
+      '<div style="display:flex;gap:0.5rem">'+
+        (b.pro
+          ?'<button class="connect-btn" onclick="openDetail('+businesses.indexOf(b)+')">View</button>'
+          :'<button class="claim-btn" onclick="openClaimModal(\''+b.name+'\')">Claim</button>'+
+           '<button class="profile-btn" onclick="scrollToSignup()">PRO</button>')+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+const PAGE_SIZE=6;
+let visibleCount=PAGE_SIZE;
+let lastFiltered=[];
+
+function renderGrid(list){
+  lastFiltered=list;
+  visibleCount=PAGE_SIZE;
+  _renderPage();
+}
+
+function loadMore(){
+  visibleCount=Math.min(visibleCount+PAGE_SIZE,lastFiltered.length);
+  _renderPage();
+}
+
+function _renderPage(){
+  const grid=document.getElementById('bizGrid');
+  const noR=document.getElementById('noResults');
+  const lmw=document.getElementById('loadMoreWrap');
+  document.getElementById('resultCount').innerHTML='Showing '+lastFiltered.length+' of 847 businesses';
+  grid.style.display='';
+  document.getElementById('bizRegion').style.display='none';
+  if(lastFiltered.length===0){grid.style.display='none';noR.style.display='block';lmw.style.display='none';return;}
+  noR.style.display='none';
+  grid.innerHTML=lastFiltered.slice(0,visibleCount).map((b,i)=>{
+    var el='<div style="--ci:'+i+'">'+cardHtml(b,businesses.indexOf(b))+'</div>';
+    return el;
+  }).join('');
+  var cards=grid.querySelectorAll('.biz-card');
+  cards.forEach((c,i)=>{c.style.setProperty('--ci',i);c.onclick=()=>openDetail(businesses.indexOf(lastFiltered[i]))});
+  var rem=lastFiltered.length-visibleCount;
+  if(rem>0){
+    lmw.style.display='block';
+    document.getElementById('loadMoreBtn').textContent='Load '+Math.min(rem,PAGE_SIZE)+' more';
+    document.getElementById('loadMoreCount').textContent='Showing '+visibleCount+' of '+lastFiltered.length;
+  } else { lmw.style.display='none'; }
+}
+
+function renderRegion(list){
+  const grid=document.getElementById('bizGrid');
+  const regionEl=document.getElementById('bizRegion');
+  const noR=document.getElementById('noResults');
+  document.getElementById('resultCount').innerHTML='Showing '+list.length+' of 847 businesses';
+  grid.style.display='none';
+  if(list.length===0){regionEl.style.display='none';noR.style.display='block';return;}
+  noR.style.display='none';
+  regionEl.style.display='';
+  const groups={};
+  list.forEach(b=>{if(!groups[b.region])groups[b.region]=[];groups[b.region].push(b);});
+  regionEl.innerHTML=Object.entries(groups).map(([region,items])=>{
+    return '<div class="region-section">'+
+      '<div class="region-heading"><span class="region-flag">🌍</span>'+region+' <span class="region-count">'+items.length+'</span></div>'+
+      '<div class="region-list">'+
+        items.map(b=>'<div class="region-row'+(b.pro?' pro-row':'')+'" onclick="openDetail('+businesses.indexOf(b)+')" style="cursor:pointer">'+
+          '<div class="region-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div class="region-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+            '<div class="region-sub">'+b.cat+' · '+b.loc+'</div>'+
+          '</div>'+
+        '</div>').join('')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function openDetail(idx){
+  var b=businesses[idx];currentDetailIdx=idx;
+  document.getElementById('detailHeader').innerHTML=
+    '<button class="detail-close" onclick="closeDetail()">&times;</button>'+
+    '<div class="detail-avatar-lg" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+    '<div>'+
+      '<div class="detail-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+      '<div class="detail-cat-loc">'+b.cat+' · '+b.loc+'</div>'+
+      (b.pro?'<span class="b2b-signal sig-speaker" style="font-size:0.75rem;margin-top:0.5rem;display:inline-block">★ PRO Member</span>':'')+
+    '</div>';
+  var body='<div class="detail-sec">About</div><div class="detail-desc">'+b.desc+'</div>';
+  body+='<div class="detail-sec">B2B Signals</div><div class="b2b-signals" style="padding:0;margin-bottom:0.8rem">'+
+    b.looking.map(l=>'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>').join('')+
+    (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+    (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+    '</div>';
+  if(b.pro){
+    body+='<div class="detail-sec">Reviews</div>'+
+      '<div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem">'+starsHtml(b.rating)+'<strong>'+b.rating+'</strong><span style="color:var(--text3)">('+b.reviews+')</span></div>';
+  }
+  document.getElementById('detailBody').innerHTML=body;
+  var cb=document.getElementById('detailConnectBtn');
+  if(b.pro){cb.textContent='Connect';cb.onclick=()=>scrollToSignup();}
+  else{cb.textContent='Upgrade to PRO';cb.onclick=()=>{closeDetail();scrollToSignup();};}
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  currentDetailIdx=-1;
+}
+
+function closeDetailOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetail();}
+
+function shareDetail(){
+  var url=location.href;
+  var btn=document.getElementById('detailShareBtn');
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{btn.textContent='✓ Copied!';showToast('Link copied!','ok');setTimeout(()=>{btn.innerHTML='📋 Share'},2000);});}
+  else{prompt('Copy this link:',url);}
+}
+
+function openClaimModal(bizName){
+  document.getElementById('claimBizName').textContent=bizName;
+  document.getElementById('claimEmail').value='';
+  document.getElementById('claimFormWrap').style.display='';
+  document.getElementById('claimSuccess').style.display='none';
+  document.getElementById('claimModal').classList.add('open');
+}
+
+function closeClaimModal(e){
+  if(!e||e.target===document.getElementById('claimModal'))
+    document.getElementById('claimModal').classList.remove('open');
+}
+
+function submitClaim(){
+  const email=document.getElementById('claimEmail').value;
+  if(!email||!email.includes('@'))return;
+  document.getElementById('claimFormWrap').style.display='none';
+  document.getElementById('claimSuccess').style.display='block';
+}
+
+function toggleFavorite(name,btn){
+  if(favorites.has(name)){
+    favorites.delete(name);
+    btn.classList.remove('favd');
+    btn.innerHTML='🤍';
+    showToast('Removed from saved','info');
+  } else {
+    favorites.add(name);
+    btn.classList.add('favd');
+    btn.innerHTML='❤️';
+    showToast('❤️ '+name+' saved','heart');
+  }
+  if(showFavs)filterBiz();
+}
+
+function toggleFavsFilter(){
+  showFavs=!showFavs;
+  document.getElementById('favPill').classList.toggle('active',showFavs);
+  filterBiz();
+}
+
+function renderTestimonials(){
+  document.getElementById('testimonialsTrack').innerHTML=testimonials.map(t=>
+    '<div class="testimonial-card">'+
+      '<div class="testimonial-text">'+t.text+'</div>'+
+      '<div class="testimonial-author">'+
+        '<div class="testimonial-avatar" style="background:'+t.color+';color:'+t.textColor+'">'+t.initials+'</div>'+
+        '<div>'+
+          '<div class="testimonial-name">'+t.name+'</div>'+
+          '<div class="testimonial-biz">'+t.biz+'</div>'+
+          '<div class="testimonial-stars">'+'★'.repeat(t.stars)+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'
+  ).join('');
+}
+
+function setPlan(plan){
+  selectedPlan=plan;
+  document.getElementById('btn-monthly').classList.toggle('active',plan==='monthly');
+  document.getElementById('btn-annual').classList.toggle('active',plan==='annual');
+  document.getElementById('proSubmitBtn').textContent=plan==='monthly'?'Start PRO - $29/mo':'Start PRO - $290/yr (Save 20%)';
+}
+
+function switchTab(tab,el){
+  document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  const tabEl=el||document.getElementById('tab-'+tab);
+  if(tabEl)tabEl.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+function switchToTab(tab){scrollToSignup();setTimeout(()=>switchTab(tab),350);}
+
+function handleSubmit(e,type){
+  e.preventDefault();
+  e.target.style.display='none';
+  document.getElementById('success-'+type).style.display='block';
+}
+
+function scrollToSignup(){
+  try{document.getElementById('signupSection').scrollIntoView({behavior:'smooth'});}catch(e){}
+}
+
+function exportCSV(){
+  var rows=[['Name','Category','Location','Region','Tier','Rating','Reviews','Views']];
+  lastFiltered.forEach(b=>{
+    rows.push(['"'+(b.name||'').replace(/"/g,'""')+'"',b.cat||'',b.loc||'',b.region||'',b.pro?'PRO':'Free',b.pro?b.rating:'',b.pro?b.reviews:'',b.views||'']);
+  });
+  var csv=rows.map(r=>r.join(',')).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='fiten_businesses_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  showToast('CSV downloaded','ok');
+}
+
+// INITIALIZE
+renderGrid(businesses);
+renderTestimonials();
+setPlan('monthly');
+
+// KEYBOARD SHORTCUTS
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('detailOverlay').classList.contains('open'))closeDetail();
+    if(document.getElementById('claimModal').classList.contains('open'))closeClaimModal();
+  }
+});
+</script>
+</body>
+</html>
