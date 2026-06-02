@@ -1,29 +1,4 @@
 {
-  "buildCommand": "echo 'Static site'",
-  "outputDirectory": ".",
-  "public": false,
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
-    {
-      "src": "/form$",
-      "dest": "/form.html"
-    },
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/docs/(.*)",
-      "dest": "/docs/$1"
-    },
-    {
-      "src": "/archive/(.*)",
-      "dest": "/archive/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    }
-  ]
+  "buildCommand": "echo 'Static HTML site'",
+  "outputDirectory": "."
 }
