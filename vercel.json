@@ -1,4 +1,23 @@
 {
   "buildCommand": "echo 'Static HTML site'",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/form/?$",
+      "dest": "/form.html"
+    },
+    {
+      "src": "/docs/(.*)",
+      "dest": "/docs/$1"
+    },
+    {
+      "src": "/archive/(.*)",
+      "dest": "/archive/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
