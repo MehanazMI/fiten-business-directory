@@ -1149,12 +1149,32 @@ onSnapshot(businessesRef, (snapshot) => {
     const bgColor = colors[idx];
     const textColor = textColors[idx];
 
+    // Map Firebase categories to match sample business categories
+    const categoryMap = {
+      'Food & Beverage': 'Food',
+      'Retail': 'Retail',
+      'Technology': 'Tech',
+      'Healthcare': 'Healthcare',
+      'Finance': 'Finance',
+      'Finance & Insurance': 'Finance',
+      'Education': 'Education',
+      'Real Estate': 'Real Estate',
+      'Services': 'Services',
+      'Entertainment': 'Entertainment',
+      'Legal': 'Legal',
+      'Other': 'Other'
+    };
+
+    const mappedCategory = categoryMap[data.category] || data.category || 'Other';
+    const businessId = 'firebase-' + doc.id; // Unique ID for saved functionality
+
     firebaseBusinesses.push({
-      id: doc.id,
+      id: businessId,
+      firebaseId: doc.id,
       name: data.businessName || '',
       nameTamil: '',
-      category: data.category || 'Other',
-      cat: data.category || 'Other',
+      category: mappedCategory,
+      cat: mappedCategory,
       location: data.city || '',
       loc: data.city || '',
       region: 'Global',
