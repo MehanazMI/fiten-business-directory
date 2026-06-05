@@ -1080,7 +1080,7 @@ function exportCSV(){
 // INITIALIZE
 renderGrid(businesses);
 renderTestimonials();
-setPlan('monthly');
+try { setPlan('monthly'); } catch(e) { console.log('Pricing section not available'); }
 
 // KEYBOARD SHORTCUTS
 document.addEventListener('keydown',e=>{
@@ -1127,15 +1127,22 @@ onSnapshot(businessesRef, (snapshot) => {
       name: data.businessName || '',
       category: data.category || 'Other',
       location: data.city || '',
+      desc: data.description || '',
       description: data.description || '',
       email: data.email || '',
       phone: data.phone || '',
       website: data.website || '',
       pro: false,
       verified: true,
-      signals: ['Seeking Clients'],
+      badge: '✓',
       avatar: data.businessName ? data.businessName[0].toUpperCase() : '?',
-      backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16)
+      backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16),
+      looking: [],
+      rating: 5,
+      reviews: 0,
+      speaker: false,
+      women: false,
+      convention: false
     });
   });
 
