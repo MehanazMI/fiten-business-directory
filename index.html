@@ -1122,11 +1122,17 @@ onSnapshot(businessesRef, (snapshot) => {
     const data = doc.data();
     console.log('Business from Firebase:', data.businessName);
 
+    const initials = (data.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const bgColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
     firebaseBusinesses.push({
       id: doc.id,
       name: data.businessName || '',
+      nameTamil: '',
       category: data.category || 'Other',
+      cat: data.category || 'Other',
       location: data.city || '',
+      loc: data.city || '',
       desc: data.description || '',
       description: data.description || '',
       email: data.email || '',
@@ -1135,8 +1141,11 @@ onSnapshot(businessesRef, (snapshot) => {
       pro: false,
       verified: true,
       badge: '✓',
-      avatar: data.businessName ? data.businessName[0].toUpperCase() : '?',
-      backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16),
+      avatar: initials,
+      initials: initials,
+      color: bgColor,
+      textColor: '#fff',
+      backgroundColor: bgColor,
       looking: [],
       rating: 5,
       reviews: 0,
