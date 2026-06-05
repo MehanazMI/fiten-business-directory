@@ -1094,7 +1094,7 @@ document.addEventListener('keydown',e=>{
 <!-- FIREBASE INTEGRATION -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
 
 // Firebase Config
 const firebaseConfig = {
@@ -1112,44 +1112,75 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Listen to Firestore in real-time
-const q = query(collection(db, 'businesses'), orderBy('createdAt', 'desc'));
+const businessesRef = collection(db, 'businesses');
 
-onSnapshot(q, (snapshot) => {
+onSnapshot(businessesRef, (snapshot) => {
+  console.log('Firebase snapshot received:', snapshot.docs.length);
+
   const firebaseBusinesses = [];
   snapshot.forEach((doc) => {
+    const data = doc.data();
+    console.log('Business from Firebase:', data.businessName);
+
     firebaseBusinesses.push({
       id: doc.id,
-      name: doc.data().businessName,
-      category: doc.data().category,
-      location: doc.data().city,
-      description: doc.data().description,
-      email: doc.data().email,
-      phone: doc.data().phone,
-      website: doc.data().website,
+      name: data.businessName || '',
+      category: data.category || 'Other',
+      location: data.city || '',
+      description: data.description || '',
+      email: data.email || '',
+      phone: data.phone || '',
+      website: data.website || '',
       pro: false,
       verified: true,
-      signals: ['Seeking Clients']
+      signals: ['Seeking Clients'],
+      avatar: data.businessName ? data.businessName[0].toUpperCase() : '?',
+      backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16)
     });
   });
 
-  // Merge with existing businesses (Firestore + sample data)
-  window.firebaseBusinesses = firebaseBusinesses;
-  const allBusinesses = [...firebaseBusinesses, ...businesses];
+  console.log('Firebase businesses loaded:', firebaseBusinesses.length);
 
-  // Remove duplicates based on email
-  const uniqueBusinesses = Array.from(
-    new Map(allBusinesses.map(b => [b.email, b])).values()
-  );
+  // Get existing sample data from window.sampleBusinesses if available
+  const sampleData = window.sampleBusinesses || [];
 
-  // Update the global businesses array
-  window.businesses = uniqueBusinesses;
+  // Merge Firestore + sample data
+  const allBusinesses = [...firebaseBusinesses, ...sampleData];
 
-  // Re-render the grid
-  renderGrid(window.businesses);
+  // Remove duplicates by email
+  const uniqueMap = new Map();
+  allBusinesses.forEach(b => {
+    if (!uniqueMap.has(b.email)) {
+      uniqueMap.set(b.email, b);
+    }
+  });
+
+  const allUnique = Array.from(uniqueMap.values());
+
+  console.log('Total businesses to display:', allUnique.length);
+
+  // Update window.businesses
+  window.businesses = allUnique;
+
+  // Re-render grid
+  if (typeof renderGrid === 'function') {
+    renderGrid(allUnique);
+    console.log('Grid rendered');
+  }
 
   // Update stats
-  document.querySelectorAll('.stat-item strong')[0].textContent = uniqueBusinesses.length;
+  const statElements = document.querySelectorAll('.stat-item strong');
+  if (statElements.length > 0) {
+    statElements[0].textContent = allUnique.length;
+  }
+}, (error) => {
+  console.error('Firebase error:', error);
 });
+
+// Store sample data before Firebase loads
+const sampleBusinessesData = businesses;
+window.sampleBusinesses = sampleBusinessesData;
+console.log('Sample businesses stored:', sampleBusinessesData.length);
 
 </script>
 
