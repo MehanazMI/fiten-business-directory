@@ -641,6 +641,7 @@ const businesses=[
   {name:"Tamil Legal Group",nameTamil:"Tamil Legal",cat:"Legal",loc:"Houston, TX",region:"North America",desc:"Immigration, family law & business formation.",rating:4.7,reviews:95,pro:false,speaker:false,women:false,convention:false,color:"#F1EFE8",textColor:"#444",initials:"TL",looking:["client","partner"]},
   {name:"Vani Language Academy",nameTamil:"Vani",cat:"Education",loc:"Coimbatore, India",region:"South Asia",desc:"Tamil language & Carnatic music classes.",rating:4.8,reviews:134,pro:false,speaker:false,women:true,convention:true,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"]},
 ];
+window.sampleBusinesses = businesses; // Make available to Firebase module
 
 const testimonials=[
   {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar.",name:"Karthik R.",biz:"AccuKnox",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
@@ -718,7 +719,7 @@ function onSearchInput(){
   suggestTimer=setTimeout(()=>{
     const q=document.getElementById('searchInput').value.trim().toLowerCase();
     if(q.length<2){hideSuggestions();filterBiz();return;}
-    const matches=businesses.filter(b=>b.name.toLowerCase().includes(q)||b.cat.toLowerCase().includes(q)).slice(0,5);
+    const matches=businesses.filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
     showSuggestions(matches,q);
     filterBiz();
   },120);
@@ -732,7 +733,7 @@ function showSuggestions(matches,q){
     return '<div class="suggestion-item" onmousedown="selectSuggestion(\''+b.name+'\')">'+
       '<div class="suggestion-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
       '<span>'+hl+'</span>'+
-      '<span class="suggestion-meta">'+b.cat+'</span>'+
+      '<span class="suggestion-meta">'+(b.cat||b.category||'')+'</span>'+
     '</div>';
   }).join('');
   dd.style.display='block';
@@ -807,10 +808,11 @@ function filterBiz(){
   const chkC=document.getElementById('chkConvention').checked;
 
   let filtered=businesses.filter(b=>{
-    if(showFavs&&!favorites.has(b.name))return false;
-    if(activeCat!=='All'&&b.cat!==activeCat)return false;
+    if(showFavs&&!favorites.has(b.id||b.name))return false;
+    const businessCat=b.cat||b.category||'';
+    if(activeCat!=='All'&&businessCat!==activeCat)return false;
     if(activeFilter==='Pro'&&!b.pro)return false;
-    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!b.cat.toLowerCase().includes(q))return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!businessCat.toLowerCase().includes(q))return false;
     if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
     if(chkPro&&!b.pro)return false;
     if(chkS&&!b.speaker)return false;
@@ -850,7 +852,7 @@ function cardHtml(b,idx){
       '<div class="biz-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
       '<div class="biz-info">'+
         '<div class="biz-name">'+taName+'</div>'+
-        '<div class="biz-category">'+b.cat+'</div>'+
+        '<div class="biz-category">'+(b.cat||b.category||'')+'</div>'+
         '<div class="biz-location">📍 '+b.loc+'</div>'+
       '</div>'+
       '<button class="fav-btn'+(isFavd?' favd':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+b.name+'\',this)" style="border:none;background:none;cursor:pointer;font-size:1.2rem">'+(isFavd?'❤️':'🤍')+'</button>'+
@@ -937,7 +939,7 @@ function renderRegion(list){
           '<div class="region-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
           '<div style="flex:1;min-width:0">'+
             '<div class="region-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
-            '<div class="region-sub">'+b.cat+' · '+b.loc+'</div>'+
+            '<div class="region-sub">'+(b.cat||b.category||'')+' · '+b.loc+'</div>'+
           '</div>'+
         '</div>').join('')+
       '</div>'+
@@ -966,7 +968,7 @@ function _renderDetailContent(b){
     '<div class="detail-avatar-lg" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
     '<div>'+
       '<div class="detail-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
-      '<div class="detail-cat-loc">'+b.cat+' · '+b.loc+'</div>'+
+      '<div class="detail-cat-loc">'+(b.cat||b.category||'')+' · '+b.loc+'</div>'+
       (b.pro?'<span class="b2b-signal sig-speaker" style="font-size:0.75rem;margin-top:0.5rem;display:inline-block">★ PRO Member</span>':'')+
     '</div>';
   var body='<div class="detail-sec">About</div><div class="detail-desc">'+b.desc+'</div>';
@@ -1087,7 +1089,7 @@ function scrollToSignup(){
 function exportCSV(){
   var rows=[['Name','Category','Location','Region','Tier','Rating','Reviews','Views']];
   lastFiltered.forEach(b=>{
-    rows.push(['"'+(b.name||'').replace(/"/g,'""')+'"',b.cat||'',b.loc||'',b.region||'',b.pro?'PRO':'Free',b.pro?b.rating:'',b.pro?b.reviews:'',b.views||'']);
+    rows.push(['"'+(b.name||'').replace(/"/g,'""')+'"',(b.cat||b.category||'')||'',b.loc||'',b.region||'',b.pro?'PRO':'Free',b.pro?b.rating:'',b.pro?b.reviews:'',b.views||'']);
   });
   var csv=rows.map(r=>r.join(',')).join('\n');
   var a=document.createElement('a');
@@ -1130,6 +1132,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Sample data is pre-saved to window.sampleBusinesses by the main script
 
 // Listen to Firestore in real-time
 const businessesRef = collection(db, 'businesses');
@@ -1209,11 +1213,13 @@ onSnapshot(businessesRef, (snapshot) => {
   // Merge Firestore + sample data
   const allBusinesses = [...firebaseBusinesses, ...sampleData];
 
-  // Remove duplicates by email
+  // Remove duplicates by email (if available) or ID/name combination
   const uniqueMap = new Map();
   allBusinesses.forEach(b => {
-    if (!uniqueMap.has(b.email)) {
-      uniqueMap.set(b.email, b);
+    // Use email as primary dedup key, fall back to ID or business name
+    const deupKey = (b.email && b.email.trim()) ? b.email : (b.id || b.name || Math.random().toString());
+    if (!uniqueMap.has(deupKey)) {
+      uniqueMap.set(deupKey, b);
     }
   });
 
@@ -1238,11 +1244,6 @@ onSnapshot(businessesRef, (snapshot) => {
 }, (error) => {
   console.error('Firebase error:', error);
 });
-
-// Store sample data before Firebase loads
-const sampleBusinessesData = businesses;
-window.sampleBusinesses = sampleBusinessesData;
-console.log('Sample businesses stored:', sampleBusinessesData.length);
 
 </script>
 
