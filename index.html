@@ -1090,5 +1090,68 @@ document.addEventListener('keydown',e=>{
   }
 });
 </script>
+
+<!-- FIREBASE INTEGRATION -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU",
+  authDomain: "fiten-business-directory.firebaseapp.com",
+  projectId: "fiten-business-directory",
+  storageBucket: "fiten-business-directory.firebasestorage.app",
+  messagingSenderId: "488951674507",
+  appId: "1:488951674507:web:0987269c7ecba8a2c6868e",
+  measurementId: "G-TYGY7S4P2L"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Listen to Firestore in real-time
+const q = query(collection(db, 'businesses'), orderBy('createdAt', 'desc'));
+
+onSnapshot(q, (snapshot) => {
+  const firebaseBusinesses = [];
+  snapshot.forEach((doc) => {
+    firebaseBusinesses.push({
+      id: doc.id,
+      name: doc.data().businessName,
+      category: doc.data().category,
+      location: doc.data().city,
+      description: doc.data().description,
+      email: doc.data().email,
+      phone: doc.data().phone,
+      website: doc.data().website,
+      pro: false,
+      verified: true,
+      signals: ['Seeking Clients']
+    });
+  });
+
+  // Merge with existing businesses (Firestore + sample data)
+  window.firebaseBusinesses = firebaseBusinesses;
+  const allBusinesses = [...firebaseBusinesses, ...businesses];
+
+  // Remove duplicates based on email
+  const uniqueBusinesses = Array.from(
+    new Map(allBusinesses.map(b => [b.email, b])).values()
+  );
+
+  // Update the global businesses array
+  window.businesses = uniqueBusinesses;
+
+  // Re-render the grid
+  renderGrid(window.businesses);
+
+  // Update stats
+  document.querySelectorAll('.stat-item strong')[0].textContent = uniqueBusinesses.length;
+});
+
+</script>
+
 </body>
 </html>

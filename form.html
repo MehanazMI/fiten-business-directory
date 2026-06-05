@@ -1,83 +1,303 @@
-<div style="background: var(--color-background-primary); max-width: 500px; margin: 0 auto; padding: 0;">
-  <div style="padding: 2rem 2rem 1.5rem;">
-    <h1 style="font-size: 24px; font-weight: 500; margin: 0 0 0.5rem; color: var(--color-text-primary);">Add your business</h1>
-    <p style="font-size: 15px; color: var(--color-text-secondary); margin: 0 0 1.5rem; line-height: 1.5;">List your business on Fiten and reach customers in your area.</p>
-    
-    <form id="signupForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
-      
-      <!-- Business Name -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Business name <span style="color: var(--color-text-danger);">*</span></label>
-        <input type="text" placeholder="Enter business name" required style="width: 100%; font-size: 15px;" />
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Your Business - FiTEN Directory</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 2rem 1rem;
+      color: #333;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+    .required {
+      color: #d32f2f;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    select,
+    textarea {
+      font-size: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #8B2E3B;
+      box-shadow: 0 0 0 3px rgba(139, 46, 59, 0.1);
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    input[type="checkbox"] {
+      margin-top: 4px;
+      accent-color: #8B2E3B;
+    }
+    .checkbox-label {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 15px;
+      font-weight: 500;
+      background: #8B2E3B;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #6B1414;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .success.show {
+      display: block;
+    }
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .success h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #27ae60;
+    }
+    .success p {
+      color: #666;
+      line-height: 1.6;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .error.show {
+      display: block;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: #8B2E3B;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Directory</a>
 
-      <!-- Category -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Category <span style="color: var(--color-text-danger);">*</span></label>
-        <select required style="width: 100%; font-size: 15px;">
-          <option value="">Select a category</option>
-          <option value="retail">Retail</option>
-          <option value="food">Food & Beverage</option>
-          <option value="services">Services</option>
-          <option value="health">Health & Wellness</option>
-          <option value="tech">Technology</option>
-          <option value="finance">Finance & Insurance</option>
-          <option value="education">Education</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="real-estate">Real Estate</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
+    <div id="formSection">
+      <h1>Add your business</h1>
+      <p class="subtitle">List your business on FiTEN and reach customers in your area.</p>
 
-      <!-- Contact Email -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Email address <span style="color: var(--color-text-danger);">*</span></label>
-        <input type="email" placeholder="business@example.com" required style="width: 100%; font-size: 15px;" />
-      </div>
+      <div class="error" id="errorMsg"></div>
 
-      <!-- Phone -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Phone <span style="color: var(--color-text-danger);">*</span></label>
-        <input type="tel" placeholder="+1 (555) 000-0000" required style="width: 100%; font-size: 15px;" />
-      </div>
+      <form id="signupForm" class="form-group">
+        <div class="field">
+          <label>Business name <span class="required">*</span></label>
+          <input type="text" name="businessName" placeholder="Enter business name" required>
+        </div>
 
-      <!-- Location -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">City <span style="color: var(--color-text-danger);">*</span></label>
-        <input type="text" placeholder="City or neighborhood" required style="width: 100%; font-size: 15px;" />
-      </div>
+        <div class="field">
+          <label>Category <span class="required">*</span></label>
+          <select name="category" required>
+            <option value="">Select a category</option>
+            <option value="Technology">Technology</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Finance">Finance & Insurance</option>
+            <option value="Food & Beverage">Food & Beverage</option>
+            <option value="Retail">Retail</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Education">Education</option>
+            <option value="Services">Services</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-      <!-- Website -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Website <span style="font-size: 13px; color: var(--color-text-tertiary); font-weight: 400;">(optional)</span></label>
-        <input type="url" placeholder="https://www.example.com" style="width: 100%; font-size: 15px;" />
-      </div>
+        <div class="field">
+          <label>Email address <span class="required">*</span></label>
+          <input type="email" name="email" placeholder="business@example.com" required>
+        </div>
 
-      <!-- Business Description -->
-      <div>
-        <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary);">Business description <span style="color: var(--color-text-danger);">*</span></label>
-        <textarea placeholder="Tell customers what your business does (50-300 characters)" required style="width: 100%; font-size: 15px; min-height: 100px; resize: vertical; font-family: inherit;" ></textarea>
-      </div>
+        <div class="field">
+          <label>Phone <span class="required">*</span></label>
+          <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
+        </div>
 
-      <!-- Terms -->
-      <div style="display: flex; gap: 8px; align-items: flex-start;">
-        <input type="checkbox" id="terms" required style="margin-top: 4px;" />
-        <label for="terms" style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; cursor: pointer;">I agree that my business information will be published on fiten.org and available to the public.</label>
-      </div>
+        <div class="field">
+          <label>City <span class="required">*</span></label>
+          <input type="text" name="city" placeholder="City or neighborhood" required>
+        </div>
 
-      <!-- Submit Button -->
-      <button type="submit" style="padding: 0.75rem 1.5rem; font-size: 15px; font-weight: 500; background: var(--color-background-info); color: var(--color-text-info); border: none; border-radius: var(--border-radius-md); cursor: pointer; margin-top: 0.5rem;">Add my business</button>
+        <div class="field">
+          <label>Website <span style="font-size: 13px; color: #999; font-weight: 400;">(optional)</span></label>
+          <input type="url" name="website" placeholder="https://www.example.com">
+        </div>
 
-      <p style="font-size: 12px; color: var(--color-text-tertiary); margin: 0.5rem 0 0; text-align: center;">Your listing will be live immediately</p>
-    </form>
+        <div class="field">
+          <label>Business description <span class="required">*</span></label>
+          <textarea name="description" placeholder="Tell customers what your business does (50-300 characters)" required></textarea>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms" class="checkbox-label">I agree that my business information will be published on fiten.org and available to the public.</label>
+        </div>
+
+        <button type="submit" id="submitBtn">Add my business</button>
+        <p class="hint">Your listing will be live immediately</p>
+      </form>
+    </div>
+
+    <div id="successSection" class="success">
+      <div class="success-icon">✅</div>
+      <h2>Business Added Successfully!</h2>
+      <p>Your listing is now live on the FiTEN Directory.<br>Congratulations and welcome to the community! 🎉</p>
+      <a href="/" class="back-link" style="display: inline-block; margin-top: 1.5rem;">View Directory</a>
+    </div>
   </div>
-</div>
 
-<script>
-document.getElementById('signupForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  const businessName = this.querySelector('input[type="text"]').value;
-  sendPrompt(`I just submitted the business signup form for "${businessName}". What should be next?`);
-});
-</script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU",
+      authDomain: "fiten-business-directory.firebaseapp.com",
+      projectId: "fiten-business-directory",
+      storageBucket: "fiten-business-directory.firebasestorage.app",
+      messagingSenderId: "488951674507",
+      appId: "1:488951674507:web:0987269c7ecba8a2c6868e",
+      measurementId: "G-TYGY7S4P2L"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Form submission
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const errorMsg = document.getElementById('errorMsg');
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Adding...';
+        errorMsg.classList.remove('show');
+
+        // Get form data
+        const formData = {
+          businessName: document.querySelector('input[name="businessName"]').value,
+          category: document.querySelector('select[name="category"]').value,
+          email: document.querySelector('input[name="email"]').value,
+          phone: document.querySelector('input[name="phone"]').value,
+          city: document.querySelector('input[name="city"]').value,
+          website: document.querySelector('input[name="website"]').value || '',
+          description: document.querySelector('textarea[name="description"]').value,
+          createdAt: serverTimestamp(),
+          status: 'active'
+        };
+
+        // Save to Firestore
+        const docRef = await addDoc(collection(db, 'businesses'), formData);
+
+        // Show success message
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successSection').classList.add('show');
+
+      } catch (error) {
+        console.error('Error:', error);
+        errorMsg.textContent = 'Error: ' + error.message;
+        errorMsg.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Add my business';
+      }
+    });
+  </script>
+</body>
+</html>
