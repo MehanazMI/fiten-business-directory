@@ -1123,7 +1123,11 @@ onSnapshot(businessesRef, (snapshot) => {
     console.log('Business from Firebase:', data.businessName);
 
     const initials = (data.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    const bgColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    const colors = ['#E6F1FB', '#EAF3DE', '#FAEEDA', '#EEEDFE', '#E1F5EE', '#FAECE7', '#F1EFE8', '#FBEAF0'];
+    const textColors = ['#0C447C', '#27500A', '#633806', '#3C3489', '#085041', '#712B13', '#444', '#72243E'];
+    const idx = Math.floor(Math.random() * colors.length);
+    const bgColor = colors[idx];
+    const textColor = textColors[idx];
 
     firebaseBusinesses.push({
       id: doc.id,
@@ -1133,6 +1137,7 @@ onSnapshot(businessesRef, (snapshot) => {
       cat: data.category || 'Other',
       location: data.city || '',
       loc: data.city || '',
+      region: 'Global',
       desc: data.description || '',
       description: data.description || '',
       email: data.email || '',
@@ -1144,14 +1149,15 @@ onSnapshot(businessesRef, (snapshot) => {
       avatar: initials,
       initials: initials,
       color: bgColor,
-      textColor: '#fff',
+      textColor: textColor,
       backgroundColor: bgColor,
       looking: [],
       rating: 5,
       reviews: 0,
       speaker: false,
       women: false,
-      convention: false
+      convention: false,
+      views: 0
     });
   });
 
