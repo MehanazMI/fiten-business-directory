@@ -899,11 +899,17 @@ function _renderPage(){
   if(lastFiltered.length===0){grid.style.display='none';noR.style.display='block';lmw.style.display='none';return;}
   noR.style.display='none';
   grid.innerHTML=lastFiltered.slice(0,visibleCount).map((b,i)=>{
-    var el='<div style="--ci:'+i+'">'+cardHtml(b,businesses.indexOf(b))+'</div>';
+    var el='<div style="--ci:'+i+'" data-bid="'+(b.id||i)+'">'+cardHtml(b,i)+'</div>';
     return el;
   }).join('');
   var cards=grid.querySelectorAll('.biz-card');
-  cards.forEach((c,i)=>{c.style.setProperty('--ci',i);c.onclick=()=>openDetail(businesses.indexOf(lastFiltered[i]))});
+  cards.forEach((c,i)=>{
+    c.style.setProperty('--ci',i);
+    c.onclick=()=>{
+      var bid=c.parentElement.getAttribute('data-bid');
+      openDetailByBusiness(lastFiltered[i]);
+    };
+  });
   var rem=lastFiltered.length-visibleCount;
   if(rem>0){
     lmw.style.display='block';
@@ -939,8 +945,22 @@ function renderRegion(list){
   }).join('');
 }
 
+function openDetailByBusiness(b){
+  currentDetailIdx=-1;
+  if(!b || !b.name){console.error('Invalid business object',b);return;}
+  document.getElementById('detailOverlay').classList.add('open');
+  _renderDetailContent(b);
+}
+
 function openDetail(idx){
+  if(idx<0 || idx>=businesses.length){console.error('Invalid index',idx);return;}
   var b=businesses[idx];currentDetailIdx=idx;
+  if(!b){console.error('No business at index',idx);return;}
+  document.getElementById('detailOverlay').classList.add('open');
+  _renderDetailContent(b);
+}
+
+function _renderDetailContent(b){
   document.getElementById('detailHeader').innerHTML=
     '<button class="detail-close" onclick="closeDetail()">&times;</button>'+
     '<div class="detail-avatar-lg" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
