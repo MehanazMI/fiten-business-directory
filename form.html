@@ -174,7 +174,7 @@
 
       <div class="error" id="errorMsg"></div>
 
-      <form id="signupForm" class="form-group">
+      <form id="signupForm" class="form-group" method="post" onsubmit="submitBusiness(event)">
         <div class="field">
           <label>Business name <span class="required">*</span></label>
           <input type="text" name="businessName" placeholder="Enter business name" required>
@@ -264,8 +264,9 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Synchronous entry point — e.preventDefault() runs immediately, no async
+    function submitBusiness(e) {
+      e.preventDefault();   // stops native form submission unconditionally
       const btn = document.getElementById('submitBtn');
       const err = document.getElementById('errorMsg');
 
@@ -285,16 +286,11 @@
         createdAt:    new Date().toISOString(),
       };
 
-      try {
-        const res = await fetch(FS_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(toFields(data)),
-        });
+      // Async work in a separate function so the sync handler returns fast
+      saveBusiness(data, btn, err);
+    }
 
-        if (!res.ok) {
-          const detail = await res.json().catch(() => ({}));
-          throw new Error(detail?.error?.message || `HTTP ${res.status}`);
-        }
-
-    
+    function saveBusiness(data, btn, err) {
+      fetch(FS_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'appli
