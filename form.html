@@ -242,39 +242,37 @@
   </div>
 
   <script>
-    // Firestore REST API — no SDK, no external dependencies
-    const FS_URL = 'https://firestore.googleapis.com/v1/projects/fiten-business-directory/databases/(default)/documents/businesses'
-                 + '?key=AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU';
+    var FS_URL = 'https://firestore.googleapis.com/v1/projects/fiten-business-directory/databases/(default)/documents/businesses'
+              + '?key=AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU';
 
-    // Helper: convert plain object → Firestore REST fields format
     function toFields(obj) {
-      const fields = {};
-      for (const [k, v] of Object.entries(obj)) {
-        if (typeof v === 'boolean')      fields[k] = { booleanValue: v };
-        else if (typeof v === 'number')  fields[k] = { doubleValue: v };
-        else                             fields[k] = { stringValue: String(v) };
+      var fields = {};
+      var keys = Object.keys(obj);
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i], v = obj[k];
+        if (typeof v === 'boolean')     fields[k] = { booleanValue: v };
+        else if (typeof v === 'number') fields[k] = { doubleValue: v };
+        else                            fields[k] = { stringValue: String(v) };
       }
-      return { fields };
+      return { fields: fields };
     }
 
     function showError(msg) {
-      const el = document.getElementById('errorMsg');
-      el.textContent = '❌ ' + msg + ' — please try again.';
+      var el = document.getElementById('errorMsg');
+      el.textContent = 'Error: ' + msg + ' - please try again.';
       el.classList.add('show');
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Synchronous entry point — e.preventDefault() runs immediately, no async
     function submitBusiness(e) {
-      e.preventDefault();   // stops native form submission unconditionally
-      const btn = document.getElementById('submitBtn');
-      const err = document.getElementById('errorMsg');
-
+      e.preventDefault();
+      var btn = document.getElementById('submitBtn');
+      var err = document.getElementById('errorMsg');
       btn.disabled = true;
       btn.textContent = 'Saving...';
       err.classList.remove('show');
 
-      const data = {
+      var data = {
         businessName: document.querySelector('[name="businessName"]').value.trim(),
         category:     document.querySelector('[name="category"]').value,
         email:        document.querySelector('[name="email"]').value.trim(),
@@ -283,14 +281,22 @@
         website:      document.querySelector('[name="website"]').value.trim(),
         description:  document.querySelector('[name="description"]').value.trim(),
         status:       'active',
-        createdAt:    new Date().toISOString(),
+        createdAt:    new Date().toISOString()
       };
 
-      // Async work in a separate function so the sync handler returns fast
       saveBusiness(data, btn, err);
     }
 
     function saveBusiness(data, btn, err) {
       fetch(FS_URL, {
         method:  'POST',
-        headers: { 'Content-Type': 'appli
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(toFields(data))
+      })
+      .then(function(res) {
+        if (!res.ok) {
+          return res.json().then(function(d) {
+            throw new Error((d.error && d.error.message) || 'HTTP ' + res.status);
+          });
+        }
+    
