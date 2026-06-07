@@ -152,16 +152,6 @@
     .error.show {
       display: block;
     }
-    .firebase-warn {
-      background: #fff3cd;
-      color: #856404;
-      padding: 12px 16px;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-      border-left: 4px solid #ffc107;
-      font-size: 14px;
-      display: none;
-    }
     .back-link {
       display: inline-block;
       margin-bottom: 2rem;
@@ -182,9 +172,6 @@
       <h1>Add your business</h1>
       <p class="subtitle">List your business on FiTEN and reach customers in your area.</p>
 
-      <div class="firebase-warn" id="firebaseWarn">
-        ⚠️ Connection issue — please refresh the page before submitting.
-      </div>
       <div class="error" id="errorMsg"></div>
 
       <form id="signupForm" class="form-group">
@@ -254,42 +241,21 @@
     </div>
   </div>
 
-  <!-- Show connection warning by default; Firebase script hides it on load -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // If Firebase module hasn't hidden this within 5s, show the warning
-      setTimeout(() => {
-        const warn = document.getElementById('firebaseWarn');
-        if (warn && warn.style.display !== 'none') {
-          warn.style.display = 'block';
-          document.getElementById('submitBtn').disabled = true;
-        }
-      }, 5000);
-    });
-  </script>
+    // Firestore REST API — no SDK, no external dependencies
+    const FS_URL = 'https://firestore.googleapis.com/v1/projects/fiten-business-directory/databases/(default)/documents/businesses'
+                 + '?key=AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU';
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
-
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU",
-      authDomain: "fiten-business-directory.firebaseapp.com",
-      projectId: "fiten-business-directory",
-      storageBucket: "fiten-business-directory.firebasestorage.app",
-      messagingSenderId: "488951674507",
-      appId: "1:488951674507:web:0987269c7ecba8a2c6868e",
-      measurementId: "G-TYGY7S4P2L"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Firebase loaded OK — hide the warning banner
-    document.getElementById('firebaseWarn').style.display = 'none';
+    // Helper: convert plain object → Firestore REST fields format
+    function toFields(obj) {
+      const fields = {};
+      for (const [k, v] of Object.entries(obj)) {
+        if (typeof v === 'boolean')      fields[k] = { booleanValue: v };
+        else if (typeof v === 'number')  fields[k] = { doubleValue: v };
+        else                             fields[k] = { stringValue: String(v) };
+      }
+      return { fields };
+    }
 
     function showError(msg) {
       const el = document.getElementById('errorMsg');
@@ -298,9 +264,37 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Form submission
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const err = document.getElementById('errorMsg');
 
-      const submitBtn = document.getElementById('submitBtn');
-      const errorMsg  = document.getElemen
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      err.classList.remove('show');
+
+      const data = {
+        businessName: document.querySelector('[name="businessName"]').value.trim(),
+        category:     document.querySelector('[name="category"]').value,
+        email:        document.querySelector('[name="email"]').value.trim(),
+        phone:        document.querySelector('[name="phone"]').value.trim(),
+        city:         document.querySelector('[name="city"]').value.trim(),
+        website:      document.querySelector('[name="website"]').value.trim(),
+        description:  document.querySelector('[name="description"]').value.trim(),
+        status:       'active',
+        createdAt:    new Date().toISOString(),
+      };
+
+      try {
+        const res = await fetch(FS_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(toFields(data)),
+        });
+
+        if (!res.ok) {
+          const detail = await res.json().catch(() => ({}));
+          throw new Error(detail?.error?.message || `HTTP ${res.status}`);
+        }
+
+    
