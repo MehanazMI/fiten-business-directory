@@ -174,7 +174,7 @@
 
       <div class="error" id="errorMsg"></div>
 
-      <form id="signupForm" class="form-group" method="post" onsubmit="submitBusiness(event)">
+      <form id="signupForm" class="form-group">
         <div class="field">
           <label>Business name <span class="required">*</span></label>
           <input type="text" name="businessName" placeholder="Enter business name" required>
@@ -228,7 +228,7 @@
           <label for="terms" class="checkbox-label">I agree that my business information will be published on fiten.org and available to the public.</label>
         </div>
 
-        <button type="submit" id="submitBtn">Add my business</button>
+        <button type="button" id="submitBtn" onclick="submitBusiness()">Add my business</button>
         <p class="hint">Your listing will be live immediately</p>
       </form>
     </div>
@@ -264,10 +264,14 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function submitBusiness(e) {
-      e.preventDefault();
+    function submitBusiness() {
       var btn = document.getElementById('submitBtn');
       var err = document.getElementById('errorMsg');
+
+      // Manual validation (form is no longer type=submit)
+      var form = document.getElementById('signupForm');
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
       btn.disabled = true;
       btn.textContent = 'Saving...';
       err.classList.remove('show');
@@ -295,8 +299,4 @@
       })
       .then(function(res) {
         if (!res.ok) {
-          return res.json().then(function(d) {
-            throw new Error((d.error && d.error.message) || 'HTTP ' + res.status);
-          });
-        }
-    
+          return res
