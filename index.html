@@ -338,6 +338,7 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
 #bizMap{display:none}
 .map-canvas{text-align:center;margin:2rem 0}
 
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .rv{opacity:0;transform:translateY(20px)}
 .rv-in{animation:revealIn 0.6s ease forwards}
 @keyframes revealIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -474,8 +475,14 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
       </div>
     </div>
 
+    <!-- LOADING STATE -->
+    <div id="loadingState" style="text-align:center;padding:3rem 1.5rem;color:var(--text3)">
+      <div style="font-size:2rem;margin-bottom:0.8rem;animation:spin 1s linear infinite;display:inline-block">⟳</div>
+      <p style="font-size:1rem;font-weight:600">Loading directory...</p>
+    </div>
+
     <!-- GRID VIEW -->
-    <div id="bizGrid" class="biz-grid"></div>
+    <div id="bizGrid" class="biz-grid" style="display:none"></div>
 
     <!-- REGION VIEW -->
     <div id="bizRegion"></div>
@@ -630,19 +637,8 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
 </div><!-- mainWrapper -->
 
 <script>
-// BUSINESS DATA & CONFIG
-const businesses=[
-  {name:"AccuKnox Cloud Security",nameTamil:"AccuKnox",cat:"Tech",loc:"Silicon Valley, CA",region:"North America",desc:"Cloud-native zero-trust security platform.",rating:4.9,reviews:42,pro:true,speaker:true,women:false,convention:true,color:"#E6F1FB",textColor:"#0C447C",initials:"AK",looking:["partner","invest"],views:312,website:"accuknox.com"},
-  {name:"TamilMed Clinics",nameTamil:"TamilMed",cat:"Healthcare",loc:"Edison, NJ",region:"North America",desc:"Tamil-speaking family medicine practice.",rating:4.8,reviews:87,pro:true,speaker:false,women:true,convention:true,color:"#EAF3DE",textColor:"#27500A",initials:"TM",looking:["client","partner"],views:489,website:"tamilmedclinics.com"},
-  {name:"Kovai Bites Restaurant",nameTamil:"Kovai",cat:"Food",loc:"Fremont, CA",region:"North America",desc:"Authentic Chettinad cuisine & catering.",rating:4.7,reviews:213,pro:false,speaker:false,women:false,convention:false,color:"#FAEEDA",textColor:"#633806",initials:"KB",looking:["client"]},
-  {name:"Rocketship.vc",nameTamil:"Rocketship",cat:"Finance",loc:"San Francisco, CA",region:"North America",desc:"Silicon Valley fund investing in startups.",rating:4.9,reviews:28,pro:true,speaker:true,women:true,convention:true,color:"#EEEDFE",textColor:"#3C3489",initials:"RV",looking:["invest","partner"],views:271},
-  {name:"ERP Logic Inc.",nameTamil:"ERP Logic",cat:"Tech",loc:"Dallas, TX",region:"North America",desc:"Enterprise resource planning consulting.",rating:4.6,reviews:56,pro:true,speaker:true,women:false,convention:false,color:"#E1F5EE",textColor:"#085041",initials:"EL",looking:["partner","client","hire"],views:198},
-  {name:"Chennai Spice Kitchen",nameTamil:"Chennai",cat:"Food",loc:"Jersey City, NJ",region:"North America",desc:"Street food of Chennai. Dosai & idly.",rating:4.5,reviews:341,pro:false,speaker:false,women:true,convention:false,color:"#FAECE7",textColor:"#712B13",initials:"CS",looking:["client"]},
-  {name:"Tamil Legal Group",nameTamil:"Tamil Legal",cat:"Legal",loc:"Houston, TX",region:"North America",desc:"Immigration, family law & business formation.",rating:4.7,reviews:95,pro:false,speaker:false,women:false,convention:false,color:"#F1EFE8",textColor:"#444",initials:"TL",looking:["client","partner"]},
-  {name:"Vani Language Academy",nameTamil:"Vani",cat:"Education",loc:"Coimbatore, India",region:"South Asia",desc:"Tamil language & Carnatic music classes.",rating:4.8,reviews:134,pro:false,speaker:false,women:true,convention:true,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"]},
-];
-window.sampleBusinesses = businesses; // Keep for Firebase module compat
-window.businesses = businesses.slice();  // Mutable merged list — Firebase will update this
+// All business data is loaded from Firebase — no hardcoded data
+window.businesses = [];  // Populated by Firebase onSnapshot
 
 const testimonials=[
   {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar.",name:"Karthik R.",biz:"AccuKnox",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
@@ -720,7 +716,7 @@ function onSearchInput(){
   suggestTimer=setTimeout(()=>{
     const q=document.getElementById('searchInput').value.trim().toLowerCase();
     if(q.length<2){hideSuggestions();filterBiz();return;}
-    const matches=(window.businesses||businesses).filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
+    const matches=(window.businesses).filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
     showSuggestions(matches,q);
     filterBiz();
   },120);
@@ -808,7 +804,7 @@ function filterBiz(){
   const chkI=document.getElementById('chkInvest').checked;
   const chkC=document.getElementById('chkConvention').checked;
 
-  let filtered=(window.businesses||businesses).filter(b=>{
+  let filtered=(window.businesses).filter(b=>{
     if(showFavs&&!favorites.has(b.id||b.name))return false;
     const businessCat=b.cat||b.category||'';
     if(activeCat!=='All'&&businessCat!==activeCat)return false;
@@ -896,7 +892,11 @@ function _renderPage(){
   const grid=document.getElementById('bizGrid');
   const noR=document.getElementById('noResults');
   const lmw=document.getElementById('loadMoreWrap');
-  document.getElementById('resultCount').innerHTML='Showing '+lastFiltered.length+' of 847 businesses';
+  const loader=document.getElementById('loadingState');
+  // Hide spinner once we have data
+  if(loader) loader.style.display='none';
+  var total=window.businesses?window.businesses.length:lastFiltered.length;
+  document.getElementById('resultCount').innerHTML='Showing '+lastFiltered.length+' of '+total+' businesses';
   grid.style.display='';
   document.getElementById('bizRegion').style.display='none';
   if(lastFiltered.length===0){grid.style.display='none';noR.style.display='block';lmw.style.display='none';return;}
@@ -956,7 +956,7 @@ function openDetailByBusiness(b){
 }
 
 function openDetailByName(name){
-  var list=window.businesses||businesses;
+  var list=window.businesses;
   var b=list.find(function(x){return x.name===name;});
   if(b) openDetailByBusiness(b);
   else console.error('Business not found:',name);
@@ -1107,8 +1107,7 @@ function exportCSV(){
   showToast('CSV downloaded','ok');
 }
 
-// INITIALIZE
-renderGrid(businesses);
+// INITIALIZE — data comes from Firebase, nothing to render here
 renderTestimonials();
 try { setPlan('monthly'); } catch(e) { console.log('Pricing section not available'); }
 
@@ -1175,60 +1174,65 @@ onSnapshot(businessesRef, (snapshot) => {
   _fbDebounce = setTimeout(() => {
     console.log('Firebase snapshot received:', snapshot.docs.length);
 
-    const firebaseBusinesses = [];
+    const loaded = [];
     snapshot.forEach((doc) => {
-      const data = doc.data();
-      const initials = (data.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-      const idx = _stableColorIdx(doc.id);  // Stable — no random, no re-render churn
-      const mappedCategory = categoryMap[data.category] || data.category || 'Other';
+      const d = doc.data();
+      if (d.status && d.status !== 'active') return; // Skip inactive
+      const initials = (d.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+      const colorIdx = _stableColorIdx(doc.id);
+      const cat = categoryMap[d.category] || d.category || 'Other';
 
-      firebaseBusinesses.push({
+      loaded.push({
         id: 'firebase-' + doc.id,
         firebaseId: doc.id,
-        name: data.businessName || '',
-        nameTamil: '',
-        category: mappedCategory,
-        cat: mappedCategory,
-        location: data.city || '',
-        loc: data.city || '',
-        region: data.region || 'Global',
-        desc: data.description || '',
-        description: data.description || '',
-        email: data.email || '',
-        phone: data.phone || '',
-        website: data.website || '',
-        pro: false,
-        verified: true,
-        badge: '✓',
-        initials: initials,
-        color: _colors[idx],
-        textColor: _textColors[idx],
-        looking: [],
-        rating: 5,
-        reviews: 0,
-        speaker: false,
-        women: false,
-        convention: false,
-        views: 0
+        // Identity
+        name:       d.businessName || '',
+        nameTamil:  d.nameTamil    || '',
+        initials:   initials,
+        // Category & location
+        cat:        cat,
+        category:   cat,
+        loc:        d.city         || '',
+        region:     d.region       || 'Global',
+        // Content
+        desc:       d.description  || '',
+        email:      d.email        || '',
+        phone:      d.phone        || '',
+        website:    d.website      || '',
+        // PRO & signals — stored in Firestore, editable via Firebase console
+        pro:        d.pro          || false,
+        looking:    d.looking      || [],
+        speaker:    d.speaker      || false,
+        women:      d.women        || false,
+        convention: d.convention   || false,
+        // Stats
+        rating:     d.rating       || 0,
+        reviews:    d.reviews      || 0,
+        views:      d.views        || 0,
+        // Colors — stable, never random
+        color:      _colors[colorIdx],
+        textColor:  _textColors[colorIdx],
       });
     });
 
-    const sampleData = window.sampleBusinesses || [];
+    // Sort PRO members first, then by reviews desc
+    loaded.sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0) || (b.reviews - a.reviews));
 
-    // Merge — Firebase businesses first so they appear at top
-    const allBusinesses = [...firebaseBusinesses, ...sampleData];
+    console.log('Loaded from Firebase:', loaded.length, 'businesses');
+    window.businesses = loaded;
 
-    // Dedup: email for Firebase entries, name for sample entries
-    const uniqueMap = new Map();
-    allBusinesses.forEach(b => {
-      const key = (b.email && b.email.trim()) ? b.email : (b.id || b.name);
-      if (!uniqueMap.has(key)) uniqueMap.set(key, b);
-    });
+    // Re-run current filter so category/search state is preserved
+    if (typeof filterBiz === 'function') filterBiz();
 
-    const allUnique = Array.from(uniqueMap.values());
-    console.log('Firebase businesses loaded:', firebaseBusinesses.length, '| Total after merge:', allUnique.length);
+  }, 250);
+}, (error) => {
+  console.error('Firebase error:', error);
+  const loader = document.getElementById('loadingState');
+  if (loader) loader.innerHTML = '<p style="color:#c00">⚠️ Failed to load directory. Please refresh.</p>';
+});
 
-    // Update the shared list — filterBiz() reads window.businesses
-    window.businesses = allUnique;
+</script>
 
-    // Re-run active filter so Fi
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
