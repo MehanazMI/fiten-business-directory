@@ -641,7 +641,8 @@ const businesses=[
   {name:"Tamil Legal Group",nameTamil:"Tamil Legal",cat:"Legal",loc:"Houston, TX",region:"North America",desc:"Immigration, family law & business formation.",rating:4.7,reviews:95,pro:false,speaker:false,women:false,convention:false,color:"#F1EFE8",textColor:"#444",initials:"TL",looking:["client","partner"]},
   {name:"Vani Language Academy",nameTamil:"Vani",cat:"Education",loc:"Coimbatore, India",region:"South Asia",desc:"Tamil language & Carnatic music classes.",rating:4.8,reviews:134,pro:false,speaker:false,women:true,convention:true,color:"#FBEAF0",textColor:"#72243E",initials:"VL",looking:["partner","client"]},
 ];
-window.sampleBusinesses = businesses; // Make available to Firebase module
+window.sampleBusinesses = businesses; // Keep for Firebase module compat
+window.businesses = businesses.slice();  // Mutable merged list — Firebase will update this
 
 const testimonials=[
   {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar.",name:"Karthik R.",biz:"AccuKnox",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
@@ -719,7 +720,7 @@ function onSearchInput(){
   suggestTimer=setTimeout(()=>{
     const q=document.getElementById('searchInput').value.trim().toLowerCase();
     if(q.length<2){hideSuggestions();filterBiz();return;}
-    const matches=businesses.filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
+    const matches=(window.businesses||businesses).filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
     showSuggestions(matches,q);
     filterBiz();
   },120);
@@ -807,7 +808,7 @@ function filterBiz(){
   const chkI=document.getElementById('chkInvest').checked;
   const chkC=document.getElementById('chkConvention').checked;
 
-  let filtered=businesses.filter(b=>{
+  let filtered=(window.businesses||businesses).filter(b=>{
     if(showFavs&&!favorites.has(b.id||b.name))return false;
     const businessCat=b.cat||b.category||'';
     if(activeCat!=='All'&&businessCat!==activeCat)return false;
@@ -868,8 +869,8 @@ function cardHtml(b,idx){
       '<span class="card-rating">'+starsHtml(b.rating)+' '+b.rating+' · '+b.reviews+'</span>'+
       '<div style="display:flex;gap:0.5rem">'+
         (b.pro
-          ?'<button class="connect-btn" onclick="openDetail('+businesses.indexOf(b)+')">View</button>'
-          :'<button class="claim-btn" onclick="openClaimModal(\''+b.name+'\')">Claim</button>'+
+          ?'<button class="connect-btn" onclick="openDetailByName(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >View</button>'
+          :'<button class="claim-btn" onclick="openClaimModal(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >Claim</button>'+
            '<button class="profile-btn" onclick="scrollToSignup()">PRO</button>')+
       '</div>'+
     '</div>'+
@@ -935,7 +936,7 @@ function renderRegion(list){
     return '<div class="region-section">'+
       '<div class="region-heading"><span class="region-flag">🌍</span>'+region+' <span class="region-count">'+items.length+'</span></div>'+
       '<div class="region-list">'+
-        items.map(b=>'<div class="region-row'+(b.pro?' pro-row':'')+'" onclick="openDetail('+businesses.indexOf(b)+')" style="cursor:pointer">'+
+        items.map(b=>'<div class="region-row'+(b.pro?' pro-row':'')+'" onclick="openDetailByName(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\') " style="cursor:pointer">'+
           '<div class="region-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
           '<div style="flex:1;min-width:0">'+
             '<div class="region-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
@@ -952,6 +953,13 @@ function openDetailByBusiness(b){
   if(!b || !b.name){console.error('Invalid business object',b);return;}
   document.getElementById('detailOverlay').classList.add('open');
   _renderDetailContent(b);
+}
+
+function openDetailByName(name){
+  var list=window.businesses||businesses;
+  var b=list.find(function(x){return x.name===name;});
+  if(b) openDetailByBusiness(b);
+  else console.error('Business not found:',name);
 }
 
 function openDetail(idx){
@@ -1133,119 +1141,94 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Sample data is pre-saved to window.sampleBusinesses by the main script
+// Stable color palette — deterministic by doc ID so colors never change on re-render
+const _colors     = ['#E6F1FB','#EAF3DE','#FAEEDA','#EEEDFE','#E1F5EE','#FAECE7','#F1EFE8','#FBEAF0'];
+const _textColors = ['#0C447C','#27500A','#633806','#3C3489','#085041','#712B13','#444','#72243E'];
+function _stableColorIdx(id) {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) & 0xFFFF;
+  return h % _colors.length;
+}
 
-// Listen to Firestore in real-time
+const categoryMap = {
+  'Food & Beverage': 'Food',
+  'Retail': 'Retail',
+  'Technology': 'Tech',
+  'Healthcare': 'Healthcare',
+  'Finance': 'Finance',
+  'Finance & Insurance': 'Finance',
+  'Education': 'Education',
+  'Real Estate': 'Real Estate',
+  'Services': 'Services',
+  'Entertainment': 'Entertainment',
+  'Legal': 'Legal',
+  'Other': 'Other'
+};
+
+// Debounce timer — prevents a burst of snapshots from re-rendering dozens of times
+let _fbDebounce = null;
+
 const businessesRef = collection(db, 'businesses');
 
 onSnapshot(businessesRef, (snapshot) => {
-  console.log('Firebase snapshot received:', snapshot.docs.length);
+  clearTimeout(_fbDebounce);
+  _fbDebounce = setTimeout(() => {
+    console.log('Firebase snapshot received:', snapshot.docs.length);
 
-  const firebaseBusinesses = [];
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    console.log('Business from Firebase:', data.businessName);
+    const firebaseBusinesses = [];
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const initials = (data.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+      const idx = _stableColorIdx(doc.id);  // Stable — no random, no re-render churn
+      const mappedCategory = categoryMap[data.category] || data.category || 'Other';
 
-    const initials = (data.businessName || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    const colors = ['#E6F1FB', '#EAF3DE', '#FAEEDA', '#EEEDFE', '#E1F5EE', '#FAECE7', '#F1EFE8', '#FBEAF0'];
-    const textColors = ['#0C447C', '#27500A', '#633806', '#3C3489', '#085041', '#712B13', '#444', '#72243E'];
-    const idx = Math.floor(Math.random() * colors.length);
-    const bgColor = colors[idx];
-    const textColor = textColors[idx];
-
-    // Map Firebase categories to match sample business categories
-    const categoryMap = {
-      'Food & Beverage': 'Food',
-      'Retail': 'Retail',
-      'Technology': 'Tech',
-      'Healthcare': 'Healthcare',
-      'Finance': 'Finance',
-      'Finance & Insurance': 'Finance',
-      'Education': 'Education',
-      'Real Estate': 'Real Estate',
-      'Services': 'Services',
-      'Entertainment': 'Entertainment',
-      'Legal': 'Legal',
-      'Other': 'Other'
-    };
-
-    const mappedCategory = categoryMap[data.category] || data.category || 'Other';
-    const businessId = 'firebase-' + doc.id; // Unique ID for saved functionality
-
-    firebaseBusinesses.push({
-      id: businessId,
-      firebaseId: doc.id,
-      name: data.businessName || '',
-      nameTamil: '',
-      category: mappedCategory,
-      cat: mappedCategory,
-      location: data.city || '',
-      loc: data.city || '',
-      region: 'Global',
-      desc: data.description || '',
-      description: data.description || '',
-      email: data.email || '',
-      phone: data.phone || '',
-      website: data.website || '',
-      pro: false,
-      verified: true,
-      badge: '✓',
-      avatar: initials,
-      initials: initials,
-      color: bgColor,
-      textColor: textColor,
-      backgroundColor: bgColor,
-      looking: [],
-      rating: 5,
-      reviews: 0,
-      speaker: false,
-      women: false,
-      convention: false,
-      views: 0
+      firebaseBusinesses.push({
+        id: 'firebase-' + doc.id,
+        firebaseId: doc.id,
+        name: data.businessName || '',
+        nameTamil: '',
+        category: mappedCategory,
+        cat: mappedCategory,
+        location: data.city || '',
+        loc: data.city || '',
+        region: data.region || 'Global',
+        desc: data.description || '',
+        description: data.description || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        website: data.website || '',
+        pro: false,
+        verified: true,
+        badge: '✓',
+        initials: initials,
+        color: _colors[idx],
+        textColor: _textColors[idx],
+        looking: [],
+        rating: 5,
+        reviews: 0,
+        speaker: false,
+        women: false,
+        convention: false,
+        views: 0
+      });
     });
-  });
 
-  console.log('Firebase businesses loaded:', firebaseBusinesses.length);
+    const sampleData = window.sampleBusinesses || [];
 
-  // Get existing sample data from window.sampleBusinesses if available
-  const sampleData = window.sampleBusinesses || [];
+    // Merge — Firebase businesses first so they appear at top
+    const allBusinesses = [...firebaseBusinesses, ...sampleData];
 
-  // Merge Firestore + sample data
-  const allBusinesses = [...firebaseBusinesses, ...sampleData];
+    // Dedup: email for Firebase entries, name for sample entries
+    const uniqueMap = new Map();
+    allBusinesses.forEach(b => {
+      const key = (b.email && b.email.trim()) ? b.email : (b.id || b.name);
+      if (!uniqueMap.has(key)) uniqueMap.set(key, b);
+    });
 
-  // Remove duplicates by email (if available) or ID/name combination
-  const uniqueMap = new Map();
-  allBusinesses.forEach(b => {
-    // Use email as primary dedup key, fall back to ID or business name
-    const deupKey = (b.email && b.email.trim()) ? b.email : (b.id || b.name || Math.random().toString());
-    if (!uniqueMap.has(deupKey)) {
-      uniqueMap.set(deupKey, b);
-    }
-  });
+    const allUnique = Array.from(uniqueMap.values());
+    console.log('Firebase businesses loaded:', firebaseBusinesses.length, '| Total after merge:', allUnique.length);
 
-  const allUnique = Array.from(uniqueMap.values());
+    // Update the shared list — filterBiz() reads window.businesses
+    window.businesses = allUnique;
 
-  console.log('Total businesses to display:', allUnique.length);
-
-  // Update window.businesses
-  window.businesses = allUnique;
-
-  // Re-render grid
-  if (typeof renderGrid === 'function') {
-    renderGrid(allUnique);
-    console.log('Grid rendered');
-  }
-
-  // Update stats
-  const statElements = document.querySelectorAll('.stat-item strong');
-  if (statElements.length > 0) {
-    statElements[0].textContent = allUnique.length;
-  }
-}, (error) => {
-  console.error('Firebase error:', error);
-});
-
-</script>
-
-</body>
-</html>
+    // Re-run active filter so Fi
