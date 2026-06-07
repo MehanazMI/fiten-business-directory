@@ -142,13 +142,25 @@
     .error {
       background: #f8d7da;
       color: #721c24;
-      padding: 10px;
+      padding: 14px 16px;
       border-radius: 4px;
       margin-bottom: 1rem;
+      border-left: 4px solid #c0392b;
+      font-weight: 500;
       display: none;
     }
     .error.show {
       display: block;
+    }
+    .firebase-warn {
+      background: #fff3cd;
+      color: #856404;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #ffc107;
+      font-size: 14px;
+      display: none;
     }
     .back-link {
       display: inline-block;
@@ -170,6 +182,9 @@
       <h1>Add your business</h1>
       <p class="subtitle">List your business on FiTEN and reach customers in your area.</p>
 
+      <div class="firebase-warn" id="firebaseWarn">
+        ⚠️ Connection issue — please refresh the page before submitting.
+      </div>
       <div class="error" id="errorMsg"></div>
 
       <form id="signupForm" class="form-group">
@@ -239,6 +254,20 @@
     </div>
   </div>
 
+  <!-- Show connection warning by default; Firebase script hides it on load -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // If Firebase module hasn't hidden this within 5s, show the warning
+      setTimeout(() => {
+        const warn = document.getElementById('firebaseWarn');
+        if (warn && warn.style.display !== 'none') {
+          warn.style.display = 'block';
+          document.getElementById('submitBtn').disabled = true;
+        }
+      }, 5000);
+    });
+  </script>
+
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
@@ -259,41 +288,19 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Firebase loaded OK — hide the warning banner
+    document.getElementById('firebaseWarn').style.display = 'none';
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = '❌ ' + msg + ' — please try again.';
+      el.classList.add('show');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     // Form submission
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const submitBtn = document.getElementById('submitBtn');
-      const errorMsg = document.getElementById('errorMsg');
-
-      try {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Adding...';
-        errorMsg.classList.remove('show');
-
-        // Get form data
-        const formData = {
-          businessName: document.querySelector('input[name="businessName"]').value,
-          category: document.querySelector('select[name="category"]').value,
-          email: document.querySelector('input[name="email"]').value,
-          phone: document.querySelector('input[name="phone"]').value,
-          city: document.querySelector('input[name="city"]').value,
-          website: document.querySelector('input[name="website"]').value || '',
-          description: document.querySelector('textarea[name="description"]').value,
-          createdAt: serverTimestamp(),
-          status: 'active'
-        };
-
-        // Save to Firestore
-        const docRef = await addDoc(collection(db, 'businesses'), formData);
-
-        // Show success message
-        document.getElementById('formSection').style.display = 'none';
-        document.getElementById('successSection').classList.add('show');
-
-      } catch (error) {
-        console.error('Error:', error);
-        errorMsg.textContent = 'Error: ' + error.message;
-        errorMsg.classList.add('show');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Add 
+      const errorMsg  = document.getElemen
