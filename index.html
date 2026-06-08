@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FiTEN Business Directory - Connecting Tamil entrepreneurs and businesses worldwide. Discover partners, clients, talent, and investment.">
 <title>FiTEN Business Directory | Tamil Business Network</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -39,6 +38,9 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
 .nav-link{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.95rem;font-weight:500;transition:color 0.2s;cursor:pointer}
 .nav-link:hover{color:#fff}
 .hdr-right{display:flex;align-items:center;gap:1rem}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.12);border-radius:20px;padding:3px;gap:2px}
+.lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.7);font-size:0.8rem;padding:5px 12px;border-radius:18px;cursor:pointer;font-family:inherit;transition:all 0.2s;font-weight:600}
+.lang-btn.active{background:#fff;color:var(--red);box-shadow:var(--shadow-sm)}
 .hdr-btn{background:var(--gold);color:#fff;border:none;padding:0.6rem 1.3rem;border-radius:0.6rem;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s}
 .hdr-btn:hover{background:#B08500;box-shadow:var(--shadow-md)}
 .hdr-btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4);padding:0.6rem 1.3rem;border-radius:0.6rem;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.2s}
@@ -54,6 +56,8 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
 .hero h1{color:#fff;font-size:2.8rem;font-weight:700;margin-bottom:0.8rem;line-height:1.2;letter-spacing:-0.5px}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero p{color:rgba(255,255,255,0.85);font-size:1.1rem;margin-bottom:0.4rem;line-height:1.6;font-weight:400}
+.hero-tamil{color:rgba(198,148,0,0.9);font-size:0.9rem;margin-bottom:1rem;margin-top:0.8rem;letter-spacing:0.3px}
+
 /* ━━━ SEARCH SECTION ━━━ */
 .search-wrap{position:relative;max-width:620px;margin:0 auto;padding:2.5rem 1.5rem 0}
 .search-bar{display:flex;background:#fff;border-radius:0.8rem;overflow:visible;border:2.5px solid var(--gold);box-shadow:var(--shadow-md);position:relative;z-index:10}
@@ -358,6 +362,10 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
     <a class="nav-link" href="#contact">Contact</a>
   </nav>
   <div class="hdr-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
   </div>
 </header>
 
@@ -370,6 +378,7 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
     </div>
     <h1 id="heroTitle">Connect with <em>Tamil Businesses</em> Worldwide</h1>
     <p id="heroSub">Discover partners, clients, talent, and investment across the global Tamil business community</p>
+    <p class="hero-tamil" id="heroTamil">தமிழ் வணிகங்களுடன் இணைக்க | உலகளாவிய தமிழ் வணிக சமூகத்தைக் கண்டறியுங்கள்</p>
   </div>
 </section>
 
@@ -542,16 +551,15 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
   </div>
 </section>
 
-
 <!-- CTA SECTION -->
-<section class="signup-section" id="signupSection">
+<section class="signup-section">
   <div class="signup-hd">
-    <h2>Ready to List Your <em>Tamil Business</em>?</h2>
-    <p>Join the FiTEN network and connect with Tamil entrepreneurs worldwide.<br>Free listing in minutes. PRO upgrade available.</p>
+    <h2>Ready to List Your Business?</h2>
+    <p>Join thousands of Tamil entrepreneurs and businesses in the FiTEN Directory.<br>Get discovered by professionals and decision-makers worldwide.</p>
   </div>
-  <div style="text-align:center">
-    <a href="/form" style="display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:1rem 2.5rem;border-radius:0.8rem;font-weight:700;font-size:1.05rem;box-shadow:var(--shadow-md);transition:background 0.2s" onmouseover="this.style.background='#B08500'" onmouseout="this.style.background='var(--gold)'">Add Your Business &rarr;</a>
-    <p style="margin-top:1.2rem;font-size:0.9rem;opacity:0.85">Takes 5 minutes &middot; Free to start</p>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="/form" style="display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:1rem 2.5rem;border-radius:0.8rem;font-weight:700;font-size:1rem;transition:all 0.2s;box-shadow:var(--shadow-md);" onmouseover="this.style.background='#B08500';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.background='var(--gold)';this.style.boxShadow='var(--shadow-md)'">List Your Business →</a>
+    <p style="margin-top:1.2rem;font-size:0.95rem;opacity:0.9;">Takes just 5 minutes. Free to get started.</p>
   </div>
 </section>
 
@@ -628,192 +636,252 @@ body{font-family:var(--font-sans);background:#F5F7FA;color:var(--text);min-heigh
 
 </div><!-- mainWrapper -->
 
-<!-- TOAST CONTAINER -->
-<div id="toastContainer"></div>
-
-</div><!-- mainWrapper -->
-
 <script>
-// ============================================================
-// FiTEN Business Directory — State
-// ============================================================
-window.businesses = []; // single source of truth — populated by Firebase
+// All business data is loaded from Firebase — no hardcoded data
+window.businesses = [];  // Populated by Firebase onSnapshot
 
-var activeCat    = "All";
-var activeFilter = "All";
-var activeView   = "grid";
-var showFavs     = false;
-var favorites    = new Set();
-var suggestTimer = null;
-var PAGE_SIZE    = 6;
-var visibleCount = PAGE_SIZE;
-var lastFiltered = [];
-
-// ── Constants ────────────────────────────────────────────────
-var OPP_LABELS = { partner:"Business Partners", client:"Seeking Clients", invest:"Seeking Investment", hire:"Hiring" };
-var SIG_CLASS  = { partner:"sig-partner", client:"sig-client", invest:"sig-invest", hire:"sig-hire" };
-
-var TESTIMONIALS = [
+const testimonials=[
   {text:"FiTEN connected us with two enterprise clients in the first month. Worth every dollar.",name:"Karthik R.",biz:"AccuKnox",stars:5,color:"#E6F1FB",textColor:"#0C447C",initials:"KR"},
   {text:"Our patients find us through FiTEN more than any other directory. The bilingual profile makes all the difference.",name:"Dr. Priya M.",biz:"TamilMed",stars:5,color:"#EAF3DE",textColor:"#27500A",initials:"PM"},
   {text:"Three partnership conversations started from my FiTEN PRO profile. Genuinely useful.",name:"Madhu I.",biz:"Rocketship",stars:5,color:"#EEEDFE",textColor:"#3C3489",initials:"MI"},
-  {text:"The bilingual profile brought in Tamil-speaking students. Our enrollment doubled in six months.",name:"Vani S.",biz:"Vani Academy",stars:5,color:"#FBEAF0",textColor:"#72243E",initials:"VS"}
+  {text:"The bilingual profile brought in Tamil-speaking students. Our enrollment doubled in six months.",name:"Vani S.",biz:"Vani Academy",stars:5,color:"#FBEAF0",textColor:"#72243E",initials:"VS"},
 ];
 
-// ── Helpers ──────────────────────────────────────────────────
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-}
-function safeAttr(s) { return esc(s); }
+let lang='en';
+let activeCat='All';
+let activeFilter='All';
+let activeView='grid';
+let selectedPlan='monthly';
+let suggestTimer=null;
+let showFavs=false;
+let favorites=new Set();
+let currentDetailIdx=-1;
 
-function starsHtml(r) {
-  var s = "<span class=\"rating-stars\">";
-  for (var i = 1; i <= 5; i++) s += (i <= Math.round(r||0) ? "&#9733;" : "&#9734;");
-  return s + "</span>";
-}
+const oppLabels={partner:"🤝 Business Partners",client:"🎯 Seeking Clients",invest:"💼 Seeking Investment",hire:"👥 Hiring"};
+const sigClass={partner:"sig-partner",client:"sig-client",invest:"sig-invest",hire:"sig-hire"};
 
-function showToast(msg, type, duration) {
-  type = type || "ok"; duration = duration || 2600;
-  var tc = document.getElementById("toastContainer");
-  if (!tc) return;
-  var el = document.createElement("div");
-  el.className = "toast toast-" + type;
-  el.textContent = msg;
+const i18n={
+  en:{heroTitle:'Connect with <em>Tamil Businesses</em> Worldwide',heroSub:'Discover partners, clients, talent, and investment across the global Tamil business community',searchPlaceholder:'Search businesses, keywords...',searchBtn:'Search'},
+  ta:{heroTitle:'<em>தமிழ் வணிகங்களுடன்</em> இணையுங்கள்',heroSub:'உலகளாவிய தமிழ் வணிக சமூகத்தில் கண்டறியுங்கள்',searchPlaceholder:'வணிகங்களைத் தேடுங்கள்...',searchBtn:'தேடு'}
+};
+
+function showToast(msg,type='ok',duration=2600){
+  var tc=document.getElementById('toastContainer');
+  if(!tc)return;
+  var el=document.createElement('div');
+  el.className='toast toast-'+type;
+  el.innerHTML=msg;
   tc.appendChild(el);
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add("toast-show"); }); });
-  setTimeout(function(){
-    el.classList.remove("toast-show"); el.classList.add("toast-out");
-    setTimeout(function(){ el.remove(); }, 300);
-  }, duration);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('toast-show')));
+  setTimeout(()=>{
+    el.classList.remove('toast-show');el.classList.add('toast-out');
+    setTimeout(()=>el.remove(),300);
+  },duration);
 }
 
-// ── Search & Suggestions ─────────────────────────────────────
-function onSearchInput() {
-  clearTimeout(suggestTimer);
-  suggestTimer = setTimeout(function(){
-    var q = document.getElementById("searchInput").value.trim().toLowerCase();
-    if (q.length < 2) { hideSuggestions(); filterBiz(); return; }
-    var matches = window.businesses.filter(function(b){
-      return b.name.toLowerCase().includes(q) || (b.cat||"").toLowerCase().includes(q);
-    }).slice(0,5);
-    showSuggestions(matches, q);
-    filterBiz();
-  }, 120);
-}
-
-function showSuggestions(matches, q) {
-  var dd = document.getElementById("suggestionDropdown");
-  if (!matches.length) { dd.innerHTML="<div class=\"suggestion-empty\">No matches</div>"; dd.style.display="block"; return; }
-  var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")","gi");
-  dd.innerHTML = matches.map(function(b){
-    var hl = esc(b.name).replace(re,"<strong>$1</strong>");
-    return "<div class=\"suggestion-item\" onmousedown=\"selectSuggestion('" + safeAttr(b.name) + "')\">" +
-      "<div class=\"suggestion-avatar\" style=\"background:" + b.color + ";color:" + b.textColor + "\">" + esc(b.initials) + "</div>" +
-      "<span>" + hl + "</span><span class=\"suggestion-meta\">" + esc(b.cat) + "</span></div>";
-  }).join("");
-  dd.style.display = "block";
-}
-function hideSuggestions(){ document.getElementById("suggestionDropdown").style.display="none"; }
-function selectSuggestion(name){ document.getElementById("searchInput").value=name; hideSuggestions(); filterBiz(); }
-
-// ── Filters ──────────────────────────────────────────────────
-function setFilter(el, filter) {
-  document.querySelectorAll(".pill").forEach(function(p){ p.classList.remove("active"); });
-  el.classList.add("active");
-  activeFilter = filter;
-  if (filter==="All"||filter==="Pro") {
-    activeCat = "All";
-    document.querySelectorAll(".cat-item").forEach(function(item,idx){ item.classList.toggle("active",idx===0); });
+// ANIMATED STATS
+(function(){
+  var data=[{end:847,suffix:''},{end:23,suffix:''},{end:14,suffix:''},{end:190,suffix:'+'},{end:3200,suffix:'+'}];
+  var els=document.querySelectorAll('.stat-item strong');
+  function animCount(el,end,suffix,dur){
+    var start=performance.now();
+    function step(now){
+      var p=Math.min((now-start)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      var val=Math.round(end*ease);
+      el.textContent=val.toLocaleString()+(p>=1?suffix:'');
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
-  document.getElementById("chkPro").checked = (filter==="Pro");
-  updateClearBtn(); filterBiz();
-}
-
-function setCat(el, cat) {
-  document.querySelectorAll(".cat-item").forEach(function(i){ i.classList.remove("active"); });
-  el.classList.add("active");
-  activeCat = cat;
-  if (activeFilter!=="Pro") {
-    activeFilter = "All";
-    document.querySelectorAll(".pill").forEach(function(p,i){ p.classList.toggle("active",i===0); });
-  }
-  updateClearBtn(); filterBiz();
-}
-
-function clearFilters() {
-  activeCat="All"; activeFilter="All";
-  document.querySelectorAll(".cat-item").forEach(function(el,i){ el.classList.toggle("active",i===0); });
-  document.querySelectorAll(".pill").forEach(function(el,i){ el.classList.toggle("active",i===0); });
-  ["chkPro","chkSpeaker","chkWomen","chkPartner","chkHire","chkInvest","chkConvention"].forEach(function(id){
-    document.getElementById(id).checked=false;
+  els.forEach((el,i)=>{
+    if(!data[i])return;
+    el.textContent='0';
+    setTimeout(()=>animCount(el,data[i].end,data[i].suffix,1600),400+i*120);
   });
-  document.getElementById("searchInput").value="";
-  document.getElementById("locationSelect").value="";
-  updateClearBtn(); filterBiz();
-}
+})();
 
-function updateClearBtn() {
-  var active = activeCat!=="All" || activeFilter!=="All" ||
-    document.getElementById("searchInput").value ||
-    document.getElementById("locationSelect").value ||
-    ["chkPro","chkSpeaker","chkWomen","chkPartner","chkHire","chkInvest","chkConvention"].some(function(id){
-      return document.getElementById(id).checked;
-    });
-  document.getElementById("clearBtn").classList.toggle("visible",!!active);
-}
-
-function setView(v) {
-  activeView=v;
-  document.getElementById("btnGrid").classList.toggle("active",v==="grid");
-  document.getElementById("btnRegion").classList.toggle("active",v==="region");
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn:'+(l==='en'?'first':'last')+'-child').classList.add('active');
+  const t=i18n[l];
+  document.getElementById('heroTitle').innerHTML=t.heroTitle;
+  document.getElementById('heroSub').innerHTML=t.heroSub;
   filterBiz();
 }
 
-function filterBiz() {
-  var q    = document.getElementById("searchInput").value.toLowerCase();
-  var loc  = (document.getElementById("locationSelect").value||"").toLowerCase();
-  var chkPro = document.getElementById("chkPro").checked;
-  var chkS   = document.getElementById("chkSpeaker").checked;
-  var chkW   = document.getElementById("chkWomen").checked;
-  var chkP   = document.getElementById("chkPartner").checked;
-  var chkH   = document.getElementById("chkHire").checked;
-  var chkI   = document.getElementById("chkInvest").checked;
-  var chkC   = document.getElementById("chkConvention").checked;
+function onSearchInput(){
+  clearTimeout(suggestTimer);
+  suggestTimer=setTimeout(()=>{
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q.length<2){hideSuggestions();filterBiz();return;}
+    const matches=(window.businesses).filter(b=>b.name.toLowerCase().includes(q)||(b.cat||b.category||'').toLowerCase().includes(q)).slice(0,5);
+    showSuggestions(matches,q);
+    filterBiz();
+  },120);
+}
 
-  var filtered = window.businesses.filter(function(b){
-    if (showFavs && !favorites.has(b.id||b.name)) return false;
-    var cat = b.cat||"";
-    if (activeCat!=="All" && cat!==activeCat) return false;
-    if (activeFilter==="Pro" && !b.pro) return false;
-    if (q && !b.name.toLowerCase().includes(q) && !(b.desc||"").toLowerCase().includes(q) && !cat.toLowerCase().includes(q)) return false;
-    if (loc && !(b.loc||"").toLowerCase().includes(loc)) return false;
-    var looking = b.looking||[];
-    if (chkPro && !b.pro)                       return false;
-    if (chkS   && !b.speaker)                   return false;
-    if (chkW   && !b.women)                     return false;
-    if (chkP   && !looking.includes("partner")) return false;
-    if (chkH   && !looking.includes("hire"))    return false;
-    if (chkI   && !looking.includes("invest"))  return false;
-    if (chkC   && !b.convention)                return false;
+function showSuggestions(matches,q){
+  const dd=document.getElementById('suggestionDropdown');
+  if(matches.length===0){dd.innerHTML='<div class="suggestion-empty">No matches</div>';dd.style.display='block';return;}
+  dd.innerHTML=matches.map(b=>{
+    const hl=b.name.replace(new RegExp('('+q+')','gi'),'<strong>$1</strong>');
+    return '<div class="suggestion-item" onmousedown="selectSuggestion(\''+b.name+'\')">'+
+      '<div class="suggestion-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<span>'+hl+'</span>'+
+      '<span class="suggestion-meta">'+(b.cat||b.category||'')+'</span>'+
+    '</div>';
+  }).join('');
+  dd.style.display='block';
+}
+
+function hideSuggestions(){document.getElementById('suggestionDropdown').style.display='none';}
+function selectSuggestion(name){
+  document.getElementById('searchInput').value=name;
+  hideSuggestions();filterBiz();
+}
+
+function setFilter(el,filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter=filter;
+  if(filter==='All'||filter==='Pro'){
+    activeCat='All';
+    document.querySelectorAll('.cat-item').forEach((i,idx)=>i.classList.toggle('active',idx===0));
+  }
+  document.getElementById('chkPro').checked=(filter==='Pro');
+  updateClearBtn();filterBiz();
+}
+
+function setCat(el,cat){
+  document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  if(activeFilter!=='Pro'){
+    activeFilter='All';
+    document.querySelectorAll('.pill').forEach((p,i)=>p.classList.toggle('active',i===0));
+  }
+  updateClearBtn();filterBiz();
+}
+
+function syncOppFromSidebar(opp,chkEl){
+  const any=['chkPartner','chkHire','chkInvest'].some(id=>document.getElementById(id).checked);
+  updateClearBtn();filterBiz();
+}
+
+function clearFilters(){
+  activeCat='All';activeFilter='All';
+  document.querySelectorAll('.cat-item').forEach((el,i)=>el.classList.toggle('active',i===0));
+  document.querySelectorAll('.pill').forEach((el,i)=>el.classList.toggle('active',i===0));
+  ['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].forEach(id=>document.getElementById(id).checked=false);
+  document.getElementById('searchInput').value='';
+  document.getElementById('locationSelect').value='';
+  updateClearBtn();filterBiz();
+}
+
+function updateClearBtn(){
+  const btn=document.getElementById('clearBtn');
+  const active=activeCat!=='All'||activeFilter!=='All'||document.getElementById('searchInput').value||document.getElementById('locationSelect').value||['chkPro','chkSpeaker','chkWomen','chkPartner','chkHire','chkInvest','chkConvention'].some(id=>document.getElementById(id).checked);
+  btn.classList.toggle('visible',!!active);
+}
+
+function setView(v){
+  activeView=v;
+  document.getElementById('btnGrid').classList.toggle('active',v==='grid');
+  document.getElementById('btnRegion').classList.toggle('active',v==='region');
+  filterBiz();
+}
+
+function filterBiz(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const loc=document.getElementById('locationSelect').value;
+  const chkPro=document.getElementById('chkPro').checked;
+  const chkS=document.getElementById('chkSpeaker').checked;
+  const chkW=document.getElementById('chkWomen').checked;
+  const chkP=document.getElementById('chkPartner').checked;
+  const chkH=document.getElementById('chkHire').checked;
+  const chkI=document.getElementById('chkInvest').checked;
+  const chkC=document.getElementById('chkConvention').checked;
+
+  let filtered=(window.businesses).filter(b=>{
+    if(showFavs&&!favorites.has(b.id||b.name))return false;
+    const businessCat=b.cat||b.category||'';
+    if(activeCat!=='All'&&businessCat!==activeCat)return false;
+    if(activeFilter==='Pro'&&!b.pro)return false;
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)&&!businessCat.toLowerCase().includes(q))return false;
+    if(loc&&!b.loc.includes(loc.split(',')[0]))return false;
+    if(chkPro&&!b.pro)return false;
+    if(chkS&&!b.speaker)return false;
+    if(chkW&&!b.women)return false;
+    if(chkP&&!b.looking.includes('partner'))return false;
+    if(chkH&&!b.looking.includes('hire'))return false;
+    if(chkI&&!b.looking.includes('invest'))return false;
+    if(chkC&&!b.convention)return false;
     return true;
   });
 
-  var sortEl = document.querySelector(".sort-select");
-  var sortVal = sortEl ? sortEl.value : "";
-  if      (sortVal==="Sort: A-Z")           filtered.sort(function(a,b){ return a.name.localeCompare(b.name); });
-  else if (sortVal==="Sort: Most Connected") filtered.sort(function(a,b){ return (b.reviews||0)-(a.reviews||0); });
-  else if (sortVal==="Sort: Newest")         filtered.sort(function(a,b){ return (b.views||0)-(a.views||0); });
-  else                                       filtered.sort(function(a,b){ return (b.pro?1:0)-(a.pro?1:0)||(b.reviews||0)-(a.reviews||0); });
+  var sortEl=document.querySelector('.sort-select');
+  var sortVal=sortEl?sortEl.value:'';
+  if(sortVal==='Sort: A-Z'){
+    filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  } else if(sortVal==='Sort: Most Connected'){
+    filtered.sort((a,b)=>(b.reviews||0)-(a.reviews||0));
+  } else if(sortVal==='Sort: Newest'){
+    filtered.sort((a,b)=>(b.views||0)-(a.views||0));
+  } else {
+    filtered.sort((a,b)=>(b.pro?1:0)-(a.pro?1:0));
+  }
 
-  if (activeView==="grid") renderGrid(filtered);
-  else                     renderRegion(filtered);
+  if(activeView==='grid') renderGrid(filtered);
+  else renderRegion(filtered);
   updateClearBtn();
 }
 
-// ── Grid Rendering ───────────────────────────────────────────
-function renderGrid(list){ lastFiltered=list; visibleCount=PAGE_SIZE; _renderPage(); }
+function starsHtml(r){let s='<span class="rating-stars">';for(let i=1;i<=5;i++)s+=(i<=Math.round(r)?'★':'☆');return s+'</span>';}
+
+function cardHtml(b,idx){
+  const taName=(lang==='ta'&&b.nameTamil)?b.nameTamil:b.name;
+  const isFavd=favorites.has(b.name);
+  return '<div class="biz-card'+(b.pro?' pro-card':'')+'" style="cursor:pointer">'+
+    (b.pro?'<div class="pro-banner">★ PRO Member'+(b.views?'<span class="analytics-badge">🔥 '+b.views+' views</span>':'')+'</div>':'')+
+    '<div class="card-top">'+
+      '<div class="biz-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+      '<div class="biz-info">'+
+        '<div class="biz-name">'+taName+'</div>'+
+        '<div class="biz-category">'+(b.cat||b.category||'')+'</div>'+
+        '<div class="biz-location">📍 '+b.loc+'</div>'+
+      '</div>'+
+      '<button class="fav-btn'+(isFavd?' favd':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+b.name+'\',this)" style="border:none;background:none;cursor:pointer;font-size:1.2rem">'+(isFavd?'❤️':'🤍')+'</button>'+
+    '</div>'+
+    '<div class="b2b-signals">'+
+      b.looking.map(l=>'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>').join('')+
+      (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+      (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+      (b.convention?'<span class="b2b-signal sig-convention">🎉 FeTNA Conv.</span>':'')+
+    '</div>'+
+    '<div class="card-desc">'+b.desc+'</div>'+
+    '<div class="card-footer" onclick="event.stopPropagation()">'+
+      '<span class="card-rating">'+starsHtml(b.rating)+' '+b.rating+' · '+b.reviews+'</span>'+
+      '<div style="display:flex;gap:0.5rem">'+
+        (b.pro
+          ?'<button class="connect-btn" onclick="openDetailByName(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >View</button>'
+          :'<button class="claim-btn" onclick="openClaimModal(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >Claim</button>'+
+           '<button class="profile-btn" onclick="scrollToSignup()">PRO</button>')+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+const PAGE_SIZE=6;
+let visibleCount=PAGE_SIZE;
+let lastFiltered=[];
+
+function renderGrid(list){
+  lastFiltered=list;
+  visibleCount=PAGE_SIZE;
+  _renderPage();
+}
 
 function loadMore(){
   visibleCount=Math.min(visibleCount+PAGE_SIZE,lastFiltered.length);
@@ -821,242 +889,233 @@ function loadMore(){
 }
 
 function _renderPage(){
-  var grid   = document.getElementById("bizGrid");
-  var noR    = document.getElementById("noResults");
-  var lmw    = document.getElementById("loadMoreWrap");
-  var loader = document.getElementById("loadingState");
-  if (loader) loader.style.display="none";
-
-  var total = window.businesses.length;
-  document.getElementById("resultCount").textContent = "Showing " + lastFiltered.length + " of " + total + " businesses";
-  grid.style.display=""; document.getElementById("bizRegion").style.display="none";
-  if (!lastFiltered.length){ grid.style.display="none"; noR.style.display="block"; lmw.style.display="none"; return; }
-  noR.style.display="none";
-
-  grid.innerHTML = lastFiltered.slice(0,visibleCount).map(function(b,i){
-    return "<div data-idx=\""+i+"\">" + cardHtml(b) + "</div>";
-  }).join("");
-
-  grid.querySelectorAll(".biz-card").forEach(function(c,i){
-    c.onclick = function(){ openDetail(lastFiltered[i]); };
+  const grid=document.getElementById('bizGrid');
+  const noR=document.getElementById('noResults');
+  const lmw=document.getElementById('loadMoreWrap');
+  const loader=document.getElementById('loadingState');
+  // Hide spinner once we have data
+  if(loader) loader.style.display='none';
+  var total=window.businesses?window.businesses.length:lastFiltered.length;
+  document.getElementById('resultCount').innerHTML='Showing '+lastFiltered.length+' of '+total+' businesses';
+  grid.style.display='';
+  document.getElementById('bizRegion').style.display='none';
+  if(lastFiltered.length===0){grid.style.display='none';noR.style.display='block';lmw.style.display='none';return;}
+  noR.style.display='none';
+  grid.innerHTML=lastFiltered.slice(0,visibleCount).map((b,i)=>{
+    var el='<div style="--ci:'+i+'" data-bid="'+(b.id||i)+'">'+cardHtml(b,i)+'</div>';
+    return el;
+  }).join('');
+  var cards=grid.querySelectorAll('.biz-card');
+  cards.forEach((c,i)=>{
+    c.style.setProperty('--ci',i);
+    c.onclick=()=>{
+      var bid=c.parentElement.getAttribute('data-bid');
+      openDetailByBusiness(lastFiltered[i]);
+    };
   });
-
-  var rem = lastFiltered.length - visibleCount;
-  if (rem>0){
-    lmw.style.display="block";
-    document.getElementById("loadMoreBtn").textContent="Load "+Math.min(rem,PAGE_SIZE)+" more";
-    document.getElementById("loadMoreCount").textContent="Showing "+visibleCount+" of "+lastFiltered.length;
-  } else { lmw.style.display="none"; }
+  var rem=lastFiltered.length-visibleCount;
+  if(rem>0){
+    lmw.style.display='block';
+    document.getElementById('loadMoreBtn').textContent='Load '+Math.min(rem,PAGE_SIZE)+' more';
+    document.getElementById('loadMoreCount').textContent='Showing '+visibleCount+' of '+lastFiltered.length;
+  } else { lmw.style.display='none'; }
 }
 
-function cardHtml(b) {
-  var name    = b.name;
-  var isFavd  = favorites.has(b.id||b.name);
-  var looking = b.looking||[];
-  var signals = looking.map(function(l){
-    return "<span class=\"b2b-signal "+(SIG_CLASS[l]||"")+"\">"+(OPP_LABELS[l]||esc(l))+"</span>";
-  }).join("");
-  if (b.speaker)    signals += "<span class=\"b2b-signal sig-speaker\">Speaker</span>";
-  if (b.women)      signals += "<span class=\"b2b-signal sig-women\">Women-Led</span>";
-  if (b.convention) signals += "<span class=\"b2b-signal sig-convention\">FeTNA Conv.</span>";
-
-  var sn = safeAttr(b.name);
-  var footer = b.pro
-    ? "<button class=\"connect-btn\" onclick=\"event.stopPropagation();openDetailByName('"+sn+"')\">View</button>"
-    : "<button class=\"claim-btn\" onclick=\"event.stopPropagation();openClaimModal('"+sn+"')\">Claim</button>" +
-      "<button class=\"profile-btn\" onclick=\"event.stopPropagation();window.location.href='/form'\">List PRO</button>";
-
-  return "<div class=\"biz-card"+(b.pro?" pro-card":"")+"\">" +
-    (b.pro?"<div class=\"pro-banner\">&#9733; PRO Member"+(b.views?"<span class=\"analytics-badge\">"+b.views+" views</span>":"")+"</div>":"") +
-    "<div class=\"card-top\">" +
-      "<div class=\"biz-avatar\" style=\"background:"+b.color+";color:"+b.textColor+"\">"+esc(b.initials)+"</div>" +
-      "<div class=\"biz-info\">" +
-        "<div class=\"biz-name\">"+esc(name)+"</div>" +
-        "<div class=\"biz-category\">"+esc(b.cat||"")+"</div>" +
-        "<div class=\"biz-location\">&#128205; "+esc(b.loc||"")+"</div>" +
-      "</div>" +
-      "<button class=\"fav-btn"+(isFavd?" favd":"")+"\" onclick=\"event.stopPropagation();toggleFav('"+sn+"',this)\">"+(isFavd?"&#10084;&#65039;":"&#129293;")+"</button>" +
-    "</div>" +
-    (signals?"<div class=\"b2b-signals\">"+signals+"</div>":"") +
-    "<div class=\"card-desc\">"+esc(b.desc||"")+"</div>" +
-    "<div class=\"card-footer\" onclick=\"event.stopPropagation()\">" +
-      "<span class=\"card-rating\">"+starsHtml(b.rating)+" "+(b.rating||"&#8211;")+(b.reviews?" &middot; "+b.reviews:"")+"</span>" +
-      "<div style=\"display:flex;gap:0.5rem\">"+footer+"</div>" +
-    "</div>" +
-  "</div>";
+function renderRegion(list){
+  const grid=document.getElementById('bizGrid');
+  const regionEl=document.getElementById('bizRegion');
+  const noR=document.getElementById('noResults');
+  document.getElementById('resultCount').innerHTML='Showing '+list.length+' of 847 businesses';
+  grid.style.display='none';
+  if(list.length===0){regionEl.style.display='none';noR.style.display='block';return;}
+  noR.style.display='none';
+  regionEl.style.display='';
+  const groups={};
+  list.forEach(b=>{if(!groups[b.region])groups[b.region]=[];groups[b.region].push(b);});
+  regionEl.innerHTML=Object.entries(groups).map(([region,items])=>{
+    return '<div class="region-section">'+
+      '<div class="region-heading"><span class="region-flag">🌍</span>'+region+' <span class="region-count">'+items.length+'</span></div>'+
+      '<div class="region-list">'+
+        items.map(b=>'<div class="region-row'+(b.pro?' pro-row':'')+'" onclick="openDetailByName(\''+b.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\') " style="cursor:pointer">'+
+          '<div class="region-avatar" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div class="region-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+            '<div class="region-sub">'+(b.cat||b.category||'')+' · '+b.loc+'</div>'+
+          '</div>'+
+        '</div>').join('')+
+      '</div>'+
+    '</div>';
+  }).join('');
 }
 
-function renderRegion(list) {
-  var grid=document.getElementById("bizGrid"), regionEl=document.getElementById("bizRegion");
-  var noR=document.getElementById("noResults"), loader=document.getElementById("loadingState");
-  if (loader) loader.style.display="none";
-  var total = window.businesses.length;
-  document.getElementById("resultCount").textContent = "Showing "+list.length+" of "+total+" businesses";
-  grid.style.display="none";
-  if (!list.length){ regionEl.style.display="none"; noR.style.display="block"; return; }
-  noR.style.display="none"; regionEl.style.display="";
-  var groups={};
-  list.forEach(function(b){ var r=b.region||"Global"; if(!groups[r])groups[r]=[]; groups[r].push(b); });
-  regionEl.innerHTML = Object.entries(groups).map(function(e){
-    var region=e[0], items=e[1];
-    return "<div class=\"region-section\"><div class=\"region-heading\"><span class=\"region-flag\">&#127757;</span>"+esc(region)+" <span class=\"region-count\">"+items.length+"</span></div><div class=\"region-list\">" +
-      items.map(function(b){
-        return "<div class=\"region-row"+(b.pro?" pro-row":"")+"\" onclick=\"openDetailByName('"+safeAttr(b.name)+"')\">" +
-          "<div class=\"region-avatar\" style=\"background:"+b.color+";color:"+b.textColor+"\">"+esc(b.initials)+"</div>" +
-          "<div style=\"flex:1;min-width:0\"><div class=\"region-name\">"+esc(b.name)+"</div>" +
-          "<div class=\"region-sub\">"+esc(b.cat||"")+" &middot; "+esc(b.loc||"")+"</div></div></div>";
-      }).join("") +
-    "</div></div>";
-  }).join("");
+function openDetailByBusiness(b){
+  currentDetailIdx=-1;
+  if(!b || !b.name){console.error('Invalid business object',b);return;}
+  document.getElementById('detailOverlay').classList.add('open');
+  _renderDetailContent(b);
 }
 
-// ── Detail Panel ─────────────────────────────────────────────
-function openDetail(b) {
-  if (!b||!b.name) return;
-  document.getElementById("detailOverlay").classList.add("open");
-  var looking = b.looking||[];
-  var signals = looking.map(function(l){
-    return "<span class=\"b2b-signal "+(SIG_CLASS[l]||"")+"\">"+(OPP_LABELS[l]||esc(l))+"</span>";
-  }).join("");
-  if (b.speaker) signals+="<span class=\"b2b-signal sig-speaker\">Speaker</span>";
-  if (b.women)   signals+="<span class=\"b2b-signal sig-women\">Women-Led</span>";
+function openDetailByName(name){
+  var list=window.businesses;
+  var b=list.find(function(x){return x.name===name;});
+  if(b) openDetailByBusiness(b);
+  else console.error('Business not found:',name);
+}
 
-  document.getElementById("detailHeader").innerHTML =
-    "<button class=\"detail-close\" onclick=\"closeDetail()\">&times;</button>" +
-    "<div class=\"detail-avatar-lg\" style=\"background:"+b.color+";color:"+b.textColor+"\">"+esc(b.initials)+"</div>" +
-    "<div><div class=\"detail-name\">"+esc(b.name)+"</div>" +
-    "<div class=\"detail-cat-loc\">"+esc(b.cat||"")+" &middot; "+esc(b.loc||"")+"</div>" +
-    (b.pro?"<span class=\"b2b-signal sig-speaker\" style=\"font-size:0.75rem;margin-top:0.5rem;display:inline-block\">&#9733; PRO Member</span>":"")+"</div>";
+function openDetail(idx){
+  if(idx<0 || idx>=businesses.length){console.error('Invalid index',idx);return;}
+  var b=businesses[idx];currentDetailIdx=idx;
+  if(!b){console.error('No business at index',idx);return;}
+  document.getElementById('detailOverlay').classList.add('open');
+  _renderDetailContent(b);
+}
 
-  var body = "<div class=\"detail-sec\">About</div><div class=\"detail-desc\">"+esc(b.desc||"")+"</div>";
-  if (signals) body += "<div class=\"detail-sec\">B2B Signals</div><div class=\"b2b-signals\" style=\"padding:0;margin-bottom:0.8rem\">"+signals+"</div>";
-  if (b.website) {
-    var url = (b.website.startsWith("http")?"":"https://") + b.website;
-    body += "<div class=\"detail-info-row\"><span class=\"detail-icon\">&#127760;</span><a href=\""+esc(url)+"\" target=\"_blank\" rel=\"noopener\">"+esc(b.website)+"</a></div>";
+function _renderDetailContent(b){
+  document.getElementById('detailHeader').innerHTML=
+    '<button class="detail-close" onclick="closeDetail()">&times;</button>'+
+    '<div class="detail-avatar-lg" style="background:'+b.color+';color:'+b.textColor+'">'+b.initials+'</div>'+
+    '<div>'+
+      '<div class="detail-name">'+(lang==='ta'&&b.nameTamil?b.nameTamil:b.name)+'</div>'+
+      '<div class="detail-cat-loc">'+(b.cat||b.category||'')+' · '+b.loc+'</div>'+
+      (b.pro?'<span class="b2b-signal sig-speaker" style="font-size:0.75rem;margin-top:0.5rem;display:inline-block">★ PRO Member</span>':'')+
+    '</div>';
+  var body='<div class="detail-sec">About</div><div class="detail-desc">'+b.desc+'</div>';
+  body+='<div class="detail-sec">B2B Signals</div><div class="b2b-signals" style="padding:0;margin-bottom:0.8rem">'+
+    b.looking.map(l=>'<span class="b2b-signal '+sigClass[l]+'">'+oppLabels[l]+'</span>').join('')+
+    (b.speaker?'<span class="b2b-signal sig-speaker">Speaker</span>':'')+
+    (b.women?'<span class="b2b-signal sig-women">Women-Led</span>':'')+
+    '</div>';
+  if(b.pro){
+    body+='<div class="detail-sec">Reviews</div>'+
+      '<div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem">'+starsHtml(b.rating)+'<strong>'+b.rating+'</strong><span style="color:var(--text3)">('+b.reviews+')</span></div>';
   }
-  if (b.pro && b.rating) {
-    body += "<div class=\"detail-sec\">Reviews</div><div style=\"display:flex;align-items:center;gap:0.8rem;font-size:0.95rem\">"+starsHtml(b.rating)+"<strong>"+b.rating+"</strong><span style=\"color:var(--text3)\">("+( b.reviews||0)+")</span></div>";
-  }
-  document.getElementById("detailBody").innerHTML = body;
-
-  var cb = document.getElementById("detailConnectBtn");
-  if (b.pro) { cb.textContent="Connect"; cb.onclick=function(){ window.location.href="/form"; }; }
-  else       { cb.textContent="Claim Listing"; cb.onclick=function(){ closeDetail(); openClaimModal(b.name); }; }
+  document.getElementById('detailBody').innerHTML=body;
+  var cb=document.getElementById('detailConnectBtn');
+  if(b.pro){cb.textContent='Connect';cb.onclick=()=>scrollToSignup();}
+  else{cb.textContent='Upgrade to PRO';cb.onclick=()=>{closeDetail();scrollToSignup();};}
+  document.getElementById('detailOverlay').classList.add('open');
 }
 
-function openDetailByName(name) {
-  var b = window.businesses.find(function(x){ return x.name===name; });
-  if (b) openDetail(b);
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  currentDetailIdx=-1;
 }
 
-// Keep alias used by older code
-function openDetailByBusiness(b){ openDetail(b); }
+function closeDetailOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetail();}
 
-function closeDetail(){ document.getElementById("detailOverlay").classList.remove("open"); }
-function closeDetailOverlay(e){ if(e.target===document.getElementById("detailOverlay"))closeDetail(); }
 function shareDetail(){
-  var btn=document.getElementById("detailShareBtn");
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(location.href).then(function(){
-      btn.textContent="Copied!"; showToast("Link copied!","ok");
-      setTimeout(function(){ btn.textContent="Share"; },2000);
-    });
-  } else { prompt("Copy this link:",location.href); }
+  var url=location.href;
+  var btn=document.getElementById('detailShareBtn');
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{btn.textContent='✓ Copied!';showToast('Link copied!','ok');setTimeout(()=>{btn.innerHTML='📋 Share'},2000);});}
+  else{prompt('Copy this link:',url);}
 }
 
-// ── Claim Modal ──────────────────────────────────────────────
 function openClaimModal(bizName){
-  document.getElementById("claimBizName").textContent=bizName;
-  document.getElementById("claimEmail").value="";
-  document.getElementById("claimFormWrap").style.display="";
-  document.getElementById("claimSuccess").style.display="none";
-  document.getElementById("claimModal").classList.add("open");
-}
-function closeClaimModal(e){
-  if(!e||e.target===document.getElementById("claimModal"))
-    document.getElementById("claimModal").classList.remove("open");
-}
-function submitClaim(){
-  var email=document.getElementById("claimEmail").value;
-  if(!email||!email.includes("@"))return;
-  document.getElementById("claimFormWrap").style.display="none";
-  document.getElementById("claimSuccess").style.display="block";
+  document.getElementById('claimBizName').textContent=bizName;
+  document.getElementById('claimEmail').value='';
+  document.getElementById('claimFormWrap').style.display='';
+  document.getElementById('claimSuccess').style.display='none';
+  document.getElementById('claimModal').classList.add('open');
 }
 
-// ── Favorites ────────────────────────────────────────────────
-function toggleFav(name, btn){
-  var key=name;
-  if(favorites.has(key)){
-    favorites.delete(key); btn.classList.remove("favd"); btn.innerHTML="&#129293;";
-    showToast("Removed from saved","info");
+function closeClaimModal(e){
+  if(!e||e.target===document.getElementById('claimModal'))
+    document.getElementById('claimModal').classList.remove('open');
+}
+
+function submitClaim(){
+  const email=document.getElementById('claimEmail').value;
+  if(!email||!email.includes('@'))return;
+  document.getElementById('claimFormWrap').style.display='none';
+  document.getElementById('claimSuccess').style.display='block';
+}
+
+function toggleFavorite(name,btn){
+  if(favorites.has(name)){
+    favorites.delete(name);
+    btn.classList.remove('favd');
+    btn.innerHTML='🤍';
+    showToast('Removed from saved','info');
   } else {
-    favorites.add(key); btn.classList.add("favd"); btn.innerHTML="&#10084;&#65039;";
-    showToast(name+" saved","heart");
+    favorites.add(name);
+    btn.classList.add('favd');
+    btn.innerHTML='❤️';
+    showToast('❤️ '+name+' saved','heart');
   }
   if(showFavs)filterBiz();
 }
+
 function toggleFavsFilter(){
   showFavs=!showFavs;
-  document.getElementById("favPill").classList.toggle("active",showFavs);
+  document.getElementById('favPill').classList.toggle('active',showFavs);
   filterBiz();
 }
 
-// Backward-compat alias (cardHtml still emits toggleFavorite in older cached renders)
-function toggleFavorite(name,btn){ toggleFav(name,btn); }
-
-// ── Testimonials ─────────────────────────────────────────────
 function renderTestimonials(){
-  document.getElementById("testimonialsTrack").innerHTML=TESTIMONIALS.map(function(t){
-    return "<div class=\"testimonial-card\">" +
-      "<div class=\"testimonial-text\">"+esc(t.text)+"</div>" +
-      "<div class=\"testimonial-author\">" +
-        "<div class=\"testimonial-avatar\" style=\"background:"+t.color+";color:"+t.textColor+"\">"+esc(t.initials)+"</div>" +
-        "<div><div class=\"testimonial-name\">"+esc(t.name)+"</div>" +
-        "<div class=\"testimonial-biz\">"+esc(t.biz)+"</div>" +
-        "<div class=\"testimonial-stars\">"+"&#9733;".repeat(t.stars)+"</div></div>" +
-      "</div></div>";
-  }).join("");
+  document.getElementById('testimonialsTrack').innerHTML=testimonials.map(t=>
+    '<div class="testimonial-card">'+
+      '<div class="testimonial-text">'+t.text+'</div>'+
+      '<div class="testimonial-author">'+
+        '<div class="testimonial-avatar" style="background:'+t.color+';color:'+t.textColor+'">'+t.initials+'</div>'+
+        '<div>'+
+          '<div class="testimonial-name">'+t.name+'</div>'+
+          '<div class="testimonial-biz">'+t.biz+'</div>'+
+          '<div class="testimonial-stars">'+'★'.repeat(t.stars)+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'
+  ).join('');
 }
 
-// ── Export CSV ───────────────────────────────────────────────
+function setPlan(plan){
+  selectedPlan=plan;
+  document.getElementById('btn-monthly').classList.toggle('active',plan==='monthly');
+  document.getElementById('btn-annual').classList.toggle('active',plan==='annual');
+  document.getElementById('proSubmitBtn').textContent=plan==='monthly'?'Start PRO - $29/mo':'Start PRO - $290/yr (Save 20%)';
+}
+
+function switchTab(tab,el){
+  document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  const tabEl=el||document.getElementById('tab-'+tab);
+  if(tabEl)tabEl.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+function switchToTab(tab){scrollToSignup();setTimeout(()=>switchTab(tab),350);}
+
+function handleSubmit(e,type){
+  e.preventDefault();
+  e.target.style.display='none';
+  document.getElementById('success-'+type).style.display='block';
+}
+
+function scrollToSignup(){
+  try{document.getElementById('signupSection').scrollIntoView({behavior:'smooth'});}catch(e){}
+}
+
 function exportCSV(){
-  var rows=[["Name","Category","Location","Region","Tier","Rating","Reviews","Views"]];
-  lastFiltered.forEach(function(b){
-    rows.push(['"'+(b.name||"").replace(/"/g,'""')+'"',b.cat||"",b.loc||"",b.region||"",
-      b.pro?"PRO":"Free", b.pro?(b.rating||""):"", b.pro?(b.reviews||""):"", b.views||""]);
+  var rows=[['Name','Category','Location','Region','Tier','Rating','Reviews','Views']];
+  lastFiltered.forEach(b=>{
+    rows.push(['"'+(b.name||'').replace(/"/g,'""')+'"',(b.cat||b.category||'')||'',b.loc||'',b.region||'',b.pro?'PRO':'Free',b.pro?b.rating:'',b.pro?b.reviews:'',b.views||'']);
   });
-  var csv=rows.map(function(r){return r.join(",");}).join("\n");
-  var a=document.createElement("a");
-  a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
-  a.download="fiten_businesses_"+new Date().toISOString().slice(0,10)+".csv";
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  showToast("CSV downloaded","ok");
+  var csv=rows.map(r=>r.join(',')).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='fiten_businesses_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  showToast('CSV downloaded','ok');
 }
 
-// ── Stats Animation ──────────────────────────────────────────
-(function(){
-  var data=[{id:"stat1",end:847,s:""},{id:"stat2",end:23,s:""},{id:"stat3",end:14,s:""},{id:"stat4",end:190,s:"+"},{id:"stat5",end:3200,s:"+"}];
-  data.forEach(function(d,i){
-    var el=document.getElementById(d.id); if(!el)return; el.textContent="0";
-    setTimeout(function(){
-      var t0=performance.now();
-      function step(now){
-        var p=Math.min((now-t0)/1600,1), e=1-Math.pow(1-p,3);
-        el.textContent=Math.round(d.end*e).toLocaleString()+(p>=1?d.s:"");
-        if(p<1)requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    },400+i*120);
-  });
-}());
-
-// ── Init ─────────────────────────────────────────────────────
+// INITIALIZE — data comes from Firebase, nothing to render here
 renderTestimonials();
+try { setPlan('monthly'); } catch(e) { console.log('Pricing section not available'); }
 
-document.addEventListener("keydown",function(e){
-  if(e.key==="Escape"){
-    if(document.getElementById("detailOverlay").classList.contains("open"))closeDetail();
-    if(document.getElementById("claimModal").classList.contains("open"))closeClaimModal();
+// KEYBOARD SHORTCUTS
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('detailOverlay').classList.contains('open'))closeDetail();
+    if(document.getElementById('claimModal').classList.contains('open'))closeClaimModal();
   }
 });
 </script>
@@ -1128,6 +1187,7 @@ onSnapshot(businessesRef, (snapshot) => {
         firebaseId: doc.id,
         // Identity
         name:       d.businessName || '',
+        nameTamil:  d.nameTamil    || '',
         initials:   initials,
         // Category & location
         cat:        cat,

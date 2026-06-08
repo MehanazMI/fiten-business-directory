@@ -6,57 +6,188 @@
   <title>Add Your Business - FiTEN Directory</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f8f9fa; padding: 2rem 1rem; color: #333; }
-    .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h1 { font-size: 24px; font-weight: 500; margin-bottom: 0.5rem; color: #333; }
-    .subtitle { font-size: 15px; color: #666; margin-bottom: 1.5rem; line-height: 1.5; }
-    .form-group { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1rem; }
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    label { font-size: 14px; font-weight: 500; color: #333; }
-    .required { color: #d32f2f; }
-    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea {
-      font-size: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; transition: border-color 0.2s;
+    body {
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 2rem 1rem;
+      color: #333;
     }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #8B2E3B; box-shadow: 0 0 0 3px rgba(139,46,59,0.1); }
-    textarea { min-height: 100px; resize: vertical; }
-    .checkbox-group { display: flex; gap: 8px; align-items: flex-start; }
-    input[type="checkbox"] { margin-top: 4px; accent-color: #8B2E3B; }
-    .checkbox-label { font-size: 13px; color: #666; line-height: 1.5; cursor: pointer; }
-    button { padding: 0.75rem 1.5rem; font-size: 15px; font-weight: 500; background: #8B2E3B; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; width: 100%; }
-    button:hover { background: #6B1414; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    .hint { font-size: 12px; color: #999; margin-top: 0.5rem; text-align: center; }
-    .success { display: none; text-align: center; padding: 2rem; }
-    .success.show { display: block; }
-    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .success h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #27ae60; }
-    .success p { color: #666; line-height: 1.6; }
-    .error { background: #f8d7da; color: #721c24; padding: 14px 16px; border-radius: 4px; margin-bottom: 1rem; border-left: 4px solid #c0392b; font-weight: 500; display: none; }
-    .error.show { display: block; }
-    .back-link { display: inline-block; margin-bottom: 2rem; color: #8B2E3B; text-decoration: none; font-weight: 600; }
-    .back-link:hover { text-decoration: underline; }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+    .required {
+      color: #d32f2f;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    select,
+    textarea {
+      font-size: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #8B2E3B;
+      box-shadow: 0 0 0 3px rgba(139, 46, 59, 0.1);
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    input[type="checkbox"] {
+      margin-top: 4px;
+      accent-color: #8B2E3B;
+    }
+    .checkbox-label {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 15px;
+      font-weight: 500;
+      background: #8B2E3B;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #6B1414;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .success.show {
+      display: block;
+    }
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .success h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #27ae60;
+    }
+    .success p {
+      color: #666;
+      line-height: 1.6;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 14px 16px;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #c0392b;
+      font-weight: 500;
+      display: none;
+    }
+    .error.show {
+      display: block;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: #8B2E3B;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="/" class="back-link">&larr; Back to Directory</a>
+    <a href="/" class="back-link">← Back to Directory</a>
+
     <div id="formSection">
       <h1>Add your business</h1>
       <p class="subtitle">List your business on FiTEN and reach customers in your area.</p>
+
       <div class="error" id="errorMsg"></div>
+
       <form id="signupForm" class="form-group">
         <div class="field">
           <label>Business name <span class="required">*</span></label>
           <input type="text" name="businessName" placeholder="Enter business name" required>
         </div>
+
         <div class="field">
           <label>Category <span class="required">*</span></label>
           <select name="category" required>
             <option value="">Select a category</option>
             <option value="Technology">Technology</option>
             <option value="Healthcare">Healthcare</option>
-            <option value="Finance">Finance &amp; Insurance</option>
-            <option value="Food &amp; Beverage">Food &amp; Beverage</option>
+            <option value="Finance">Finance & Insurance</option>
+            <option value="Food & Beverage">Food & Beverage</option>
             <option value="Retail">Retail</option>
             <option value="Real Estate">Real Estate</option>
             <option value="Education">Education</option>
@@ -66,108 +197,124 @@
             <option value="Other">Other</option>
           </select>
         </div>
+
         <div class="field">
           <label>Email address <span class="required">*</span></label>
           <input type="email" name="email" placeholder="business@example.com" required>
         </div>
+
         <div class="field">
           <label>Phone <span class="required">*</span></label>
           <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
         </div>
+
         <div class="field">
           <label>City <span class="required">*</span></label>
           <input type="text" name="city" placeholder="City or neighborhood" required>
         </div>
+
         <div class="field">
-          <label>Website <span style="font-size:13px;color:#999;font-weight:400">(optional)</span></label>
+          <label>Website <span style="font-size: 13px; color: #999; font-weight: 400;">(optional)</span></label>
           <input type="url" name="website" placeholder="https://www.example.com">
         </div>
+
         <div class="field">
           <label>Business description <span class="required">*</span></label>
           <textarea name="description" placeholder="Tell customers what your business does (50-300 characters)" required></textarea>
         </div>
+
         <div class="checkbox-group">
           <input type="checkbox" id="terms" name="terms" required>
           <label for="terms" class="checkbox-label">I agree that my business information will be published on fiten.org and available to the public.</label>
         </div>
+
         <button type="button" id="submitBtn" onclick="submitBusiness()">Add my business</button>
         <p class="hint">Your listing will be live immediately</p>
       </form>
     </div>
+
     <div id="successSection" class="success">
-      <div class="success-icon">&#x2705;</div>
-      <h2>Business Added!</h2>
-      <p>Your listing is now live on the FiTEN Directory.<br>Welcome to the community!</p>
-      <a href="/" class="back-link" style="display:inline-block;margin-top:1.5rem">View Directory</a>
+      <div class="success-icon">✅</div>
+      <h2>Business Added Successfully!</h2>
+      <p>Your listing is now live on the FiTEN Directory.<br>Congratulations and welcome to the community! 🎉</p>
+      <a href="/" class="back-link" style="display: inline-block; margin-top: 1.5rem;">View Directory</a>
     </div>
   </div>
+
   <script>
-    var FS_URL = "https://firestore.googleapis.com/v1/projects/fiten-business-directory/databases/(default)/documents/businesses?key=AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU";
+    var FS_URL = 'https://firestore.googleapis.com/v1/projects/fiten-business-directory/databases/(default)/documents/businesses'
+              + '?key=AIzaSyAtvJuRVFrbQb4kYrykjeu4YZKzyhqUKnU';
 
     function toFields(obj) {
       var fields = {};
       var keys = Object.keys(obj);
       for (var i = 0; i < keys.length; i++) {
         var k = keys[i], v = obj[k];
-        if (typeof v === "boolean") { fields[k] = { booleanValue: v }; }
-        else if (typeof v === "number") { fields[k] = { doubleValue: v }; }
-        else { fields[k] = { stringValue: String(v) }; }
+        if (typeof v === 'boolean')     fields[k] = { booleanValue: v };
+        else if (typeof v === 'number') fields[k] = { doubleValue: v };
+        else                            fields[k] = { stringValue: String(v) };
       }
       return { fields: fields };
     }
 
     function showError(msg) {
-      var el = document.getElementById("errorMsg");
-      el.textContent = "Error: " + msg + " - please try again.";
-      el.classList.add("show");
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      var el = document.getElementById('errorMsg');
+      el.textContent = 'Error: ' + msg + ' - please try again.';
+      el.classList.add('show');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function submitBusiness() {
-      var form = document.getElementById("signupForm");
+      var btn = document.getElementById('submitBtn');
+      var err = document.getElementById('errorMsg');
+
+      // Manual validation (form is no longer type=submit)
+      var form = document.getElementById('signupForm');
       if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      var btn = document.getElementById("submitBtn");
-      var err = document.getElementById("errorMsg");
       btn.disabled = true;
-      btn.textContent = "Saving...";
-      err.classList.remove("show");
+      btn.textContent = 'Saving...';
+      err.classList.remove('show');
 
       var data = {
-        businessName: document.querySelector("[name=businessName]").value.trim(),
-        category: document.querySelector("[name=category]").value,
-        email: document.querySelector("[name=email]").value.trim(),
-        phone: document.querySelector("[name=phone]").value.trim(),
-        city: document.querySelector("[name=city]").value.trim(),
-        website: document.querySelector("[name=website]").value.trim(),
-        description: document.querySelector("[name=description]").value.trim(),
-        status: "active",
-        createdAt: new Date().toISOString()
+        businessName: document.querySelector('[name="businessName"]').value.trim(),
+        category:     document.querySelector('[name="category"]').value,
+        email:        document.querySelector('[name="email"]').value.trim(),
+        phone:        document.querySelector('[name="phone"]').value.trim(),
+        city:         document.querySelector('[name="city"]').value.trim(),
+        website:      document.querySelector('[name="website"]').value.trim(),
+        description:  document.querySelector('[name="description"]').value.trim(),
+        status:       'active',
+        createdAt:    new Date().toISOString()
       };
 
+      saveBusiness(data, btn, err);
+    }
+
+    function saveBusiness(data, btn, err) {
       fetch(FS_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(toFields(data))
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(toFields(data))
       })
       .then(function(res) {
         if (!res.ok) {
           return res.json().then(function(d) {
-            throw new Error((d.error && d.error.message) || "HTTP " + res.status);
+            throw new Error((d.error && d.error.message) || 'HTTP ' + res.status);
           });
         }
         return res.json();
       })
       .then(function() {
-        document.getElementById("formSection").style.display = "none";
-        document.getElementById("successSection").classList.add("show");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successSection').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       })
-      .catch(function(e) {
-        console.error("Save failed:", e);
-        showError(e.message || "Network error - check your connection");
+      .catch(function(saveErr) {
+        console.error('Save failed:', saveErr);
+        showError(saveErr.message || 'Network error - check your connection');
         btn.disabled = false;
-        btn.textContent = "Add my business";
+        btn.textContent = 'Add my business';
       });
     }
   </script>
