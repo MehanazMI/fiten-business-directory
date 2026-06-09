@@ -142,7 +142,7 @@ export default function DirectoryClient({ initialData }: Props) {
     return map
   }, [businesses])
 
-  const cats = ['All', ...Object.keys(categoryMap)]
+  const cats = ['All', ...new Set(Object.values(categoryMap))]
   const t = i18n[lang]
 
   const resetPaging = () => setVisibleCount(PAGE_SIZE)
