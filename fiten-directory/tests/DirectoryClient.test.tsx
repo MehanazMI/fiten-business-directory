@@ -338,10 +338,10 @@ describe('DirectoryClient — business detail modal', () => {
     expect(document.querySelector('.detail-panel')).not.toBeInTheDocument()
   })
 
-  it('opens ClaimModal from non-pro business Claim button', async () => {
+  it('opens ClaimModal from non-pro business View button', async () => {
     const { user } = setup()
-    // Beta Foods is non-pro → Claim button
-    await user.click(screen.getAllByRole('button', { name: 'Claim' })[0])
+    // Beta Foods is non-pro → index 2 after pro-first sort (Alpha Tech, Delta Finance come first)
+    await user.click(screen.getAllByRole('button', { name: 'View' })[2])
     // Opens BusinessModal with Claim Listing footer button
     await user.click(screen.getByRole('button', { name: 'Claim Listing' }))
     expect(screen.getByPlaceholderText('your@email.com')).toBeInTheDocument()

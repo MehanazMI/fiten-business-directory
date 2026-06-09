@@ -1,5 +1,5 @@
 import type { Business } from '@/types/business'
-import { colors, textColors, oppLabels, sigClass } from '@/lib/utils'
+import { oppLabels, sigClass } from '@/lib/utils'
 import type { Lang } from '@/lib/utils'
 
 interface Props {
@@ -15,8 +15,6 @@ function stars(r: number) {
 }
 
 export default function BusinessCard({ business: b, isFavorited, onSelect, onFavorite, lang }: Props) {
-  const bg = colors[b.colorIdx]
-  const fg = textColors[b.colorIdx]
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
 
   return (
@@ -24,21 +22,15 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
       className={`biz-card${b.pro ? ' pro-card' : ''}`}
       onClick={() => onSelect(b)}
     >
-      {b.pro && (
-        <div className="pro-banner">
-          ★ PRO Member
-          {b.views > 0 && (
-            <span className="analytics-badge">🔥 {b.views} views</span>
-          )}
-        </div>
-      )}
-
       <div className="card-top">
-        <div className="biz-avatar" style={{ background: bg, color: fg }}>
+        <div className="biz-avatar" style={{ background: '#A8A29E', color: '#fff' }}>
           {b.initials}
         </div>
         <div className="biz-info">
-          <div className="biz-name">{displayName}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div className="biz-name">{displayName}</div>
+            {b.pro && <span className="pro-badge">PRO</span>}
+          </div>
           {lang === 'ta' && b.nameTamil && (
             <div className="biz-name-tamil">{b.businessName}</div>
           )}
@@ -71,13 +63,9 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
           {' '}{b.rating} · {b.reviews}
         </span>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {b.pro ? (
-            <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
-          ) : (
-            <>
-              <button className="claim-btn" onClick={e => { e.stopPropagation(); onSelect(b) }}>Claim</button>
-              <button className="profile-btn" onClick={e => e.stopPropagation()}>PRO</button>
-            </>
+          <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
+          {!b.pro && (
+            <button className="profile-btn" onClick={e => e.stopPropagation()}>PRO</button>
           )}
         </div>
       </div>

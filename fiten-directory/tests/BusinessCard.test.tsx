@@ -35,24 +35,14 @@ describe('BusinessCard — display', () => {
     expect(screen.getByText('A great tech company')).toBeInTheDocument()
   })
 
-  it('shows PRO banner for pro businesses', () => {
+  it('shows PRO badge for pro businesses', () => {
     setup({ pro: true })
-    expect(screen.getByText(/PRO Member/)).toBeInTheDocument()
+    expect(screen.getByText('PRO')).toBeInTheDocument()
   })
 
-  it('does not show PRO banner for non-pro businesses', () => {
+  it('does not show PRO badge for non-pro businesses', () => {
     setup({ pro: false })
-    expect(screen.queryByText(/PRO Member/)).not.toBeInTheDocument()
-  })
-
-  it('shows analytics badge when pro and has views', () => {
-    setup({ pro: true, views: 123 })
-    expect(screen.getByText(/123 views/)).toBeInTheDocument()
-  })
-
-  it('hides analytics badge when views is 0', () => {
-    setup({ pro: true, views: 0 })
-    expect(screen.queryByText(/views/)).not.toBeInTheDocument()
+    expect(screen.queryByText('PRO', { selector: '.pro-badge' })).not.toBeInTheDocument()
   })
 })
 
@@ -127,9 +117,9 @@ describe('BusinessCard — interactions', () => {
     expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
   })
 
-  it('shows Claim button for non-pro card', () => {
+  it('shows View button for non-pro card', () => {
     setup({ pro: false })
-    expect(screen.getByRole('button', { name: 'Claim' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
   })
 
   it('shows PRO upgrade button for non-pro card', () => {

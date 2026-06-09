@@ -75,6 +75,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [searchQuery, setSearchQuery] = useState('')
   const [sort, setSort] = useState('default')
   const [activeOpps, setActiveOpps] = useState<Array<Business['looking'][number]>>([])
+  const [showWomen, setShowWomen] = useState(false)
 
   useEffect(() => {
     localStorage.setItem('fiten_favorites', JSON.stringify([...favorites]))
@@ -117,14 +118,15 @@ export default function DirectoryClient({ initialData }: Props) {
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
-    let list = businesses.filter(b => {
+    let list = businesses.filter((b) => {
       if (showFavs && !favorites.has(b.id)) return false
       if (activeCat !== 'All' && b.category !== activeCat) return false
       if (activeFilter === 'Pro' && !b.pro) return false
       if (q && !b.businessName.toLowerCase().includes(q) &&
           !b.description.toLowerCase().includes(q) &&
           !b.category.toLowerCase().includes(q)) return false
-      if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
+        if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
+      if (showWomen && !b.women) return false
       return true
     })
 
@@ -134,7 +136,7 @@ export default function DirectoryClient({ initialData }: Props) {
     else list = [...list].sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0))
 
     return list
-  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort])
+  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort, showWomen])
 
   const catCounts = useMemo(() => {
     const map: Record<string, number> = { All: businesses.length }
@@ -171,22 +173,29 @@ export default function DirectoryClient({ initialData }: Props) {
         </div>
       </header>
 
-      <section className="hero">
-        <div className="hero-content">
-          <div className="hero-eyebrow">
-            <span className="eyebrow-dot" />
-            Tamil Business Network
-          </div>
-          <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
-          <p>{t.heroSub}</p>
+      <div className="brand-strip">
+        <div className="brand-strip-left">
+          <div className="brand-eyebrow">Tamil Business Network</div>
+          <div className="brand-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
+          <div className="brand-sub">{t.heroSub}</div>
         </div>
-        <SearchBar
-          value={searchQuery}
-          placeholder={t.searchPlaceholder}
-          searchLabel={t.searchBtn}
-          onChange={v => { setSearchQuery(v); resetPaging() }}
-        />
-      </section>
+        <div className="brand-stats">
+          <div className="brand-stat"><strong>{businesses.length}+</strong><span>Businesses</span></div>
+          <div className="brand-stat"><strong>12+</strong><span>Cities</span></div>
+          <div className="brand-stat"><strong>8</strong><span>Sectors</span></div>
+        </div>
+      </div>
+
+      <div className="search-strip">
+        <div className="search-wrap">
+          <SearchBar
+            value={searchQuery}
+            placeholder={t.searchPlaceholder}
+            searchLabel={t.searchBtn}
+            onChange={v => { setSearchQuery(v); resetPaging() }}
+          />
+        </div>
+      </div>
 
       <FilterRow
         activeFilter={activeFilter}
@@ -232,6 +241,17 @@ export default function DirectoryClient({ initialData }: Props) {
               {oppLabels[op]}
             </label>
           ))}
+
+          <hr className="sidebar-divider" />
+          <p className="sidebar-title">Community</p>
+          <label className="filter-check">
+            <input type="checkbox" checked={activeFilter === 'Pro'} onChange={e => { setActiveFilter(e.target.checked ? 'Pro' : 'All'); resetPaging() }} />
+            PRO Members
+          </label>
+          <label className="filter-check">
+            <input type="checkbox" checked={showWomen} onChange={e => { setShowWomen(e.target.checked); resetPaging() }} />
+            Women-Led
+          </label>
         </aside>
 
         <main className="content">
