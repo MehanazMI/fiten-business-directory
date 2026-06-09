@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option 1 — Minimal & Professional</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8F9FA; color: #1a1a1a; }
+
+  /* NAV */
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 56px; background: #fff; border-bottom: 1px solid #E2E5EA; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; color: #A02020; }
+  .nav-logo span { color: #1a1a1a; font-weight: 400; font-size: 0.8rem; margin-left: 6px; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.5; }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 0.875rem; color: #555; }
+  .nav-links a { text-decoration: none; color: inherit; }
+  .nav-cta { background: #A02020; color: #fff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+
+  /* HEADER */
+  .page-header { padding: 3rem 2rem 2rem; max-width: 1280px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; }
+  .header-left { border-left: 4px solid #A02020; padding-left: 1rem; }
+  .header-eyebrow { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #A02020; margin-bottom: 0.4rem; }
+  .header-title { font-size: 2.25rem; font-weight: 800; line-height: 1.15; letter-spacing: -1px; color: #111; }
+  .header-sub { margin-top: 0.5rem; font-size: 0.925rem; color: #666; }
+  .header-stats { display: flex; gap: 2rem; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 1.5rem; font-weight: 800; color: #A02020; }
+  .stat-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* SEARCH BAR — sticky below nav */
+  .search-strip { background: #fff; border-bottom: 1px solid #E2E5EA; padding: 0.75rem 2rem; position: sticky; top: 56px; z-index: 99; }
+  .search-inner { max-width: 1280px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; }
+  .search-input { flex: 1; max-width: 480px; display: flex; border: 1.5px solid #E2E5EA; border-radius: 8px; overflow: hidden; }
+  .search-input input { flex: 1; padding: 0.55rem 1rem; border: none; outline: none; font-size: 0.9rem; }
+  .search-input button { padding: 0 1rem; background: #A02020; color: #fff; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+  .filter-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pill { padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #fff; font-size: 0.8rem; cursor: pointer; color: #555; }
+  .pill.active { background: #A02020; color: #fff; border-color: #A02020; }
+  .sort-select { margin-left: auto; font-size: 0.82rem; border: 1.5px solid #E2E5EA; border-radius: 6px; padding: 0.35rem 0.6rem; color: #555; }
+
+  /* LAYOUT */
+  .layout { max-width: 1280px; margin: 0 auto; padding: 1.5rem 2rem 3rem; display: grid; grid-template-columns: 220px 1fr; gap: 2rem; }
+
+  /* SIDEBAR */
+  .sidebar { background: #fff; border-radius: 10px; border: 1px solid #E2E5EA; padding: 1.25rem; height: fit-content; position: sticky; top: 110px; }
+  .sidebar-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.75rem; }
+  .cat-item { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.5rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem; color: #444; margin-bottom: 2px; }
+  .cat-item:hover { background: #F3F4F6; }
+  .cat-item.active { background: #FFF0F0; color: #A02020; font-weight: 600; }
+  .cat-badge { font-size: 0.72rem; color: #999; background: #F3F4F6; padding: 1px 7px; border-radius: 10px; }
+  .cat-item.active .cat-badge { background: #FFDCDC; color: #A02020; }
+  .sidebar hr { border: none; border-top: 1px solid #E2E5EA; margin: 0.875rem 0; }
+  .filter-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #555; padding: 0.3rem 0; cursor: pointer; }
+  .filter-check input { accent-color: #A02020; }
+
+  /* GRID */
+  .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .result-count { font-size: 0.85rem; color: #888; }
+  .view-toggle { display: flex; gap: 4px; }
+  .view-btn { padding: 0.3rem 0.6rem; border: 1.5px solid #E2E5EA; border-radius: 6px; background: #fff; font-size: 0.8rem; cursor: pointer; color: #666; }
+  .view-btn.active { background: #A02020; color: #fff; border-color: #A02020; }
+  .biz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+
+  /* CARD */
+  .card { background: #fff; border: 1px solid #E2E5EA; border-radius: 10px; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+  .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .card.pro { border-top: 3px solid #A02020; }
+  .card-top { padding: 1rem 1rem 0.75rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+  .avatar { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0; }
+  .card-info { flex: 1; min-width: 0; }
+  .card-name { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-meta { font-size: 0.78rem; color: #888; margin-top: 2px; }
+  .card-pro { font-size: 0.68rem; font-weight: 700; background: #A02020; color: #fff; padding: 2px 7px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+  .card-desc { padding: 0 1rem 0.75rem; font-size: 0.82rem; color: #555; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-signals { padding: 0 1rem 0.75rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .signal { font-size: 0.72rem; padding: 3px 8px; border-radius: 5px; font-weight: 500; }
+  .sig-partner { background: rgba(59,130,246,0.12); color: #1d4ed8; }
+  .sig-invest { background: rgba(16,185,129,0.12); color: #047857; }
+  .sig-client { background: rgba(245,158,11,0.12); color: #b45309; }
+  .sig-hire { background: rgba(139,92,246,0.12); color: #6d28d9; }
+  .card-footer { padding: 0.6rem 1rem; background: #F8F9FA; border-top: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .card-rating { font-size: 0.78rem; color: #555; }
+  .card-rating span { color: #F59E0B; }
+  .view-btn-card { font-size: 0.78rem; padding: 0.3rem 0.75rem; background: #A02020; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">FiTEN <span>Business Directory</span></div>
+  <div class="nav-links">
+    <a href="#">Directory</a>
+    <a href="#">Events</a>
+    <a href="#">About</a>
+  </div>
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <div style="display:flex;border:1.5px solid #E2E5EA;border-radius:6px;overflow:hidden;font-size:0.8rem;">
+      <button style="padding:0.3rem 0.7rem;border:none;background:#A02020;color:#fff;font-weight:700;cursor:pointer;">EN</button>
+      <button style="padding:0.3rem 0.7rem;border:none;background:#fff;color:#555;cursor:pointer;">தமிழ்</button>
+    </div>
+    <button class="nav-cta">+ List Business</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="header-left">
+    <div class="header-eyebrow">Tamil Business Network</div>
+    <div class="header-title">Tamil Businesses<br>Worldwide</div>
+    <div class="header-sub">Connect with partners, clients, talent & investors</div>
+  </div>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Businesses</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Categories</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Regions</div></div>
+  </div>
+</div>
+
+<div class="search-strip">
+  <div class="search-inner">
+    <div class="search-input">
+      <input type="text" placeholder="Search businesses, keywords...">
+      <button>Search</button>
+    </div>
+    <div class="filter-pills">
+      <button class="pill active">All</button>
+      <button class="pill">Pro</button>
+      <button class="pill">❤️ Saved</button>
+    </div>
+    <select class="sort-select">
+      <option>Sort: PRO first</option>
+      <option>A–Z</option>
+      <option>Top rated</option>
+    </select>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Categories</div>
+    <div class="cat-item active">All <span class="cat-badge">11</span></div>
+    <div class="cat-item">Food <span class="cat-badge">4</span></div>
+    <div class="cat-item">Tech <span class="cat-badge">2</span></div>
+    <div class="cat-item">Healthcare <span class="cat-badge">1</span></div>
+    <div class="cat-item">Finance <span class="cat-badge">1</span></div>
+    <div class="cat-item">Legal <span class="cat-badge">1</span></div>
+    <div class="cat-item">Services <span class="cat-badge">1</span></div>
+    <div class="cat-item">Retail <span class="cat-badge">1</span></div>
+    <hr>
+    <div class="sidebar-title">B2B Signals</div>
+    <label class="filter-check"><input type="checkbox"> 🤝 Business Partners</label>
+    <label class="filter-check"><input type="checkbox"> 👥 Hiring</label>
+    <label class="filter-check"><input type="checkbox"> 💼 Seeking Investment</label>
+    <label class="filter-check"><input type="checkbox"> 🎯 Seeking Clients</label>
+  </aside>
+
+  <main>
+    <div class="result-header">
+      <span class="result-count">11 businesses</span>
+      <div class="view-toggle">
+        <button class="view-btn active">⊞ Grid</button>
+        <button class="view-btn">≡ Region</button>
+      </div>
+    </div>
+    <div class="biz-grid">
+      <!-- Card 1 -->
+      <div class="card pro">
+        <div class="card-top">
+          <div class="avatar" style="background:#B5534B;color:#fff;">TC</div>
+          <div class="card-info">
+            <div class="card-name">TamilMed Clinics</div>
+            <div class="card-meta">Healthcare · Edison, NJ</div>
+          </div>
+          <span class="card-pro">★ PRO</span>
+        </div>
+        <div class="card-signals">
+          <span class="signal sig-client">🎯 Seeking Clients</span>
+          <span class="signal sig-partner">🤝 Business Partners</span>
+        </div>
+        <div class="card-desc">Tamil-speaking family medicine practice offering bilingual care to the South Asian community.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★★</span> 4.8 · 87</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="card pro">
+        <div class="card-top">
+          <div class="avatar" style="background:#4B6B8F;color:#fff;">EL</div>
+          <div class="card-info">
+            <div class="card-name">ERP Logic Inc.</div>
+            <div class="card-meta">Tech · Dallas, TX</div>
+          </div>
+          <span class="card-pro">★ PRO</span>
+        </div>
+        <div class="card-signals">
+          <span class="signal sig-partner">🤝 Business Partners</span>
+          <span class="signal sig-hire">👥 Hiring</span>
+        </div>
+        <div class="card-desc">Enterprise resource planning consulting specializing in SAP implementations for mid-market companies.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★★</span> 4.6 · 56</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="card pro">
+        <div class="card-top">
+          <div class="avatar" style="background:#4B8F6B;color:#fff;">AC</div>
+          <div class="card-info">
+            <div class="card-name">AccuKnox Cloud S...</div>
+            <div class="card-meta">Tech · Silicon Valley, CA</div>
+          </div>
+          <span class="card-pro">★ PRO</span>
+        </div>
+        <div class="card-signals">
+          <span class="signal sig-partner">🤝 Business Partners</span>
+          <span class="signal sig-invest">💼 Seeking Investment</span>
+        </div>
+        <div class="card-desc">Cloud-native zero-trust security platform protecting workloads across multi-cloud environments.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★★</span> 4.9 · 42</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="card pro">
+        <div class="card-top">
+          <div class="avatar" style="background:#8F4B6B;color:#fff;">R</div>
+          <div class="card-info">
+            <div class="card-name">Rocketship.vc</div>
+            <div class="card-meta">Finance · San Francisco, CA</div>
+          </div>
+          <span class="card-pro">★ PRO</span>
+        </div>
+        <div class="card-signals">
+          <span class="signal sig-invest">💼 Seeking Investment</span>
+          <span class="signal sig-partner">🤝 Business Partners</span>
+        </div>
+        <div class="card-desc">Silicon Valley venture fund investing in early-stage startups across SaaS, AI, and fintech.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★★</span> 4.5 · 28</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="card">
+        <div class="card-top">
+          <div class="avatar" style="background:#6B8F4B;color:#fff;">CS</div>
+          <div class="card-info">
+            <div class="card-name">Chennai Spice Kitchen</div>
+            <div class="card-meta">Food · Toronto, ON</div>
+          </div>
+        </div>
+        <div class="card-desc">Authentic South Indian cuisine bringing the flavors of Chennai to the heart of Toronto.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★☆</span> 4.3 · 112</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="card">
+        <div class="card-top">
+          <div class="avatar" style="background:#8F7B4B;color:#fff;">KB</div>
+          <div class="card-info">
+            <div class="card-name">Kovai Bites Restaurant</div>
+            <div class="card-meta">Food · Mississauga, ON</div>
+          </div>
+        </div>
+        <div class="card-desc">Family-owned restaurant serving traditional Kovai-style recipes passed down through generations.</div>
+        <div class="card-footer">
+          <div class="card-rating"><span>★★★★☆</span> 4.1 · 89</div>
+          <button class="view-btn-card">View</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

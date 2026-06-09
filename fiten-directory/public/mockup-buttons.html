@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Button Color Options</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ECEEF2; padding: 2rem; }
+  h1 { font-size: 1rem; font-weight: 700; color: #333; margin-bottom: 0.25rem; text-align: center; }
+  .page-sub { font-size: 0.78rem; color: #888; text-align: center; margin-bottom: 2rem; }
+
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.25rem; }
+
+  .panel { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .panel-label { padding: 0.55rem 0.85rem; background: #F8F9FA; border-bottom: 1px solid #E2E5EA; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #555; display: flex; align-items: center; gap: 0.35rem; }
+  .sw { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.08); }
+
+  .mini-nav { height: 34px; display: flex; align-items: center; padding: 0 0.85rem; background: #44403C; }
+  .mini-logo { font-weight: 800; font-size: 0.78rem; color: #fff; letter-spacing: -0.3px; flex: 1; }
+  .mini-logo span { font-weight: 400; font-size: 0.56rem; color: rgba(255,255,255,0.38); margin-left: 3px; }
+
+  .mini-brand { padding: 0.65rem 0.85rem; border-bottom: 1px solid #E2E5EA; display: flex; align-items: center; gap: 0.75rem; }
+  .bl { padding-left: 0.6rem; border-left-width: 3px; border-left-style: solid; }
+  .ey { font-size: 0.54rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 2px; }
+  .bt { font-size: 0.85rem; font-weight: 800; letter-spacing: -0.3px; color: #111; }
+  .stats { display: flex; gap: 0.75rem; margin-left: auto; text-align: center; }
+  .sn { font-size: 0.85rem; font-weight: 800; line-height: 1; }
+  .sl { font-size: 0.52rem; color: #bbb; text-transform: uppercase; margin-top: 1px; }
+
+  .mini-search { padding: 0.38rem 0.85rem; border-bottom: 1px solid #E2E5EA; display: flex; gap: 0.35rem; align-items: center; }
+  .sbox { display: flex; border: 1.5px solid #E2E5EA; border-radius: 5px; overflow: hidden; flex: 1; }
+  .sbox input { flex: 1; padding: 0.26rem 0.45rem; border: none; font-size: 0.65rem; outline: none; background: #F8F9FA; min-width: 0; }
+  .sbox-btn { padding: 0 0.55rem; border: none; font-size: 0.62rem; font-weight: 700; cursor: pointer; color: #fff; }
+  .spill { padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.6rem; color: #fff; border: none; cursor: pointer; }
+
+  .mini-layout { display: flex; }
+  .msb { width: 90px; border-right: 1px solid #E2E5EA; padding: 0.65rem 0.55rem; flex-shrink: 0; background: #FAFAFA; }
+  .msl { font-size: 0.54rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #bbb; margin-bottom: 0.35rem; }
+  .mc { display: flex; justify-content: space-between; align-items: center; padding: 0.24rem 0.35rem; border-radius: 4px; font-size: 0.66rem; color: #444; margin-bottom: 1px; cursor: pointer; }
+  .mc.on { font-weight: 600; }
+  .mn { font-size: 0.58rem; color: #bbb; background: #EBEBEB; padding: 0 4px; border-radius: 5px; }
+  .msb hr { border: none; border-top: 1px solid #F0F0F0; margin: 0.5rem 0; }
+  .chk { display: flex; align-items: center; gap: 0.35rem; font-size: 0.66rem; color: #555; padding: 0.22rem 0.3rem; }
+  .chk input { width: 11px; height: 11px; }
+
+  .mm { flex: 1; padding: 0.65rem 0.75rem; }
+  .rc { font-size: 0.62rem; color: #888; margin-bottom: 0.5rem; }
+  .cards { display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .card { border: 1px solid #E2E5EA; border-radius: 7px; overflow: hidden; }
+  .card.pro { border-top-width: 3px; border-top-style: solid; border-top-color: #D97706; }
+  .ch { padding: 0.5rem 0.6rem; display: flex; gap: 0.45rem; align-items: flex-start; }
+  .av { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.68rem; flex-shrink: 0; background: #A8A29E; color: #fff; }
+  .ci { flex: 1; min-width: 0; }
+  .cn { font-weight: 700; font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cm { font-size: 0.6rem; color: #aaa; margin-top: 1px; }
+  .pro-tag { font-size: 0.55rem; font-weight: 700; padding: 2px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; background: #D97706; color: #fff; }
+  .sigs { padding: 0 0.6rem 0.4rem; display: flex; gap: 0.2rem; flex-wrap: wrap; }
+  .sig { font-size: 0.58rem; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+  .sc { background: rgba(15,118,110,0.1); color: #0f766e; }
+  .sp { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+  .sh { background: rgba(139,92,246,0.1); color: #6d28d9; }
+  .cf { padding: 0.38rem 0.6rem; background: #F8F9FA; border-top: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .cr { font-size: 0.6rem; color: #888; }
+  .cr span { color: #F59E0B; }
+  /* btn color set inline per panel */
+  .vb { font-size: 0.6rem; padding: 3px 8px; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Button Color Options — Palette F · Warm Stone Avatar · Gold PRO</h1>
+<p class="page-sub">Same design, five button tones — find the one that feels right</p>
+
+<div class="row">
+
+  <!-- 1. Current teal #0F766E -->
+  <div class="panel">
+    <div class="panel-label"><div class="sw" style="background:#0F766E;"></div> Current Teal <span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#0F766E</span></div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Dir</span></div><button style="margin-left:auto;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;border:none;cursor:pointer;background:#0F766E;color:#fff;">+ List</button></div>
+    <div class="mini-brand"><div class="bl" style="border-color:#0F766E;"><div class="ey" style="color:#0F766E;">Tamil Business Network</div><div class="bt">Tamil Businesses Worldwide</div></div><div class="stats"><div><div class="sn" style="color:#0F766E;">11</div><div class="sl">Biz</div></div><div><div class="sn" style="color:#0F766E;">6</div><div class="sl">Cat</div></div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button class="sbox-btn" style="background:#44403C;">Go</button></div><button class="spill" style="background:#0F766E;">All</button></div>
+    <div class="mini-layout">
+      <div class="msb"><div class="msl">Categories</div><div class="mc on" style="background:#ECFDF5;color:#0F766E;">All <span class="mn" style="background:#99F6E4;color:#0F766E;">11</span></div><div class="mc">Food <span class="mn">4</span></div><div class="mc">Tech <span class="mn">2</span></div><hr><label class="chk"><input type="checkbox"> 🤝 Partners</label><label class="chk"><input type="checkbox"> 👥 Hiring</label></div>
+      <div class="mm"><div class="rc">11 businesses</div><div class="cards">
+        <div class="card pro"><div class="ch"><div class="av">TC</div><div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sc">🎯 Clients</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb" style="background:#0F766E;">View</button></div></div>
+        <div class="card pro"><div class="ch"><div class="av">EL</div><div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sp">🤝 Partners</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb" style="background:#0F766E;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">CS</div><div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb" style="background:#0F766E;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">KB</div><div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb" style="background:#0F766E;">View</button></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 2. Warm Stone (nav) #44403C -->
+  <div class="panel">
+    <div class="panel-label"><div class="sw" style="background:#44403C;"></div> Warm Stone <span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#44403C</span></div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Dir</span></div><button style="margin-left:auto;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;border:none;cursor:pointer;background:#D97706;color:#fff;">+ List</button></div>
+    <div class="mini-brand"><div class="bl" style="border-color:#44403C;"><div class="ey" style="color:#44403C;">Tamil Business Network</div><div class="bt">Tamil Businesses Worldwide</div></div><div class="stats"><div><div class="sn" style="color:#44403C;">11</div><div class="sl">Biz</div></div><div><div class="sn" style="color:#44403C;">6</div><div class="sl">Cat</div></div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button class="sbox-btn" style="background:#44403C;">Go</button></div><button class="spill" style="background:#44403C;">All</button></div>
+    <div class="mini-layout">
+      <div class="msb"><div class="msl">Categories</div><div class="mc on" style="background:#F5F0EB;color:#44403C;">All <span class="mn" style="background:#D8CFC8;color:#44403C;">11</span></div><div class="mc">Food <span class="mn">4</span></div><div class="mc">Tech <span class="mn">2</span></div><hr><label class="chk"><input type="checkbox"> 🤝 Partners</label><label class="chk"><input type="checkbox"> 👥 Hiring</label></div>
+      <div class="mm"><div class="rc">11 businesses</div><div class="cards">
+        <div class="card pro"><div class="ch"><div class="av">TC</div><div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sc">🎯 Clients</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb" style="background:#44403C;">View</button></div></div>
+        <div class="card pro"><div class="ch"><div class="av">EL</div><div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sp">🤝 Partners</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb" style="background:#44403C;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">CS</div><div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb" style="background:#44403C;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">KB</div><div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb" style="background:#44403C;">View</button></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 3. Deep Sage #3D7068 -->
+  <div class="panel">
+    <div class="panel-label"><div class="sw" style="background:#3D7068;"></div> Deep Sage <span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#3D7068</span></div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Dir</span></div><button style="margin-left:auto;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;border:none;cursor:pointer;background:#3D7068;color:#fff;">+ List</button></div>
+    <div class="mini-brand"><div class="bl" style="border-color:#3D7068;"><div class="ey" style="color:#3D7068;">Tamil Business Network</div><div class="bt">Tamil Businesses Worldwide</div></div><div class="stats"><div><div class="sn" style="color:#3D7068;">11</div><div class="sl">Biz</div></div><div><div class="sn" style="color:#3D7068;">6</div><div class="sl">Cat</div></div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button class="sbox-btn" style="background:#44403C;">Go</button></div><button class="spill" style="background:#3D7068;">All</button></div>
+    <div class="mini-layout">
+      <div class="msb"><div class="msl">Categories</div><div class="mc on" style="background:#EEF6F5;color:#3D7068;">All <span class="mn" style="background:#B2D8D4;color:#3D7068;">11</span></div><div class="mc">Food <span class="mn">4</span></div><div class="mc">Tech <span class="mn">2</span></div><hr><label class="chk"><input type="checkbox"> 🤝 Partners</label><label class="chk"><input type="checkbox"> 👥 Hiring</label></div>
+      <div class="mm"><div class="rc">11 businesses</div><div class="cards">
+        <div class="card pro"><div class="ch"><div class="av">TC</div><div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sc">🎯 Clients</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb" style="background:#3D7068;">View</button></div></div>
+        <div class="card pro"><div class="ch"><div class="av">EL</div><div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sp">🤝 Partners</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb" style="background:#3D7068;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">CS</div><div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb" style="background:#3D7068;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">KB</div><div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb" style="background:#3D7068;">View</button></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 4. Slate Blue #2E5090 -->
+  <div class="panel">
+    <div class="panel-label"><div class="sw" style="background:#2E5090;"></div> Slate Blue <span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#2E5090</span></div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Dir</span></div><button style="margin-left:auto;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;border:none;cursor:pointer;background:#2E5090;color:#fff;">+ List</button></div>
+    <div class="mini-brand"><div class="bl" style="border-color:#2E5090;"><div class="ey" style="color:#2E5090;">Tamil Business Network</div><div class="bt">Tamil Businesses Worldwide</div></div><div class="stats"><div><div class="sn" style="color:#2E5090;">11</div><div class="sl">Biz</div></div><div><div class="sn" style="color:#2E5090;">6</div><div class="sl">Cat</div></div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button class="sbox-btn" style="background:#44403C;">Go</button></div><button class="spill" style="background:#2E5090;">All</button></div>
+    <div class="mini-layout">
+      <div class="msb"><div class="msl">Categories</div><div class="mc on" style="background:#EEF2FA;color:#2E5090;">All <span class="mn" style="background:#BCC9E8;color:#2E5090;">11</span></div><div class="mc">Food <span class="mn">4</span></div><div class="mc">Tech <span class="mn">2</span></div><hr><label class="chk"><input type="checkbox"> 🤝 Partners</label><label class="chk"><input type="checkbox"> 👥 Hiring</label></div>
+      <div class="mm"><div class="rc">11 businesses</div><div class="cards">
+        <div class="card pro"><div class="ch"><div class="av">TC</div><div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sc">🎯 Clients</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb" style="background:#2E5090;">View</button></div></div>
+        <div class="card pro"><div class="ch"><div class="av">EL</div><div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sp">🤝 Partners</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb" style="background:#2E5090;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">CS</div><div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb" style="background:#2E5090;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">KB</div><div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb" style="background:#2E5090;">View</button></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 5. Outlined (ghost) — teal border, no fill -->
+  <div class="panel">
+    <div class="panel-label"><div class="sw" style="background:#fff;border:2px solid #0F766E;"></div> Ghost Outline <span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">border #0F766E</span></div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Dir</span></div><button style="margin-left:auto;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;border:none;cursor:pointer;background:#D97706;color:#fff;">+ List</button></div>
+    <div class="mini-brand"><div class="bl" style="border-color:#0F766E;"><div class="ey" style="color:#0F766E;">Tamil Business Network</div><div class="bt">Tamil Businesses Worldwide</div></div><div class="stats"><div><div class="sn" style="color:#0F766E;">11</div><div class="sl">Biz</div></div><div><div class="sn" style="color:#0F766E;">6</div><div class="sl">Cat</div></div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button class="sbox-btn" style="background:#44403C;">Go</button></div><button class="spill" style="background:#0F766E;">All</button></div>
+    <div class="mini-layout">
+      <div class="msb"><div class="msl">Categories</div><div class="mc on" style="background:#ECFDF5;color:#0F766E;">All <span class="mn" style="background:#99F6E4;color:#0F766E;">11</span></div><div class="mc">Food <span class="mn">4</span></div><div class="mc">Tech <span class="mn">2</span></div><hr><label class="chk"><input type="checkbox"> 🤝 Partners</label><label class="chk"><input type="checkbox"> 👥 Hiring</label></div>
+      <div class="mm"><div class="rc">11 businesses</div><div class="cards">
+        <div class="card pro"><div class="ch"><div class="av">TC</div><div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sc">🎯 Clients</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb" style="background:transparent;color:#0F766E;border:1.5px solid #0F766E;">View</button></div></div>
+        <div class="card pro"><div class="ch"><div class="av">EL</div><div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div><span class="pro-tag">★ PRO</span></div><div class="sigs"><span class="sig sp">🤝 Partners</span></div><div class="cf"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb" style="background:transparent;color:#0F766E;border:1.5px solid #0F766E;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">CS</div><div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb" style="background:transparent;color:#0F766E;border:1.5px solid #0F766E;">View</button></div></div>
+        <div class="card"><div class="ch"><div class="av">KB</div><div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div></div><div class="cf"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb" style="background:transparent;color:#0F766E;border:1.5px solid #0F766E;">View</button></div></div>
+      </div></div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:0.7rem;color:#999;margin-top:1.5rem;">
+  Fixed across all: Avatar <strong style="color:#A8A29E;">#A8A29E warm stone</strong> &nbsp;·&nbsp; PRO badge <strong style="color:#D97706;">#D97706 gold</strong> &nbsp;·&nbsp; Nav <strong style="color:#44403C;">#44403C warm stone dark</strong>
+</p>
+</body>
+</html>

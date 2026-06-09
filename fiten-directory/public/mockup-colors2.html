@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Options — Neutral Professional</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ECEEF2; padding: 2rem; }
+  h1 { font-size: 1rem; font-weight: 700; color: #333; margin-bottom: 0.3rem; text-align: center; }
+  .page-sub { font-size: 0.8rem; color: #888; text-align: center; margin-bottom: 2rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .preview { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+  .preview-label { padding: 0.6rem 1rem; background: #F8F9FA; border-bottom: 1px solid #E2E5EA; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; display: flex; align-items: center; gap: 0.4rem; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  .mini-nav { height: 38px; display: flex; align-items: center; padding: 0 1rem; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .mini-logo { font-weight: 800; font-size: 0.85rem; letter-spacing: -0.4px; color: #fff; }
+  .mini-logo span { font-weight: 400; font-size: 0.6rem; color: rgba(255,255,255,0.45); margin-left: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .mini-cta { margin-left: auto; font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 5px; border: none; cursor: pointer; }
+
+  .mini-brand { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E5EA; display: flex; align-items: center; gap: 1rem; background: #fff; }
+  .brand-bl { border-left-width: 4px; border-left-style: solid; padding-left: 0.7rem; }
+  .brand-eyebrow { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+  .brand-title { font-size: 1rem; font-weight: 800; letter-spacing: -0.4px; color: #111; line-height: 1.2; }
+  .brand-sub { font-size: 0.62rem; color: #888; margin-top: 1px; }
+  .mini-stats { display: flex; gap: 1rem; margin-left: auto; }
+  .stat-num { font-size: 1rem; font-weight: 800; line-height: 1; }
+  .stat-label { font-size: 0.55rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 1px; }
+
+  .mini-search { padding: 0.45rem 1rem; border-bottom: 1px solid #E2E5EA; display: flex; align-items: center; gap: 0.5rem; background: #fff; }
+  .sbox { display: flex; border: 1.5px solid #E2E5EA; border-radius: 6px; overflow: hidden; flex: 1; max-width: 240px; background: #F8F9FA; }
+  .sbox input { flex: 1; padding: 0.3rem 0.6rem; border: none; background: transparent; font-size: 0.72rem; outline: none; min-width: 0; }
+  .sbox button { padding: 0 0.6rem; border: none; font-size: 0.68rem; font-weight: 700; cursor: pointer; color: #fff; }
+  .mpill { padding: 0.22rem 0.6rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #fff; font-size: 0.65rem; cursor: pointer; color: #555; }
+  .mpill.on { color: #fff; border-color: transparent; }
+
+  .mini-layout { display: flex; }
+  .msidebar { width: 110px; border-right: 1px solid #E2E5EA; padding: 0.75rem 0.6rem; flex-shrink: 0; background: #FAFAFA; }
+  .mslabel { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 0.35rem; }
+  .mcat { display: flex; justify-content: space-between; padding: 0.25rem 0.35rem; border-radius: 4px; font-size: 0.68rem; color: #444; margin-bottom: 1px; cursor: pointer; }
+  .mcat.on { font-weight: 600; }
+  .mnum { font-size: 0.6rem; color: #bbb; background: #EBEBEB; padding: 0 5px; border-radius: 6px; }
+
+  .mmain { flex: 1; padding: 0.75rem; }
+  .mresult { font-size: 0.65rem; color: #888; margin-bottom: 0.6rem; }
+  .mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .mcard { border: 1px solid #E2E5EA; border-radius: 7px; overflow: hidden; background: #fff; }
+  .mcard.pro { border-top-width: 3px; border-top-style: solid; }
+  .mhead { padding: 0.5rem 0.55rem; display: flex; gap: 0.4rem; align-items: center; }
+  .mav { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.6rem; flex-shrink: 0; color: #fff; }
+  .mcn { font-weight: 700; font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mcm { font-size: 0.55rem; color: #aaa; }
+  .mpro { font-size: 0.5rem; font-weight: 700; color: #fff; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+  .msigs { padding: 0 0.55rem 0.4rem; display: flex; gap: 0.2rem; flex-wrap: wrap; }
+  .msig { font-size: 0.55rem; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+  .mfoot { padding: 0.35rem 0.55rem; border-top: 1px solid #F0F0F0; display: flex; justify-content: space-between; align-items: center; background: #F8F9FA; }
+  .mrating { font-size: 0.55rem; color: #888; }
+  .mvb { font-size: 0.55rem; padding: 2px 6px; color: #fff; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Hybrid — Neutral Professional Options</h1>
+<p class="page-sub">Muted, refined palettes — less saturated, more timeless</p>
+
+<div class="grid">
+
+  <!-- ══════════════════════════════════ -->
+  <!-- E: Slate + Warm Coral accent      -->
+  <!-- ══════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="sw" style="background:#334155;"></div>
+      <div class="sw" style="background:#C2410C; margin-left:-4px;"></div>
+      E — Slate + Burnt Coral &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Grounded, neutral with warmth</span>
+    </div>
+    <div class="mini-nav" style="background:#334155;">
+      <div class="mini-logo">FiTEN <span>Directory</span></div>
+      <button class="mini-cta" style="background:#C2410C;color:#fff;">+ List Business</button>
+    </div>
+    <div class="mini-brand">
+      <div class="brand-bl" style="border-color:#334155;">
+        <div class="brand-eyebrow" style="color:#334155;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats">
+        <div><div class="stat-num" style="color:#334155;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#334155;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#334155;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="sbox"><input type="text" placeholder="Search..."><button style="background:#334155;">Search</button></div>
+      <button class="mpill on" style="background:#334155;">All</button>
+      <button class="mpill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="msidebar">
+        <div class="mslabel">Categories</div>
+        <div class="mcat on" style="background:#EEF2F7;color:#334155;">All <span class="mnum" style="background:#CBD5E1;color:#334155;">11</span></div>
+        <div class="mcat">Food <span class="mnum">4</span></div>
+        <div class="mcat">Tech <span class="mnum">2</span></div>
+        <div class="mcat">Healthcare <span class="mnum">1</span></div>
+        <div class="mcat">Finance <span class="mnum">1</span></div>
+      </div>
+      <div class="mmain">
+        <div class="mresult">11 businesses</div>
+        <div class="mgrid">
+          <div class="mcard pro" style="border-top-color:#334155;">
+            <div class="mhead"><div class="mav" style="background:#7C6B5A;">TC</div><div><div class="mcn">TamilMed Clinics</div><div class="mcm">Healthcare · NJ</div></div><span class="mpro" style="background:#334155;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(194,65,12,0.1);color:#9a3412;">🎯 Clients</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.8</span><button class="mvb" style="background:#C2410C;">View</button></div>
+          </div>
+          <div class="mcard pro" style="border-top-color:#334155;">
+            <div class="mhead"><div class="mav" style="background:#4B6B8F;">EL</div><div><div class="mcn">ERP Logic Inc.</div><div class="mcm">Tech · Dallas</div></div><span class="mpro" style="background:#334155;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.6</span><button class="mvb" style="background:#C2410C;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#6B8F4B;">CS</div><div><div class="mcn">Chennai Spice</div><div class="mcm">Food · Toronto</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.3</span><button class="mvb" style="background:#334155;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#8F7B4B;">KB</div><div><div class="mcn">Kovai Bites</div><div class="mcm">Food · Mississauga</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.1</span><button class="mvb" style="background:#334155;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- F: Warm Stone + Deep Teal         -->
+  <!-- ══════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="sw" style="background:#44403C;"></div>
+      <div class="sw" style="background:#0F766E; margin-left:-4px;"></div>
+      F — Warm Stone + Teal &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Sophisticated, calm authority</span>
+    </div>
+    <div class="mini-nav" style="background:#44403C;">
+      <div class="mini-logo">FiTEN <span>Directory</span></div>
+      <button class="mini-cta" style="background:#0F766E;color:#fff;">+ List Business</button>
+    </div>
+    <div class="mini-brand">
+      <div class="brand-bl" style="border-color:#0F766E;">
+        <div class="brand-eyebrow" style="color:#0F766E;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats">
+        <div><div class="stat-num" style="color:#0F766E;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#0F766E;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#0F766E;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="sbox"><input type="text" placeholder="Search..."><button style="background:#44403C;">Search</button></div>
+      <button class="mpill on" style="background:#0F766E;">All</button>
+      <button class="mpill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="msidebar">
+        <div class="mslabel">Categories</div>
+        <div class="mcat on" style="background:#ECFDF5;color:#0F766E;">All <span class="mnum" style="background:#99F6E4;color:#0F766E;">11</span></div>
+        <div class="mcat">Food <span class="mnum">4</span></div>
+        <div class="mcat">Tech <span class="mnum">2</span></div>
+        <div class="mcat">Healthcare <span class="mnum">1</span></div>
+        <div class="mcat">Finance <span class="mnum">1</span></div>
+      </div>
+      <div class="mmain">
+        <div class="mresult">11 businesses</div>
+        <div class="mgrid">
+          <div class="mcard pro" style="border-top-color:#0F766E;">
+            <div class="mhead"><div class="mav" style="background:#7C6B5A;">TC</div><div><div class="mcn">TamilMed Clinics</div><div class="mcm">Healthcare · NJ</div></div><span class="mpro" style="background:#0F766E;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(15,118,110,0.1);color:#0f766e;">🎯 Clients</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.8</span><button class="mvb" style="background:#0F766E;">View</button></div>
+          </div>
+          <div class="mcard pro" style="border-top-color:#0F766E;">
+            <div class="mhead"><div class="mav" style="background:#4B6B8F;">EL</div><div><div class="mcn">ERP Logic Inc.</div><div class="mcm">Tech · Dallas</div></div><span class="mpro" style="background:#0F766E;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.6</span><button class="mvb" style="background:#0F766E;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#6B8F4B;">CS</div><div><div class="mcn">Chennai Spice</div><div class="mcm">Food · Toronto</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.3</span><button class="mvb" style="background:#44403C;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#8F7B4B;">KB</div><div><div class="mcn">Kovai Bites</div><div class="mcm">Food · Mississauga</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.1</span><button class="mvb" style="background:#44403C;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- G: Graphite + Sky Blue            -->
+  <!-- ══════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="sw" style="background:#1F2937;"></div>
+      <div class="sw" style="background:#0284C7; margin-left:-4px;"></div>
+      G — Graphite + Sky Blue &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Clean enterprise, high contrast</span>
+    </div>
+    <div class="mini-nav" style="background:#1F2937;">
+      <div class="mini-logo">FiTEN <span>Directory</span></div>
+      <button class="mini-cta" style="background:#0284C7;color:#fff;">+ List Business</button>
+    </div>
+    <div class="mini-brand">
+      <div class="brand-bl" style="border-color:#0284C7;">
+        <div class="brand-eyebrow" style="color:#0284C7;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats">
+        <div><div class="stat-num" style="color:#0284C7;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#0284C7;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#0284C7;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="sbox"><input type="text" placeholder="Search..."><button style="background:#1F2937;">Search</button></div>
+      <button class="mpill on" style="background:#0284C7;">All</button>
+      <button class="mpill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="msidebar">
+        <div class="mslabel">Categories</div>
+        <div class="mcat on" style="background:#E0F2FE;color:#0284C7;">All <span class="mnum" style="background:#BAE6FD;color:#0284C7;">11</span></div>
+        <div class="mcat">Food <span class="mnum">4</span></div>
+        <div class="mcat">Tech <span class="mnum">2</span></div>
+        <div class="mcat">Healthcare <span class="mnum">1</span></div>
+        <div class="mcat">Finance <span class="mnum">1</span></div>
+      </div>
+      <div class="mmain">
+        <div class="mresult">11 businesses</div>
+        <div class="mgrid">
+          <div class="mcard pro" style="border-top-color:#0284C7;">
+            <div class="mhead"><div class="mav" style="background:#7C6B5A;">TC</div><div><div class="mcn">TamilMed Clinics</div><div class="mcm">Healthcare · NJ</div></div><span class="mpro" style="background:#0284C7;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(2,132,199,0.1);color:#0369a1;">🎯 Clients</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.8</span><button class="mvb" style="background:#0284C7;">View</button></div>
+          </div>
+          <div class="mcard pro" style="border-top-color:#0284C7;">
+            <div class="mhead"><div class="mav" style="background:#4B6B8F;">EL</div><div><div class="mcn">ERP Logic Inc.</div><div class="mcm">Tech · Dallas</div></div><span class="mpro" style="background:#0284C7;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.6</span><button class="mvb" style="background:#0284C7;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#6B8F4B;">CS</div><div><div class="mcn">Chennai Spice</div><div class="mcm">Food · Toronto</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.3</span><button class="mvb" style="background:#1F2937;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#8F7B4B;">KB</div><div><div class="mcn">Kovai Bites</div><div class="mcm">Food · Mississauga</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.1</span><button class="mvb" style="background:#1F2937;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- H: Neutral Gray + Deep Violet     -->
+  <!-- ══════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="sw" style="background:#374151;"></div>
+      <div class="sw" style="background:#6D28D9; margin-left:-4px;"></div>
+      H — Neutral Gray + Deep Violet &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Premium, understated elegance</span>
+    </div>
+    <div class="mini-nav" style="background:#1C1C1E;">
+      <div class="mini-logo">FiTEN <span>Directory</span></div>
+      <button class="mini-cta" style="background:#6D28D9;color:#fff;">+ List Business</button>
+    </div>
+    <div class="mini-brand">
+      <div class="brand-bl" style="border-color:#6D28D9;">
+        <div class="brand-eyebrow" style="color:#6D28D9;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats">
+        <div><div class="stat-num" style="color:#6D28D9;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#6D28D9;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#6D28D9;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="sbox"><input type="text" placeholder="Search..."><button style="background:#374151;">Search</button></div>
+      <button class="mpill on" style="background:#6D28D9;">All</button>
+      <button class="mpill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="msidebar">
+        <div class="mslabel">Categories</div>
+        <div class="mcat on" style="background:#F5F3FF;color:#6D28D9;">All <span class="mnum" style="background:#DDD6FE;color:#6D28D9;">11</span></div>
+        <div class="mcat">Food <span class="mnum">4</span></div>
+        <div class="mcat">Tech <span class="mnum">2</span></div>
+        <div class="mcat">Healthcare <span class="mnum">1</span></div>
+        <div class="mcat">Finance <span class="mnum">1</span></div>
+      </div>
+      <div class="mmain">
+        <div class="mresult">11 businesses</div>
+        <div class="mgrid">
+          <div class="mcard pro" style="border-top-color:#6D28D9;">
+            <div class="mhead"><div class="mav" style="background:#7C6B5A;">TC</div><div><div class="mcn">TamilMed Clinics</div><div class="mcm">Healthcare · NJ</div></div><span class="mpro" style="background:#6D28D9;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(109,40,217,0.1);color:#5b21b6;">🎯 Clients</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.8</span><button class="mvb" style="background:#6D28D9;">View</button></div>
+          </div>
+          <div class="mcard pro" style="border-top-color:#6D28D9;">
+            <div class="mhead"><div class="mav" style="background:#4B6B8F;">EL</div><div><div class="mcn">ERP Logic Inc.</div><div class="mcm">Tech · Dallas</div></div><span class="mpro" style="background:#6D28D9;">★ PRO</span></div>
+            <div class="msigs"><span class="msig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mfoot"><span class="mrating">★★★★★ 4.6</span><button class="mvb" style="background:#6D28D9;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#6B8F4B;">CS</div><div><div class="mcn">Chennai Spice</div><div class="mcm">Food · Toronto</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.3</span><button class="mvb" style="background:#374151;">View</button></div>
+          </div>
+          <div class="mcard">
+            <div class="mhead"><div class="mav" style="background:#8F7B4B;">KB</div><div><div class="mcn">Kovai Bites</div><div class="mcm">Food · Mississauga</div></div></div>
+            <div class="mfoot"><span class="mrating">★★★★☆ 4.1</span><button class="mvb" style="background:#374151;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option 4 — Dashboard-First</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F0F2F5; color: #1a1a1a; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* TOP BAR */
+  .topbar { background: #fff; border-bottom: 1px solid #E2E5EA; height: 52px; display: flex; align-items: center; padding: 0 1.25rem; gap: 1rem; flex-shrink: 0; z-index: 100; }
+  .topbar-logo { font-weight: 800; font-size: 1rem; color: #A02020; letter-spacing: -0.5px; white-space: nowrap; margin-right: 0.5rem; }
+  .topbar-logo span { color: #999; font-weight: 400; font-size: 0.72rem; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .topbar-divider { width: 1px; height: 22px; background: #E2E5EA; }
+  .topbar-search { flex: 1; max-width: 460px; display: flex; align-items: center; border: 1.5px solid #E2E5EA; border-radius: 8px; overflow: hidden; background: #F8F9FA; }
+  .topbar-search input { flex: 1; padding: 0.45rem 0.9rem; border: none; background: transparent; font-size: 0.875rem; outline: none; }
+  .topbar-search button { padding: 0.45rem 1rem; background: #A02020; color: #fff; border: none; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+  .topbar-pills { display: flex; gap: 0.4rem; }
+  .tp { padding: 0.3rem 0.75rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #fff; font-size: 0.78rem; cursor: pointer; color: #555; white-space: nowrap; }
+  .tp.active { background: #A02020; color: #fff; border-color: #A02020; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.75rem; }
+  .lang-sw { display: flex; border: 1.5px solid #E2E5EA; border-radius: 6px; overflow: hidden; font-size: 0.75rem; }
+  .lang-sw button { padding: 0.28rem 0.6rem; border: none; cursor: pointer; }
+  .lang-sw .on { background: #A02020; color: #fff; font-weight: 700; }
+  .lang-sw .off { background: #fff; color: #555; }
+  .topbar-cta { background: #A02020; color: #fff; border: none; padding: 0.38rem 0.9rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+
+  /* BODY LAYOUT */
+  .body { display: flex; flex: 1; overflow: hidden; }
+
+  /* LEFT SIDEBAR */
+  .sidebar { width: 200px; background: #fff; border-right: 1px solid #E2E5EA; padding: 1rem 0.75rem; overflow-y: auto; flex-shrink: 0; }
+  .sidebar-section { margin-bottom: 1.25rem; }
+  .sidebar-label { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #aaa; padding: 0 0.4rem; margin-bottom: 0.4rem; }
+  .cat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.38rem 0.5rem; border-radius: 6px; cursor: pointer; font-size: 0.83rem; color: #444; margin-bottom: 1px; }
+  .cat-row:hover { background: #F3F4F6; }
+  .cat-row.active { background: #FFF0F0; color: #A02020; font-weight: 600; }
+  .cat-num { font-size: 0.7rem; color: #bbb; background: #F3F4F6; padding: 1px 6px; border-radius: 8px; }
+  .cat-row.active .cat-num { background: #FFDCDC; color: #A02020; }
+  .sidebar hr { border: none; border-top: 1px solid #F0F0F0; margin: 0.75rem 0; }
+  .check-row { display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: #555; padding: 0.28rem 0.4rem; cursor: pointer; border-radius: 4px; }
+  .check-row:hover { background: #F8F9FA; }
+  .check-row input { accent-color: #A02020; width: 13px; height: 13px; }
+
+  /* MAIN */
+  .main { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+  .main-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .result-info { font-size: 0.82rem; color: #888; }
+  .result-info strong { color: #333; }
+  .main-controls { display: flex; gap: 0.5rem; align-items: center; }
+  .sort-sel { font-size: 0.78rem; border: 1.5px solid #E2E5EA; border-radius: 6px; padding: 0.3rem 0.5rem; color: #555; background: #fff; }
+  .view-grp { display: flex; border: 1.5px solid #E2E5EA; border-radius: 6px; overflow: hidden; }
+  .vbtn { padding: 0.28rem 0.6rem; border: none; background: #fff; font-size: 0.78rem; cursor: pointer; color: #666; }
+  .vbtn.on { background: #A02020; color: #fff; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .card { background: #fff; border: 1px solid #E2E5EA; border-radius: 9px; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); transform: translateY(-2px); }
+  .card.pro { border-top: 3px solid #A02020; }
+  .card-head { padding: 0.85rem 0.9rem 0.6rem; display: flex; gap: 0.65rem; align-items: flex-start; }
+  .av { width: 40px; height: 40px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; }
+  .ci { flex: 1; min-width: 0; }
+  .cn { font-weight: 700; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cm { font-size: 0.73rem; color: #999; margin-top: 1px; }
+  .pro-tag { font-size: 0.62rem; font-weight: 700; background: #A02020; color: #fff; padding: 2px 6px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+  .sigs { padding: 0 0.9rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .sig { font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .sp { background: rgba(59,130,246,0.12); color: #1d4ed8; }
+  .si { background: rgba(16,185,129,0.12); color: #047857; }
+  .sc { background: rgba(245,158,11,0.12); color: #b45309; }
+  .sh { background: rgba(139,92,246,0.12); color: #6d28d9; }
+  .cd { padding: 0 0.9rem 0.6rem; font-size: 0.78rem; color: #666; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cf { padding: 0.5rem 0.9rem; background: #F8F9FA; border-top: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .cr { font-size: 0.73rem; color: #666; }
+  .cr span { color: #F59E0B; }
+  .vb { font-size: 0.73rem; padding: 0.25rem 0.65rem; background: #A02020; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">FiTEN <span>Directory</span></div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-search">
+    <input type="text" placeholder="Search businesses, keywords, city...">
+    <button>Search</button>
+  </div>
+  <div class="topbar-pills">
+    <button class="tp active">All</button>
+    <button class="tp">Pro</button>
+    <button class="tp">❤️ Saved</button>
+  </div>
+  <div class="topbar-right">
+    <div class="lang-sw">
+      <button class="on">EN</button>
+      <button class="off">தமிழ்</button>
+    </div>
+    <button class="topbar-cta">+ List Business</button>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Categories</div>
+      <div class="cat-row active">All <span class="cat-num">11</span></div>
+      <div class="cat-row">Food <span class="cat-num">4</span></div>
+      <div class="cat-row">Tech <span class="cat-num">2</span></div>
+      <div class="cat-row">Healthcare <span class="cat-num">1</span></div>
+      <div class="cat-row">Finance <span class="cat-num">1</span></div>
+      <div class="cat-row">Legal <span class="cat-num">1</span></div>
+      <div class="cat-row">Services <span class="cat-num">1</span></div>
+      <div class="cat-row">Retail <span class="cat-num">1</span></div>
+    </div>
+    <hr>
+    <div class="sidebar-section">
+      <div class="sidebar-label">B2B Signals</div>
+      <label class="check-row"><input type="checkbox"> 🤝 Partners</label>
+      <label class="check-row"><input type="checkbox"> 👥 Hiring</label>
+      <label class="check-row"><input type="checkbox"> 💼 Investing</label>
+      <label class="check-row"><input type="checkbox"> 🎯 Clients</label>
+    </div>
+    <hr>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Community</div>
+      <label class="check-row"><input type="checkbox"> 👩 Women-Led</label>
+      <label class="check-row"><input type="checkbox"> 🎤 Speaker</label>
+      <label class="check-row"><input type="checkbox"> 🎪 FeTNA Conv.</label>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="main-header">
+      <div class="result-info"><strong>11</strong> businesses found</div>
+      <div class="main-controls">
+        <select class="sort-sel">
+          <option>PRO first</option>
+          <option>A–Z</option>
+          <option>Top rated</option>
+          <option>Most views</option>
+        </select>
+        <div class="view-grp">
+          <button class="vbtn on">⊞</button>
+          <button class="vbtn">≡</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av" style="background:#B5534B;color:#fff;">TC</div>
+          <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · Edison, NJ</div></div>
+          <span class="pro-tag">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sc">🎯 Seeking Clients</span><span class="sig sp">🤝 Partners</span></div>
+        <div class="cd">Tamil-speaking family medicine practice offering bilingual care to the South Asian community.</div>
+        <div class="cf"><div class="cr"><span>★★★★★</span> 4.8 · 87</div><button class="vb">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av" style="background:#4B6B8F;color:#fff;">EL</div>
+          <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas, TX</div></div>
+          <span class="pro-tag">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+        <div class="cd">Enterprise resource planning consulting specializing in SAP implementations for mid-market companies.</div>
+        <div class="cf"><div class="cr"><span>★★★★★</span> 4.6 · 56</div><button class="vb">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av" style="background:#4B8F6B;color:#fff;">AC</div>
+          <div class="ci"><div class="cn">AccuKnox Cloud Security</div><div class="cm">Tech · Silicon Valley, CA</div></div>
+          <span class="pro-tag">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig si">💼 Investing</span></div>
+        <div class="cd">Cloud-native zero-trust security platform protecting workloads across multi-cloud environments.</div>
+        <div class="cf"><div class="cr"><span>★★★★★</span> 4.9 · 42</div><button class="vb">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av" style="background:#8F4B6B;color:#fff;">R</div>
+          <div class="ci"><div class="cn">Rocketship.vc</div><div class="cm">Finance · San Francisco, CA</div></div>
+          <span class="pro-tag">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig si">💼 Investing</span><span class="sig sp">🤝 Partners</span></div>
+        <div class="cd">Silicon Valley venture fund investing in early-stage startups across SaaS, AI, and fintech.</div>
+        <div class="cf"><div class="cr"><span>★★★★★</span> 4.5 · 28</div><button class="vb">View</button></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="av" style="background:#6B8F4B;color:#fff;">CS</div>
+          <div class="ci"><div class="cn">Chennai Spice Kitchen</div><div class="cm">Food · Toronto, ON</div></div>
+        </div>
+        <div class="cd">Authentic South Indian cuisine bringing the flavors of Chennai to the heart of Toronto.</div>
+        <div class="cf"><div class="cr"><span>★★★★☆</span> 4.3 · 112</div><button class="vb">View</button></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="av" style="background:#8F7B4B;color:#fff;">KB</div>
+          <div class="ci"><div class="cn">Kovai Bites Restaurant</div><div class="cm">Food · Mississauga, ON</div></div>
+        </div>
+        <div class="cd">Family-owned restaurant serving traditional Kovai-style recipes passed down through generations.</div>
+        <div class="cf"><div class="cr"><span>★★★★☆</span> 4.1 · 89</div><button class="vb">View</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

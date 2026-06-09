@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Options</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ECEEF2; padding: 2rem; }
+
+  h1 { font-size: 1rem; font-weight: 700; color: #333; margin-bottom: 0.3rem; text-align: center; }
+  .page-sub { font-size: 0.8rem; color: #888; text-align: center; margin-bottom: 2rem; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  /* Each palette preview */
+  .preview { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+  .preview-label { padding: 0.6rem 1rem; background: #F8F9FA; border-bottom: 1px solid #E2E5EA; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; display: flex; align-items: center; gap: 0.5rem; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Mini nav */
+  .mini-nav { height: 38px; display: flex; align-items: center; padding: 0 1rem; gap: 1rem; border-bottom: 1px solid #E2E5EA; }
+  .mini-logo { font-weight: 800; font-size: 0.85rem; letter-spacing: -0.4px; }
+  .mini-logo span { font-weight: 400; font-size: 0.6rem; color: #aaa; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .mini-cta { margin-left: auto; font-size: 0.65rem; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 5px; border: none; cursor: pointer; }
+
+  /* Brand strip */
+  .mini-brand { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E5EA; display: flex; align-items: center; gap: 1rem; }
+  .brand-bl { border-left-width: 4px; border-left-style: solid; padding-left: 0.7rem; }
+  .brand-eyebrow { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+  .brand-title { font-size: 1rem; font-weight: 800; letter-spacing: -0.4px; color: #111; line-height: 1.2; }
+  .brand-sub { font-size: 0.62rem; color: #888; margin-top: 1px; }
+  .mini-stats { display: flex; gap: 1rem; margin-left: auto; }
+  .stat-num { font-size: 1rem; font-weight: 800; line-height: 1; }
+  .stat-label { font-size: 0.55rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 1px; }
+
+  /* Search strip */
+  .mini-search { padding: 0.45rem 1rem; border-bottom: 1px solid #E2E5EA; display: flex; align-items: center; gap: 0.5rem; background: #fff; }
+  .search-box { display: flex; border: 1.5px solid #E2E5EA; border-radius: 6px; overflow: hidden; flex: 1; max-width: 240px; background: #F8F9FA; }
+  .search-box input { flex: 1; padding: 0.3rem 0.6rem; border: none; background: transparent; font-size: 0.72rem; outline: none; min-width: 0; }
+  .search-box button { padding: 0 0.6rem; border: none; font-size: 0.68rem; font-weight: 700; cursor: pointer; color: #fff; }
+  .mini-pill { padding: 0.22rem 0.6rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #fff; font-size: 0.65rem; cursor: pointer; color: #555; }
+  .mini-pill.active { color: #fff; border-color: transparent; }
+
+  /* Layout */
+  .mini-layout { display: flex; gap: 0; }
+  .mini-sidebar { width: 110px; border-right: 1px solid #E2E5EA; padding: 0.75rem 0.6rem; flex-shrink: 0; }
+  .mini-sidebar-label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 0.35rem; }
+  .mini-cat { display: flex; justify-content: space-between; padding: 0.25rem 0.35rem; border-radius: 4px; font-size: 0.68rem; color: #444; margin-bottom: 1px; cursor: pointer; }
+  .mini-cat.active { font-weight: 600; }
+  .mini-cat-num { font-size: 0.6rem; color: #bbb; background: #F3F4F6; padding: 0 5px; border-radius: 6px; }
+  .mini-cat.active .mini-cat-num { color: inherit; }
+
+  .mini-main { flex: 1; padding: 0.75rem; }
+  .mini-result { font-size: 0.65rem; color: #888; margin-bottom: 0.6rem; }
+  .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .mini-card { border: 1px solid #E2E5EA; border-radius: 7px; overflow: hidden; }
+  .mini-card.pro { border-top-width: 3px; border-top-style: solid; }
+  .mini-card-head { padding: 0.5rem 0.55rem; display: flex; gap: 0.4rem; align-items: center; }
+  .mini-av { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.6rem; flex-shrink: 0; color: #fff; }
+  .mini-cn { font-weight: 700; font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mini-cm { font-size: 0.55rem; color: #aaa; }
+  .mini-pro { font-size: 0.5rem; font-weight: 700; color: #fff; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+  .mini-sigs { padding: 0 0.55rem 0.4rem; display: flex; gap: 0.2rem; flex-wrap: wrap; }
+  .mini-sig { font-size: 0.55rem; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+  .mini-footer { padding: 0.35rem 0.55rem; border-top: 1px solid #F0F0F0; display: flex; justify-content: space-between; align-items: center; background: #F8F9FA; }
+  .mini-rating { font-size: 0.55rem; color: #888; }
+  .mini-vb { font-size: 0.55rem; padding: 2px 6px; color: #fff; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Hybrid — Color Options</h1>
+<p class="page-sub">Same layout, four distinct palettes</p>
+
+<div class="grid">
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- OPTION A: Deep Navy + Gold (current = red) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="swatch" style="background:#1E3A5F;"></div>
+      <div class="swatch" style="background:#F5A623; margin-left:-4px;"></div>
+      A — Deep Navy + Gold &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Professional &amp; trustworthy</span>
+    </div>
+    <div class="mini-nav" style="background:#1E3A5F;">
+      <div class="mini-logo" style="color:#fff;">FiTEN <span style="color:rgba(255,255,255,0.5);">Directory</span></div>
+      <button class="mini-cta" style="background:#F5A623;color:#1E3A5F;">+ List Business</button>
+    </div>
+    <div class="mini-brand" style="background:#fff;">
+      <div class="brand-bl" style="border-color:#1E3A5F;">
+        <div class="brand-eyebrow" style="color:#1E3A5F;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats" style="margin-left:auto;">
+        <div><div class="stat-num" style="color:#1E3A5F;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#1E3A5F;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#1E3A5F;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="search-box"><input type="text" placeholder="Search..."><button style="background:#1E3A5F;">Search</button></div>
+      <button class="mini-pill active" style="background:#1E3A5F;">All</button>
+      <button class="mini-pill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="mini-sidebar">
+        <div class="mini-sidebar-label">Categories</div>
+        <div class="mini-cat active" style="background:#EEF3FA;color:#1E3A5F;">All <span class="mini-cat-num" style="background:#C9D9EE;color:#1E3A5F;">11</span></div>
+        <div class="mini-cat">Food <span class="mini-cat-num">4</span></div>
+        <div class="mini-cat">Tech <span class="mini-cat-num">2</span></div>
+        <div class="mini-cat">Healthcare <span class="mini-cat-num">1</span></div>
+        <div class="mini-cat">Finance <span class="mini-cat-num">1</span></div>
+      </div>
+      <div class="mini-main">
+        <div class="mini-result">11 businesses</div>
+        <div class="mini-grid">
+          <div class="mini-card pro" style="border-top-color:#1E3A5F;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#B5534B;">TC</div><div><div class="mini-cn">TamilMed Clinics</div><div class="mini-cm">Healthcare · NJ</div></div><span class="mini-pro" style="background:#1E3A5F;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(245,166,35,0.15);color:#b47a00;">🎯 Clients</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.8</span><button class="mini-vb" style="background:#1E3A5F;">View</button></div>
+          </div>
+          <div class="mini-card pro" style="border-top-color:#1E3A5F;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#4B6B8F;">EL</div><div><div class="mini-cn">ERP Logic Inc.</div><div class="mini-cm">Tech · Dallas</div></div><span class="mini-pro" style="background:#1E3A5F;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.6</span><button class="mini-vb" style="background:#1E3A5F;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#6B8F4B;">CS</div><div><div class="mini-cn">Chennai Spice</div><div class="mini-cm">Food · Toronto</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.3</span><button class="mini-vb" style="background:#1E3A5F;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#8F7B4B;">KB</div><div><div class="mini-cn">Kovai Bites</div><div class="mini-cm">Food · Mississauga</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.1</span><button class="mini-vb" style="background:#1E3A5F;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- OPTION B: Saffron + Charcoal (cultural) -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="swatch" style="background:#CC6600;"></div>
+      <div class="swatch" style="background:#2D2D2D; margin-left:-4px;"></div>
+      B — Saffron + Charcoal &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Cultural identity, warm</span>
+    </div>
+    <div class="mini-nav" style="background:#2D2D2D;">
+      <div class="mini-logo" style="color:#fff;">FiTEN <span style="color:rgba(255,255,255,0.4);">Directory</span></div>
+      <button class="mini-cta" style="background:#CC6600;">+ List Business</button>
+    </div>
+    <div class="mini-brand" style="background:#fff;">
+      <div class="brand-bl" style="border-color:#CC6600;">
+        <div class="brand-eyebrow" style="color:#CC6600;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats" style="margin-left:auto;">
+        <div><div class="stat-num" style="color:#CC6600;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#CC6600;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#CC6600;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="search-box"><input type="text" placeholder="Search..."><button style="background:#2D2D2D;">Search</button></div>
+      <button class="mini-pill active" style="background:#CC6600;">All</button>
+      <button class="mini-pill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="mini-sidebar">
+        <div class="mini-sidebar-label">Categories</div>
+        <div class="mini-cat active" style="background:#FFF4E6;color:#CC6600;">All <span class="mini-cat-num" style="background:#FFE0B2;color:#CC6600;">11</span></div>
+        <div class="mini-cat">Food <span class="mini-cat-num">4</span></div>
+        <div class="mini-cat">Tech <span class="mini-cat-num">2</span></div>
+        <div class="mini-cat">Healthcare <span class="mini-cat-num">1</span></div>
+        <div class="mini-cat">Finance <span class="mini-cat-num">1</span></div>
+      </div>
+      <div class="mini-main">
+        <div class="mini-result">11 businesses</div>
+        <div class="mini-grid">
+          <div class="mini-card pro" style="border-top-color:#CC6600;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#B5534B;">TC</div><div><div class="mini-cn">TamilMed Clinics</div><div class="mini-cm">Healthcare · NJ</div></div><span class="mini-pro" style="background:#CC6600;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(204,102,0,0.12);color:#a35200;">🎯 Clients</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.8</span><button class="mini-vb" style="background:#CC6600;">View</button></div>
+          </div>
+          <div class="mini-card pro" style="border-top-color:#CC6600;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#4B6B8F;">EL</div><div><div class="mini-cn">ERP Logic Inc.</div><div class="mini-cm">Tech · Dallas</div></div><span class="mini-pro" style="background:#CC6600;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.6</span><button class="mini-vb" style="background:#CC6600;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#6B8F4B;">CS</div><div><div class="mini-cn">Chennai Spice</div><div class="mini-cm">Food · Toronto</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.3</span><button class="mini-vb" style="background:#2D2D2D;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#8F7B4B;">KB</div><div><div class="mini-cn">Kovai Bites</div><div class="mini-cm">Food · Mississauga</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.1</span><button class="mini-vb" style="background:#2D2D2D;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- OPTION C: Forest Green + Amber (community) -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="swatch" style="background:#166534;"></div>
+      <div class="swatch" style="background:#D97706; margin-left:-4px;"></div>
+      C — Forest Green + Amber &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Growth, community, fresh</span>
+    </div>
+    <div class="mini-nav" style="background:#166534;">
+      <div class="mini-logo" style="color:#fff;">FiTEN <span style="color:rgba(255,255,255,0.5);">Directory</span></div>
+      <button class="mini-cta" style="background:#D97706;">+ List Business</button>
+    </div>
+    <div class="mini-brand" style="background:#fff;">
+      <div class="brand-bl" style="border-color:#166534;">
+        <div class="brand-eyebrow" style="color:#166534;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats" style="margin-left:auto;">
+        <div><div class="stat-num" style="color:#166534;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#166534;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#166534;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="search-box"><input type="text" placeholder="Search..."><button style="background:#166534;">Search</button></div>
+      <button class="mini-pill active" style="background:#166534;">All</button>
+      <button class="mini-pill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="mini-sidebar">
+        <div class="mini-sidebar-label">Categories</div>
+        <div class="mini-cat active" style="background:#ECFDF5;color:#166534;">All <span class="mini-cat-num" style="background:#BBF7D0;color:#166534;">11</span></div>
+        <div class="mini-cat">Food <span class="mini-cat-num">4</span></div>
+        <div class="mini-cat">Tech <span class="mini-cat-num">2</span></div>
+        <div class="mini-cat">Healthcare <span class="mini-cat-num">1</span></div>
+        <div class="mini-cat">Finance <span class="mini-cat-num">1</span></div>
+      </div>
+      <div class="mini-main">
+        <div class="mini-result">11 businesses</div>
+        <div class="mini-grid">
+          <div class="mini-card pro" style="border-top-color:#166534;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#B5534B;">TC</div><div><div class="mini-cn">TamilMed Clinics</div><div class="mini-cm">Healthcare · NJ</div></div><span class="mini-pro" style="background:#166534;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(217,119,6,0.12);color:#92400e;">🎯 Clients</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.8</span><button class="mini-vb" style="background:#166534;">View</button></div>
+          </div>
+          <div class="mini-card pro" style="border-top-color:#166534;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#4B6B8F;">EL</div><div><div class="mini-cn">ERP Logic Inc.</div><div class="mini-cm">Tech · Dallas</div></div><span class="mini-pro" style="background:#166534;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;">🤝 Partners</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.6</span><button class="mini-vb" style="background:#166534;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#6B8F4B;">CS</div><div><div class="mini-cn">Chennai Spice</div><div class="mini-cm">Food · Toronto</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.3</span><button class="mini-vb" style="background:#D97706;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#8F7B4B;">KB</div><div><div class="mini-cn">Kovai Bites</div><div class="mini-cm">Food · Mississauga</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.1</span><button class="mini-vb" style="background:#D97706;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- OPTION D: Deep Indigo + Coral (modern)    -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="preview">
+    <div class="preview-label">
+      <div class="swatch" style="background:#3730A3;"></div>
+      <div class="swatch" style="background:#E11D48; margin-left:-4px;"></div>
+      D — Deep Indigo + Rose &nbsp;·&nbsp; <span style="color:#888;font-weight:400;text-transform:none;letter-spacing:0;">Modern, tech-forward</span>
+    </div>
+    <div class="mini-nav" style="background:#3730A3;">
+      <div class="mini-logo" style="color:#fff;">FiTEN <span style="color:rgba(255,255,255,0.5);">Directory</span></div>
+      <button class="mini-cta" style="background:#E11D48;">+ List Business</button>
+    </div>
+    <div class="mini-brand" style="background:#fff;">
+      <div class="brand-bl" style="border-color:#3730A3;">
+        <div class="brand-eyebrow" style="color:#3730A3;">Tamil Business Network</div>
+        <div class="brand-title">Tamil Businesses Worldwide</div>
+        <div class="brand-sub">Connect with partners, clients &amp; investors</div>
+      </div>
+      <div class="mini-stats" style="margin-left:auto;">
+        <div><div class="stat-num" style="color:#3730A3;">11</div><div class="stat-label">Businesses</div></div>
+        <div><div class="stat-num" style="color:#3730A3;">6</div><div class="stat-label">Categories</div></div>
+        <div><div class="stat-num" style="color:#3730A3;">5</div><div class="stat-label">Regions</div></div>
+      </div>
+    </div>
+    <div class="mini-search">
+      <div class="search-box"><input type="text" placeholder="Search..."><button style="background:#3730A3;">Search</button></div>
+      <button class="mini-pill active" style="background:#3730A3;">All</button>
+      <button class="mini-pill">Pro</button>
+    </div>
+    <div class="mini-layout">
+      <div class="mini-sidebar">
+        <div class="mini-sidebar-label">Categories</div>
+        <div class="mini-cat active" style="background:#EEF2FF;color:#3730A3;">All <span class="mini-cat-num" style="background:#C7D2FE;color:#3730A3;">11</span></div>
+        <div class="mini-cat">Food <span class="mini-cat-num">4</span></div>
+        <div class="mini-cat">Tech <span class="mini-cat-num">2</span></div>
+        <div class="mini-cat">Healthcare <span class="mini-cat-num">1</span></div>
+        <div class="mini-cat">Finance <span class="mini-cat-num">1</span></div>
+      </div>
+      <div class="mini-main">
+        <div class="mini-result">11 businesses</div>
+        <div class="mini-grid">
+          <div class="mini-card pro" style="border-top-color:#E11D48;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#B5534B;">TC</div><div><div class="mini-cn">TamilMed Clinics</div><div class="mini-cm">Healthcare · NJ</div></div><span class="mini-pro" style="background:#E11D48;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="mini-sig" style="background:rgba(225,29,72,0.1);color:#be123c;">🎯 Clients</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.8</span><button class="mini-vb" style="background:#3730A3;">View</button></div>
+          </div>
+          <div class="mini-card pro" style="border-top-color:#E11D48;">
+            <div class="mini-card-head"><div class="mini-av" style="background:#4B6B8F;">EL</div><div><div class="mini-cn">ERP Logic Inc.</div><div class="mini-cm">Tech · Dallas</div></div><span class="mini-pro" style="background:#E11D48;">★ PRO</span></div>
+            <div class="mini-sigs"><span class="sig" style="background:rgba(59,130,246,0.12);color:#1d4ed8;font-size:0.55rem;padding:1px 5px;border-radius:3px;font-weight:500;">🤝 Partners</span></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★★ 4.6</span><button class="mini-vb" style="background:#3730A3;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#6B8F4B;">CS</div><div><div class="mini-cn">Chennai Spice</div><div class="mini-cm">Food · Toronto</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.3</span><button class="mini-vb" style="background:#3730A3;">View</button></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-head"><div class="mini-av" style="background:#8F7B4B;">KB</div><div><div class="mini-cn">Kovai Bites</div><div class="mini-cm">Food · Mississauga</div></div></div>
+            <div class="mini-footer"><span class="mini-rating">★★★★☆ 4.1</span><button class="mini-vb" style="background:#3730A3;">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

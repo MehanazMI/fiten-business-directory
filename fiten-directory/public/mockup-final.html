@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Design</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F0F2F5; color: #1a1a1a; }
+
+  /* NAV */
+  .nav { background: #44403C; height: 52px; display: flex; align-items: center; padding: 0 1.5rem; gap: 1.25rem; position: sticky; top: 0; z-index: 100; }
+  .logo { font-weight: 800; font-size: 1.05rem; color: #fff; letter-spacing: -0.5px; }
+  .logo span { font-weight: 400; font-size: 0.68rem; color: rgba(255,255,255,0.38); margin-left: 5px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .nav-links { display: flex; gap: 1.25rem; font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+  .nav-cta { margin-left: auto; background: #D97706; color: #fff; border: none; padding: 0.38rem 0.9rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+
+  /* BRAND STRIP */
+  .brand-strip { background: #fff; border-bottom: 1px solid #E2E5EA; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 2rem; }
+  .brand-left { border-left: 4px solid #3D7068; padding-left: 0.9rem; }
+  .eyebrow { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #3D7068; margin-bottom: 3px; }
+  .brand-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; color: #111; }
+  .brand-sub { font-size: 0.75rem; color: #888; margin-top: 3px; }
+  .stats { display: flex; gap: 1.5rem; margin-left: auto; }
+  .stat-num { font-size: 1.25rem; font-weight: 800; color: #3D7068; line-height: 1; }
+  .stat-label { font-size: 0.6rem; color: #bbb; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* SEARCH STRIP */
+  .search-strip { background: #fff; border-bottom: 1px solid #E2E5EA; padding: 0.6rem 1.5rem; position: sticky; top: 52px; z-index: 99; display: flex; align-items: center; gap: 0.75rem; }
+  .sbox { display: flex; border: 1.5px solid #E2E5EA; border-radius: 8px; overflow: hidden; flex: 1; max-width: 400px; background: #F8F9FA; }
+  .sbox input { flex: 1; padding: 0.45rem 0.9rem; border: none; background: transparent; font-size: 0.875rem; outline: none; }
+  .sbox button { padding: 0 1rem; background: #44403C; color: #fff; border: none; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+  .pills { display: flex; gap: 0.4rem; }
+  .pill { padding: 0.3rem 0.8rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #fff; font-size: 0.78rem; cursor: pointer; color: #555; }
+  .pill.on { background: #3D7068; color: #fff; border-color: #3D7068; }
+  .sort-sel { margin-left: auto; font-size: 0.78rem; border: 1.5px solid #E2E5EA; border-radius: 6px; padding: 0.32rem 0.55rem; color: #555; background: #fff; }
+
+  /* LAYOUT */
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem 3rem; gap: 1.5rem; }
+
+  /* SIDEBAR */
+  .sidebar { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+  .sidebar-card { background: #fff; border: 1px solid #E2E5EA; border-radius: 10px; padding: 1rem 0.85rem; }
+  .s-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #bbb; margin-bottom: 0.5rem; }
+  .cat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.34rem 0.45rem; border-radius: 6px; cursor: pointer; font-size: 0.82rem; color: #444; margin-bottom: 2px; }
+  .cat-row:hover { background: #F3F4F6; }
+  .cat-row.on { background: #EEF6F5; color: #3D7068; font-weight: 600; }
+  .cnum { font-size: 0.65rem; color: #bbb; background: #F3F4F6; padding: 0 6px; border-radius: 6px; }
+  .cat-row.on .cnum { background: #B2D8D4; color: #3D7068; }
+  .sidebar-card hr { border: none; border-top: 1px solid #F0F0F0; margin: 0.6rem 0; }
+  .chk { display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: #555; padding: 0.27rem 0.3rem; border-radius: 4px; cursor: pointer; }
+  .chk:hover { background: #F8F9FA; }
+  .chk input { accent-color: #3D7068; }
+
+  /* MAIN */
+  .main { flex: 1; min-width: 0; }
+  .main-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .result-count { font-size: 0.82rem; color: #888; }
+  .view-grp { display: flex; border: 1.5px solid #E2E5EA; border-radius: 6px; overflow: hidden; }
+  .vbtn { padding: 0.28rem 0.65rem; border: none; background: #fff; font-size: 0.8rem; cursor: pointer; color: #666; }
+  .vbtn.on { background: #3D7068; color: #fff; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem; }
+
+  /* CARD */
+  .card { background: #fff; border: 1px solid #E2E5EA; border-radius: 10px; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+  .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); transform: translateY(-2px); }
+  .card.pro { border-top: 3px solid #3D7068; }
+
+  .card-head { padding: 0.9rem 0.9rem 0.6rem; display: flex; gap: 0.7rem; align-items: flex-start; }
+  .av { width: 42px; height: 42px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; background: #A8A29E; color: #fff; }
+  .ci { flex: 1; min-width: 0; }
+  .cn { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #111; }
+  .cm { font-size: 0.73rem; color: #999; margin-top: 2px; }
+
+  /* PRO badge — label feel, NOT a button */
+  .pro-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #B45309;
+    background: #FEF3C7;
+    border: 1px solid #FDE68A;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    margin-left: auto;
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+
+  .sigs { padding: 0 0.9rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .sig { font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .sc { background: rgba(61,112,104,0.1); color: #3D7068; }
+  .sp { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+  .sh { background: rgba(139,92,246,0.1); color: #6d28d9; }
+  .si { background: rgba(16,185,129,0.1); color: #047857; }
+
+  .cdesc { padding: 0 0.9rem 0.7rem; font-size: 0.79rem; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .card-foot { padding: 0.55rem 0.9rem; background: #F8F9FA; border-top: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .rating { font-size: 0.73rem; color: #666; }
+  .rating span { color: #F59E0B; }
+
+  /* Ghost outline View button */
+  .view-btn {
+    font-size: 0.73rem;
+    padding: 0.28rem 0.8rem;
+    background: transparent;
+    color: #3D7068;
+    border: 1.5px solid #3D7068;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.12s, color 0.12s;
+  }
+  .view-btn:hover { background: #3D7068; color: #fff; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">FiTEN <span>Business Directory</span></div>
+  <div class="nav-links"><span>Directory</span><span>Events</span><span>About</span></div>
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-left:auto;">
+    <div style="display:flex;border:1.5px solid rgba(255,255,255,0.2);border-radius:6px;overflow:hidden;font-size:0.75rem;">
+      <button style="padding:0.28rem 0.65rem;border:none;background:rgba(255,255,255,0.15);color:#fff;font-weight:700;cursor:pointer;">EN</button>
+      <button style="padding:0.28rem 0.65rem;border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;">தமிழ்</button>
+    </div>
+    <button class="nav-cta">+ List Business</button>
+  </div>
+</nav>
+
+<div class="brand-strip">
+  <div class="brand-left">
+    <div class="eyebrow">Tamil Business Network</div>
+    <div class="brand-title">Tamil Businesses Worldwide</div>
+    <div class="brand-sub">Connect with partners, clients, talent &amp; investors</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Businesses</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Categories</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Regions</div></div>
+  </div>
+</div>
+
+<div class="search-strip">
+  <div class="sbox">
+    <input type="text" placeholder="Search businesses, keywords, city...">
+    <button>Search</button>
+  </div>
+  <div class="pills">
+    <button class="pill on">All</button>
+    <button class="pill">Pro</button>
+    <button class="pill">❤️ Saved</button>
+  </div>
+  <select class="sort-sel">
+    <option>Sort: PRO first</option>
+    <option>A–Z</option>
+    <option>Top rated</option>
+    <option>Most views</option>
+  </select>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="s-label">Categories</div>
+      <div class="cat-row on">All <span class="cnum">11</span></div>
+      <div class="cat-row">Food <span class="cnum">4</span></div>
+      <div class="cat-row">Tech <span class="cnum">2</span></div>
+      <div class="cat-row">Healthcare <span class="cnum">1</span></div>
+      <div class="cat-row">Finance <span class="cnum">1</span></div>
+      <div class="cat-row">Legal <span class="cnum">1</span></div>
+      <div class="cat-row">Services <span class="cnum">1</span></div>
+      <div class="cat-row">Retail <span class="cnum">1</span></div>
+    </div>
+    <div class="sidebar-card">
+      <div class="s-label">B2B Signals</div>
+      <label class="chk"><input type="checkbox"> 🤝 Partners</label>
+      <label class="chk"><input type="checkbox"> 👥 Hiring</label>
+      <label class="chk"><input type="checkbox"> 💼 Investing</label>
+      <label class="chk"><input type="checkbox"> 🎯 Clients</label>
+      <hr>
+      <div class="s-label">Community</div>
+      <label class="chk"><input type="checkbox"> 👩 Women-Led</label>
+      <label class="chk"><input type="checkbox"> 🎤 Speaker</label>
+      <label class="chk"><input type="checkbox"> 🎪 FeTNA Conv.</label>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-header">
+      <span class="result-count">11 businesses</span>
+      <div class="view-grp">
+        <button class="vbtn on">⊞ Grid</button>
+        <button class="vbtn">≡ Region</button>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av">TC</div>
+          <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · Edison, NJ</div></div>
+          <span class="pro-badge">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sc">🎯 Seeking Clients</span><span class="sig sp">🤝 Partners</span></div>
+        <div class="cdesc">Tamil-speaking family medicine practice offering bilingual care to the South Asian community.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★★</span> 4.8 · 87</div><button class="view-btn">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av">EL</div>
+          <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas, TX</div></div>
+          <span class="pro-badge">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+        <div class="cdesc">Enterprise resource planning consulting specializing in SAP implementations for mid-market companies.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★★</span> 4.6 · 56</div><button class="view-btn">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av">AC</div>
+          <div class="ci"><div class="cn">AccuKnox Cloud Security</div><div class="cm">Tech · Silicon Valley, CA</div></div>
+          <span class="pro-badge">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig si">💼 Investing</span></div>
+        <div class="cdesc">Cloud-native zero-trust security platform protecting workloads across multi-cloud environments.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★★</span> 4.9 · 42</div><button class="view-btn">View</button></div>
+      </div>
+
+      <div class="card pro">
+        <div class="card-head">
+          <div class="av">R</div>
+          <div class="ci"><div class="cn">Rocketship.vc</div><div class="cm">Finance · San Francisco, CA</div></div>
+          <span class="pro-badge">★ PRO</span>
+        </div>
+        <div class="sigs"><span class="sig si">💼 Investing</span><span class="sig sp">🤝 Partners</span></div>
+        <div class="cdesc">Silicon Valley venture fund investing in early-stage startups across SaaS, AI, and fintech.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★★</span> 4.5 · 28</div><button class="view-btn">View</button></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="av">CS</div>
+          <div class="ci"><div class="cn">Chennai Spice Kitchen</div><div class="cm">Food · Toronto, ON</div></div>
+        </div>
+        <div class="cdesc">Authentic South Indian cuisine bringing the flavors of Chennai to the heart of Toronto.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★☆</span> 4.3 · 112</div><button class="view-btn">View</button></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="av">KB</div>
+          <div class="ci"><div class="cn">Kovai Bites Restaurant</div><div class="cm">Food · Mississauga, ON</div></div>
+        </div>
+        <div class="cdesc">Family-owned restaurant serving traditional Kovai-style recipes passed down through generations.</div>
+        <div class="card-foot"><div class="rating"><span>★★★★☆</span> 4.1 · 89</div><button class="view-btn">View</button></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

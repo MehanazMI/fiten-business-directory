@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FiTEN — Design Comparison</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F0F2F5; color: #1a1a1a; }
+
+  /* ── Header ── */
+  .page-header {
+    background: #1C1C1E;
+    color: #fff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .page-header h1 { font-size: 1rem; font-weight: 700; letter-spacing: -0.3px; }
+  .page-header p { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .nav-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .nav-pill {
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: background 0.15s;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+  }
+  .nav-pill:hover, .nav-pill.active { background: rgba(255,255,255,0.18); color: #fff; }
+  .nav-pill.winner { background: #D97706; color: #fff; border-color: #D97706; }
+
+  /* ── Section ── */
+  .section { padding: 2.5rem 2rem; }
+  .section + .section { border-top: 1px solid #E2E5EA; }
+
+  .section-header { margin-bottom: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; }
+  .section-number { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; min-width: 2.5rem; padding-top: 2px; }
+  .section-title { font-size: 1.05rem; font-weight: 800; color: #111; letter-spacing: -0.3px; }
+  .section-desc { font-size: 0.82rem; color: #666; margin-top: 0.3rem; line-height: 1.55; }
+  .tag { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; margin-top: 0.5rem; margin-right: 0.3rem; }
+  .tag-current { background: #FEE2E2; color: #991B1B; }
+  .tag-winner { background: #FEF3C7; color: #92400E; }
+  .tag-alt { background: #E0F2FE; color: #0369A1; }
+
+  /* ── Palette strip ── */
+  .palette { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.75rem; }
+  .swatch-group { display: flex; gap: 0.3rem; align-items: center; }
+  .swatch { width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.08); }
+  .swatch-label { font-size: 0.65rem; color: #999; margin-left: 0.1rem; }
+  .palette-divider { font-size: 0.7rem; color: #ddd; }
+
+  /* ── Frame container ── */
+  .frame-wrap {
+    border: 1px solid #E2E5EA;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+  }
+  .frame-bar {
+    padding: 0.55rem 1rem;
+    background: #F8F9FA;
+    border-bottom: 1px solid #E2E5EA;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .frame-url { font-size: 0.7rem; color: #aaa; margin-left: 0.3rem; }
+  iframe {
+    width: 100%;
+    height: 680px;
+    border: none;
+    display: block;
+  }
+
+  /* ── Two-up compare ── */
+  .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  /* ── Decision table ── */
+  .decision-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .decision-table th { text-align: left; padding: 0.6rem 0.75rem; background: #F8F9FA; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #888; border-bottom: 2px solid #E2E5EA; }
+  .decision-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #F0F0F0; color: #444; vertical-align: top; }
+  .decision-table tr:last-child td { border-bottom: none; }
+  .decision-table tr.winner-row td { background: #FFFBEB; }
+  .decision-table tr.winner-row td:first-child { border-left: 3px solid #D97706; }
+  .check { color: #16a34a; font-weight: 700; }
+  .cross { color: #dc2626; }
+  .neutral { color: #888; }
+
+  /* ── Color tokens ── */
+  .tokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+  .token { border: 1px solid #E2E5EA; border-radius: 8px; overflow: hidden; }
+  .token-color { height: 44px; }
+  .token-info { padding: 0.45rem 0.6rem; }
+  .token-name { font-size: 0.68rem; font-weight: 700; color: #333; }
+  .token-hex { font-size: 0.65rem; color: #999; font-family: monospace; }
+  .token-use { font-size: 0.62rem; color: #aaa; margin-top: 1px; }
+
+  /* ── Notes ── */
+  .notes { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 1rem 1.25rem; font-size: 0.82rem; color: #78350F; line-height: 1.6; margin-top: 1.25rem; }
+  .notes strong { color: #92400E; }
+
+  /* ── Footer ── */
+  .page-footer { background: #1C1C1E; color: rgba(255,255,255,0.4); text-align: center; padding: 1.25rem; font-size: 0.72rem; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="page-header">
+  <div>
+    <h1>FiTEN — Design Comparison</h1>
+    <p>Created June 2026 &nbsp;·&nbsp; Current vs. recommended redesign options</p>
+  </div>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#current">Current</a>
+    <a class="nav-pill" href="#option1">Option 1</a>
+    <a class="nav-pill" href="#option4">Option 4</a>
+    <a class="nav-pill" href="#hybrid">Hybrid</a>
+    <a class="nav-pill winner" href="#final">★ Final Pick</a>
+  </div>
+</div>
+
+
+<!-- ══ 1. CURRENT ══ -->
+<div class="section" id="current">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <div class="section-title">Current Design</div>
+      <div class="section-desc">Full-bleed dark red hero with wave divider, centred search bar, left sidebar with categories, business card grid. Color-coded avatars per business. Solid red "View" buttons.</div>
+      <span class="tag tag-current">Live in production</span>
+      <div class="palette">
+        <div class="swatch-group">
+          <div class="swatch" style="background:#A02020;" title="#A02020"></div><span class="swatch-label">Brand red</span>
+        </div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group">
+          <div class="swatch" style="background:#FFD166;" title="#FFD166"></div><span class="swatch-label">Gold accent</span>
+        </div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group">
+          <div class="swatch" style="background:#F3F4F6;" title="#F3F4F6"></div><span class="swatch-label">Card footer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-wrap">
+    <div class="frame-bar">
+      <div class="dot" style="background:#FF5F57;"></div>
+      <div class="dot" style="background:#FEBC2E;"></div>
+      <div class="dot" style="background:#28C840;"></div>
+      <span class="frame-url">localhost:3000/directory</span>
+    </div>
+    <iframe src="/directory" title="Current design"></iframe>
+  </div>
+</div>
+
+
+<!-- ══ 2. OPTION 1 ══ -->
+<div class="section" id="option1">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div>
+      <div class="section-title">Option 1 — Minimal &amp; Professional</div>
+      <div class="section-desc">White page, bold typographic header with red left-border accent, stats strip, sticky search bar below. No hero section. Feels like a modern SaaS directory. Best for first-time visitors who need context.</div>
+      <span class="tag tag-alt">Alternative</span>
+      <div class="palette">
+        <div class="swatch-group"><div class="swatch" style="background:#A02020;"></div><span class="swatch-label">Red</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#F8F9FA;"></div><span class="swatch-label">Page bg</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-wrap">
+    <div class="frame-bar">
+      <div class="dot" style="background:#FF5F57;"></div>
+      <div class="dot" style="background:#FEBC2E;"></div>
+      <div class="dot" style="background:#28C840;"></div>
+      <span class="frame-url">mockup-option1.html</span>
+    </div>
+    <iframe src="/mockup-option1.html" title="Option 1"></iframe>
+  </div>
+</div>
+
+
+<!-- ══ 3. OPTION 4 ══ -->
+<div class="section" id="option4">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <div class="section-title">Option 4 — Dashboard-First</div>
+      <div class="section-desc">No hero at all. Search lives in the top nav bar. Full-height sidebar with Categories + B2B Signals + Community filters. Cards start immediately — zero scroll to content. Best for returning users.</div>
+      <span class="tag tag-alt">Alternative</span>
+      <div class="palette">
+        <div class="swatch-group"><div class="swatch" style="background:#A02020;"></div><span class="swatch-label">Red</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#F0F2F5;"></div><span class="swatch-label">Page bg</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-wrap">
+    <div class="frame-bar">
+      <div class="dot" style="background:#FF5F57;"></div>
+      <div class="dot" style="background:#FEBC2E;"></div>
+      <div class="dot" style="background:#28C840;"></div>
+      <span class="frame-url">mockup-option4.html</span>
+    </div>
+    <iframe src="/mockup-option4.html" title="Option 4"></iframe>
+  </div>
+</div>
+
+
+<!-- ══ 4. HYBRID ══ -->
+<div class="section" id="hybrid">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <div class="section-title">Hybrid — Branded + Efficient</div>
+      <div class="section-desc">Compact brand strip (title + stats, red left-border accent) replaces the full hero. Sticky search strip below it. Cards visible without scrolling. Dashboard sidebar with all filters. Best of both Option 1 and Option 4.</div>
+      <span class="tag tag-alt">Candidate</span>
+      <div class="palette">
+        <div class="swatch-group"><div class="swatch" style="background:#A02020;"></div><span class="swatch-label">Red</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#F0F2F5;"></div><span class="swatch-label">Page bg</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-wrap">
+    <div class="frame-bar">
+      <div class="dot" style="background:#FF5F57;"></div>
+      <div class="dot" style="background:#FEBC2E;"></div>
+      <div class="dot" style="background:#28C840;"></div>
+      <span class="frame-url">mockup-hybrid.html</span>
+    </div>
+    <iframe src="/mockup-hybrid.html" title="Hybrid"></iframe>
+  </div>
+</div>
+
+
+<!-- ══ 5. FINAL PICK ══ -->
+<div class="section" id="final">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <div class="section-title">★ Final Pick — Hybrid · Palette F · Clean</div>
+      <div class="section-desc">Hybrid layout with Palette F (Warm Stone + Deep Sage). Warm stone avatars unified across all cards. Ghost outline View buttons. PRO badge as a soft amber label — not a button. Gold used only for "List Business" CTA and PRO badge.</div>
+      <span class="tag tag-winner">Recommended</span>
+      <div class="palette">
+        <div class="swatch-group"><div class="swatch" style="background:#44403C;"></div><span class="swatch-label">Nav (stone)</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#3D7068;"></div><span class="swatch-label">Action (sage)</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#D97706;"></div><span class="swatch-label">CTA + PRO (gold)</span></div>
+        <span class="palette-divider">·</span>
+        <div class="swatch-group"><div class="swatch" style="background:#A8A29E;"></div><span class="swatch-label">Avatar (stone)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-wrap">
+    <div class="frame-bar">
+      <div class="dot" style="background:#FF5F57;"></div>
+      <div class="dot" style="background:#FEBC2E;"></div>
+      <div class="dot" style="background:#28C840;"></div>
+      <span class="frame-url">mockup-final.html</span>
+    </div>
+    <iframe src="/mockup-final.html" title="Final design"></iframe>
+  </div>
+
+  <!-- Color tokens -->
+  <div style="margin-top:1.5rem;">
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#888;margin-bottom:0.75rem;">Color Tokens</div>
+    <div class="tokens">
+      <div class="token"><div class="token-color" style="background:#44403C;"></div><div class="token-info"><div class="token-name">Stone Dark</div><div class="token-hex">#44403C</div><div class="token-use">Nav bar</div></div></div>
+      <div class="token"><div class="token-color" style="background:#3D7068;"></div><div class="token-info"><div class="token-name">Deep Sage</div><div class="token-hex">#3D7068</div><div class="token-use">Buttons, active states, border accent</div></div></div>
+      <div class="token"><div class="token-color" style="background:#D97706;"></div><div class="token-info"><div class="token-name">Gold</div><div class="token-hex">#D97706</div><div class="token-use">+ List Business CTA, PRO badge text</div></div></div>
+      <div class="token"><div class="token-color" style="background:#FEF3C7;"></div><div class="token-info"><div class="token-name">Gold Light</div><div class="token-hex">#FEF3C7</div><div class="token-use">PRO badge background</div></div></div>
+      <div class="token"><div class="token-color" style="background:#A8A29E;"></div><div class="token-info"><div class="token-name">Warm Stone</div><div class="token-hex">#A8A29E</div><div class="token-use">All business avatars</div></div></div>
+      <div class="token"><div class="token-color" style="background:#EEF6F5;"></div><div class="token-info"><div class="token-name">Sage Light</div><div class="token-hex">#EEF6F5</div><div class="token-use">Active category background</div></div></div>
+      <div class="token"><div class="token-color" style="background:#F8F9FA;"></div><div class="token-info"><div class="token-name">Card Footer</div><div class="token-hex">#F8F9FA</div><div class="token-use">Card footer bg</div></div></div>
+      <div class="token"><div class="token-color" style="background:#E2E5EA;"></div><div class="token-info"><div class="token-name">Border</div><div class="token-hex">#E2E5EA</div><div class="token-use">Cards, dividers, inputs</div></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ COMPARISON TABLE ══ -->
+<div class="section" id="compare">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <div>
+      <div class="section-title">Decision Matrix</div>
+      <div class="section-desc">How each option performs across key design criteria.</div>
+    </div>
+  </div>
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>Design</th>
+        <th>Brand identity</th>
+        <th>Cards visible on load</th>
+        <th>Filter discoverability</th>
+        <th>Color coherence</th>
+        <th>New vs returning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Current</strong></td>
+        <td><span class="check">✓ Strong</span></td>
+        <td><span class="cross">✗ Scroll needed</span></td>
+        <td><span class="neutral">◎ Sidebar only</span></td>
+        <td><span class="cross">✗ Noisy avatars</span></td>
+        <td>New users</td>
+      </tr>
+      <tr>
+        <td><strong>Option 1</strong></td>
+        <td><span class="check">✓ Good</span></td>
+        <td><span class="neutral">◎ Partial</span></td>
+        <td><span class="neutral">◎ Sidebar only</span></td>
+        <td><span class="neutral">◎ OK</span></td>
+        <td>New users</td>
+      </tr>
+      <tr>
+        <td><strong>Option 4</strong></td>
+        <td><span class="cross">✗ Minimal</span></td>
+        <td><span class="check">✓ Immediate</span></td>
+        <td><span class="check">✓ All visible</span></td>
+        <td><span class="neutral">◎ OK</span></td>
+        <td>Returning users</td>
+      </tr>
+      <tr>
+        <td><strong>Hybrid</strong></td>
+        <td><span class="check">✓ Good</span></td>
+        <td><span class="check">✓ Immediate</span></td>
+        <td><span class="check">✓ All visible</span></td>
+        <td><span class="neutral">◎ OK</span></td>
+        <td>Both</td>
+      </tr>
+      <tr class="winner-row">
+        <td><strong>★ Final Pick</strong></td>
+        <td><span class="check">✓ Good</span></td>
+        <td><span class="check">✓ Immediate</span></td>
+        <td><span class="check">✓ All visible</span></td>
+        <td><span class="check">✓ Coherent palette</span></td>
+        <td>Both</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="notes">
+    <strong>Key decisions made:</strong><br>
+    • Avatar color → uniform <strong>Warm Stone #A8A29E</strong> (removes per-card color noise)<br>
+    • Button style → <strong>ghost outline</strong> in Deep Sage (subordinate to PRO badge visually)<br>
+    • PRO badge → soft amber label <code style="background:#FEF3C7;color:#92400E;padding:1px 5px;border-radius:3px;font-size:0.8em;">★ PRO</code> on <strong>#FEF3C7</strong> — informational, not a CTA<br>
+    • Gold (#D97706) reserved for two uses only: "+ List Business" nav CTA and PRO badge text<br>
+    • Hero removed — brand strip (~80px) replaces ~300px dark red hero
+  </div>
+</div>
+
+
+<div class="page-footer">
+  FiTEN Design Comparison &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; Serve locally at localhost:3000/mockup-final.html to implement
+</div>
+
+</body>
+</html>

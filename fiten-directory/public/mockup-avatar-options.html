@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avatar Color Options + Gold PRO</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ECEEF2; padding: 2rem; }
+  h1 { font-size: 1rem; font-weight: 700; color: #333; margin-bottom: 0.25rem; text-align: center; }
+  .page-sub { font-size: 0.8rem; color: #888; text-align: center; margin-bottom: 2rem; }
+
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+  .panel { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .panel-label { padding: 0.55rem 0.9rem; background: #F8F9FA; border-bottom: 1px solid #E2E5EA; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; display: flex; align-items: center; gap: 0.4rem; }
+  .sw { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  /* Shared structure */
+  .mini-nav { height: 36px; display: flex; align-items: center; padding: 0 0.9rem; background: #44403C; }
+  .mini-logo { font-weight: 800; font-size: 0.8rem; color: #fff; letter-spacing: -0.3px; }
+  .mini-logo span { font-weight: 400; font-size: 0.58rem; color: rgba(255,255,255,0.4); margin-left: 4px; }
+  .mini-cta { margin-left: auto; font-size: 0.65rem; font-weight: 700; padding: 3px 9px; border-radius: 5px; border: none; cursor: pointer; background: #0F766E; color: #fff; }
+
+  .mini-brand { padding: 0.7rem 0.9rem; border-bottom: 1px solid #E2E5EA; }
+  .brand-bl { border-left: 3px solid #0F766E; padding-left: 0.65rem; }
+  .eyebrow { font-size: 0.56rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #0F766E; margin-bottom: 2px; }
+  .btitle { font-size: 0.88rem; font-weight: 800; letter-spacing: -0.3px; color: #111; }
+
+  .mini-search { padding: 0.4rem 0.9rem; border-bottom: 1px solid #E2E5EA; display: flex; gap: 0.4rem; }
+  .sbox { display: flex; border: 1.5px solid #E2E5EA; border-radius: 5px; overflow: hidden; flex: 1; }
+  .sbox input { flex: 1; padding: 0.28rem 0.5rem; border: none; font-size: 0.68rem; outline: none; background: #F8F9FA; min-width: 0; }
+  .sbox button { padding: 0 0.6rem; border: none; font-size: 0.65rem; font-weight: 700; cursor: pointer; color: #fff; background: #44403C; }
+  .spill { padding: 0.22rem 0.55rem; border-radius: 20px; border: 1.5px solid #E2E5EA; background: #0F766E; font-size: 0.62rem; color: #fff; }
+
+  .mini-main { padding: 0.75rem 0.9rem; }
+  .rcount { font-size: 0.65rem; color: #888; margin-bottom: 0.6rem; }
+  .cards { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  /* Card */
+  .card { border: 1px solid #E2E5EA; border-radius: 8px; overflow: hidden; }
+  .card.pro { border-top: 3px solid #0F766E; }
+  .chead { padding: 0.55rem 0.65rem; display: flex; gap: 0.5rem; align-items: flex-start; }
+  .av { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.72rem; flex-shrink: 0; }
+  .ci { flex: 1; min-width: 0; }
+  .cn { font-weight: 700; font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cm { font-size: 0.63rem; color: #aaa; margin-top: 1px; }
+
+  /* Gold PRO badge */
+  .pro-tag { font-size: 0.57rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: auto; flex-shrink: 0; background: #D97706; color: #fff; }
+
+  .sigs { padding: 0 0.65rem 0.45rem; display: flex; gap: 0.2rem; flex-wrap: wrap; }
+  .sig { font-size: 0.6rem; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+  .sc { background: rgba(15,118,110,0.1); color: #0f766e; }
+  .sp { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+  .sh { background: rgba(139,92,246,0.1); color: #6d28d9; }
+
+  .cfoot { padding: 0.4rem 0.65rem; background: #F8F9FA; border-top: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .cr { font-size: 0.62rem; color: #888; }
+  .cr span { color: #F59E0B; }
+  .vb { font-size: 0.62rem; padding: 2px 8px; background: #0F766E; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Avatar Color Options — Palette F (Warm Stone + Teal)</h1>
+<p class="page-sub">Gold PRO badge applied to all · same layout, four avatar tones</p>
+
+<div class="row">
+
+  <!-- ── Option 1: Cool Gray #9CA3AF ── -->
+  <div class="panel">
+    <div class="panel-label">
+      <div class="sw" style="background:#9CA3AF;"></div>
+      Cool Gray &nbsp;<span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#9CA3AF</span>
+    </div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Directory</span></div><button class="mini-cta">+ List Business</button></div>
+    <div class="mini-brand"><div class="brand-bl"><div class="eyebrow">Tamil Business Network</div><div class="btitle">Tamil Businesses Worldwide</div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button>Go</button></div><button class="spill">All</button></div>
+    <div class="mini-main">
+      <div class="rcount">11 businesses</div>
+      <div class="cards">
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#9CA3AF;color:#fff;">TC</div>
+            <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sc">🎯 Clients</span><span class="sig sp">🤝 Partners</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb">View</button></div>
+        </div>
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#9CA3AF;color:#fff;">EL</div>
+            <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#9CA3AF;color:#fff;">CS</div>
+            <div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#9CA3AF;color:#fff;">KB</div>
+            <div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb">View</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Option 2: Warm Stone Gray #A8A29E ── -->
+  <div class="panel">
+    <div class="panel-label">
+      <div class="sw" style="background:#A8A29E;"></div>
+      Warm Stone &nbsp;<span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#A8A29E</span>
+    </div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Directory</span></div><button class="mini-cta">+ List Business</button></div>
+    <div class="mini-brand"><div class="brand-bl"><div class="eyebrow">Tamil Business Network</div><div class="btitle">Tamil Businesses Worldwide</div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button>Go</button></div><button class="spill">All</button></div>
+    <div class="mini-main">
+      <div class="rcount">11 businesses</div>
+      <div class="cards">
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#A8A29E;color:#fff;">TC</div>
+            <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sc">🎯 Clients</span><span class="sig sp">🤝 Partners</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb">View</button></div>
+        </div>
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#A8A29E;color:#fff;">EL</div>
+            <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#A8A29E;color:#fff;">CS</div>
+            <div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#A8A29E;color:#fff;">KB</div>
+            <div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb">View</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Option 3: Muted Teal #6EAB9F ── -->
+  <div class="panel">
+    <div class="panel-label">
+      <div class="sw" style="background:#6EAB9F;"></div>
+      Muted Teal &nbsp;<span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#6EAB9F</span>
+    </div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Directory</span></div><button class="mini-cta">+ List Business</button></div>
+    <div class="mini-brand"><div class="brand-bl"><div class="eyebrow">Tamil Business Network</div><div class="btitle">Tamil Businesses Worldwide</div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button>Go</button></div><button class="spill">All</button></div>
+    <div class="mini-main">
+      <div class="rcount">11 businesses</div>
+      <div class="cards">
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#6EAB9F;color:#fff;">TC</div>
+            <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sc">🎯 Clients</span><span class="sig sp">🤝 Partners</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb">View</button></div>
+        </div>
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#6EAB9F;color:#fff;">EL</div>
+            <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#6EAB9F;color:#fff;">CS</div>
+            <div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#6EAB9F;color:#fff;">KB</div>
+            <div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb">View</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Option 4: Soft Indigo #818CF8 ── -->
+  <div class="panel">
+    <div class="panel-label">
+      <div class="sw" style="background:#818CF8;"></div>
+      Soft Indigo &nbsp;<span style="color:#bbb;font-weight:400;text-transform:none;letter-spacing:0;">#818CF8</span>
+    </div>
+    <div class="mini-nav"><div class="mini-logo">FiTEN <span>Directory</span></div><button class="mini-cta">+ List Business</button></div>
+    <div class="mini-brand"><div class="brand-bl"><div class="eyebrow">Tamil Business Network</div><div class="btitle">Tamil Businesses Worldwide</div></div></div>
+    <div class="mini-search"><div class="sbox"><input placeholder="Search..."><button>Go</button></div><button class="spill">All</button></div>
+    <div class="mini-main">
+      <div class="rcount">11 businesses</div>
+      <div class="cards">
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#818CF8;color:#fff;">TC</div>
+            <div class="ci"><div class="cn">TamilMed Clinics</div><div class="cm">Healthcare · NJ</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sc">🎯 Clients</span><span class="sig sp">🤝 Partners</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.8</span><button class="vb">View</button></div>
+        </div>
+        <div class="card pro">
+          <div class="chead">
+            <div class="av" style="background:#818CF8;color:#fff;">EL</div>
+            <div class="ci"><div class="cn">ERP Logic Inc.</div><div class="cm">Tech · Dallas</div></div>
+            <span class="pro-tag">★ PRO</span>
+          </div>
+          <div class="sigs"><span class="sig sp">🤝 Partners</span><span class="sig sh">👥 Hiring</span></div>
+          <div class="cfoot"><span class="cr"><span>★★★★★</span> 4.6</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#818CF8;color:#fff;">CS</div>
+            <div class="ci"><div class="cn">Chennai Spice</div><div class="cm">Food · Toronto</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.3</span><button class="vb">View</button></div>
+        </div>
+        <div class="card">
+          <div class="chead">
+            <div class="av" style="background:#818CF8;color:#fff;">KB</div>
+            <div class="ci"><div class="cn">Kovai Bites</div><div class="cm">Food · Mississauga</div></div>
+          </div>
+          <div class="cfoot"><span class="cr"><span>★★★★☆</span> 4.1</span><button class="vb">View</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:0.72rem;color:#888;margin-top:1.5rem;">
+  PRO badge: <strong style="color:#D97706;">★ #D97706 gold</strong> &nbsp;·&nbsp;
+  View button: <strong style="color:#0F766E;">#0F766E teal (uniform)</strong> &nbsp;·&nbsp;
+  Nav: <strong style="color:#44403C;">#44403C warm stone</strong>
+</p>
+
+</body>
+</html>
