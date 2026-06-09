@@ -49,7 +49,7 @@ describe('BusinessModal — content', () => {
 
   it('shows PRO badge for pro member', () => {
     setup({ pro: true })
-    expect(screen.getByText(/PRO Member/)).toBeInTheDocument()
+    expect(screen.getByText('PRO', { selector: '.pro-badge' })).toBeInTheDocument()
   })
 
   it('shows Reviews section for pro member', () => {

@@ -83,7 +83,7 @@ export default function AddBusinessModal({ onClose }: Props) {
         {success ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
-            <h3 style={{ color: 'var(--red)', marginBottom: '0.5rem' }}>Business Added!</h3>
+            <h3 style={{ color: 'var(--sage)', marginBottom: '0.5rem' }}>Business Added!</h3>
             <p style={{ color: 'var(--text2)', lineHeight: 1.6 }}>
               Your listing is now live on the FiTEN Directory. Welcome to the community! 🎉
             </p>

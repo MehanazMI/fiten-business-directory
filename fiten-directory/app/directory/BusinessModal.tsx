@@ -1,6 +1,6 @@
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
-import { colors, textColors, oppLabels, sigClass } from '@/lib/utils'
+import { oppLabels, sigClass } from '@/lib/utils'
 
 interface Props {
   business: Business | null
@@ -26,7 +26,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
         <div className="detail-header">
           <div
             className="detail-avatar-lg"
-            style={{ background: colors[b.colorIdx], color: textColors[b.colorIdx] }}
+            style={{ background: b.pro ? 'var(--stone-dark)' : '#A8A29E', color: '#fff' }}
           >
             {b.initials}
           </div>
@@ -37,9 +37,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
             )}
             <div className="detail-cat-loc">{b.category} · 📍 {b.city}</div>
             {b.pro && (
-              <span className="b2b-signal sig-speaker" style={{ fontSize: '0.75rem', marginTop: '0.5rem', display: 'inline-block' }}>
-                ★ PRO Member
-              </span>
+              <span className="pro-badge" style={{ marginTop: '0.5rem', display: 'inline-block' }}>PRO</span>
             )}
           </div>
         </div>
