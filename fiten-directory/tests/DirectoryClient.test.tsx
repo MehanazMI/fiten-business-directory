@@ -446,7 +446,7 @@ describe('DirectoryClient — combined filters', () => {
   it('empty state shows no-results message', async () => {
     const { user } = setup()
     await user.type(screen.getByRole('textbox'), '!!!no match!!!')
-    expect(screen.getByText(/No businesses match your filters/i)).toBeInTheDocument()
+    expect(screen.getByText(/No businesses found/i)).toBeInTheDocument()
   })
 
   it('category + B2B signal together', async () => {

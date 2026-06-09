@@ -21,7 +21,12 @@ export default function BusinessGrid({
   const remaining = businesses.length - visibleCount
 
   if (businesses.length === 0) {
-    return <div className="no-results visible">No businesses match your filters.</div>
+    return (
+      <div className="no-results visible">
+        <div className="no-results-title">No businesses found</div>
+        <div className="no-results-sub">Try adjusting your search or filters</div>
+      </div>
+    )
   }
 
   if (view === 'region') {
