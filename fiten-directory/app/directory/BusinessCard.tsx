@@ -23,7 +23,7 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
       onClick={() => onSelect(b)}
     >
       <div className="card-top">
-        <div className="biz-avatar" style={{ background: '#A8A29E', color: '#fff' }}>
+        <div className="biz-avatar" style={{ background: '#E2E5EA', color: 'var(--stone-dark)' }}>
           {b.initials}
         </div>
         <div className="biz-info">

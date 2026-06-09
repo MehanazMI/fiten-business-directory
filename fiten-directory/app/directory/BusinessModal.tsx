@@ -26,7 +26,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
         <div className="detail-header">
           <div
             className="detail-avatar-lg"
-            style={{ background: b.pro ? 'var(--stone-dark)' : '#A8A29E', color: '#fff' }}
+            style={{ background: '#E2E5EA', color: 'var(--stone-dark)' }}
           >
             {b.initials}
           </div>
