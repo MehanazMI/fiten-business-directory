@@ -55,7 +55,7 @@ export default function FilterRow({
         >
           <option value="default">Sort: PRO first</option>
           <option value="az">Sort: A–Z</option>
-          <option value="reviews">Sort: Most Connected</option>
+          <option value="reviews">Sort: Most Reviewed</option>
           <option value="views">Sort: Most Viewed</option>
         </select>
       </div>

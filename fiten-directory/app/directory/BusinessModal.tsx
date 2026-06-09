@@ -75,7 +75,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
           <div className="detail-sec">About</div>
           <div className="detail-desc">{b.description}</div>
 
-          <div className="detail-sec">Contact</div>
+          {(b.phone || b.website) && <div className="detail-sec">Contact</div>}
           {b.phone && (
             <div className="detail-info-row">
               <span className="detail-icon">📞</span>

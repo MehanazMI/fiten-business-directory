@@ -58,10 +58,14 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
       <div className="card-desc">{b.description}</div>
 
       <div className="card-footer" onClick={e => e.stopPropagation()}>
-        <span className="card-rating">
-          <span className="rating-stars">{stars(b.rating)}</span>
-          {' '}{b.rating} · {b.reviews}
-        </span>
+        {b.reviews > 0 ? (
+          <span className="card-rating">
+            <span className="rating-stars">{stars(b.rating)}</span>
+            {' '}{b.rating} · {b.reviews}
+          </span>
+        ) : (
+          <span />
+        )}
         <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
       </div>
     </div>

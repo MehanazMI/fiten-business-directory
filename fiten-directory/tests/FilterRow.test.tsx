@@ -94,7 +94,7 @@ describe('FilterRow — sort dropdown', () => {
     setup()
     expect(screen.getByRole('option', { name: /PRO first/i })).toBeInTheDocument()
     expect(screen.getByRole('option', { name: /A.Z/i })).toBeInTheDocument()
-    expect(screen.getByRole('option', { name: /Most Connected/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /Most Reviewed/i })).toBeInTheDocument()
     expect(screen.getByRole('option', { name: /Most Viewed/i })).toBeInTheDocument()
   })
 

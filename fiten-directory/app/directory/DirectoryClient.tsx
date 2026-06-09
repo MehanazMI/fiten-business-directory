@@ -145,6 +145,7 @@ export default function DirectoryClient({ initialData }: Props) {
   }, [businesses])
 
   const cats = ['All', ...new Set(Object.values(categoryMap))]
+  const cityCount = new Set(businesses.map(b => b.city).filter(Boolean)).size
   const t = i18n[lang]
 
   const resetPaging = () => setVisibleCount(PAGE_SIZE)
@@ -154,15 +155,18 @@ export default function DirectoryClient({ initialData }: Props) {
       {fbError && <div className="fb-error-banner">{fbError}</div>}
 
       <header className="site-header">
-        <div className="logo-area">
+        <div className="logo-area" onClick={() => {
+          setActiveCat('All'); setActiveFilter('All'); setSearchQuery('');
+          setSort('default'); setActiveOpps([]); setShowFavs(false);
+          setShowWomen(false); resetPaging();
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }}>
           <span className="logo-text">FiTEN</span>
           <span className="logo-dot">·</span>
           <span className="logo-tag">Business Directory</span>
         </div>
         <nav className="nav-hdr">
-          <span className="nav-link">Directory</span>
-          <span className="nav-link">Events</span>
-          <span className="nav-link">About</span>
+          <span className="nav-link active">Directory</span>
         </nav>
         <div className="hdr-right">
           <div className="lang-toggle">
@@ -181,7 +185,7 @@ export default function DirectoryClient({ initialData }: Props) {
         </div>
         <div className="brand-stats">
           <div className="brand-stat"><strong>{businesses.length}+</strong><span>Businesses</span></div>
-          <div className="brand-stat"><strong>12+</strong><span>Cities</span></div>
+          <div className="brand-stat"><strong>{cityCount}</strong><span>Cities</span></div>
           <div className="brand-stat"><strong>8</strong><span>Sectors</span></div>
         </div>
       </div>

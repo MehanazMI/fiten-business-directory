@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"systemMessage\": \"💡 Before compacting: review what was worked on this session and surface 2-3 specific improvement suggestions for the FiTEN directory (UI quality, data gaps, dead code, missing features). Be concrete — file names and line numbers where relevant.\"}'",
+            "shell": "powershell"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,6 +1,5 @@
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
-import { colors, textColors } from '@/lib/utils'
 import BusinessCard from './BusinessCard'
 
 interface Props {
@@ -54,7 +53,7 @@ export default function BusinessGrid({
                 >
                   <div
                     className="region-avatar"
-                    style={{ background: colors[b.colorIdx], color: textColors[b.colorIdx] }}
+                    style={{ background: '#E2E5EA', color: 'var(--stone-dark)' }}
                   >
                     {b.initials}
                   </div>
