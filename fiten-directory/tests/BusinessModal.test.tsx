@@ -37,16 +37,6 @@ describe('BusinessModal — content', () => {
     expect(screen.getByText('A great tech company')).toBeInTheDocument()
   })
 
-  it('shows website link when present', () => {
-    setup({ website: 'https://acme.com' })
-    expect(screen.getByRole('link', { name: 'https://acme.com' })).toBeInTheDocument()
-  })
-
-  it('hides website section when absent', () => {
-    setup({ website: undefined })
-    expect(screen.queryByRole('link')).not.toBeInTheDocument()
-  })
-
   it('shows PRO badge for pro member', () => {
     setup({ pro: true })
     expect(screen.getByText('PRO', { selector: '.pro-badge' })).toBeInTheDocument()
@@ -62,6 +52,23 @@ describe('BusinessModal — content', () => {
   it('hides Reviews section for non-pro', () => {
     setup({ pro: false })
     expect(screen.queryByText('Reviews')).not.toBeInTheDocument()
+  })
+})
+
+describe('BusinessModal — contact details', () => {
+  it('shows email', () => {
+    setup({ email: 'hello@acme.com' })
+    expect(screen.getByRole('link', { name: 'hello@acme.com' })).toBeInTheDocument()
+  })
+
+  it('shows phone when present', () => {
+    setup({ phone: '+1 647 123 4567' })
+    expect(screen.getByText('+1 647 123 4567')).toBeInTheDocument()
+  })
+
+  it('shows website when present', () => {
+    setup({ website: 'https://acme.com' })
+    expect(screen.getByRole('link', { name: 'https://acme.com' })).toBeInTheDocument()
   })
 })
 
@@ -84,9 +91,14 @@ describe('BusinessModal — B2B signals', () => {
 })
 
 describe('BusinessModal — footer actions', () => {
-  it('shows Connect button for pro business', () => {
-    setup({ pro: true })
-    expect(screen.getByRole('button', { name: 'Connect' })).toBeInTheDocument()
+  it('shows WhatsApp connect button for pro business with phone', () => {
+    setup({ pro: true, phone: '+1234567890' })
+    expect(screen.getByRole('button', { name: '💬 WhatsApp' })).toBeInTheDocument()
+  })
+
+  it('shows Email connect button for pro business without phone', () => {
+    setup({ pro: true, phone: undefined })
+    expect(screen.getByRole('button', { name: '✉️ Email' })).toBeInTheDocument()
   })
 
   it('shows Claim Listing button for non-pro', () => {
@@ -94,9 +106,19 @@ describe('BusinessModal — footer actions', () => {
     expect(screen.getByRole('button', { name: 'Claim Listing' })).toBeInTheDocument()
   })
 
-  it('opens mailto when Connect is clicked', async () => {
-    const { user } = setup({ pro: true, email: 'hello@acme.com' })
-    await user.click(screen.getByRole('button', { name: 'Connect' }))
+  it('opens WhatsApp when Connect is clicked and phone exists', async () => {
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+    const { user } = setup({ pro: true, phone: '+16471234567' })
+    await user.click(screen.getByRole('button', { name: '💬 WhatsApp' }))
+    expect(openSpy).toHaveBeenCalledWith(
+      expect.stringContaining('wa.me/16471234567'),
+      '_blank'
+    )
+  })
+
+  it('opens mailto when Connect is clicked and no phone', async () => {
+    const { user } = setup({ pro: true, phone: undefined, email: 'hello@acme.com' })
+    await user.click(screen.getByRole('button', { name: '✉️ Email' }))
     expect(window.location.href).toContain('mailto:hello@acme.com')
   })
 

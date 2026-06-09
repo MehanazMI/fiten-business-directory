@@ -16,6 +16,10 @@ function stars(r: number) {
   return Array.from({ length: 5 }, (_, i) => (i < Math.round(r) ? '★' : '☆')).join('')
 }
 
+function waPhone(phone: string) {
+  return phone.replace(/\D/g, '')
+}
+
 export default function BusinessModal({ business: b, lang, onClose, onClaim }: Props) {
   const [copied, setCopied] = useState(false)
 
@@ -28,6 +32,20 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+
+  const connectMsg = `Hi ${b.businessName}, I found you on FiTEN Directory and would like to connect.`
+
+  const handleConnect = () => {
+    if (b.phone) {
+      window.open(`https://wa.me/${waPhone(b.phone)}?text=${encodeURIComponent(connectMsg)}`, '_blank')
+    } else {
+      const subject = encodeURIComponent('FiTEN Directory – Connection Request')
+      const body = encodeURIComponent(`${connectMsg}\n\n---\nSent via FiTEN Business Directory · fiten-directory.vercel.app`)
+      window.location.href = `mailto:${b.email}?subject=${subject}&body=${body}`
+    }
+  }
+
+  const connectLabel = b.phone ? '💬 WhatsApp' : '✉️ Email'
 
   return (
     <div className="detail-overlay open" onClick={onClose}>
@@ -57,6 +75,17 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
           <div className="detail-sec">About</div>
           <div className="detail-desc">{b.description}</div>
 
+          <div className="detail-sec">Contact</div>
+          {b.phone && (
+            <div className="detail-info-row">
+              <span className="detail-icon">📞</span>
+              <span>{b.phone}</span>
+            </div>
+          )}
+          <div className="detail-info-row">
+            <span className="detail-icon">✉️</span>
+            <a href={`mailto:${b.email}`}>{b.email}</a>
+          </div>
           {b.website && (
             <div className="detail-info-row">
               <span className="detail-icon">🌐</span>
@@ -92,8 +121,8 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
 
         <div className="detail-footer">
           {b.pro ? (
-            <button className="detail-connect-btn" onClick={() => { window.location.href = `mailto:${b.email}` }}>
-              Connect
+            <button className="detail-connect-btn" onClick={handleConnect}>
+              {connectLabel}
             </button>
           ) : (
             <button className="detail-connect-btn" onClick={() => { onClaim(b.businessName); onClose() }}>
