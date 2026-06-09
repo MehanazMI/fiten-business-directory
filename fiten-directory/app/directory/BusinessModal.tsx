@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
 import { oppLabels, sigClass } from '@/lib/utils'
@@ -14,9 +17,17 @@ function stars(r: number) {
 }
 
 export default function BusinessModal({ business: b, lang, onClose, onClaim }: Props) {
+  const [copied, setCopied] = useState(false)
+
   if (!b) return null
 
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
+
+  const handleShare = () => {
+    navigator.clipboard?.writeText(`${window.location.origin}/directory/${b.id}`)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="detail-overlay open" onClick={onClose}>
@@ -81,16 +92,16 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
 
         <div className="detail-footer">
           {b.pro ? (
-            <button className="detail-connect-btn" onClick={onClose}>Connect</button>
+            <button className="detail-connect-btn" onClick={() => { window.location.href = `mailto:${b.email}` }}>
+              Connect
+            </button>
           ) : (
             <button className="detail-connect-btn" onClick={() => { onClaim(b.businessName); onClose() }}>
               Claim Listing
             </button>
           )}
-          <button className="detail-share-btn" onClick={() => {
-            navigator.clipboard?.writeText(`${window.location.origin}/directory/${b.id}`)
-          }}>
-            Share
+          <button className="detail-share-btn" onClick={handleShare}>
+            {copied ? 'Copied ✓' : 'Share'}
           </button>
         </div>
       </div>

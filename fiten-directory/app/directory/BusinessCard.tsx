@@ -62,12 +62,7 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
           <span className="rating-stars">{stars(b.rating)}</span>
           {' '}{b.rating} · {b.reviews}
         </span>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
-          {!b.pro && (
-            <button className="profile-btn" onClick={e => e.stopPropagation()}>PRO</button>
-          )}
-        </div>
+        <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
       </div>
     </div>
   )

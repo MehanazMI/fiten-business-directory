@@ -1,7 +1,11 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ClaimModal from '@/app/directory/ClaimModal'
+
+function mockFetchOk() {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }))
+}
 
 function setup(businessName: string | null = 'Acme Corp') {
   const onClose = vi.fn()
@@ -9,6 +13,8 @@ function setup(businessName: string | null = 'Acme Corp') {
   render(<ClaimModal businessName={businessName} onClose={onClose} />)
   return { user, onClose }
 }
+
+beforeEach(() => { vi.unstubAllGlobals() })
 
 describe('ClaimModal — renders nothing when businessName is null', () => {
   it('returns null', () => {
@@ -42,24 +48,27 @@ describe('ClaimModal — submission', () => {
   })
 
   it('shows success state after valid email is submitted', async () => {
+    mockFetchOk()
     const { user } = setup()
     await user.type(screen.getByPlaceholderText('your@email.com'), 'test@example.com')
     await user.click(screen.getByRole('button', { name: 'Submit Claim' }))
-    expect(screen.getByText('Claim Submitted')).toBeInTheDocument()
+    expect(await screen.findByText('Claim Submitted')).toBeInTheDocument()
   })
 
   it('shows the submitted email in success message', async () => {
+    mockFetchOk()
     const { user } = setup()
     await user.type(screen.getByPlaceholderText('your@email.com'), 'owner@acme.com')
     await user.click(screen.getByRole('button', { name: 'Submit Claim' }))
-    expect(screen.getByText(/owner@acme\.com/)).toBeInTheDocument()
+    expect(await screen.findByText(/owner@acme\.com/)).toBeInTheDocument()
   })
 
   it('shows success checkmark after submission', async () => {
+    mockFetchOk()
     const { user } = setup()
     await user.type(screen.getByPlaceholderText('your@email.com'), 'a@b.com')
     await user.click(screen.getByRole('button', { name: 'Submit Claim' }))
-    expect(screen.getByText('✓')).toBeInTheDocument()
+    expect(await screen.findByText('✓')).toBeInTheDocument()
   })
 })
 

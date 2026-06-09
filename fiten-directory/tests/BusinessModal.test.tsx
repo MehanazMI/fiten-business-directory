@@ -94,10 +94,10 @@ describe('BusinessModal — footer actions', () => {
     expect(screen.getByRole('button', { name: 'Claim Listing' })).toBeInTheDocument()
   })
 
-  it('calls onClose when Connect is clicked', async () => {
-    const { user, onClose } = setup({ pro: true })
+  it('opens mailto when Connect is clicked', async () => {
+    const { user } = setup({ pro: true, email: 'hello@acme.com' })
     await user.click(screen.getByRole('button', { name: 'Connect' }))
-    expect(onClose).toHaveBeenCalled()
+    expect(window.location.href).toContain('mailto:hello@acme.com')
   })
 
   it('calls onClaim with businessName and then onClose when Claim Listing is clicked', async () => {
@@ -119,6 +119,13 @@ describe('BusinessModal — footer actions', () => {
     expect(writeSpy).toHaveBeenCalledWith(
       `https://fiten-directory.vercel.app/directory/${business.id}`
     )
+  })
+
+  it('shows Copied ✓ feedback after Share is clicked', async () => {
+    vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
+    const { user } = setup()
+    await user.click(screen.getByRole('button', { name: 'Share' }))
+    expect(screen.getByRole('button', { name: 'Copied ✓' })).toBeInTheDocument()
   })
 })
 

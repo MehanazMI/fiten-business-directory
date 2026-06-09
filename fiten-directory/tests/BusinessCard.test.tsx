@@ -122,9 +122,9 @@ describe('BusinessCard — interactions', () => {
     expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
   })
 
-  it('shows PRO upgrade button for non-pro card', () => {
+  it('does not show PRO upgrade button', () => {
     setup({ pro: false })
-    expect(screen.getByRole('button', { name: 'PRO' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'PRO' })).not.toBeInTheDocument()
   })
 })
 
