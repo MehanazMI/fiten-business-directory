@@ -1,9 +1,12 @@
 interface Props {
   activeFilter: string
+  activeCat: string
   activeView: 'grid' | 'region'
   sort: string
   showFavs: boolean
+  catCounts: Record<string, number>
   onFilterChange: (f: string) => void
+  onCatChange: (c: string) => void
   onViewChange: (v: 'grid' | 'region') => void
   onSortChange: (s: string) => void
   onFavsToggle: () => void
@@ -12,18 +15,33 @@ interface Props {
 const FILTERS = ['All', 'Pro']
 
 export default function FilterRow({
-  activeFilter, activeView, sort, showFavs,
-  onFilterChange, onViewChange, onSortChange, onFavsToggle,
+  activeFilter, activeCat, activeView, sort, showFavs, catCounts,
+  onFilterChange, onCatChange, onViewChange, onSortChange, onFavsToggle,
 }: Props) {
+  const topCats = Object.entries(catCounts)
+    .filter(([cat]) => cat !== 'All')
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([cat]) => cat)
+
   return (
     <div className="filter-row">
       {FILTERS.map(f => (
         <button
           key={f}
-          className={`pill${activeFilter === f ? ' active' : ''}`}
-          onClick={() => onFilterChange(f)}
+          className={`pill${activeFilter === f && activeCat === 'All' ? ' active' : ''}`}
+          onClick={() => { onFilterChange(f); if (activeCat !== 'All') onCatChange('All') }}
         >
           {f}
+        </button>
+      ))}
+      {topCats.map(cat => (
+        <button
+          key={cat}
+          className={`pill${activeCat === cat ? ' active' : ''}`}
+          onClick={() => { onCatChange(cat); onFilterChange('All') }}
+        >
+          {cat}
         </button>
       ))}
       <button

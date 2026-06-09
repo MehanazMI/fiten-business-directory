@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/lib/firebase-client'
-import { stableColorIdx, categoryMap, i18n, oppLabels } from '@/lib/utils'
+import { stableColorIdx, categoryMap, i18n, oppLabels, oppTooltips } from '@/lib/utils'
 import type { Lang } from '@/lib/utils'
 import type { Business } from '@/types/business'
 import SearchBar from './SearchBar'
@@ -203,10 +203,13 @@ export default function DirectoryClient({ initialData }: Props) {
 
       <FilterRow
         activeFilter={activeFilter}
+        activeCat={activeCat}
         activeView={activeView}
         sort={sort}
         showFavs={showFavs}
+        catCounts={catCounts}
         onFilterChange={f => { setActiveFilter(f); resetPaging() }}
+        onCatChange={c => { setActiveCat(c); resetPaging() }}
         onViewChange={v => { setActiveView(v); resetPaging() }}
         onSortChange={s => { setSort(s); resetPaging() }}
         onFavsToggle={() => { setShowFavs(v => !v); resetPaging() }}
@@ -229,9 +232,9 @@ export default function DirectoryClient({ initialData }: Props) {
           </ul>
 
           <hr className="sidebar-divider" />
-          <p className="sidebar-title">B2B Signals</p>
+          <p className="sidebar-title" title="Filter by what businesses are actively looking for">B2B Signals</p>
           {(['partner', 'hire', 'invest', 'client'] as const).map(op => (
-            <label key={op} className="filter-check">
+            <label key={op} className="filter-check" title={oppTooltips[op]}>
               <input
                 type="checkbox"
                 checked={activeOpps.includes(op)}

@@ -36,6 +36,13 @@ export const oppLabels: Record<string, string> = {
   hire: '👥 Hiring',
 }
 
+export const oppTooltips: Record<string, string> = {
+  partner: 'Looking to co-found, joint-venture, or collaborate with another business',
+  hire: 'Actively recruiting — open to job seekers and contractors',
+  invest: 'Seeking investors, funding, or financial backers',
+  client: 'Looking to grow their customer base — open to new business inquiries',
+}
+
 export const sigClass: Record<string, string> = {
   partner: 'sig-partner',
   client: 'sig-client',

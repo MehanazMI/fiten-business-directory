@@ -6,10 +6,13 @@ import FilterRow from '@/app/directory/FilterRow'
 function setup(overrides: Partial<Parameters<typeof FilterRow>[0]> = {}) {
   const props = {
     activeFilter: 'All',
+    activeCat: 'All',
     activeView: 'grid' as const,
     sort: 'default',
     showFavs: false,
+    catCounts: { All: 10, Tech: 4, Food: 3, Services: 2, Healthcare: 1 },
     onFilterChange: vi.fn(),
+    onCatChange: vi.fn(),
     onViewChange: vi.fn(),
     onSortChange: vi.fn(),
     onFavsToggle: vi.fn(),

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import AddBusinessModal from '@/app/directory/AddBusinessModal'
 
@@ -22,7 +22,8 @@ function setup() {
 
 async function fillForm(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByPlaceholderText(/Business name/i), 'New Biz')
-  await user.selectOptions(screen.getByRole('combobox'), 'Technology')
+  // Two selects exist (category + region); target category by placeholder option text
+  await user.selectOptions(screen.getAllByRole('combobox')[0], 'Technology')
   await user.type(screen.getByPlaceholderText(/Email/i), 'biz@new.com')
   await user.type(screen.getByPlaceholderText(/Phone/i), '123-456-7890')
   await user.type(screen.getByPlaceholderText(/City/i), 'Toronto')
@@ -39,7 +40,8 @@ describe('AddBusinessModal — form fields', () => {
   it('renders all required fields', () => {
     setup()
     expect(screen.getByPlaceholderText(/Business name/i)).toBeInTheDocument()
-    expect(screen.getByRole('combobox')).toBeInTheDocument()
+    // Two selects: category and region
+    expect(screen.getAllByRole('combobox').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/Phone/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/City/i)).toBeInTheDocument()
@@ -53,7 +55,9 @@ describe('AddBusinessModal — form fields', () => {
 
   it('renders all 11 category options', () => {
     setup()
-    const options = screen.getAllByRole('option')
+    // Scope to the category select (first combobox) to avoid counting region options
+    const categorySelect = screen.getAllByRole('combobox')[0]
+    const options = within(categorySelect).getAllByRole('option')
     // 11 categories + 1 placeholder option
     expect(options.length).toBe(12)
   })
