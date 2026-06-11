@@ -3,9 +3,12 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { fetchBusinesses } from '@/lib/firestore-rest'
 import DirectoryClient from './DirectoryClient'
 
-export const metadata = {
-  title: 'FiTEN Business Directory — Tamil Business Network',
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: { absolute: 'FiTEN Business Directory — Tamil Business Network' },
   description: 'Discover Tamil-owned businesses worldwide. Connect with partners, clients, investors, and talent across the global Tamil business community.',
+  alternates: { canonical: '/directory' },
 }
 
 export default async function DirectoryPage() {

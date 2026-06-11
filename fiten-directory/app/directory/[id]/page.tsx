@@ -2,6 +2,28 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { fetchBusinesses, fetchBusinessById } from '@/lib/firestore-rest'
 import { colors, textColors, oppLabels, sigClass } from '@/lib/utils'
+import { SITE_URL } from '@/lib/site'
+import type { Business } from '@/types/business'
+
+function businessJsonLd(b: Business) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${SITE_URL}/directory/${b.id}`,
+    name: b.businessName,
+    ...(b.nameTamil && { alternateName: b.nameTamil }),
+    description: b.description,
+    ...(b.website && { url: b.website }),
+    ...(b.city && { address: { '@type': 'PostalAddress', addressLocality: b.city } }),
+    ...(b.pro && b.reviews > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: b.rating,
+        reviewCount: b.reviews,
+      },
+    }),
+  }
+}
 
 export const revalidate = 3600
 
@@ -13,14 +35,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const business = await fetchBusinessById(id)
-  if (!business) return { title: 'Business Not Found | FiTEN' }
+  if (!business) return { title: 'Business Not Found' }
   return {
-    title: `${business.businessName} | FiTEN Business Directory`,
+    title: business.businessName,
     description: business.description?.slice(0, 155),
+    alternates: { canonical: `/directory/${business.id}` },
     openGraph: {
       title: business.businessName,
       description: business.description?.slice(0, 155),
-      url: `https://fiten.org/directory/${business.id}`,
+      url: `/directory/${business.id}`,
     },
   }
 }
@@ -35,6 +58,10 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
 
   return (
     <div style={{ maxWidth: 600, margin: '3rem auto', padding: '0 1.5rem' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(b)) }}
+      />
       <a href="/directory" style={{ color: 'var(--red)', textDecoration: 'none', fontWeight: 600, display: 'inline-block', marginBottom: '1.5rem' }}>
         ← Back to Directory
       </a>
