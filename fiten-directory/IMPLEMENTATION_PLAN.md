@@ -47,6 +47,8 @@ The directory shipped first as a static HTML + Firebase prototype, then was full
 | LocalBusiness JSON-LD | ✅ Live | On every business detail page |
 | Legacy URL redirects | ✅ Live | `/index.html` → `/directory`, `/form.html` → `/form` (308) |
 | Automated test suite | ✅ Live | 176 tests across 9 files (Vitest + React Testing Library) |
+| Firestore emulator dev setup | ✅ Live | `npm run dev:emulator` + `npm run seed` for isolated local dev |
+| Vercel preview deployments | ✅ Live | Auto-deploy on every non-`main` push; amber banner + write guard |
 
 ## What Is NOT Yet Built
 
@@ -76,6 +78,7 @@ The directory shipped first as a static HTML + Firebase prototype, then was full
 | Data (runtime) | Firebase JS SDK — `onSnapshot` | Live updates merge into rendered list without full re-render |
 | SEO | `app/robots.ts`, `app/sitemap.ts`, `metadataBase`, JSON-LD | Domain-agnostic via `NEXT_PUBLIC_SITE_URL` |
 | Tests | Vitest + React Testing Library | 176 tests, run on every pre-commit hook |
+| Dev environment | Firestore emulator + Vercel preview deploys | Isolated local dev; auto preview URL per branch |
 | Domain | fiten.org (pending) | Currently on `fiten-directory.vercel.app` |
 
 ---
@@ -193,13 +196,15 @@ The most important next step is letting business owners manage their own listing
 
 ## Immediate Actions (This Week)
 
-1. **Connect domain** — see [DOMAIN_CUTOVER.md](./DOMAIN_CUTOVER.md) for the exact steps. Takes ~15 minutes plus DNS propagation. SEO infrastructure (robots, sitemap, canonicals, JSON-LD) is already live and will switch to `fiten.org` automatically once the env var is set.
+1. **Merge `feat/emulator-preview-setup` → `main`** — branch is tested and ready. Vercel will auto-deploy.
 
-2. **Populate the directory** — the seeded businesses are placeholders. Recruit the first 20 real businesses from the FiTEN member network via the form at `/form`.
+2. **Connect domain** — see [DOMAIN_CUTOVER.md](./DOMAIN_CUTOVER.md) for the exact steps. Takes ~15 minutes plus DNS propagation. SEO infrastructure (robots, sitemap, canonicals, JSON-LD) is already live and will switch to `fiten.org` automatically once the env var is set.
 
-3. **Share Firebase console access** — give the Directory Lead access so they can approve/edit listings without a developer.
+3. **Populate the directory** — the seeded businesses are placeholders. Recruit the first 20 real businesses from the FiTEN member network via the form at `/form`.
 
-4. **Announcement post** — short post to FiTEN/FeTNA communities with the link and a call to list. The form is live and takes 5 minutes.
+4. **Share Firebase console access** — give the Directory Lead access so they can approve/edit listings without a developer.
+
+5. **Announcement post** — short post to FiTEN/FeTNA communities with the link and a call to list. The form is live and takes 5 minutes.
 
 ---
 
