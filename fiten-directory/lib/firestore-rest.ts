@@ -2,6 +2,10 @@ import type { Business } from '@/types/business'
 import { stableColorIdx, categoryMap } from '@/lib/utils'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+const EMULATOR = process.env.NEXT_PUBLIC_FIRESTORE_EMULATOR_HOST
+const FS_BASE = EMULATOR
+  ? `http://localhost:8080/v1/projects/${PROJECT_ID}/databases/(default)/documents`
+  : `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`
 
 interface FirestoreValue {
   stringValue?: string
@@ -52,7 +56,7 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
 }
 
 export async function fetchBusinesses(): Promise<Business[]> {
-  const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/businesses`
+  const url = `${FS_BASE}/businesses`
   const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) throw new Error(`Firestore fetch failed: ${res.status}`)
   const data = await res.json()
@@ -62,7 +66,7 @@ export async function fetchBusinesses(): Promise<Business[]> {
 }
 
 export async function fetchBusinessById(id: string): Promise<Business | null> {
-  const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/businesses/${id}`
+  const url = `${FS_BASE}/businesses/${id}`
   const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) return null
   return parseFirestoreDoc(await res.json())

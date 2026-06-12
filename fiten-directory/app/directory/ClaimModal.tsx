@@ -20,6 +20,10 @@ export default function ClaimModal({ businessName, onClose }: Props) {
 
   const handleSubmit = async () => {
     if (!email) return
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+      setError('Form submissions are disabled on preview deployments.')
+      return
+    }
     setSubmitting(true)
     setError('')
     try {

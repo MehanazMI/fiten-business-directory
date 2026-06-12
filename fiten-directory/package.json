@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:emulator": "NEXT_PUBLIC_FIRESTORE_EMULATOR_HOST=localhost:8080 next dev",
+    "seed": "node scripts/seed-emulator.mjs",
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
