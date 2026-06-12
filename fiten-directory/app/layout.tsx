@@ -19,10 +19,30 @@ export const metadata: Metadata = {
   },
 }
 
+const isPreview = process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {isPreview && (
+          <div style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 9999,
+            background: '#f59e0b',
+            color: '#1c1917',
+            textAlign: 'center',
+            padding: '6px 12px',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '0.01em',
+          }}>
+            ⚠ Preview deployment — form submissions are disabled
+          </div>
+        )}
+        {children}
+      </body>
     </html>
   )
 }
