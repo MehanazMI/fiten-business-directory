@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -8,5 +8,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+const isNew = !getApps().length
+const app = isNew ? initializeApp(firebaseConfig) : getApps()[0]
 export const db = getFirestore(app)
+
+if (isNew && process.env.NEXT_PUBLIC_FIRESTORE_EMULATOR_HOST) {
+  connectFirestoreEmulator(db, 'localhost', 8080)
+}

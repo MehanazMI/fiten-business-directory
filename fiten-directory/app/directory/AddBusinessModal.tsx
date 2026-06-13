@@ -60,6 +60,10 @@ export default function AddBusinessModal({ onClose }: Props) {
       setError('Please fill in all required fields.')
       return
     }
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+      setError('Form submissions are disabled on preview deployments.')
+      return
+    }
     setSubmitting(true)
     setError('')
     try {
