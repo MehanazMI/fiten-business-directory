@@ -1,1 +1,15 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"Improvement check: scan the file you just edited for non-trivial improvement opportunities — unused imports, security gaps, missing error handling, dead code, simplification. Use spawn_task to flag anything worth a separate fix. Skip trivial style nits.\""
+          }
+        ]
+      }
+    ]
+  }
+}
