@@ -29,7 +29,7 @@ html{scroll-behavior:smooth}
   --shadow-lg:0 8px 24px rgba(0,0,0,0.15);
   --shadow-xl:0 16px 48px rgba(0,0,0,0.18);
   /* card palette */
-  --cream-bg:#FDF7ED;
+  --cream-bg:#FAFAF8;
   --sage-avatar:#5B7A5C;
   --sage-avatar-zone:#E8EFE4;
   --sage-tag-fg:#3D5C3F;
