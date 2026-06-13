@@ -25,9 +25,9 @@ describe('BusinessCard — display', () => {
     expect(screen.getByText(/Toronto/)).toBeInTheDocument()
   })
 
-  it('renders avatar placeholder when no logoUrl', () => {
+  it('renders avatar icon when no logoUrl', () => {
     setup()
-    expect(document.querySelector('.card-avatar-placeholder')).toBeInTheDocument()
+    expect(document.querySelector('.card-avatar-icon')).toBeInTheDocument()
   })
 
   it('renders description', () => {

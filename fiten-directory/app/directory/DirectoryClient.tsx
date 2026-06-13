@@ -183,10 +183,22 @@ export default function DirectoryClient({ initialData }: Props) {
           <div className="brand-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
           <div className="brand-sub">{t.heroSub}</div>
         </div>
-        <div className="brand-stats">
-          <div className="brand-stat"><strong>{businesses.length}+</strong><span>Businesses</span></div>
-          <div className="brand-stat"><strong>{cityCount}</strong><span>Cities</span></div>
-          <div className="brand-stat"><strong>8</strong><span>Sectors</span></div>
+        <div className="brand-hero-img" aria-hidden="true">
+          <svg width="180" height="110" viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="130" cy="55" r="60" fill="#E8EFE4" opacity="0.7"/>
+            <circle cx="100" cy="75" r="42" fill="#FBF0D8" opacity="0.6"/>
+            <rect x="55" y="48" width="18" height="48" rx="2" fill="#5B7A5C" opacity="0.35"/>
+            <rect x="78" y="32" width="22" height="64" rx="2" fill="#B45309" opacity="0.28"/>
+            <rect x="106" y="42" width="16" height="54" rx="2" fill="#5B7A5C" opacity="0.22"/>
+            <rect x="128" y="52" width="14" height="44" rx="2" fill="#B45309" opacity="0.2"/>
+            <rect x="58" y="53" width="5" height="5" rx="1" fill="#5B7A5C" opacity="0.5"/>
+            <rect x="58" y="62" width="5" height="5" rx="1" fill="#5B7A5C" opacity="0.5"/>
+            <rect x="82" y="37" width="5" height="5" rx="1" fill="#B45309" opacity="0.45"/>
+            <rect x="91" y="37" width="5" height="5" rx="1" fill="#B45309" opacity="0.45"/>
+            <rect x="82" y="47" width="5" height="5" rx="1" fill="#B45309" opacity="0.45"/>
+            <rect x="91" y="47" width="5" height="5" rx="1" fill="#B45309" opacity="0.45"/>
+            <rect x="55" y="96" width="90" height="2" rx="1" fill="#5B7A5C" opacity="0.2"/>
+          </svg>
         </div>
       </div>
 
@@ -199,6 +211,12 @@ export default function DirectoryClient({ initialData }: Props) {
             onChange={v => { setSearchQuery(v); resetPaging() }}
           />
         </div>
+      </div>
+
+      <div className="stats-mini-bar">
+        <div className="stats-mini-item"><strong>{businesses.length}+</strong><span>Businesses</span></div>
+        <div className="stats-mini-item"><strong>{cityCount}</strong><span>Cities</span></div>
+        <div className="stats-mini-item"><strong>8</strong><span>Sectors</span></div>
       </div>
 
       <FilterRow

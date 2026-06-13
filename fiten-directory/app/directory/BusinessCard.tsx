@@ -24,6 +24,19 @@ const categoryColors: Record<string, { zone: string; circle: string }> = {
 }
 const fallbackColors = { zone: '#E8EFE4', circle: '#5B7A5C' }
 
+const categoryIcons: Record<string, string> = {
+  'Healthcare':    'ti-heart-rate-monitor',
+  'Tech':          'ti-cpu',
+  'Education':     'ti-book',
+  'Legal':         'ti-scale',
+  'Food':          'ti-coffee',
+  'Finance':       'ti-coin',
+  'Real Estate':   'ti-home',
+  'Retail':        'ti-shopping-bag',
+  'Entertainment': 'ti-music',
+  'Services':      'ti-tool',
+}
+
 function stars(r: number) {
   return '★ ' + r.toFixed(1)
 }
@@ -31,6 +44,7 @@ function stars(r: number) {
 export default function BusinessCard({ business: b, isFavorited, onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
   const colors = categoryColors[b.category] ?? fallbackColors
+  const catIcon = categoryIcons[b.category] ?? 'ti-building-store'
 
   return (
     <div
@@ -47,9 +61,11 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
             className="card-avatar-img"
           />
         ) : (
-          <div className="card-avatar-placeholder">
-            <i className="ti ti-building-store" aria-hidden="true" />
-          </div>
+          <i
+            className={`ti ${catIcon} card-avatar-icon`}
+            style={{ color: colors.circle }}
+            aria-hidden="true"
+          />
         )}
       </div>
 
@@ -58,7 +74,10 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
         {lang === 'ta' && b.nameTamil && (
           <div className="biz-name-tamil">{b.businessName}</div>
         )}
-        <div className="biz-category">{b.category}</div>
+        <div className="biz-category">
+          <i className={`ti ${catIcon} biz-cat-icon`} aria-hidden="true" />
+          {b.category}
+        </div>
         <div className="biz-location">
           {b.city}{b.women ? ' · Women-led' : ''}
         </div>
