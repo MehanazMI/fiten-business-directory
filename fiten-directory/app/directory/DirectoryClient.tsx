@@ -31,6 +31,7 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     email: (d.email as string) ?? '',
     phone: d.phone as string | undefined,
     website: d.website as string | undefined,
+    logoUrl: d.logoUrl as string | undefined,
     status: (d.status as string) ?? 'pending',
     pro: (d.pro as boolean) ?? false,
     speaker: (d.speaker as boolean) ?? false,

@@ -38,6 +38,7 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     email: f.email?.stringValue ?? '',
     phone: f.phone?.stringValue,
     website: f.website?.stringValue,
+    logoUrl: f.logoUrl?.stringValue,
     status: f.status?.stringValue ?? 'pending',
     pro: f.pro?.booleanValue ?? false,
     speaker: f.speaker?.booleanValue ?? false,

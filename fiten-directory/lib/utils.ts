@@ -30,10 +30,10 @@ export const categoryMap: Record<string, string> = {
 }
 
 export const oppLabels: Record<string, string> = {
-  partner: '🤝 Business Partners',
-  client: '🎯 Seeking Clients',
-  invest: '💼 Seeking Investment',
-  hire: '👥 Hiring',
+  partner: 'Partner',
+  client: 'Seeking Clients',
+  invest: 'Seeking Investment',
+  hire: 'Hiring',
 }
 
 export const oppTooltips: Record<string, string> = {

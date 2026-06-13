@@ -9,6 +9,7 @@ export interface Business {
   email: string
   phone?: string
   website?: string
+  logoUrl?: string
   status: string
   pro: boolean
   looking: Array<'partner' | 'client' | 'invest' | 'hire'>

@@ -39,7 +39,7 @@ function toFields(obj: Record<string, unknown>) {
 
 export default function AddBusinessModal({ onClose }: Props) {
   const [form, setForm] = useState({
-    businessName: '', category: '', region: '', email: '', phone: '', city: '', website: '', description: '',
+    businessName: '', category: '', region: '', email: '', phone: '', city: '', website: '', logoUrl: '', description: '',
   })
   const [looking, setLooking] = useState<string[]>([])
   const [women, setWomen] = useState(false)
@@ -142,6 +142,7 @@ export default function AddBusinessModal({ onClose }: Props) {
             <input className="modal-input" type="tel" placeholder="Phone *" value={form.phone} onChange={set('phone')} />
             <input className="modal-input" placeholder="City *" value={form.city} onChange={set('city')} />
             <input className="modal-input" type="url" placeholder="Website (optional)" value={form.website} onChange={set('website')} />
+            <input className="modal-input" type="url" placeholder="Logo / profile image URL (optional)" value={form.logoUrl} onChange={set('logoUrl')} />
             <textarea
               className="modal-input"
               placeholder="Business description *"

@@ -25,9 +25,9 @@ describe('BusinessCard — display', () => {
     expect(screen.getByText(/Toronto/)).toBeInTheDocument()
   })
 
-  it('renders avatar initials', () => {
+  it('renders avatar placeholder when no logoUrl', () => {
     setup()
-    expect(screen.getByText('AC')).toBeInTheDocument()
+    expect(document.querySelector('.card-avatar-placeholder')).toBeInTheDocument()
   })
 
   it('renders description', () => {
@@ -49,7 +49,7 @@ describe('BusinessCard — display', () => {
 describe('BusinessCard — B2B signals', () => {
   it('renders "partner" signal', () => {
     setup({ looking: ['partner'] })
-    expect(screen.getByText(/Business Partners/)).toBeInTheDocument()
+    expect(screen.getByText('Partner')).toBeInTheDocument()
   })
 
   it('renders "hire" signal', () => {
@@ -62,9 +62,9 @@ describe('BusinessCard — B2B signals', () => {
     expect(screen.getByText(/Speaker/)).toBeInTheDocument()
   })
 
-  it('renders women-led badge', () => {
+  it('renders women-led inline in location', () => {
     setup({ women: true })
-    expect(screen.getByText(/Women-Led/)).toBeInTheDocument()
+    expect(screen.getByText(/Women-led/)).toBeInTheDocument()
   })
 
   it('renders convention badge', () => {
@@ -74,7 +74,7 @@ describe('BusinessCard — B2B signals', () => {
 
   it('renders no signal badges when looking is empty and all flags false', () => {
     setup({ looking: [], speaker: false, women: false, convention: false })
-    expect(screen.queryByText(/Business Partners/)).not.toBeInTheDocument()
+    expect(screen.queryByText('Partner')).not.toBeInTheDocument()
     expect(screen.queryByText(/Hiring/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Speaker/)).not.toBeInTheDocument()
   })
@@ -83,24 +83,24 @@ describe('BusinessCard — B2B signals', () => {
 describe('BusinessCard — favorites', () => {
   it('shows unfavorited heart when not favorited', () => {
     setup()
-    expect(screen.getByLabelText('Add to favorites')).toBeInTheDocument()
+    expect(screen.getByLabelText('Add to favourites')).toBeInTheDocument()
   })
 
   it('shows filled heart when favorited', () => {
     const business = makeBusiness()
     render(<BusinessCard business={business} isFavorited={true} onSelect={vi.fn()} onFavorite={vi.fn()} lang="en" />)
-    expect(screen.getByLabelText('Remove from favorites')).toBeInTheDocument()
+    expect(screen.getByLabelText('Remove from favourites')).toBeInTheDocument()
   })
 
   it('calls onFavorite with business id when heart is clicked', async () => {
     const { user, onFavorite, business } = setup()
-    await user.click(screen.getByLabelText('Add to favorites'))
+    await user.click(screen.getByLabelText('Add to favourites'))
     expect(onFavorite).toHaveBeenCalledWith(business.id)
   })
 
   it('does not call onSelect when heart is clicked (stopPropagation)', async () => {
     const { user, onSelect } = setup()
-    await user.click(screen.getByLabelText('Add to favorites'))
+    await user.click(screen.getByLabelText('Add to favourites'))
     expect(onSelect).not.toHaveBeenCalled()
   })
 })
@@ -112,14 +112,9 @@ describe('BusinessCard — interactions', () => {
     expect(onSelect).toHaveBeenCalledWith(business)
   })
 
-  it('shows View button for pro card', () => {
+  it('does not show a View button (whole card is clickable)', () => {
     setup({ pro: true })
-    expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
-  })
-
-  it('shows View button for non-pro card', () => {
-    setup({ pro: false })
-    expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 
   it('does not show PRO upgrade button', () => {
@@ -143,10 +138,9 @@ describe('BusinessCard — language', () => {
 })
 
 describe('BusinessCard — star rating', () => {
-  it('renders 5 star characters', () => {
-    setup({ rating: 4 })
-    const stars = screen.getByText(/[★☆]{5}/)
-    expect(stars).toBeInTheDocument()
+  it('renders star rating in new format', () => {
+    setup({ rating: 4, reviews: 1 })
+    expect(screen.getByText(/★ 4\.0/)).toBeInTheDocument()
   })
 
   it('shows rating value and review count', () => {
