@@ -162,8 +162,7 @@ export default function DirectoryClient({ initialData }: Props) {
           setShowWomen(false); resetPaging();
           window.scrollTo({ top: 0, behavior: 'smooth' })
         }}>
-          <span className="logo-text">FiTEN</span>
-          <span className="logo-dot">·</span>
+          <span className="logo-text">Fi<span>TEN</span></span>
           <span className="logo-tag">Business Directory</span>
         </div>
         <nav className="nav-hdr">
