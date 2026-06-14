@@ -36,7 +36,7 @@ describe('DirectoryClient — initial render', () => {
 
   it('renders category sidebar with All item', () => {
     setup()
-    expect(screen.getByText('Categories')).toBeInTheDocument()
+    expect(within(getSidebar()).getByText('Categories')).toBeInTheDocument()
     // sidebar has its own "All" list item — scope to sidebar to avoid FilterRow pill ambiguity
     expect(within(getSidebar()).getByText(/^All$/)).toBeInTheDocument()
   })

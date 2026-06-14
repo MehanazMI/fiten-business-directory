@@ -21,13 +21,15 @@ describe('BusinessCard — display', () => {
 
   it('renders category and city', () => {
     setup()
-    expect(screen.getByText('Tech')).toBeInTheDocument()
+    expect(screen.getByText(/Tech/)).toBeInTheDocument()
     expect(screen.getByText(/Toronto/)).toBeInTheDocument()
   })
 
-  it('renders avatar icon when no logoUrl', () => {
+  it('renders monogram initials when no logoUrl', () => {
     setup()
-    expect(document.querySelector('.card-avatar-icon')).toBeInTheDocument()
+    const zone = document.querySelector('.card-avatar-zone') as HTMLElement
+    expect(zone).toBeInTheDocument()
+    expect(zone.textContent).toBeTruthy()
   })
 
   it('renders description', () => {

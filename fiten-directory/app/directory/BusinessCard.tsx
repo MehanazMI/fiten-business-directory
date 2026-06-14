@@ -10,41 +10,12 @@ interface Props {
   lang: Lang
 }
 
-const categoryColors: Record<string, { zone: string; circle: string }> = {
-  'Healthcare':    { zone: '#E8EFE4', circle: '#5B7A5C' },
-  'Tech':          { zone: '#E6ECF5', circle: '#3B5998' },
-  'Education':     { zone: '#F5EBE0', circle: '#8B5E3C' },
-  'Legal':         { zone: '#EDE8F5', circle: '#5C4BA0' },
-  'Food':          { zone: '#FEF3E2', circle: '#C07020' },
-  'Finance':       { zone: '#E5F0EE', circle: '#2D7A6E' },
-  'Real Estate':   { zone: '#F0EDE8', circle: '#7B5E45' },
-  'Retail':        { zone: '#F5ECE8', circle: '#9B4B2E' },
-  'Entertainment': { zone: '#F0E8F5', circle: '#7A4BA0' },
-  'Services':      { zone: '#EEF0F5', circle: '#4A5568' },
-}
-const fallbackColors = { zone: '#E8EFE4', circle: '#5B7A5C' }
-
-const categoryIcons: Record<string, string> = {
-  'Healthcare':    'ti-heart-rate-monitor',
-  'Tech':          'ti-cpu',
-  'Education':     'ti-book',
-  'Legal':         'ti-scale',
-  'Food':          'ti-coffee',
-  'Finance':       'ti-coin',
-  'Real Estate':   'ti-home',
-  'Retail':        'ti-shopping-bag',
-  'Entertainment': 'ti-music',
-  'Services':      'ti-tool',
-}
-
 function stars(r: number) {
   return '★ ' + r.toFixed(1)
 }
 
 export default function BusinessCard({ business: b, isFavorited, onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
-  const colors = categoryColors[b.category] ?? fallbackColors
-  const catIcon = categoryIcons[b.category] ?? 'ti-building-store'
 
   return (
     <div
@@ -53,19 +24,14 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
     >
       {b.pro && <span className="pro-badge">PRO</span>}
 
-      <div className="card-avatar-zone" style={{ background: colors.zone }}>
+      {/* Monogram tile */}
+      <div className="card-avatar-zone">
         {b.logoUrl ? (
-          <img
-            src={b.logoUrl}
-            alt={b.businessName}
-            className="card-avatar-img"
-          />
+          <img src={b.logoUrl} alt={b.businessName} className="card-avatar-img" />
         ) : (
-          <i
-            className={`ti ${catIcon} card-avatar-icon`}
-            style={{ color: colors.circle }}
-            aria-hidden="true"
-          />
+          <span style={{ fontFamily: 'var(--font-serif)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--navy)', letterSpacing: '0.02em' }}>
+            {b.initials}
+          </span>
         )}
       </div>
 
@@ -74,13 +40,7 @@ export default function BusinessCard({ business: b, isFavorited, onSelect, onFav
         {lang === 'ta' && b.nameTamil && (
           <div className="biz-name-tamil">{b.businessName}</div>
         )}
-        <div className="biz-category">
-          <i className={`ti ${catIcon} biz-cat-icon`} aria-hidden="true" />
-          {b.category}
-        </div>
-        <div className="biz-location">
-          {b.city}{b.women ? ' · Women-led' : ''}
-        </div>
+        <div className="biz-category">{b.category} · {b.city}{b.women ? ' · Women-led' : ''}</div>
 
         {b.description && (
           <div className="card-desc">{b.description}</div>

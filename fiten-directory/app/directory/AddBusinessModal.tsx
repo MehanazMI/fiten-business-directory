@@ -108,8 +108,8 @@ export default function AddBusinessModal({ onClose }: Props) {
         {success ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
-            <h3 style={{ color: 'var(--sage)', marginBottom: '0.5rem' }}>Business Added!</h3>
-            <p style={{ color: 'var(--text2)', lineHeight: 1.6 }}>
+            <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Business Added!</h3>
+            <p style={{ color: 'var(--cream-70)', lineHeight: 1.6 }}>
               Your listing is now live on the FiTEN Directory. Welcome to the community! 🎉
             </p>
             <button className="modal-submit" style={{ marginTop: '1.5rem' }} onClick={onClose}>
@@ -119,12 +119,12 @@ export default function AddBusinessModal({ onClose }: Props) {
         ) : (
           <>
             <h3>List Your Business</h3>
-            <p style={{ color: 'var(--text2)', marginBottom: '1.5rem', fontSize: '0.9rem', lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--cream-70)', marginBottom: '1.5rem', fontSize: '0.9rem', lineHeight: 1.5 }}>
               Your listing will be live immediately after submission.
             </p>
 
             {error && (
-              <div style={{ background: '#f8d7da', color: '#721c24', padding: '0.8rem', borderRadius: '0.4rem', marginBottom: '1rem', fontSize: '0.9rem' }}>
+              <div style={{ background: 'rgba(255,255,255,0.1)', color: 'var(--cream)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.75rem 1rem', borderRadius: '0.375rem', marginBottom: '1rem', fontSize: '0.88rem' }}>
                 {error}
               </div>
             )}
@@ -152,7 +152,7 @@ export default function AddBusinessModal({ onClose }: Props) {
               style={{ resize: 'vertical' }}
             />
 
-            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.6px', margin: '0.8rem 0 0.5rem' }}>
+            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--cream-70)', textTransform: 'uppercase', letterSpacing: '0.6px', margin: '0.8rem 0 0.5rem' }}>
               B2B Signals (optional)
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
@@ -164,7 +164,7 @@ export default function AddBusinessModal({ onClose }: Props) {
               ))}
             </div>
 
-            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.6px', margin: '0.8rem 0 0.5rem' }}>
+            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--cream-70)', textTransform: 'uppercase', letterSpacing: '0.6px', margin: '0.8rem 0 0.5rem' }}>
               Community (optional)
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1.5rem' }}>

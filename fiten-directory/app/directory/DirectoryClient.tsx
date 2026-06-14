@@ -167,6 +167,8 @@ export default function DirectoryClient({ initialData }: Props) {
         </div>
         <nav className="nav-hdr">
           <span className="nav-link active">Directory</span>
+          <span className="nav-link">Categories</span>
+          <span className="nav-link">For Partners</span>
         </nav>
         <div className="hdr-right">
           <div className="lang-toggle">
@@ -179,7 +181,7 @@ export default function DirectoryClient({ initialData }: Props) {
 
       <div className="brand-strip">
         <div className="brand-strip-left">
-          <div className="brand-eyebrow">Tamil Business Network</div>
+          <div className="brand-eyebrow">The Tamil Business Network</div>
           <div className="brand-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
           <div className="brand-sub">{t.heroSub}</div>
         </div>
