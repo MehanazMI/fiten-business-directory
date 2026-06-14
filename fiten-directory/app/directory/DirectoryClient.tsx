@@ -456,11 +456,10 @@ export default function DirectoryClient({ initialData }: Props) {
             </ul>
           </div>
           <div>
-            <div className="dir-footer-col-title">Organisation</div>
+            <div className="dir-footer-col-title">Organization</div>
             <ul className="dir-footer-links">
               <li><a href="https://fetna.org" target="_blank" rel="noopener noreferrer">FeTNA</a></li>
               <li><a href="https://fiten.org" target="_blank" rel="noopener noreferrer">FiTEN Global</a></li>
-              <li><span>FeTNA 2026 Convention</span></li>
               <li><span>Contact</span></li>
             </ul>
           </div>
