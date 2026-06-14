@@ -15,14 +15,14 @@ const PAGE_SIZE = 9
 
 const CAT_ICONS: Record<string, string> = {
   'All':          'ti-layout-grid',
-  'Healthcare':   'ti-heart-rate-monitor',
-  'Tech':         'ti-cpu',
-  'Education':    'ti-book',
+  'Healthcare':   'ti-stethoscope',
+  'Tech':         'ti-device-laptop',
+  'Education':    'ti-school',
   'Legal':        'ti-scale',
-  'Food':         'ti-coffee',
+  'Food':         'ti-tools-kitchen-2',
   'Finance':      'ti-coin',
   'Real Estate':  'ti-home',
-  'Retail':       'ti-shopping-bag',
+  'Retail':       'ti-shopping-cart',
   'Entertainment':'ti-music',
   'Services':     'ti-tool',
 }
