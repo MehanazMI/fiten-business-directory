@@ -162,43 +162,32 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .pro-badge{position:absolute;top:8px;right:8px;z-index:2;font-size:0.65rem;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:0.2rem;background:none;padding:0;letter-spacing:0.03em}
 .pro-badge i{font-size:0.78rem;color:var(--gold)}
 
-/* ━━━ AVATAR ZONE — category-colored top strip ━━━ */
-.card-av{height:68px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.card-av-icon{font-size:1.75rem;opacity:0.52}
+/* ━━━ AVATAR ZONE — uniform top strip ━━━ */
+.card-av{height:68px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:var(--navy-lt)}
+.card-av-icon{font-size:1.75rem;color:var(--navy);opacity:0.45}
 .card-av-img{width:100%;height:100%;object-fit:contain;padding:10px}
-/* Category zone colours */
-.az-tech{background:#E6ECF5} .az-tech .card-av-icon{color:#3B5998;opacity:0.6}
-.az-finance{background:#E5F0EE} .az-finance .card-av-icon{color:#2D7A6E;opacity:0.6}
-.az-health{background:#E8EFE4} .az-health .card-av-icon{color:#5B7A5C;opacity:0.6}
-.az-legal{background:#EDE8F5} .az-legal .card-av-icon{color:#5C4BA0;opacity:0.6}
-.az-food{background:#FEF3E2} .az-food .card-av-icon{color:#C07020;opacity:0.6}
-.az-edu{background:#F5EBE0} .az-edu .card-av-icon{color:#8B5E3C;opacity:0.6}
-.az-re{background:#F0EDE8} .az-re .card-av-icon{color:#7B5E45;opacity:0.6}
-.az-retail{background:#F5ECE8} .az-retail .card-av-icon{color:#9B4B2E;opacity:0.6}
-.az-entertain{background:#F0E8F5} .az-entertain .card-av-icon{color:#7A4BA0;opacity:0.6}
-.az-services{background:#EEF0F5} .az-services .card-av-icon{color:#4A5568;opacity:0.6}
-.az-default{background:#F1EFE8} .az-default .card-av-icon{color:#555;opacity:0.5}
+.az-tech,.az-finance,.az-health,.az-legal,.az-food,.az-edu,.az-re,.az-retail,.az-entertain,.az-services,.az-default{}
 
 /* ━━━ CARD BODY ━━━ */
 .card-body{padding:0.7rem 0.85rem;display:flex;flex-direction:column;gap:0.28rem;flex:1}
-.biz-name{font-size:0.88rem;font-weight:500;color:var(--text);line-height:1.25}
-.biz-name-tamil{font-size:0.75rem;color:var(--text3);margin-top:1px;font-weight:400}
-.biz-meta{font-size:0.72rem;color:var(--text3);display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem;line-height:1.4}
+.biz-name{font-size:1rem;font-weight:600;color:var(--text);line-height:1.25}
+.biz-name-tamil{font-size:0.82rem;color:var(--text3);margin-top:1px;font-weight:400}
+.biz-meta{font-size:0.8rem;color:var(--text3);display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem;line-height:1.4}
 .meta-dot{color:var(--border)}
 .women-tag{background:#FBEAF0;color:#72243E;font-size:0.65rem;padding:1px 5px;border-radius:8px;display:inline-flex;align-items:center;gap:2px}
 .women-tag i{font-size:0.6rem}
-.biz-category{font-size:0.72rem;color:var(--text3);display:flex;align-items:center;gap:0.25rem}
-.biz-cat-icon{font-size:0.65rem;opacity:0.5}
-.biz-location{font-size:0.68rem;color:var(--text3);opacity:0.8}
-.card-desc{font-size:0.75rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.biz-category{font-size:0.8rem;color:var(--text3);display:flex;align-items:center;gap:0.25rem}
+.biz-cat-icon{font-size:0.72rem;opacity:0.5}
+.biz-location{font-size:0.78rem;color:var(--text3);opacity:0.8}
+.card-desc{font-size:0.85rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 /* ━━━ B2B SIGNALS — unified navy pill ━━━ */
 .b2b-signals{display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.1rem}
-.b2b-signal{font-size:0.65rem;padding:2px 7px;border-radius:4px;font-weight:500;white-space:nowrap;background:var(--navy-lt);color:var(--navy)}
+.b2b-signal{font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:500;white-space:nowrap;background:var(--navy-lt);color:var(--navy)}
 /* Legacy signal classes — kept for any remaining references */
 .sig-partner,.sig-hire,.sig-invest,.sig-client,.sig-speaker,.sig-convention,.sig-women{background:var(--navy-lt);color:var(--navy)}
 /* ━━━ CARD FOOTER ━━━ */
 .card-footer{border-top:1px solid var(--card-divider);padding:0.5rem 0.85rem;display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-top:auto}
-.card-rating{font-size:0.72rem;color:var(--text3);font-weight:400;display:flex;align-items:center;gap:0.2rem}
+.card-rating{font-size:0.78rem;color:var(--text3);font-weight:400;display:flex;align-items:center;gap:0.2rem}
 .rating-star{color:var(--gold)}
 .card-new-label{font-size:0.68rem;color:var(--text3);font-style:italic}
 /* Heart icon button */
