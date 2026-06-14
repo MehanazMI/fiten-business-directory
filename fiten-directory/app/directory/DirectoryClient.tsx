@@ -189,8 +189,9 @@ export default function DirectoryClient({ initialData }: Props) {
         <div className="logo-area" onClick={resetAll}>
           <span className="logo-text">
             <span className="logo-fi">Fi</span>
-            <span className="logo-ten">TEN</span>
+            <span className="logo-ten">Ten</span>
           </span>
+          <span className="logo-divider" aria-hidden="true" />
           <span className="logo-tag">Business Directory</span>
         </div>
 

@@ -48,11 +48,12 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 
 /* ━━━ HEADER ━━━ */
 .site-header{background:var(--navy);border-bottom:none;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;gap:1rem}
-.logo-area{display:flex;align-items:center;gap:0.5rem;cursor:pointer;flex-shrink:0}
-.logo-icon{font-size:1.1rem;color:var(--gold-hero)}
-.logo-text{font-family:var(--font-serif);font-weight:400;font-size:1.1rem;color:#fff;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap}
+.logo-area{display:flex;align-items:center;gap:0.65rem;cursor:pointer;flex-shrink:0}
+.logo-text{font-family:var(--font-serif);font-weight:700;font-size:1.4rem;color:#fff;letter-spacing:0.02em;white-space:nowrap;line-height:1}
+.logo-text .logo-fi{color:#fff}
 .logo-text .logo-ten{color:var(--gold)}
-.logo-tag{font-size:0.62rem;color:rgba(255,255,255,0.3);font-weight:400;margin-left:0.5rem;padding-left:0.5rem;border-left:1px solid rgba(255,255,255,0.12);letter-spacing:0.06em}
+.logo-divider{width:1px;height:22px;background:rgba(255,255,255,0.2);flex-shrink:0}
+.logo-tag{font-size:0.72rem;color:rgba(255,255,255,0.7);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;white-space:nowrap;line-height:1}
 .nav-hdr{display:flex;align-items:center;gap:0.5rem;flex:1;justify-content:center}
 .nav-link{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.68rem;font-weight:400;padding:0.3rem 0.7rem;border-radius:4px;cursor:pointer;transition:color 0.15s;text-transform:uppercase;letter-spacing:0.1em}
 .nav-link:hover{color:var(--gold)}
