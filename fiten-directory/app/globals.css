@@ -155,54 +155,50 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 /* Legacy class for region view compat */
 .biz-grid{display:flex;flex-direction:column;gap:0.6rem}
 
-/* ━━━ BUSINESS CARD — GRID VARIANT ━━━ */
-.biz-card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow-card);position:relative;display:flex;flex-direction:column;transition:box-shadow 0.2s}
-.biz-card:hover{box-shadow:var(--shadow-card-hover)}
-/* PRO badge — gold text, crown icon, no background */
-.pro-badge{position:absolute;top:8px;right:8px;z-index:2;font-size:0.65rem;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:0.2rem;background:none;padding:0;letter-spacing:0.03em}
-.pro-badge i{font-size:0.78rem;color:var(--gold)}
+/* ━━━ BUSINESS CARD ━━━ */
+.biz-card{background:#fff;border-radius:14px;border:1px solid var(--border);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.06);position:relative;display:flex;flex-direction:column;transition:box-shadow 0.2s,transform 0.2s,border-color 0.2s}
+.biz-card:hover{box-shadow:0 8px 24px rgba(15,23,42,0.12);transform:translateY(-2px);border-color:var(--navy-20)}
+.pro-card{border-top:3px solid var(--gold)}
+.pro-badge{font-size:0.62rem;font-weight:600;color:var(--amber);display:flex;align-items:center;gap:0.2rem;letter-spacing:0.04em;flex-shrink:0}
+.pro-badge i{font-size:0.75rem}
 
-/* ━━━ AVATAR ZONE — uniform top strip ━━━ */
-.card-av{height:68px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:var(--navy-lt)}
-.card-av-icon{font-size:1.75rem;color:var(--navy);opacity:0.45}
-.card-av-img{width:100%;height:100%;object-fit:contain;padding:10px}
-.az-tech,.az-finance,.az-health,.az-legal,.az-food,.az-edu,.az-re,.az-retail,.az-entertain,.az-services,.az-default{}
+/* ━━━ CARD HEADER — initials + name ━━━ */
+.card-header{display:flex;align-items:flex-start;gap:0.75rem;padding:1.1rem 1rem 0.65rem}
+.card-initials{width:44px;height:44px;border-radius:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1rem;font-weight:600;flex-shrink:0;letter-spacing:0.02em}
+.card-logo-img{width:100%;height:100%;object-fit:contain;border-radius:10px}
+.card-header-text{flex:1;min-width:0}
+.biz-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:700;color:var(--navy);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.biz-name-tamil{font-size:0.78rem;color:var(--text3);margin-top:1px;font-weight:400}
+.biz-meta{font-size:0.78rem;color:var(--text3);display:flex;flex-wrap:wrap;align-items:center;gap:0.2rem;margin-top:0.2rem;line-height:1.4}
+.meta-dot{color:var(--border);margin:0 1px}
+.biz-cat-icon{font-size:0.7rem;opacity:0.45;flex-shrink:0}
+.biz-location{color:var(--text3)}
+.women-tag{background:#FBEAF0;color:#72243E;font-size:0.62rem;padding:1px 6px;border-radius:8px;display:inline-flex;align-items:center;gap:2px}
+.women-tag i{font-size:0.58rem}
 
 /* ━━━ CARD BODY ━━━ */
-.card-body{padding:0.7rem 0.85rem;display:flex;flex-direction:column;gap:0.28rem;flex:1}
-.biz-name{font-size:1rem;font-weight:600;color:var(--text);line-height:1.25}
-.biz-name-tamil{font-size:0.82rem;color:var(--text3);margin-top:1px;font-weight:400}
-.biz-meta{font-size:0.8rem;color:var(--text3);display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem;line-height:1.4}
-.meta-dot{color:var(--border)}
-.women-tag{background:#FBEAF0;color:#72243E;font-size:0.65rem;padding:1px 5px;border-radius:8px;display:inline-flex;align-items:center;gap:2px}
-.women-tag i{font-size:0.6rem}
-.biz-category{font-size:0.8rem;color:var(--text3);display:flex;align-items:center;gap:0.25rem}
-.biz-cat-icon{font-size:0.72rem;opacity:0.5}
-.biz-location{font-size:0.78rem;color:var(--text3);opacity:0.8}
-.card-desc{font-size:0.85rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-/* ━━━ B2B SIGNALS — unified navy pill ━━━ */
-.b2b-signals{display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.1rem}
-.b2b-signal{font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:500;white-space:nowrap;background:var(--navy-lt);color:var(--navy)}
-/* Legacy signal classes — kept for any remaining references */
-.sig-partner,.sig-hire,.sig-invest,.sig-client,.sig-speaker,.sig-convention,.sig-women{background:var(--navy-lt);color:var(--navy)}
+.card-body{padding:0 1rem 0.75rem;display:flex;flex-direction:column;gap:0.5rem;flex:1}
+.card-desc{font-size:0.82rem;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.b2b-signals{display:flex;gap:0.25rem;flex-wrap:wrap}
+.b2b-signal{font-size:0.68rem;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap;background:var(--navy-10);color:var(--navy);border:0.5px solid var(--navy-20)}
+.sig-partner,.sig-hire,.sig-invest,.sig-client,.sig-speaker,.sig-convention,.sig-women{background:var(--navy-10);color:var(--navy)}
+
 /* ━━━ CARD FOOTER ━━━ */
-.card-footer{border-top:1px solid var(--card-divider);padding:0.5rem 0.85rem;display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-top:auto}
-.card-rating{font-size:0.78rem;color:var(--text3);font-weight:400;display:flex;align-items:center;gap:0.2rem}
+.card-footer{border-top:1px solid var(--card-divider);padding:0.55rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-top:auto}
+.card-rating{font-size:0.75rem;color:var(--text3);display:flex;align-items:center;gap:0.2rem}
 .rating-star{color:var(--gold)}
 .card-new-label{font-size:0.68rem;color:var(--text3);font-style:italic}
-/* Heart icon button */
 .fav-btn{background:none;border:none;cursor:pointer;padding:0.15rem 0.2rem;line-height:1;display:flex;align-items:center;color:var(--border);transition:color 0.15s}
-.fav-btn i{font-size:1.05rem}
+.fav-btn i{font-size:1rem}
 .fav-btn:hover i{color:#D4537E}
 .fav-btn.favd i{color:#D4537E}
-/* Legacy text heart ♥ support */
 .fav-btn.active{color:#D4537E}
 
-/* ━━━ LIST CARD — horizontal layout ━━━ */
-.biz-card.list-card{flex-direction:row;align-items:flex-start;border-radius:10px;padding:0}
-.biz-card.list-card .card-av{width:56px;height:auto;min-height:56px;flex-shrink:0;border-radius:0;align-self:stretch}
-.biz-card.list-card .card-body{padding:0.7rem 0.9rem}
-.biz-card.list-card .card-footer{border-top:none;border-left:0.5px solid var(--card-divider);padding:0.7rem 0.85rem 0.7rem 0.75rem;flex-direction:column;align-items:flex-end;justify-content:space-between;flex-shrink:0;gap:0.5rem;min-width:100px}
+/* ━━━ LIST CARD ━━━ */
+.biz-card.list-card{flex-direction:row;align-items:stretch;border-radius:10px}
+.biz-card.list-card .card-header{flex:1;padding:0.85rem 0.9rem}
+.biz-card.list-card .card-body{padding:0 0.9rem 0.85rem;gap:0.4rem}
+.biz-card.list-card .card-footer{border-top:none;border-left:1px solid var(--card-divider);padding:0.85rem 0.9rem;flex-direction:column;align-items:flex-end;justify-content:space-between;flex-shrink:0;min-width:110px}
 
 /* ━━━ REGION VIEW ━━━ */
 .region-section{margin-bottom:1.5rem}

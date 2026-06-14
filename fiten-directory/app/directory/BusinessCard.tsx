@@ -11,17 +11,17 @@ interface Props {
   lang: Lang
 }
 
-const CAT_ZONE: Record<string, { zone: string; icon: string }> = {
-  'Healthcare': { zone: 'az-health', icon: 'ti-heart-rate-monitor' },
-  'Tech':       { zone: 'az-tech',   icon: 'ti-cpu' },
-  'Education':  { zone: 'az-edu',    icon: 'ti-book' },
-  'Legal':      { zone: 'az-legal',  icon: 'ti-scale' },
-  'Food':       { zone: 'az-food',   icon: 'ti-coffee' },
-  'Finance':    { zone: 'az-finance',icon: 'ti-coin' },
-  'Real Estate':{ zone: 'az-re',     icon: 'ti-home' },
-  'Retail':     { zone: 'az-retail', icon: 'ti-shopping-bag' },
-  'Entertainment':{ zone:'az-entertain',icon:'ti-music' },
-  'Services':   { zone: 'az-services',icon:'ti-tool' },
+const CAT_ICON: Record<string, string> = {
+  'Healthcare':    'ti-heart-rate-monitor',
+  'Tech':          'ti-cpu',
+  'Education':     'ti-book',
+  'Legal':         'ti-scale',
+  'Food':          'ti-coffee',
+  'Finance':       'ti-coin',
+  'Real Estate':   'ti-home',
+  'Retail':        'ti-shopping-bag',
+  'Entertainment': 'ti-music',
+  'Services':      'ti-tool',
 }
 
 function stars(r: number) {
@@ -30,7 +30,7 @@ function stars(r: number) {
 
 export default function BusinessCard({ business: b, isFavorited, view = 'grid', onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
-  const cat = CAT_ZONE[b.category] ?? { zone: 'az-default', icon: 'ti-building' }
+  const icon = CAT_ICON[b.category] ?? 'ti-building'
   const isListView = view === 'list'
 
   return (
@@ -38,37 +38,39 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
       className={`biz-card${b.pro ? ' pro-card' : ''}${isListView ? ' list-card' : ''}`}
       onClick={() => onSelect(b)}
     >
-      {b.pro && (
-        <span className="pro-badge">
-          <i className="ti ti-crown" />
-          PRO
-        </span>
-      )}
-
-      <div className={`card-av ${cat.zone}`}>
-        {b.logoUrl ? (
-          <img src={b.logoUrl} alt={b.businessName} className="card-av-img" />
-        ) : (
-          <i className={`ti ${cat.icon} card-av-icon`} />
+      <div className="card-header">
+        <div className="card-initials">
+          {b.logoUrl
+            ? <img src={b.logoUrl} alt={b.businessName} className="card-logo-img" />
+            : <span>{b.initials}</span>
+          }
+        </div>
+        <div className="card-header-text">
+          <div className="biz-name">{displayName}</div>
+          {lang === 'ta' && b.nameTamil && (
+            <div className="biz-name-tamil">{b.businessName}</div>
+          )}
+          <div className="biz-meta">
+            <i className={`ti ${icon} biz-cat-icon`} />
+            <span>{b.category}</span>
+            {b.city && <><span className="meta-dot">·</span><span className="biz-location">{b.city}</span></>}
+            {b.women && (
+              <span className="women-tag">
+                <i className="ti ti-gender-female" />
+                Women-led
+              </span>
+            )}
+          </div>
+        </div>
+        {b.pro && (
+          <span className="pro-badge">
+            <i className="ti ti-crown" />
+            PRO
+          </span>
         )}
       </div>
 
       <div className="card-body">
-        <div className="biz-name">{displayName}</div>
-        {lang === 'ta' && b.nameTamil && (
-          <div className="biz-name-tamil">{b.businessName}</div>
-        )}
-        <div className="biz-meta">
-          <span>{b.category}</span>
-          {b.city && <><span className="meta-dot">·</span><span>{b.city}</span></>}
-          {b.women && (
-            <span className="women-tag">
-              <i className="ti ti-gender-female" />
-              Women-led
-            </span>
-          )}
-        </div>
-
         {b.description && (
           <div className="card-desc">{b.description}</div>
         )}

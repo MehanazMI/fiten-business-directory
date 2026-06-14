@@ -25,10 +25,10 @@ describe('BusinessCard — display', () => {
     expect(screen.getByText(/Toronto/)).toBeInTheDocument()
   })
 
-  it('renders category icon zone when no logoUrl', () => {
+  it('renders initials badge when no logoUrl', () => {
     setup()
-    const zone = document.querySelector('.card-av') as HTMLElement
-    expect(zone).toBeInTheDocument()
+    const badge = document.querySelector('.card-initials') as HTMLElement
+    expect(badge).toBeInTheDocument()
   })
 
   it('renders description', () => {
