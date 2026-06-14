@@ -16,7 +16,7 @@ const CAT_ICON: Record<string, string> = {
   'Tech':          'ti-cpu',
   'Education':     'ti-book',
   'Legal':         'ti-scale',
-  'Food':          'ti-coffee',
+  'Food':          'ti-salad',
   'Finance':       'ti-coin',
   'Real Estate':   'ti-home',
   'Retail':        'ti-shopping-bag',
