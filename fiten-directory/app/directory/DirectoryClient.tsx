@@ -197,7 +197,7 @@ export default function DirectoryClient({ initialData }: Props) {
 
         <nav className="nav-hdr">
           <span className="nav-link active">Browse</span>
-          <span className="nav-link" onClick={() => setShowAddModal(true)}>Add Business</span>
+          <a className="nav-link" href="/form">Add Business</a>
           <span className="nav-link">Contact</span>
         </nav>
 
@@ -441,27 +441,32 @@ export default function DirectoryClient({ initialData }: Props) {
               Fi<span>TEN</span>
             </div>
             <p className="dir-footer-tagline">
-              The Tamil business directory connecting professionals, partners, and investors across the global community.
+              The official Tamil business directory of FeTNA — connecting professionals, partners, and investors across the global Tamil community.
             </p>
+            <div className="dir-footer-org-links">
+              <a href="https://fiten.org" target="_blank" rel="noopener noreferrer" className="dir-footer-org-link">fiten.org ↗</a>
+              <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" className="dir-footer-org-link">fetna.org ↗</a>
+            </div>
           </div>
           <div>
             <div className="dir-footer-col-title">Directory</div>
             <ul className="dir-footer-links">
               <li><span onClick={resetAll}>Browse Businesses</span></li>
-              <li><span onClick={() => setShowAddModal(true)}>Add Your Business</span></li>
+              <li><a href="/form">Add Your Business</a></li>
             </ul>
           </div>
           <div>
-            <div className="dir-footer-col-title">Community</div>
+            <div className="dir-footer-col-title">Organisation</div>
             <ul className="dir-footer-links">
-              <li><span>FeTNA Convention</span></li>
-              <li><span>For Partners</span></li>
+              <li><a href="https://fetna.org" target="_blank" rel="noopener noreferrer">FeTNA</a></li>
+              <li><a href="https://fiten.org" target="_blank" rel="noopener noreferrer">FiTEN Global</a></li>
+              <li><span>FeTNA 2026 Convention</span></li>
               <li><span>Contact</span></li>
             </ul>
           </div>
         </div>
         <hr className="dir-footer-divider" />
-        <p className="dir-footer-copy">© 2026 FiTEN · All rights reserved · Privacy · Terms</p>
+        <p className="dir-footer-copy">© 2026 FiTEN · Official directory of FeTNA · <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" style={{color:'inherit'}}>fetna.org</a> · Privacy · Terms</p>
       </footer>
     </>
   )

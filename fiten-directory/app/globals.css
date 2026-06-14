@@ -468,7 +468,10 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .dir-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:900px;margin:0 auto 3rem}
 .dir-footer-brand{font-family:var(--font-serif);font-size:1.25rem;font-weight:400;color:#fff;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem}
 .dir-footer-brand span{color:var(--gold)}
-.dir-footer-tagline{font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.75;max-width:260px}
+.dir-footer-tagline{font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.75;max-width:260px;margin-bottom:0.75rem}
+.dir-footer-org-links{display:flex;gap:0.5rem;flex-wrap:wrap}
+.dir-footer-org-link{font-size:0.72rem;color:var(--gold);border:0.5px solid rgba(197,160,89,0.4);border-radius:4px;padding:2px 10px;text-decoration:none;transition:all 0.15s;white-space:nowrap}
+.dir-footer-org-link:hover{background:rgba(197,160,89,0.12);border-color:var(--gold)}
 .dir-footer-col-title{font-size:0.65rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:1rem}
 .dir-footer-links{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
 .dir-footer-links li span,.dir-footer-links li a{font-size:0.82rem;color:rgba(255,255,255,0.5);cursor:pointer;transition:color 0.15s;text-decoration:none;display:block}
