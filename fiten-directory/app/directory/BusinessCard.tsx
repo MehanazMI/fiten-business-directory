@@ -12,14 +12,14 @@ interface Props {
 }
 
 const CAT_ICON: Record<string, string> = {
-  'Healthcare':    'ti-heart-rate-monitor',
-  'Tech':          'ti-cpu',
-  'Education':     'ti-book',
+  'Healthcare':    'ti-stethoscope',
+  'Tech':          'ti-device-laptop',
+  'Education':     'ti-school',
   'Legal':         'ti-scale',
-  'Food':          'ti-salad',
+  'Food':          'ti-tools-kitchen-2',
   'Finance':       'ti-coin',
   'Real Estate':   'ti-home',
-  'Retail':        'ti-shopping-bag',
+  'Retail':        'ti-shopping-cart',
   'Entertainment': 'ti-music',
   'Services':      'ti-tool',
 }
