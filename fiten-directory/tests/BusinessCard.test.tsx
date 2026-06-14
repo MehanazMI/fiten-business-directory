@@ -25,11 +25,10 @@ describe('BusinessCard — display', () => {
     expect(screen.getByText(/Toronto/)).toBeInTheDocument()
   })
 
-  it('renders monogram initials when no logoUrl', () => {
+  it('renders category icon zone when no logoUrl', () => {
     setup()
-    const zone = document.querySelector('.card-avatar-zone') as HTMLElement
+    const zone = document.querySelector('.card-av') as HTMLElement
     expect(zone).toBeInTheDocument()
-    expect(zone.textContent).toBeTruthy()
   })
 
   it('renders description', () => {
@@ -142,7 +141,8 @@ describe('BusinessCard — language', () => {
 describe('BusinessCard — star rating', () => {
   it('renders star rating in new format', () => {
     setup({ rating: 4, reviews: 1 })
-    expect(screen.getByText(/★ 4\.0/)).toBeInTheDocument()
+    expect(screen.getByText('★')).toBeInTheDocument()
+    expect(screen.getByText(/4\.0/)).toBeInTheDocument()
   })
 
   it('shows rating value and review count', () => {

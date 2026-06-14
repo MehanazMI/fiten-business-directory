@@ -6,14 +6,26 @@ import { db } from '@/lib/firebase-client'
 import { stableColorIdx, categoryMap, i18n, oppLabels, oppTooltips } from '@/lib/utils'
 import type { Lang } from '@/lib/utils'
 import type { Business } from '@/types/business'
-import SearchBar from './SearchBar'
-import FilterRow from './FilterRow'
 import BusinessGrid from './BusinessGrid'
 import BusinessModal from './BusinessModal'
 import ClaimModal from './ClaimModal'
 import AddBusinessModal from './AddBusinessModal'
 
-const PAGE_SIZE = 6
+const PAGE_SIZE = 9
+
+const CAT_ICONS: Record<string, string> = {
+  'All':          'ti-layout-grid',
+  'Healthcare':   'ti-heart-rate-monitor',
+  'Tech':         'ti-cpu',
+  'Education':    'ti-book',
+  'Legal':        'ti-scale',
+  'Food':         'ti-coffee',
+  'Finance':      'ti-coin',
+  'Real Estate':  'ti-home',
+  'Retail':       'ti-shopping-bag',
+  'Entertainment':'ti-music',
+  'Services':     'ti-tool',
+}
 
 function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Business {
   const d = doc.data() as Record<string, unknown>
@@ -58,7 +70,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [lang, setLang] = useState<Lang>('en')
   const [activeCat, setActiveCat] = useState('All')
   const [activeFilter, setActiveFilter] = useState('All')
-  const [activeView, setActiveView] = useState<'grid' | 'region'>('grid')
+  const [activeView, setActiveView] = useState<'grid' | 'list' | 'region'>('grid')
   const [showFavs, setShowFavs] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(() => {
     if (typeof window === 'undefined') return new Set()
@@ -77,6 +89,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [sort, setSort] = useState('default')
   const [activeOpps, setActiveOpps] = useState<Array<Business['looking'][number]>>([])
   const [showWomen, setShowWomen] = useState(false)
+  const [showSpeaker, setShowSpeaker] = useState(false)
 
   useEffect(() => {
     localStorage.setItem('fiten_favorites', JSON.stringify([...favorites]))
@@ -126,8 +139,9 @@ export default function DirectoryClient({ initialData }: Props) {
       if (q && !b.businessName.toLowerCase().includes(q) &&
           !b.description.toLowerCase().includes(q) &&
           !b.category.toLowerCase().includes(q)) return false
-        if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
+      if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
       if (showWomen && !b.women) return false
+      if (showSpeaker && !b.speaker) return false
       return true
     })
 
@@ -137,7 +151,7 @@ export default function DirectoryClient({ initialData }: Props) {
     else list = [...list].sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0))
 
     return list
-  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort, showWomen])
+  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort, showWomen, showSpeaker])
 
   const catCounts = useMemo(() => {
     const map: Record<string, number> = { All: businesses.length }
@@ -150,124 +164,238 @@ export default function DirectoryClient({ initialData }: Props) {
   const t = i18n[lang]
 
   const resetPaging = () => setVisibleCount(PAGE_SIZE)
+  const resetAll = () => {
+    setActiveCat('All'); setActiveFilter('All'); setSearchQuery('');
+    setSort('default'); setActiveOpps([]); setShowFavs(false);
+    setShowWomen(false); setShowSpeaker(false); resetPaging();
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Build active filter chips
+  const activeChips: { label: string; onRemove: () => void }[] = []
+  if (activeCat !== 'All') activeChips.push({ label: activeCat, onRemove: () => { setActiveCat('All'); resetPaging() } })
+  if (activeFilter === 'Pro') activeChips.push({ label: 'PRO only', onRemove: () => { setActiveFilter('All'); resetPaging() } })
+  if (showFavs) activeChips.push({ label: 'Saved', onRemove: () => { setShowFavs(false); resetPaging() } })
+  if (showWomen) activeChips.push({ label: 'Women-Led', onRemove: () => { setShowWomen(false); resetPaging() } })
+  if (showSpeaker) activeChips.push({ label: 'Speakers', onRemove: () => { setShowSpeaker(false); resetPaging() } })
+  activeOpps.forEach(op => activeChips.push({ label: oppLabels[op], onRemove: () => { setActiveOpps(prev => prev.filter(x => x !== op)); resetPaging() } }))
 
   return (
     <>
       {fbError && <div className="fb-error-banner">{fbError}</div>}
 
+      {/* ── HEADER ── */}
       <header className="site-header">
-        <div className="logo-area" onClick={() => {
-          setActiveCat('All'); setActiveFilter('All'); setSearchQuery('');
-          setSort('default'); setActiveOpps([]); setShowFavs(false);
-          setShowWomen(false); resetPaging();
-          window.scrollTo({ top: 0, behavior: 'smooth' })
-        }}>
-          <span className="logo-text">Fi<span>TEN</span></span>
+        <div className="logo-area" onClick={resetAll}>
+          <i className="ti ti-building-community logo-icon" />
+          <span className="logo-text">
+            <span className="logo-fi">Fi</span>
+            <span className="logo-ten">TEN</span>
+          </span>
           <span className="logo-tag">Business Directory</span>
         </div>
+
         <nav className="nav-hdr">
-          <span className="nav-link active">Directory</span>
+          <span className="nav-link active">Search</span>
           <span className="nav-link">Categories</span>
           <span className="nav-link">For Partners</span>
         </nav>
+
         <div className="hdr-right">
           <div className="lang-toggle">
             <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            <span className="lang-sep">|</span>
             <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
           </div>
-          <button className="hdr-btn" onClick={() => setShowAddModal(true)}>+ List Business</button>
+          <button className="hdr-btn" onClick={() => setShowAddModal(true)}>
+            <i className="ti ti-plus" />
+            Add Your Business
+          </button>
         </div>
       </header>
 
-      <div className="brand-strip">
-        <div className="brand-strip-left">
-          <div className="brand-eyebrow">The Tamil Business Network</div>
-          <div className="brand-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
-          <div className="brand-sub">{t.heroSub}</div>
-        </div>
-      </div>
-
-      <div className="search-strip">
-        <div className="search-wrap">
-          <SearchBar
-            value={searchQuery}
+      {/* ── HERO ── */}
+      <section className="hero-section">
+        <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
+        <p className="hero-sub">{t.heroSub}</p>
+        <div className="hero-search">
+          <input
+            type="text"
             placeholder={t.searchPlaceholder}
-            searchLabel={t.searchBtn}
-            onChange={v => { setSearchQuery(v); resetPaging() }}
+            value={searchQuery}
+            onChange={e => { setSearchQuery(e.target.value); resetPaging() }}
           />
+          <button>
+            <i className="ti ti-search" />
+            {t.searchBtn}
+          </button>
+        </div>
+      </section>
+
+      {/* ── DARK STATS BAR ── */}
+      <div className="stats-dark-bar">
+        <div className="stats-dark-item">
+          <i className="ti ti-building" />
+          <strong>{businesses.length}+</strong> Businesses
+        </div>
+        <div className="stats-dark-item">
+          <i className="ti ti-map-pin" />
+          <strong>{cityCount}</strong> Cities
+        </div>
+        <div className="stats-dark-item">
+          <i className="ti ti-category" />
+          <strong>{cats.length - 1}</strong> Sectors
+        </div>
+        <div className="stats-dark-item">
+          <i className="ti ti-globe" />
+          <strong>3</strong> Continents
         </div>
       </div>
 
-      <div className="stats-mini-bar">
-        <div className="stats-mini-item"><strong>{businesses.length}+</strong><span>Businesses</span></div>
-        <div className="stats-mini-item"><strong>{cityCount}</strong><span>Cities</span></div>
-        <div className="stats-mini-item"><strong>8</strong><span>Sectors</span></div>
-      </div>
-
-      <FilterRow
-        activeFilter={activeFilter}
-        activeCat={activeCat}
-        activeView={activeView}
-        sort={sort}
-        showFavs={showFavs}
-        catCounts={catCounts}
-        onFilterChange={f => { setActiveFilter(f); resetPaging() }}
-        onCatChange={c => { setActiveCat(c); resetPaging() }}
-        onViewChange={v => { setActiveView(v); resetPaging() }}
-        onSortChange={s => { setSort(s); resetPaging() }}
-        onFavsToggle={() => { setShowFavs(v => !v); resetPaging() }}
-      />
-
+      {/* ── MAIN LAYOUT ── */}
       <div className="main-layout">
+
+        {/* ── SIDEBAR ── */}
         <aside className="sidebar">
-          <p className="sidebar-title">Categories</p>
-          <ul className="cat-list">
-            {cats.map(cat => (
-              <li
-                key={cat}
-                className={`cat-item${activeCat === cat ? ' active' : ''}`}
-                onClick={() => { setActiveCat(cat); resetPaging() }}
+
+          {/* Categories */}
+          <div className="sb-section">
+            <div className="sb-label">Categories</div>
+            <ul className="cat-list">
+              {cats.map(cat => (
+                <li
+                  key={cat}
+                  className={`cat-item${activeCat === cat ? ' active' : ''}`}
+                  onClick={() => { setActiveCat(cat); resetPaging() }}
+                >
+                  <span className="cat-item-left">
+                    <i className={`ti ${CAT_ICONS[cat] ?? 'ti-folder'} cat-icon`} />
+                    {cat}
+                  </span>
+                  <span className="cat-badge">{catCounts[cat] ?? 0}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <hr className="sidebar-divider" />
+
+          {/* B2B Signals */}
+          <div className="sb-section">
+            <div className="sb-label" title="Filter by what businesses are actively looking for">B2B Signals</div>
+            <div className="chip-row">
+              {(['partner', 'hire', 'invest', 'client'] as const).map(op => (
+                <button
+                  key={op}
+                  className={`chip${activeOpps.includes(op) ? ' on' : ''}`}
+                  title={oppTooltips[op]}
+                  onClick={() => {
+                    setActiveOpps(prev =>
+                      prev.includes(op) ? prev.filter(x => x !== op) : [...prev, op]
+                    )
+                    resetPaging()
+                  }}
+                >
+                  {oppLabels[op]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <hr className="sidebar-divider" />
+
+          {/* Community */}
+          <div className="sb-section">
+            <div className="sb-label">Community</div>
+            <div className="chip-row">
+              <button
+                className={`chip${activeFilter === 'Pro' ? ' on' : ''}`}
+                onClick={() => { setActiveFilter(activeFilter === 'Pro' ? 'All' : 'Pro'); resetPaging() }}
               >
-                {cat}
-                <span className="cat-badge">{catCounts[cat] ?? 0}</span>
-              </li>
-            ))}
-          </ul>
+                <i className="ti ti-crown" />
+                PRO
+              </button>
+              <button
+                className={`chip chip-sage${showFavs ? ' on' : ''}`}
+                onClick={() => { setShowFavs(v => !v); resetPaging() }}
+              >
+                <i className="ti ti-heart" />
+                Saved
+              </button>
+              <button
+                className={`chip chip-sage${showWomen ? ' on' : ''}`}
+                onClick={() => { setShowWomen(v => !v); resetPaging() }}
+              >
+                Women-Led
+              </button>
+              <button
+                className={`chip${showSpeaker ? ' on' : ''}`}
+                onClick={() => { setShowSpeaker(v => !v); resetPaging() }}
+              >
+                Speakers
+              </button>
+            </div>
+          </div>
 
-          <hr className="sidebar-divider" />
-          <p className="sidebar-title" title="Filter by what businesses are actively looking for">B2B Signals</p>
-          {(['partner', 'hire', 'invest', 'client'] as const).map(op => (
-            <label key={op} className="filter-check" title={oppTooltips[op]}>
-              <input
-                type="checkbox"
-                checked={activeOpps.includes(op)}
-                onChange={e => {
-                  setActiveOpps(prev =>
-                    e.target.checked ? [...prev, op] : prev.filter(x => x !== op)
-                  )
-                  resetPaging()
-                }}
-              />
-              {oppLabels[op]}
-            </label>
-          ))}
-
-          <hr className="sidebar-divider" />
-          <p className="sidebar-title">Community</p>
-          <label className="filter-check">
-            <input type="checkbox" checked={activeFilter === 'Pro'} onChange={e => { setActiveFilter(e.target.checked ? 'Pro' : 'All'); resetPaging() }} />
-            PRO Members
-          </label>
-          <label className="filter-check">
-            <input type="checkbox" checked={showWomen} onChange={e => { setShowWomen(e.target.checked); resetPaging() }} />
-            Women-Led
-          </label>
         </aside>
 
+        {/* ── CONTENT ── */}
         <main className="content">
-          <div className="content-header">
+
+          {/* Toolbar */}
+          <div className="content-toolbar">
             <span className="result-count">{filtered.length} businesses</span>
+            <div className="toolbar-right">
+              <select
+                className="sort-select"
+                value={sort}
+                onChange={e => { setSort(e.target.value); resetPaging() }}
+              >
+                <option value="default">PRO first</option>
+                <option value="az">A–Z</option>
+                <option value="reviews">Most Reviewed</option>
+                <option value="views">Most Viewed</option>
+              </select>
+              <div className="view-toggle">
+                <button
+                  className={`view-btn${activeView === 'grid' ? ' active' : ''}`}
+                  title="Grid view"
+                  onClick={() => { setActiveView('grid'); resetPaging() }}
+                >
+                  <i className="ti ti-layout-grid" />
+                </button>
+                <button
+                  className={`view-btn${activeView === 'list' ? ' active' : ''}`}
+                  title="List view"
+                  onClick={() => { setActiveView('list'); resetPaging() }}
+                >
+                  <i className="ti ti-layout-list" />
+                </button>
+                <button
+                  className={`view-btn${activeView === 'region' ? ' active' : ''}`}
+                  title="Region view"
+                  onClick={() => { setActiveView('region'); resetPaging() }}
+                >
+                  <i className="ti ti-map-pin" />
+                </button>
+              </div>
+            </div>
           </div>
+
+          {/* Active filter chips */}
+          {activeChips.length > 0 && (
+            <div className="active-filters-row">
+              <span className="af-row-label">Filters:</span>
+              {activeChips.map(chip => (
+                <button key={chip.label} className="af-chip" onClick={chip.onRemove}>
+                  {chip.label}
+                  <i className="ti ti-x" />
+                </button>
+              ))}
+              <button className="af-clear-all" onClick={resetAll}>Clear all</button>
+            </div>
+          )}
+
           <BusinessGrid
             businesses={filtered}
             view={activeView}

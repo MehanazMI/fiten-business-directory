@@ -41,13 +41,13 @@ describe('DirectoryClient — initial render', () => {
     expect(within(getSidebar()).getByText(/^All$/)).toBeInTheDocument()
   })
 
-  it('renders B2B Signals sidebar checkboxes', () => {
+  it('renders B2B Signals sidebar chips', () => {
     setup()
     const sidebar = getSidebar()
-    expect(within(sidebar).getByRole('checkbox', { name: /^Partner$/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Hiring/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Seeking Clients/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Seeking Investment/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /^Partner$/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Hiring/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Seeking Clients/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Seeking Investment/i })).toBeInTheDocument()
   })
 })
 
@@ -140,15 +140,16 @@ describe('DirectoryClient — category filter', () => {
 describe('DirectoryClient — Pro filter', () => {
   it('shows only Pro businesses when Pro is selected', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^PRO$/i }))
     const proCount = SAMPLE_BUSINESSES.filter(b => b.pro).length
     expect(screen.getByText(`${proCount} businesses`)).toBeInTheDocument()
   })
 
-  it('restores all when All is clicked after Pro', async () => {
+  it('restores all when PRO chip is toggled off', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
-    await user.click(screen.getByRole('button', { name: 'All' }))
+    const proChip = within(getSidebar()).getByRole('button', { name: /^PRO$/i })
+    await user.click(proChip)
+    await user.click(proChip)
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
   })
 })
@@ -159,26 +160,25 @@ describe('DirectoryClient — Pro filter', () => {
 describe('DirectoryClient — B2B signals filter', () => {
   it('filters to businesses matching a single signal', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Hiring/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Hiring/i }))
     // b1 (hire), b7 (hire)
     expect(screen.getByText('2 businesses')).toBeInTheDocument()
   })
 
   it('applies AND logic for multiple signals', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /^Partner$/i }))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Hiring/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^Partner$/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Hiring/i }))
     // only b1 has both partner AND hire
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Alpha Tech')).toBeInTheDocument()
   })
 
-  it('unchecking a signal removes its filter', async () => {
+  it('deselecting a signal removes its filter', async () => {
     const { user } = setup()
-    const sidebar = getSidebar()
-    const cb = within(sidebar).getByRole('checkbox', { name: /Hiring/i })
-    await user.click(cb)
-    await user.click(cb)
+    const chip = within(getSidebar()).getByRole('button', { name: /Hiring/i })
+    await user.click(chip)
+    await user.click(chip)
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
   })
 })
@@ -291,31 +291,31 @@ describe('DirectoryClient — language toggle', () => {
 describe('DirectoryClient — view toggle', () => {
   it('switches to region view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region/i }))
-    expect(screen.getByRole('button', { name: /Region/i })).toHaveClass('active')
+    await user.click(screen.getByRole('button', { name: /Region view/i }))
+    expect(screen.getByRole('button', { name: /Region view/i })).toHaveClass('active')
   })
 
   it('switches back to grid view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region/i }))
-    await user.click(screen.getByRole('button', { name: /Grid/i }))
-    expect(screen.getByRole('button', { name: /Grid/i })).toHaveClass('active')
+    await user.click(screen.getByRole('button', { name: /Region view/i }))
+    await user.click(screen.getByRole('button', { name: /Grid view/i }))
+    expect(screen.getByRole('button', { name: /Grid view/i })).toHaveClass('active')
   })
 })
 
 // ---------------------------------------------------------------------------
 // Modals
 // ---------------------------------------------------------------------------
-describe('DirectoryClient — + List Business modal', () => {
-  it('opens AddBusinessModal when + List Business is clicked', async () => {
+describe('DirectoryClient — Add Business modal', () => {
+  it('opens AddBusinessModal when Add Your Business is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /List Business/i }))
+    await user.click(screen.getByRole('button', { name: /Add Your Business/i }))
     expect(screen.getByText('List Your Business')).toBeInTheDocument()
   })
 
   it('closes AddBusinessModal when × is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /List Business/i }))
+    await user.click(screen.getByRole('button', { name: /Add Your Business/i }))
     await user.click(screen.getByRole('button', { name: '×' }))
     expect(screen.queryByText('List Your Business')).not.toBeInTheDocument()
   })
@@ -352,9 +352,11 @@ describe('DirectoryClient — business detail modal', () => {
 // Pagination
 // ---------------------------------------------------------------------------
 describe('DirectoryClient — pagination', () => {
-  it('shows Load more button when results exceed PAGE_SIZE (6)', () => {
-    setup(SAMPLE_BUSINESSES) // 7 items > 6
-    // Button text is "Load N more"
+  it('shows Load more button when results exceed PAGE_SIZE', () => {
+    const many = Array.from({ length: 10 }, (_, i) =>
+      makeBusiness({ id: `pg-${i}`, businessName: `Paged Business ${i}` })
+    )
+    setup(many) // 10 items > PAGE_SIZE (9)
     expect(screen.getByRole('button', { name: /Load \d+ more/ })).toBeInTheDocument()
   })
 
@@ -382,12 +384,15 @@ describe('DirectoryClient — pagination', () => {
     await user.click(screen.getByRole('button', { name: /Load \d+ more/ }))
     expect(document.querySelectorAll('.biz-card').length).toBe(12)
     await user.type(screen.getByRole('textbox'), 'Business')
-    // After typing, visibleCount resets to PAGE_SIZE=6
-    expect(document.querySelectorAll('.biz-card').length).toBeLessThanOrEqual(6)
+    // After typing, visibleCount resets to PAGE_SIZE=9
+    expect(document.querySelectorAll('.biz-card').length).toBeLessThanOrEqual(9)
   })
 
   it('shows showing X of Y count below Load more button', () => {
-    setup(SAMPLE_BUSINESSES)
+    const many = Array.from({ length: 10 }, (_, i) =>
+      makeBusiness({ id: `pg2-${i}`, businessName: `Paged Business ${i}` })
+    )
+    setup(many) // 10 items > PAGE_SIZE (9) → Load more + count shown
     expect(screen.getByText(/Showing \d+ of \d+/)).toBeInTheDocument()
   })
 })
@@ -437,8 +442,8 @@ describe('DirectoryClient — combined filters', () => {
 
   it('Pro filter + B2B signal together', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /^Partner$/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^PRO$/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^Partner$/i }))
     // Only b1 is pro AND has partner
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
   })
@@ -452,7 +457,7 @@ describe('DirectoryClient — combined filters', () => {
   it('category + B2B signal together', async () => {
     const { user } = setup()
     await user.click(within(getSidebar()).getByText(/^Healthcare$/))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Seeking Investment/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Seeking Investment/i }))
     // Only b3 is Healthcare with invest
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Gamma Health')).toBeInTheDocument()

@@ -4,7 +4,7 @@ import BusinessCard from './BusinessCard'
 
 interface Props {
   businesses: Business[]
-  view: 'grid' | 'region'
+  view: 'grid' | 'list' | 'region'
   visibleCount: number
   favorites: Set<string>
   lang: Lang
@@ -51,18 +51,14 @@ export default function BusinessGrid({
                   className={`region-row${b.pro ? ' pro-row' : ''}`}
                   onClick={() => onSelect(b)}
                 >
-                  <div
-                    className="region-avatar"
-                    style={{ background: '#E2E5EA', color: 'var(--stone-dark)' }}
-                  >
-                    {b.initials}
-                  </div>
+                  <div className="region-avatar">{b.initials}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div className="region-name">
                       {lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName}
                     </div>
                     <div className="region-sub">{b.category} · {b.city}</div>
                   </div>
+                  {b.pro && <span className="pro-badge" style={{ position: 'static' }}><i className="ti ti-crown" /> PRO</span>}
                 </div>
               ))}
             </div>
@@ -72,13 +68,16 @@ export default function BusinessGrid({
     )
   }
 
+  const gridClass = view === 'list' ? 'biz-grid-h' : 'biz-grid-v'
+
   return (
     <>
-      <div className="biz-grid">
+      <div className={gridClass}>
         {visible.map(b => (
           <BusinessCard
             key={b.id}
             business={b}
+            view={view === 'list' ? 'list' : 'grid'}
             isFavorited={favorites.has(b.id)}
             onSelect={onSelect}
             onFavorite={onFavorite}
