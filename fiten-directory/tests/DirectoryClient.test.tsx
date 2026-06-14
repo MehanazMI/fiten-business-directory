@@ -309,13 +309,15 @@ describe('DirectoryClient — view toggle', () => {
 describe('DirectoryClient — Add Business modal', () => {
   it('opens AddBusinessModal when Add Your Business is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Add Your Business/i }))
+    const header = document.querySelector('header') as HTMLElement
+    await user.click(within(header).getByRole('button', { name: /Add Your Business/i }))
     expect(screen.getByText('List Your Business')).toBeInTheDocument()
   })
 
   it('closes AddBusinessModal when × is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Add Your Business/i }))
+    const header = document.querySelector('header') as HTMLElement
+    await user.click(within(header).getByRole('button', { name: /Add Your Business/i }))
     await user.click(screen.getByRole('button', { name: '×' }))
     expect(screen.queryByText('List Your Business')).not.toBeInTheDocument()
   })

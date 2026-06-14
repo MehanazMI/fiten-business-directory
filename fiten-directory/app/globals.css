@@ -50,22 +50,22 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .site-header{background:var(--navy);border-bottom:none;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;gap:1rem}
 .logo-area{display:flex;align-items:center;gap:0.5rem;cursor:pointer;flex-shrink:0}
 .logo-icon{font-size:1.1rem;color:var(--gold-hero)}
-.logo-text{font-family:var(--font-sans);font-weight:500;font-size:1rem;color:#fff;letter-spacing:0;white-space:nowrap}
-.logo-text .logo-ten{color:var(--gold-hero)}
-.logo-tag{font-size:0.7rem;color:rgba(255,255,255,0.35);font-weight:400;margin-left:0.4rem;padding-left:0.5rem;border-left:1px solid rgba(255,255,255,0.15)}
-.nav-hdr{display:flex;align-items:center;gap:0.25rem;flex:1;justify-content:center}
-.nav-link{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.8rem;font-weight:400;padding:0.3rem 0.7rem;border-radius:6px;cursor:pointer;transition:color 0.15s,background 0.15s}
-.nav-link:hover{color:#fff;background:rgba(255,255,255,0.1)}
-.nav-link.active{color:#fff;background:rgba(255,255,255,0.12)}
+.logo-text{font-family:var(--font-serif);font-weight:400;font-size:1.1rem;color:#fff;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap}
+.logo-text .logo-ten{color:var(--gold)}
+.logo-tag{font-size:0.62rem;color:rgba(255,255,255,0.3);font-weight:400;margin-left:0.5rem;padding-left:0.5rem;border-left:1px solid rgba(255,255,255,0.12);letter-spacing:0.06em}
+.nav-hdr{display:flex;align-items:center;gap:0.5rem;flex:1;justify-content:center}
+.nav-link{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.68rem;font-weight:400;padding:0.3rem 0.7rem;border-radius:4px;cursor:pointer;transition:color 0.15s;text-transform:uppercase;letter-spacing:0.1em}
+.nav-link:hover{color:var(--gold)}
+.nav-link.active{color:#fff}
 .hdr-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
 /* Ghost language toggle */
 .lang-toggle{display:flex;align-items:center;gap:0}
 .lang-btn{border:none;background:transparent;color:rgba(255,255,255,0.4);font-size:0.72rem;padding:0.25rem 0.5rem;cursor:pointer;font-family:inherit;font-weight:400;transition:color 0.15s;line-height:1}
 .lang-btn.active{color:rgba(255,255,255,0.9);font-weight:500}
 .lang-sep{color:rgba(255,255,255,0.18);font-size:0.72rem;line-height:1;user-select:none}
-/* White Add Business button — maximum contrast on navy */
-.hdr-btn{background:#ffffff;color:var(--navy);border:none;padding:0.45rem 1rem;border-radius:6px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:inherit;white-space:nowrap;display:flex;align-items:center;gap:0.3rem}
-.hdr-btn:hover{background:var(--navy-lt)}
+/* Gold Add Business button — matches Directorate */
+.hdr-btn{background:var(--gold);color:var(--navy);border:none;padding:0.38rem 1rem;border-radius:4px;font-size:0.68rem;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:inherit;white-space:nowrap;display:flex;align-items:center;gap:0.35rem;text-transform:uppercase;letter-spacing:0.1em}
+.hdr-btn:hover{background:#D4AE6A}
 
 /* ━━━ HERO SECTION ━━━ */
 .hero-section{background:var(--navy);padding:2.25rem 1.5rem 2.5rem;text-align:center;border-bottom:0.5px solid rgba(255,255,255,0.08)}
@@ -465,4 +465,26 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
   .nav-hdr{display:none}
   .stats-dark-bar{gap:0}
   .stats-dark-item{padding:0 0.75rem;font-size:0.65rem}
+  .dir-footer-grid{grid-template-columns:1fr}
+  .cta-listing-btn{width:100%}
 }
+
+/* ━━━ CTA — LIST YOUR BUSINESS ━━━ */
+.cta-listing{background:var(--navy);padding:4rem 1.5rem;text-align:center;border-top:0.5px solid rgba(255,255,255,0.07)}
+.cta-listing h2{font-family:var(--font-serif);font-size:1.75rem;font-weight:400;color:#fff;margin-bottom:0.85rem;letter-spacing:-0.01em}
+.cta-listing p{font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.7;max-width:500px;margin:0 auto 2rem}
+.cta-listing-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:var(--navy);border:none;padding:0.85rem 2.25rem;border-radius:4px;font-size:0.72rem;font-weight:500;cursor:pointer;text-transform:uppercase;letter-spacing:0.12em;transition:background 0.15s;font-family:inherit}
+.cta-listing-btn:hover{background:#D4AE6A}
+
+/* ━━━ DIRECTORATE FOOTER ━━━ */
+.dir-footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:4rem 1.5rem 2rem;border-top:0.5px solid rgba(255,255,255,0.07)}
+.dir-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:900px;margin:0 auto 3rem}
+.dir-footer-brand{font-family:var(--font-serif);font-size:1.25rem;font-weight:400;color:#fff;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem}
+.dir-footer-brand span{color:var(--gold)}
+.dir-footer-tagline{font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.75;max-width:260px}
+.dir-footer-col-title{font-size:0.65rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:1rem}
+.dir-footer-links{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.dir-footer-links li span,.dir-footer-links li a{font-size:0.82rem;color:rgba(255,255,255,0.5);cursor:pointer;transition:color 0.15s;text-decoration:none;display:block}
+.dir-footer-links li span:hover,.dir-footer-links li a:hover{color:#fff}
+.dir-footer-divider{border:none;border-top:0.5px solid rgba(255,255,255,0.08);max-width:900px;margin:0 auto 1.5rem}
+.dir-footer-copy{text-align:center;font-size:0.68rem;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.1em;max-width:900px;margin:0 auto}

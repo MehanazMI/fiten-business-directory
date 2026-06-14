@@ -187,7 +187,6 @@ export default function DirectoryClient({ initialData }: Props) {
       {/* ── HEADER ── */}
       <header className="site-header">
         <div className="logo-area" onClick={resetAll}>
-          <i className="ti ti-building-community logo-icon" />
           <span className="logo-text">
             <span className="logo-fi">Fi</span>
             <span className="logo-ten">TEN</span>
@@ -422,6 +421,47 @@ export default function DirectoryClient({ initialData }: Props) {
       />
 
       {showAddModal && <AddBusinessModal onClose={() => setShowAddModal(false)} />}
+
+      {/* ── CTA ── */}
+      <section className="cta-listing">
+        <h2>Ready to list your business on FiTEN?</h2>
+        <p>Join Tamil businesses trusted by partners, clients, and investors worldwide. It only takes a few minutes to get listed.</p>
+        <button className="cta-listing-btn" onClick={() => setShowAddModal(true)}>
+          <i className="ti ti-plus" />
+          Add Your Business
+        </button>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="dir-footer">
+        <div className="dir-footer-grid">
+          <div>
+            <div className="dir-footer-brand">
+              Fi<span>TEN</span>
+            </div>
+            <p className="dir-footer-tagline">
+              The Tamil business directory connecting professionals, partners, and investors across the global community.
+            </p>
+          </div>
+          <div>
+            <div className="dir-footer-col-title">Directory</div>
+            <ul className="dir-footer-links">
+              <li><span onClick={resetAll}>Browse Businesses</span></li>
+              <li><span onClick={() => setShowAddModal(true)}>Add Your Business</span></li>
+            </ul>
+          </div>
+          <div>
+            <div className="dir-footer-col-title">Community</div>
+            <ul className="dir-footer-links">
+              <li><span>FeTNA Convention</span></li>
+              <li><span>For Partners</span></li>
+              <li><span>Contact</span></li>
+            </ul>
+          </div>
+        </div>
+        <hr className="dir-footer-divider" />
+        <p className="dir-footer-copy">© 2026 FiTEN · All rights reserved · Privacy · Terms</p>
+      </footer>
     </>
   )
 }
