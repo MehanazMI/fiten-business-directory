@@ -189,16 +189,16 @@ export default function DirectoryClient({ initialData }: Props) {
         <div className="logo-area" onClick={resetAll}>
           <span className="logo-text">
             <span className="logo-fi">Fi</span>
-            <span className="logo-ten">Ten</span>
+            <span className="logo-ten">TEN</span>
           </span>
           <span className="logo-divider" aria-hidden="true" />
           <span className="logo-tag">Business Directory</span>
         </div>
 
         <nav className="nav-hdr">
-          <span className="nav-link active">Search</span>
-          <span className="nav-link">Categories</span>
-          <span className="nav-link">For Partners</span>
+          <span className="nav-link active">Browse</span>
+          <span className="nav-link" onClick={() => setShowAddModal(true)}>Add Business</span>
+          <span className="nav-link">Contact</span>
         </nav>
 
         <div className="hdr-right">

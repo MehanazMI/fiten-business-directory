@@ -31,7 +31,7 @@ describe('DirectoryClient — initial render', () => {
 
   it('renders the FiTEN header logo', () => {
     setup()
-    expect(screen.getByText((_, el) => el?.className === 'logo-text' && el.textContent === 'FiTen')).toBeInTheDocument()
+    expect(screen.getByText((_, el) => el?.className === 'logo-text' && el.textContent === 'FiTEN')).toBeInTheDocument()
   })
 
   it('renders category sidebar with All item', () => {
