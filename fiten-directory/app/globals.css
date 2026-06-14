@@ -95,7 +95,8 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .main-layout{display:grid;grid-template-columns:210px 1fr;max-width:100%;min-height:calc(100vh - 260px)}
 
 /* ━━━ SIDEBAR ━━━ */
-.sidebar{background:#fff;border-right:0.5px solid var(--border);padding:1.1rem 0.9rem;overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;display:flex;flex-direction:column;gap:1.1rem}
+.sidebar{background:#fff;border-right:0.5px solid var(--border);padding:1.1rem 0.9rem;overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;display:flex;flex-direction:column;gap:1.1rem;scrollbar-width:none}
+.sidebar::-webkit-scrollbar{display:none}
 .sb-section{display:flex;flex-direction:column;gap:0.35rem}
 /* Gold section labels */
 .sb-label{font-size:0.65rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:0.2rem}
@@ -164,7 +165,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 
 /* ━━━ CARD HEADER — initials + name ━━━ */
 .card-header{display:flex;align-items:flex-start;gap:0.75rem;padding:1.1rem 1rem 0.65rem}
-.card-initials{width:44px;height:44px;border-radius:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1rem;font-weight:600;flex-shrink:0;letter-spacing:0.02em}
+.card-initials{width:44px;height:44px;border-radius:10px;background:var(--navy-lt);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;opacity:0.85}
 .card-logo-img{width:100%;height:100%;object-fit:contain;border-radius:10px}
 .card-header-text{flex:1;min-width:0}
 .biz-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:700;color:var(--navy);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -455,11 +456,11 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 }
 
 /* ━━━ CTA — LIST YOUR BUSINESS ━━━ */
-.cta-listing{background:var(--gold-lt);padding:4rem 1.5rem;text-align:center;border-top:0.5px solid rgba(197,160,89,0.25);border-bottom:0.5px solid rgba(197,160,89,0.25)}
+.cta-listing{background:var(--cream);padding:4rem 1.5rem;text-align:center;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
 .cta-listing h2{font-family:var(--font-serif);font-size:1.75rem;font-weight:400;color:var(--navy);margin-bottom:0.85rem;letter-spacing:-0.01em}
 .cta-listing p{font-size:0.9rem;color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 2rem}
-.cta-listing-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--navy);color:#fff;border:none;padding:0.85rem 2.25rem;border-radius:4px;font-size:0.72rem;font-weight:500;cursor:pointer;text-transform:uppercase;letter-spacing:0.12em;transition:background 0.15s;font-family:inherit}
-.cta-listing-btn:hover{background:var(--navy-dk)}
+.cta-listing-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:var(--navy);border:none;padding:0.85rem 2.25rem;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:0.12em;transition:background 0.15s;font-family:inherit}
+.cta-listing-btn:hover{background:#D4AE6A}
 
 /* ━━━ DIRECTORATE FOOTER ━━━ */
 .dir-footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:4rem 1.5rem 2rem;border-top:0.5px solid rgba(255,255,255,0.07)}

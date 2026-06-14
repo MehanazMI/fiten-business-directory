@@ -42,7 +42,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
         <div className="card-initials">
           {b.logoUrl
             ? <img src={b.logoUrl} alt={b.businessName} className="card-logo-img" />
-            : <span>{b.initials}</span>
+            : <i className={`ti ${icon}`} />
           }
         </div>
         <div className="card-header-text">
