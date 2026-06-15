@@ -41,6 +41,8 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     logoUrl: f.logoUrl?.stringValue,
     status: f.status?.stringValue ?? 'pending',
     pro: f.pro?.booleanValue ?? false,
+    verified: f.verified?.booleanValue ?? false,
+    verificationStatus: (f.verificationStatus?.stringValue as Business['verificationStatus']) ?? 'unverified',
     speaker: f.speaker?.booleanValue ?? false,
     women: f.women?.booleanValue ?? false,
     convention: f.convention?.booleanValue ?? false,

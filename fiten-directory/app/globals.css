@@ -180,6 +180,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .biz-card{background:#fff;border-radius:14px;border:1px solid var(--border);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.06);position:relative;display:flex;flex-direction:column;transition:box-shadow 0.2s,transform 0.2s,border-color 0.2s}
 .biz-card:hover{box-shadow:0 8px 24px rgba(15,23,42,0.12);transform:translateY(-2px);border-color:var(--navy-20)}
 .pro-card{border-top:3px solid var(--gold)}
+.verified-badge{font-size:0.62rem;font-weight:600;color:#065f46;background:#d1fae5;border:0.5px solid #6ee7b7;padding:2px 8px;border-radius:4px;letter-spacing:0.03em;flex-shrink:0;white-space:nowrap}
 .pro-badge{font-size:0.62rem;font-weight:700;color:var(--amber-deep);background:var(--gold-lt);border:0.5px solid rgba(197,160,89,0.5);padding:2px 8px;border-radius:4px;letter-spacing:0.05em;flex-shrink:0;white-space:nowrap}
 
 /* ━━━ CARD HEADER — initials + name ━━━ */

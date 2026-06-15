@@ -46,6 +46,8 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     logoUrl: d.logoUrl as string | undefined,
     status: (d.status as string) ?? 'pending',
     pro: (d.pro as boolean) ?? false,
+    verified: (d.verified as boolean) ?? false,
+    verificationStatus: (d.verificationStatus as Business['verificationStatus']) ?? 'unverified',
     speaker: (d.speaker as boolean) ?? false,
     women: (d.women as boolean) ?? false,
     convention: (d.convention as boolean) ?? false,

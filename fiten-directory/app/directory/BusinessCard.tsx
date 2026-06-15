@@ -62,6 +62,9 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
             )}
           </div>
         </div>
+        {b.verified && (
+          <span className="verified-badge" title="Business email and website verified by FiTEN">✓ Verified</span>
+        )}
         {b.pro && (
           <span className="pro-badge">★ Featured</span>
         )}

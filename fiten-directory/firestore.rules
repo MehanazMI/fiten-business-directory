@@ -3,7 +3,11 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /businesses/{id} {
       allow read: if true;
-      allow create: if true;
+      // Users can create listings but cannot set verified/verificationStatus —
+      // those fields are written only by the Cloud Function (admin SDK bypasses rules)
+      allow create: if true
+        && !('verified' in request.resource.data)
+        && !('verificationStatus' in request.resource.data);
     }
     match /claims/{id} {
       allow create: if true;
