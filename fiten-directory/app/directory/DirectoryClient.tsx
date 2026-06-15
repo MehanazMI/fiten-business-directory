@@ -201,9 +201,9 @@ export default function DirectoryClient({ initialData }: Props) {
             <span className="lang-sep">|</span>
             <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
           </div>
-          <button className="hdr-btn" onClick={() => setShowAddModal(true)}>
+          <a className="hdr-btn" href="/form">
             Add Your Business
-          </button>
+          </a>
         </div>
       </header>
 
@@ -437,10 +437,9 @@ export default function DirectoryClient({ initialData }: Props) {
       <section className="cta-listing">
         <h2>Ready to list your business on FiTEN?</h2>
         <p>Join Tamil businesses trusted by partners, clients, and investors worldwide. It only takes a few minutes to get listed.</p>
-        <button className="cta-listing-btn" onClick={() => setShowAddModal(true)}>
-          <i className="ti ti-plus" />
+        <a className="cta-listing-btn" href="/form">
           Add Your Business
-        </button>
+        </a>
       </section>
 
       {/* ── FOOTER ── */}

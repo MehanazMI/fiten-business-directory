@@ -306,20 +306,19 @@ describe('DirectoryClient — view toggle', () => {
 // ---------------------------------------------------------------------------
 // Modals
 // ---------------------------------------------------------------------------
-describe('DirectoryClient — Add Business modal', () => {
-  it('opens AddBusinessModal when Add Your Business is clicked', async () => {
-    const { user } = setup()
+describe('DirectoryClient — Add Business link', () => {
+  it('header Add Your Business is a link to /form', () => {
+    setup()
     const header = document.querySelector('header') as HTMLElement
-    await user.click(within(header).getByRole('button', { name: /Add Your Business/i }))
-    expect(screen.getByText('List Your Business')).toBeInTheDocument()
+    const link = within(header).getByRole('link', { name: /Add Your Business/i })
+    expect(link).toHaveAttribute('href', '/form')
   })
 
-  it('closes AddBusinessModal when × is clicked', async () => {
-    const { user } = setup()
-    const header = document.querySelector('header') as HTMLElement
-    await user.click(within(header).getByRole('button', { name: /Add Your Business/i }))
-    await user.click(screen.getByRole('button', { name: '×' }))
-    expect(screen.queryByText('List Your Business')).not.toBeInTheDocument()
+  it('CTA Add Your Business is a link to /form', () => {
+    setup()
+    const cta = document.querySelector('.cta-listing') as HTMLElement
+    const link = within(cta).getByRole('link', { name: /Add Your Business/i })
+    expect(link).toHaveAttribute('href', '/form')
   })
 })
 
