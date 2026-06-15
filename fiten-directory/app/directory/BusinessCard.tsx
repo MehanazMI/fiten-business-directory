@@ -1,5 +1,5 @@
 import type { Business } from '@/types/business'
-import { oppLabels } from '@/lib/utils'
+import { oppLabels, sigClass } from '@/lib/utils'
 import type { Lang } from '@/lib/utils'
 
 interface Props {
@@ -78,10 +78,10 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
         {(b.looking.length > 0 || b.speaker || b.convention) && (
           <div className="b2b-signals">
             {b.looking.map(l => (
-              <span key={l} className="b2b-signal">{oppLabels[l]}</span>
+              <span key={l} className={`b2b-signal ${sigClass[l] ?? ''}`}>{oppLabels[l]}</span>
             ))}
-            {b.speaker && <span className="b2b-signal">Speaker</span>}
-            {b.convention && <span className="b2b-signal">FeTNA Conv.</span>}
+            {b.speaker && <span className="b2b-signal sig-speaker">Speaker</span>}
+            {b.convention && <span className="b2b-signal sig-convention">FeTNA Conv.</span>}
           </div>
         )}
       </div>

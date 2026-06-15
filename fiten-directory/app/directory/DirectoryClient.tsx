@@ -215,6 +215,7 @@ export default function DirectoryClient({ initialData }: Props) {
 
       {/* ── HERO ── */}
       <section className="hero-section">
+        <div className="hero-badge">🌏 Global Tamil Business Network</div>
         <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
         <p className="hero-sub">{t.heroSub}</p>
         <div className="hero-search">
@@ -229,50 +230,43 @@ export default function DirectoryClient({ initialData }: Props) {
             {t.searchBtn}
           </button>
         </div>
+        <div className="hero-inline-stats">
+          <div className="his-item"><strong>{businesses.length}+</strong><span>Businesses</span></div>
+          <div className="his-sep" />
+          <div className="his-item"><strong>{cityCount}</strong><span>Cities</span></div>
+          <div className="his-sep" />
+          <div className="his-item"><strong>{cats.length - 1}</strong><span>Sectors</span></div>
+          <div className="his-sep" />
+          <div className="his-item"><strong>3</strong><span>Continents</span></div>
+        </div>
       </section>
-
-      {/* ── STATS BAR ── */}
-      <div className="stats-dark-bar">
-        <div className="stats-dark-item">
-          <i className="ti ti-building-store" />
-          <strong>{businesses.length}+</strong> Businesses
-        </div>
-        <div className="stats-dark-item">
-          <i className="ti ti-map-pin" />
-          <strong>{cityCount}</strong> Cities
-        </div>
-        <div className="stats-dark-item">
-          <i className="ti ti-layout-grid" />
-          <strong>{cats.length - 1}</strong> Sectors
-        </div>
-        <div className="stats-dark-item">
-          <i className="ti ti-world" />
-          <strong>3</strong> Continents
-        </div>
-      </div>
 
       {/* ── QUICK FILTER PILLS ── */}
       <div className="quick-filters">
-        {(['All', 'Pro', ...cats.filter(c => c !== 'All').slice(0, 5)]).map(f => (
-          <button
-            key={f}
-            className={`qf-pill${(f === 'All' && activeCat === 'All' && activeFilter === 'All') || (f === 'Pro' && activeFilter === 'Pro') || (f !== 'All' && f !== 'Pro' && activeCat === f) ? ' active' : ''}`}
-            onClick={() => {
-              resetPaging()
-              if (f === 'All') { setActiveCat('All'); setActiveFilter('All') }
-              else if (f === 'Pro') { setActiveCat('All'); setActiveFilter('Pro') }
-              else { setActiveCat(f); setActiveFilter('All') }
-            }}
-          >
-            {f === 'Pro' ? <><i className="ti ti-crown" /> PRO</> : f}
-          </button>
-        ))}
+        {(['All', 'Pro', ...cats.filter(c => c !== 'All').slice(0, 5)]).map(f => {
+          const isActive = (f === 'All' && activeCat === 'All' && activeFilter === 'All') || (f === 'Pro' && activeFilter === 'Pro') || (f !== 'All' && f !== 'Pro' && activeCat === f)
+          const isPro = f === 'Pro'
+          return (
+            <button
+              key={f}
+              className={`qf-pill${isPro ? ' qf-pill-pro' : ''}${isActive ? ' active' : ''}`}
+              onClick={() => {
+                resetPaging()
+                if (f === 'All') { setActiveCat('All'); setActiveFilter('All') }
+                else if (f === 'Pro') { setActiveCat('All'); setActiveFilter('Pro') }
+                else { setActiveCat(f); setActiveFilter('All') }
+              }}
+            >
+              {isPro ? <>★ PRO</> : f}
+            </button>
+          )
+        })}
         <button
           aria-label="Show saved businesses"
           className={`qf-pill${showFavs ? ' active' : ''}`}
           onClick={() => { setShowFavs(v => !v); resetPaging() }}
         >
-          <i className="ti ti-heart" /> Saved
+          ♡ Saved
         </button>
       </div>
 
@@ -289,7 +283,7 @@ export default function DirectoryClient({ initialData }: Props) {
               {cats.map(cat => (
                 <li
                   key={cat}
-                  className={`cat-item${activeCat === cat ? ' active' : ''}`}
+                  className={`cat-item${activeCat === cat ? ' active' : ''}${(catCounts[cat] ?? 0) === 0 ? ' cat-item--zero' : ''}`}
                   onClick={() => { setActiveCat(cat); resetPaging() }}
                 >
                   <span className="cat-item-left">
