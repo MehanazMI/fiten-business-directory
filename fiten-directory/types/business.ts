@@ -9,6 +9,7 @@ export interface Business {
   email: string
   phone?: string
   website?: string
+  logoUrl?: string
   status: string
   pro: boolean
   looking: Array<'partner' | 'client' | 'invest' | 'hire'>
@@ -19,6 +20,8 @@ export interface Business {
   reviews: number
   views: number
   createdAt: string
+  verified: boolean
+  verificationStatus: 'auto' | 'pending' | 'unverified'
   // Derived at read time
   initials: string
   colorIdx: number

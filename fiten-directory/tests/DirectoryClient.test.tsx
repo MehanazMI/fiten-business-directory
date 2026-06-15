@@ -31,23 +31,23 @@ describe('DirectoryClient — initial render', () => {
 
   it('renders the FiTEN header logo', () => {
     setup()
-    expect(screen.getByText('FiTEN')).toBeInTheDocument()
+    expect(screen.getByText((_, el) => el?.className === 'logo-text' && el.textContent === 'FiTEN')).toBeInTheDocument()
   })
 
   it('renders category sidebar with All item', () => {
     setup()
-    expect(screen.getByText('Categories')).toBeInTheDocument()
+    expect(within(getSidebar()).getByText('Categories')).toBeInTheDocument()
     // sidebar has its own "All" list item — scope to sidebar to avoid FilterRow pill ambiguity
     expect(within(getSidebar()).getByText(/^All$/)).toBeInTheDocument()
   })
 
-  it('renders B2B Signals sidebar checkboxes', () => {
+  it('renders B2B Signals sidebar chips', () => {
     setup()
     const sidebar = getSidebar()
-    expect(within(sidebar).getByRole('checkbox', { name: /Business Partners/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Hiring/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Seeking Clients/i })).toBeInTheDocument()
-    expect(within(sidebar).getByRole('checkbox', { name: /Seeking Investment/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /^Partner$/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Hiring/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Seeking Clients/i })).toBeInTheDocument()
+    expect(within(sidebar).getByRole('button', { name: /Seeking Investment/i })).toBeInTheDocument()
   })
 })
 
@@ -140,15 +140,16 @@ describe('DirectoryClient — category filter', () => {
 describe('DirectoryClient — Pro filter', () => {
   it('shows only Pro businesses when Pro is selected', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /🏅 FeTNA Sponsor/i }))
     const proCount = SAMPLE_BUSINESSES.filter(b => b.pro).length
     expect(screen.getByText(`${proCount} businesses`)).toBeInTheDocument()
   })
 
-  it('restores all when All is clicked after Pro', async () => {
+  it('restores all when PRO chip is toggled off', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
-    await user.click(screen.getByRole('button', { name: 'All' }))
+    const proChip = within(getSidebar()).getByRole('button', { name: /🏅 FeTNA Sponsor/i })
+    await user.click(proChip)
+    await user.click(proChip)
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
   })
 })
@@ -159,26 +160,25 @@ describe('DirectoryClient — Pro filter', () => {
 describe('DirectoryClient — B2B signals filter', () => {
   it('filters to businesses matching a single signal', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Hiring/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Hiring/i }))
     // b1 (hire), b7 (hire)
     expect(screen.getByText('2 businesses')).toBeInTheDocument()
   })
 
   it('applies AND logic for multiple signals', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Business Partners/i }))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Hiring/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^Partner$/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Hiring/i }))
     // only b1 has both partner AND hire
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Alpha Tech')).toBeInTheDocument()
   })
 
-  it('unchecking a signal removes its filter', async () => {
+  it('deselecting a signal removes its filter', async () => {
     const { user } = setup()
-    const sidebar = getSidebar()
-    const cb = within(sidebar).getByRole('checkbox', { name: /Hiring/i })
-    await user.click(cb)
-    await user.click(cb)
+    const chip = within(getSidebar()).getByRole('button', { name: /Hiring/i })
+    await user.click(chip)
+    await user.click(chip)
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
   })
 })
@@ -222,13 +222,13 @@ describe('DirectoryClient — sorting', () => {
 describe('DirectoryClient — favorites', () => {
   it('toggles favorite on heart click', async () => {
     const { user } = setup()
-    await user.click(screen.getAllByLabelText('Add to favorites')[0])
-    expect(screen.getAllByLabelText('Remove from favorites').length).toBe(1)
+    await user.click(screen.getAllByLabelText('Add to favourites')[0])
+    expect(screen.getAllByLabelText('Remove from favourites').length).toBe(1)
   })
 
   it('persists favorites to localStorage', async () => {
     const { user } = setup()
-    await user.click(screen.getAllByLabelText('Add to favorites')[0])
+    await user.click(screen.getAllByLabelText('Add to favourites')[0])
     const stored = JSON.parse(localStorage.getItem('fiten_favorites') ?? '[]')
     expect(stored.length).toBe(1)
   })
@@ -236,28 +236,28 @@ describe('DirectoryClient — favorites', () => {
   it('loads favorites from localStorage on mount', () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1']))
     setup()
-    expect(screen.getByLabelText('Remove from favorites')).toBeInTheDocument()
+    expect(screen.getByLabelText('Remove from favourites')).toBeInTheDocument()
   })
 
   it('shows only favorited businesses when Saved filter is active', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Alpha Tech')).toBeInTheDocument()
   })
 
   it('shows 0 businesses when Saved filter is active and no favorites', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     expect(screen.getByText('0 businesses')).toBeInTheDocument()
   })
 
   it('un-favoriting removes from Saved list', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
-    await user.click(screen.getByLabelText('Remove from favorites'))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
+    await user.click(screen.getByLabelText('Remove from favourites'))
     expect(screen.getByText('0 businesses')).toBeInTheDocument()
   })
 })
@@ -291,40 +291,41 @@ describe('DirectoryClient — language toggle', () => {
 describe('DirectoryClient — view toggle', () => {
   it('switches to region view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region/i }))
-    expect(screen.getByRole('button', { name: /Region/i })).toHaveClass('active')
+    await user.click(screen.getByRole('button', { name: /Region view/i }))
+    expect(screen.getByRole('button', { name: /Region view/i })).toHaveClass('active')
   })
 
   it('switches back to grid view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region/i }))
-    await user.click(screen.getByRole('button', { name: /Grid/i }))
-    expect(screen.getByRole('button', { name: /Grid/i })).toHaveClass('active')
+    await user.click(screen.getByRole('button', { name: /Region view/i }))
+    await user.click(screen.getByRole('button', { name: /Grid view/i }))
+    expect(screen.getByRole('button', { name: /Grid view/i })).toHaveClass('active')
   })
 })
 
 // ---------------------------------------------------------------------------
 // Modals
 // ---------------------------------------------------------------------------
-describe('DirectoryClient — + List Business modal', () => {
-  it('opens AddBusinessModal when + List Business is clicked', async () => {
-    const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /List Business/i }))
-    expect(screen.getByText('List Your Business')).toBeInTheDocument()
+describe('DirectoryClient — Add Business link', () => {
+  it('header Add Your Business is a link to /form', () => {
+    setup()
+    const header = document.querySelector('header') as HTMLElement
+    const link = within(header).getByRole('link', { name: /Add Your Business/i })
+    expect(link).toHaveAttribute('href', '/form')
   })
 
-  it('closes AddBusinessModal when × is clicked', async () => {
-    const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /List Business/i }))
-    await user.click(screen.getByRole('button', { name: '×' }))
-    expect(screen.queryByText('List Your Business')).not.toBeInTheDocument()
+  it('CTA Add Your Business is a link to /form', () => {
+    setup()
+    const cta = document.querySelector('.cta-listing') as HTMLElement
+    const link = within(cta).getByRole('link', { name: /Add Your Business/i })
+    expect(link).toHaveAttribute('href', '/form')
   })
 })
 
 describe('DirectoryClient — business detail modal', () => {
-  it('opens BusinessModal when View button is clicked on a pro card', async () => {
+  it('opens BusinessModal when a card is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getAllByRole('button', { name: 'View' })[0])
+    await user.click(document.querySelectorAll('.biz-card')[0] as HTMLElement)
     // Modal shows detail-panel with a detail-sec "About" heading
     expect(document.querySelector('.detail-panel')).toBeInTheDocument()
     expect(document.querySelector('.detail-sec')).toHaveTextContent('About')
@@ -332,16 +333,16 @@ describe('DirectoryClient — business detail modal', () => {
 
   it('closes BusinessModal when × is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getAllByRole('button', { name: 'View' })[0])
+    await user.click(document.querySelectorAll('.biz-card')[0] as HTMLElement)
     expect(document.querySelector('.detail-panel')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: '×' }))
     expect(document.querySelector('.detail-panel')).not.toBeInTheDocument()
   })
 
-  it('opens ClaimModal from non-pro business View button', async () => {
+  it('opens ClaimModal from non-pro business card', async () => {
     const { user } = setup()
     // Beta Foods is non-pro → index 2 after pro-first sort (Alpha Tech, Delta Finance come first)
-    await user.click(screen.getAllByRole('button', { name: 'View' })[2])
+    await user.click(document.querySelectorAll('.biz-card')[2] as HTMLElement)
     // Opens BusinessModal with Claim Listing footer button
     await user.click(screen.getByRole('button', { name: 'Claim Listing' }))
     expect(screen.getByPlaceholderText('your@email.com')).toBeInTheDocument()
@@ -352,9 +353,11 @@ describe('DirectoryClient — business detail modal', () => {
 // Pagination
 // ---------------------------------------------------------------------------
 describe('DirectoryClient — pagination', () => {
-  it('shows Load more button when results exceed PAGE_SIZE (6)', () => {
-    setup(SAMPLE_BUSINESSES) // 7 items > 6
-    // Button text is "Load N more"
+  it('shows Load more button when results exceed PAGE_SIZE', () => {
+    const many = Array.from({ length: 10 }, (_, i) =>
+      makeBusiness({ id: `pg-${i}`, businessName: `Paged Business ${i}` })
+    )
+    setup(many) // 10 items > PAGE_SIZE (9)
     expect(screen.getByRole('button', { name: /Load \d+ more/ })).toBeInTheDocument()
   })
 
@@ -382,12 +385,15 @@ describe('DirectoryClient — pagination', () => {
     await user.click(screen.getByRole('button', { name: /Load \d+ more/ }))
     expect(document.querySelectorAll('.biz-card').length).toBe(12)
     await user.type(screen.getByRole('textbox'), 'Business')
-    // After typing, visibleCount resets to PAGE_SIZE=6
-    expect(document.querySelectorAll('.biz-card').length).toBeLessThanOrEqual(6)
+    // After typing, visibleCount resets to PAGE_SIZE=9
+    expect(document.querySelectorAll('.biz-card').length).toBeLessThanOrEqual(9)
   })
 
   it('shows showing X of Y count below Load more button', () => {
-    setup(SAMPLE_BUSINESSES)
+    const many = Array.from({ length: 10 }, (_, i) =>
+      makeBusiness({ id: `pg2-${i}`, businessName: `Paged Business ${i}` })
+    )
+    setup(many) // 10 items > PAGE_SIZE (9) → Load more + count shown
     expect(screen.getByText(/Showing \d+ of \d+/)).toBeInTheDocument()
   })
 })
@@ -437,8 +443,8 @@ describe('DirectoryClient — combined filters', () => {
 
   it('Pro filter + B2B signal together', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Pro' }))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Business Partners/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /🏅 FeTNA Sponsor/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /^Partner$/i }))
     // Only b1 is pro AND has partner
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
   })
@@ -452,7 +458,7 @@ describe('DirectoryClient — combined filters', () => {
   it('category + B2B signal together', async () => {
     const { user } = setup()
     await user.click(within(getSidebar()).getByText(/^Healthcare$/))
-    await user.click(within(getSidebar()).getByRole('checkbox', { name: /Seeking Investment/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /Seeking Investment/i }))
     // Only b3 is Healthcare with invest
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Gamma Health')).toBeInTheDocument()
@@ -461,7 +467,7 @@ describe('DirectoryClient — combined filters', () => {
   it('Saved + search filters together', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1', 'b2']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     await user.type(screen.getByRole('textbox'), 'Alpha')
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
   })

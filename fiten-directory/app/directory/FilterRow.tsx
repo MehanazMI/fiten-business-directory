@@ -45,10 +45,10 @@ export default function FilterRow({
         </button>
       ))}
       <button
-        className={`pill${showFavs ? ' active' : ''}`}
+        className={`pill favs-pill${showFavs ? ' active' : ''}`}
         onClick={onFavsToggle}
       >
-        ❤️ Saved
+        ♥ Saved
       </button>
 
       <div className="filter-row-right">

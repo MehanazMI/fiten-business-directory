@@ -5,68 +5,102 @@ import type { Lang } from '@/lib/utils'
 interface Props {
   business: Business
   isFavorited: boolean
+  view?: 'grid' | 'list'
   onSelect: (b: Business) => void
   onFavorite: (id: string) => void
   lang: Lang
 }
 
-function stars(r: number) {
-  return Array.from({ length: 5 }, (_, i) => (i < Math.round(r) ? '★' : '☆')).join('')
+const CAT_ICON: Record<string, string> = {
+  'Healthcare':    'ti-stethoscope',
+  'Tech':          'ti-device-laptop',
+  'Education':     'ti-school',
+  'Legal':         'ti-scale',
+  'Food':          'ti-tools-kitchen-2',
+  'Finance':       'ti-coin',
+  'Real Estate':   'ti-home',
+  'Retail':        'ti-shopping-cart',
+  'Entertainment': 'ti-music',
+  'Services':      'ti-tool',
 }
 
-export default function BusinessCard({ business: b, isFavorited, onSelect, onFavorite, lang }: Props) {
+function stars(r: number) {
+  return r.toFixed(1)
+}
+
+export default function BusinessCard({ business: b, isFavorited, view = 'grid', onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
+  const icon = CAT_ICON[b.category] ?? 'ti-building'
+  const isListView = view === 'list'
 
   return (
     <div
-      className={`biz-card${b.pro ? ' pro-card' : ''}`}
+      className={`biz-card${b.pro ? ' pro-card' : ''}${isListView ? ' list-card' : ''}`}
       onClick={() => onSelect(b)}
     >
-      <div className="card-top">
-        <div className="biz-avatar" style={{ background: '#E2E5EA', color: 'var(--stone-dark)' }}>
-          {b.initials}
+      <div className="card-header">
+        <div className="card-initials">
+          {b.logoUrl
+            ? <img src={b.logoUrl} alt={b.businessName} className="card-logo-img" />
+            : <i className={`ti ${icon}`} />
+          }
         </div>
-        <div className="biz-info">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div className="biz-name">{displayName}</div>
-            {b.pro && <span className="pro-badge">PRO</span>}
-          </div>
+        <div className="card-header-text">
+          <div className="biz-name">{displayName}</div>
           {lang === 'ta' && b.nameTamil && (
             <div className="biz-name-tamil">{b.businessName}</div>
           )}
-          <div className="biz-category">{b.category}</div>
-          <div className="biz-location">📍 {b.city}</div>
+          <div className="biz-meta">
+            <i className={`ti ${icon} biz-cat-icon`} />
+            <span>{b.category}</span>
+            {b.city && <><span className="meta-dot">·</span><span className="biz-location">{b.city}</span></>}
+            {b.women && (
+              <span className="women-tag">
+                <i className="ti ti-gender-female" />
+                Women-led
+              </span>
+            )}
+          </div>
         </div>
+        {b.verified && (
+          <span className="verified-badge" title="Business email and website verified by FiTEN">✓ Verified</span>
+        )}
+        {b.pro && (
+          <span className="pro-badge">🏅 FeTNA Sponsor</span>
+        )}
+      </div>
+
+      <div className="card-body">
+        {b.description && (
+          <div className="card-desc">{b.description}</div>
+        )}
+
+        {(b.looking.length > 0 || b.speaker) && (
+          <div className="b2b-signals">
+            {b.looking.map(l => (
+              <span key={l} className={`b2b-signal ${sigClass[l] ?? ''}`}>{oppLabels[l]}</span>
+            ))}
+            {b.speaker && <span className="b2b-signal sig-speaker">Speaker</span>}
+          </div>
+        )}
+      </div>
+
+      <div className="card-footer">
         <button
           className={`fav-btn${isFavorited ? ' favd' : ''}`}
           onClick={e => { e.stopPropagation(); onFavorite(b.id) }}
-          aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          aria-label={isFavorited ? 'Remove from favourites' : 'Add to favourites'}
         >
-          {isFavorited ? '❤️' : '🤍'}
+          <i className={`ti ${isFavorited ? 'ti-heart-filled' : 'ti-heart'}`} />
         </button>
-      </div>
-
-      <div className="b2b-signals">
-        {b.looking.map(l => (
-          <span key={l} className={`b2b-signal ${sigClass[l]}`}>{oppLabels[l]}</span>
-        ))}
-        {b.speaker && <span className="b2b-signal sig-speaker">🎤 Speaker</span>}
-        {b.women && <span className="b2b-signal sig-women">♀ Women-Led</span>}
-        {b.convention && <span className="b2b-signal sig-convention">🎉 FeTNA Conv.</span>}
-      </div>
-
-      <div className="card-desc">{b.description}</div>
-
-      <div className="card-footer" onClick={e => e.stopPropagation()}>
         {b.reviews > 0 ? (
           <span className="card-rating">
-            <span className="rating-stars">{stars(b.rating)}</span>
-            {' '}{b.rating} · {b.reviews}
+            <span className="rating-star">★</span>
+            {stars(b.rating)} · {b.reviews} reviews
           </span>
         ) : (
-          <span />
+          <span className="card-new-label">New listing</span>
         )}
-        <button className="connect-btn" onClick={() => onSelect(b)}>View</button>
       </div>
     </div>
   )

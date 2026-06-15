@@ -30,10 +30,10 @@ export const categoryMap: Record<string, string> = {
 }
 
 export const oppLabels: Record<string, string> = {
-  partner: '🤝 Business Partners',
-  client: '🎯 Seeking Clients',
-  invest: '💼 Seeking Investment',
-  hire: '👥 Hiring',
+  partner: 'Partner',
+  client: 'Seeking Clients',
+  invest: 'Seeking Investment',
+  hire: 'Hiring',
 }
 
 export const oppTooltips: Record<string, string> = {
@@ -53,7 +53,7 @@ export const sigClass: Record<string, string> = {
 export const i18n = {
   en: {
     heroTitle: 'Connect with <em>Tamil Businesses</em> Worldwide',
-    heroSub: 'Discover partners, clients, talent, and investment across the global Tamil business community',
+    heroSub: 'Partners · Clients · Talent · Investment',
     searchPlaceholder: 'Search businesses, keywords...',
     searchBtn: 'Search',
   },

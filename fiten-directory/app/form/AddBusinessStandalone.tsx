@@ -22,7 +22,7 @@ function toFields(obj: Record<string, string | boolean | number>) {
 
 export default function AddBusinessStandalone() {
   const [form, setForm] = useState({
-    businessName: '', category: '', email: '', phone: '', city: '', website: '', description: '',
+    businessName: '', category: '', email: '', phone: '', city: '', website: '', logoUrl: '', description: '',
   })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -114,6 +114,7 @@ export default function AddBusinessStandalone() {
               <input className="form-input" type="tel" placeholder="Phone *" value={form.phone} onChange={set('phone')} />
               <input className="form-input" placeholder="City *" value={form.city} onChange={set('city')} />
               <input className="form-input" type="url" placeholder="Website (optional)" value={form.website} onChange={set('website')} />
+              <input className="form-input" type="url" placeholder="Logo / profile image URL (optional)" value={form.logoUrl} onChange={set('logoUrl')} />
               <textarea
                 className="form-textarea"
                 placeholder="Business description *"

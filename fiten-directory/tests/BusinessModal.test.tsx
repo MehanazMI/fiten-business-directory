@@ -76,7 +76,7 @@ describe('BusinessModal — B2B signals', () => {
   it('shows B2B Signals section when looking is non-empty', () => {
     setup({ looking: ['partner'] })
     expect(screen.getByText('B2B Signals')).toBeInTheDocument()
-    expect(screen.getByText(/Business Partners/)).toBeInTheDocument()
+    expect(screen.getByText('Partner')).toBeInTheDocument()
   })
 
   it('shows B2B Signals section when speaker is true', () => {
