@@ -140,14 +140,14 @@ describe('DirectoryClient — category filter', () => {
 describe('DirectoryClient — Pro filter', () => {
   it('shows only Pro businesses when Pro is selected', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('button', { name: /★ PRO/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /★ Featured/i }))
     const proCount = SAMPLE_BUSINESSES.filter(b => b.pro).length
     expect(screen.getByText(`${proCount} businesses`)).toBeInTheDocument()
   })
 
   it('restores all when PRO chip is toggled off', async () => {
     const { user } = setup()
-    const proChip = within(getSidebar()).getByRole('button', { name: /★ PRO/i })
+    const proChip = within(getSidebar()).getByRole('button', { name: /★ Featured/i })
     await user.click(proChip)
     await user.click(proChip)
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
@@ -443,7 +443,7 @@ describe('DirectoryClient — combined filters', () => {
 
   it('Pro filter + B2B signal together', async () => {
     const { user } = setup()
-    await user.click(within(getSidebar()).getByRole('button', { name: /★ PRO/i }))
+    await user.click(within(getSidebar()).getByRole('button', { name: /★ Featured/i }))
     await user.click(within(getSidebar()).getByRole('button', { name: /^Partner$/i }))
     // Only b1 is pro AND has partner
     expect(screen.getByText('1 businesses')).toBeInTheDocument()

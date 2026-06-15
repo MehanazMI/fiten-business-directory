@@ -174,7 +174,7 @@ export default function DirectoryClient({ initialData }: Props) {
   // Build active filter chips
   const activeChips: { label: string; onRemove: () => void }[] = []
   if (activeCat !== 'All') activeChips.push({ label: activeCat, onRemove: () => { setActiveCat('All'); resetPaging() } })
-  if (activeFilter === 'Pro') activeChips.push({ label: 'PRO only', onRemove: () => { setActiveFilter('All'); resetPaging() } })
+  if (activeFilter === 'Pro') activeChips.push({ label: 'Featured only', onRemove: () => { setActiveFilter('All'); resetPaging() } })
   if (showFavs) activeChips.push({ label: 'Saved', onRemove: () => { setShowFavs(false); resetPaging() } })
   if (showWomen) activeChips.push({ label: 'Women-Led', onRemove: () => { setShowWomen(false); resetPaging() } })
   if (showSpeaker) activeChips.push({ label: 'Speakers', onRemove: () => { setShowSpeaker(false); resetPaging() } })
@@ -251,7 +251,7 @@ export default function DirectoryClient({ initialData }: Props) {
                 else { setActiveCat(f); setActiveFilter('All') }
               }}
             >
-              {isPro ? <>★ PRO</> : f}
+              {isPro ? <>★ Featured</> : f}
             </button>
           )
         })}
@@ -300,7 +300,7 @@ export default function DirectoryClient({ initialData }: Props) {
                 className={`chip${activeFilter === 'Pro' ? ' on' : ''}`}
                 onClick={() => { setActiveFilter(activeFilter === 'Pro' ? 'All' : 'Pro'); resetPaging() }}
               >
-                ★ PRO
+                ★ Featured
               </button>
               <button
                 className={`chip chip-sage${showFavs ? ' on' : ''}`}
@@ -361,7 +361,7 @@ export default function DirectoryClient({ initialData }: Props) {
                 value={sort}
                 onChange={e => { setSort(e.target.value); resetPaging() }}
               >
-                <option value="default">PRO first</option>
+                <option value="default">Featured first</option>
                 <option value="az">A–Z</option>
                 <option value="reviews">Most Reviewed</option>
                 <option value="views">Most Viewed</option>

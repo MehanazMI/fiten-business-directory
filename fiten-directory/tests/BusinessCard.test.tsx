@@ -38,12 +38,12 @@ describe('BusinessCard — display', () => {
 
   it('shows PRO badge for pro businesses', () => {
     setup({ pro: true })
-    expect(screen.getByText('★ PRO')).toBeInTheDocument()
+    expect(screen.getByText('★ Featured')).toBeInTheDocument()
   })
 
   it('does not show PRO badge for non-pro businesses', () => {
     setup({ pro: false })
-    expect(screen.queryByText('★ PRO', { selector: '.pro-badge' })).not.toBeInTheDocument()
+    expect(screen.queryByText('★ Featured', { selector: '.pro-badge' })).not.toBeInTheDocument()
   })
 })
 

@@ -63,7 +63,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           </div>
         </div>
         {b.pro && (
-          <span className="pro-badge">★ PRO</span>
+          <span className="pro-badge">★ Featured</span>
         )}
       </div>
 
