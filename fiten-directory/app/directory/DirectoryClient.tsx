@@ -195,12 +195,6 @@ export default function DirectoryClient({ initialData }: Props) {
           <span className="logo-tag">Business Directory</span>
         </div>
 
-        <nav className="nav-hdr">
-          <span className="nav-link active">Browse</span>
-          <a className="nav-link" href="/form">Add Business</a>
-          <span className="nav-link">Contact</span>
-        </nav>
-
         <div className="hdr-right">
           <div className="lang-toggle">
             <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
@@ -298,6 +292,39 @@ export default function DirectoryClient({ initialData }: Props) {
 
           <hr className="sidebar-divider" />
 
+          {/* Community */}
+          <div className="sb-section">
+            <div className="sb-label">Community</div>
+            <div className="chip-row">
+              <button
+                className={`chip${activeFilter === 'Pro' ? ' on' : ''}`}
+                onClick={() => { setActiveFilter(activeFilter === 'Pro' ? 'All' : 'Pro'); resetPaging() }}
+              >
+                ★ PRO
+              </button>
+              <button
+                className={`chip chip-sage${showFavs ? ' on' : ''}`}
+                onClick={() => { setShowFavs(v => !v); resetPaging() }}
+              >
+                ♡ Saved
+              </button>
+              <button
+                className={`chip chip-sage${showWomen ? ' on' : ''}`}
+                onClick={() => { setShowWomen(v => !v); resetPaging() }}
+              >
+                Women-Led
+              </button>
+              <button
+                className={`chip${showSpeaker ? ' on' : ''}`}
+                onClick={() => { setShowSpeaker(v => !v); resetPaging() }}
+              >
+                Speakers
+              </button>
+            </div>
+          </div>
+
+          <hr className="sidebar-divider" />
+
           {/* B2B Signals */}
           <div className="sb-section">
             <div className="sb-label" title="Filter by what businesses are actively looking for">B2B Signals</div>
@@ -317,41 +344,6 @@ export default function DirectoryClient({ initialData }: Props) {
                   {oppLabels[op]}
                 </button>
               ))}
-            </div>
-          </div>
-
-          <hr className="sidebar-divider" />
-
-          {/* Community */}
-          <div className="sb-section">
-            <div className="sb-label">Community</div>
-            <div className="chip-row">
-              <button
-                className={`chip${activeFilter === 'Pro' ? ' on' : ''}`}
-                onClick={() => { setActiveFilter(activeFilter === 'Pro' ? 'All' : 'Pro'); resetPaging() }}
-              >
-                <i className="ti ti-crown" />
-                PRO
-              </button>
-              <button
-                className={`chip chip-sage${showFavs ? ' on' : ''}`}
-                onClick={() => { setShowFavs(v => !v); resetPaging() }}
-              >
-                <i className="ti ti-heart" />
-                Saved
-              </button>
-              <button
-                className={`chip chip-sage${showWomen ? ' on' : ''}`}
-                onClick={() => { setShowWomen(v => !v); resetPaging() }}
-              >
-                Women-Led
-              </button>
-              <button
-                className={`chip${showSpeaker ? ' on' : ''}`}
-                onClick={() => { setShowSpeaker(v => !v); resetPaging() }}
-              >
-                Speakers
-              </button>
             </div>
           </div>
 
@@ -483,7 +475,7 @@ export default function DirectoryClient({ initialData }: Props) {
           </div>
         </div>
         <hr className="dir-footer-divider" />
-        <p className="dir-footer-copy">© 2026 FiTEN · Official directory of FeTNA · <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" style={{color:'inherit'}}>fetna.org</a> · Privacy · Terms</p>
+        <p className="dir-footer-copy">© 2026 FiTEN · Official directory of FeTNA · <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" style={{color:'inherit'}}>fetna.org</a> · <a href="/privacy" style={{color:'inherit'}}>Privacy</a> · <a href="/terms" style={{color:'inherit'}}>Terms</a></p>
       </footer>
     </>
   )

@@ -73,7 +73,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .hero-badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;font-weight:600;color:var(--amber);background:rgba(197,160,89,0.1);border:1px solid rgba(197,160,89,0.3);padding:3px 14px;border-radius:20px;margin-bottom:0.85rem;letter-spacing:0.04em}
 .hero-title{color:var(--navy);font-size:1.5rem;font-weight:500;line-height:1.3;margin-bottom:0.5rem}
 .hero-title em{color:var(--gold);font-style:normal}
-.hero-sub{color:var(--text2);font-size:0.85rem;margin-bottom:1.4rem;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6}
+.hero-sub{color:var(--text3);font-size:0.82rem;margin-bottom:1.4rem;letter-spacing:0.06em;font-weight:500}
 .hero-search{display:flex;max-width:500px;margin:0 auto;background:#fff;border-radius:6px;border:2px solid var(--gold-hero);overflow:hidden}
 .hero-search input{flex:1;border:none;padding:0.65rem 1rem;font-size:0.88rem;outline:none;background:transparent;color:var(--text);font-family:var(--font-sans)}
 .hero-search input::placeholder{color:var(--text3)}
@@ -180,8 +180,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .biz-card{background:#fff;border-radius:14px;border:1px solid var(--border);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.06);position:relative;display:flex;flex-direction:column;transition:box-shadow 0.2s,transform 0.2s,border-color 0.2s}
 .biz-card:hover{box-shadow:0 8px 24px rgba(15,23,42,0.12);transform:translateY(-2px);border-color:var(--navy-20)}
 .pro-card{border-top:3px solid var(--gold)}
-.pro-badge{font-size:0.62rem;font-weight:600;color:var(--amber);display:flex;align-items:center;gap:0.2rem;letter-spacing:0.04em;flex-shrink:0}
-.pro-badge i{font-size:0.75rem}
+.pro-badge{font-size:0.62rem;font-weight:700;color:var(--navy);background:var(--gold);padding:2px 8px;border-radius:4px;letter-spacing:0.05em;flex-shrink:0;white-space:nowrap}
 
 /* ━━━ CARD HEADER — initials + name ━━━ */
 .card-header{display:flex;align-items:flex-start;gap:0.75rem;padding:1.1rem 1rem 0.65rem}
@@ -430,6 +429,20 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .form-panel{display:none;background:white;color:var(--text);border-radius:10px;padding:1.75rem;box-shadow:var(--shadow-xl)}
 .form-panel.active{display:block}
 
+/* ━━━ LEGAL PAGES ━━━ */
+.legal-page{background:var(--cream);min-height:100vh;padding:3rem 1.5rem}
+.legal-container{max-width:680px;margin:0 auto}
+.legal-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.legal-back{font-size:0.78rem;color:var(--text3);text-decoration:none;display:inline-block;margin-bottom:1rem;transition:color 0.15s}
+.legal-back:hover{color:var(--navy)}
+.legal-header h1{font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem}
+.legal-date{font-size:0.78rem;color:var(--text3)}
+.legal-body section{margin-bottom:2rem}
+.legal-body h2{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.6rem}
+.legal-body p{font-size:0.88rem;color:var(--text2);line-height:1.8;margin-bottom:0.75rem}
+.legal-body ul{font-size:0.88rem;color:var(--text2);line-height:1.8;padding-left:1.25rem;margin-bottom:0.75rem}
+.legal-body a{color:var(--amber);text-decoration:underline;text-underline-offset:2px}
+
 /* ━━━ FB ERROR BANNER ━━━ */
 .fb-error-banner{background:var(--gold-lt);border:0.5px solid rgba(198,148,0,0.4);color:var(--amber-deep);padding:0.5rem 1rem;font-size:0.8rem;font-weight:500;text-align:center}
 
@@ -488,8 +501,8 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .cta-listing-btn:hover{background:#D4AE6A}
 
 /* ━━━ DIRECTORATE FOOTER ━━━ */
-.dir-footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:4rem 1.5rem 2rem;border-top:0.5px solid rgba(255,255,255,0.07)}
-.dir-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:900px;margin:0 auto 3rem}
+.dir-footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:2.5rem 1.5rem 1.5rem;border-top:0.5px solid rgba(255,255,255,0.07)}
+.dir-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2.5rem;max-width:900px;margin:0 auto 2rem}
 .dir-footer-brand{font-family:var(--font-serif);font-size:1.25rem;font-weight:400;color:#fff;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem}
 .dir-footer-brand span{color:var(--gold)}
 .dir-footer-tagline{font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.75;max-width:260px;margin-bottom:0.75rem}
