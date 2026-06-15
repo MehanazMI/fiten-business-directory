@@ -66,7 +66,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           <span className="verified-badge" title="Business email and website verified by FiTEN">✓ Verified</span>
         )}
         {b.pro && (
-          <span className="pro-badge">★ Featured</span>
+          <span className="pro-badge">🏅 FeTNA Sponsor</span>
         )}
       </div>
 
@@ -75,13 +75,12 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           <div className="card-desc">{b.description}</div>
         )}
 
-        {(b.looking.length > 0 || b.speaker || b.convention) && (
+        {(b.looking.length > 0 || b.speaker) && (
           <div className="b2b-signals">
             {b.looking.map(l => (
               <span key={l} className={`b2b-signal ${sigClass[l] ?? ''}`}>{oppLabels[l]}</span>
             ))}
             {b.speaker && <span className="b2b-signal sig-speaker">Speaker</span>}
-            {b.convention && <span className="b2b-signal sig-convention">FeTNA Conv.</span>}
           </div>
         )}
       </div>
