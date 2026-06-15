@@ -242,21 +242,21 @@ describe('DirectoryClient — favorites', () => {
   it('shows only favorited businesses when Saved filter is active', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
     expect(screen.getByText('Alpha Tech')).toBeInTheDocument()
   })
 
   it('shows 0 businesses when Saved filter is active and no favorites', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     expect(screen.getByText('0 businesses')).toBeInTheDocument()
   })
 
   it('un-favoriting removes from Saved list', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     await user.click(screen.getByLabelText('Remove from favourites'))
     expect(screen.getByText('0 businesses')).toBeInTheDocument()
   })
@@ -468,7 +468,7 @@ describe('DirectoryClient — combined filters', () => {
   it('Saved + search filters together', async () => {
     localStorage.setItem('fiten_favorites', JSON.stringify(['b1', 'b2']))
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Saved/i }))
+    await user.click(screen.getAllByRole('button', { name: /Saved/i })[0])
     await user.type(screen.getByRole('textbox'), 'Alpha')
     expect(screen.getByText('1 businesses')).toBeInTheDocument()
   })

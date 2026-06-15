@@ -208,7 +208,6 @@ export default function DirectoryClient({ initialData }: Props) {
             <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
           </div>
           <button className="hdr-btn" onClick={() => setShowAddModal(true)}>
-            <i className="ti ti-plus" />
             Add Your Business
           </button>
         </div>
@@ -232,10 +231,10 @@ export default function DirectoryClient({ initialData }: Props) {
         </div>
       </section>
 
-      {/* ── DARK STATS BAR ── */}
+      {/* ── STATS BAR ── */}
       <div className="stats-dark-bar">
         <div className="stats-dark-item">
-          <i className="ti ti-building" />
+          <i className="ti ti-building-store" />
           <strong>{businesses.length}+</strong> Businesses
         </div>
         <div className="stats-dark-item">
@@ -243,13 +242,38 @@ export default function DirectoryClient({ initialData }: Props) {
           <strong>{cityCount}</strong> Cities
         </div>
         <div className="stats-dark-item">
-          <i className="ti ti-category" />
+          <i className="ti ti-layout-grid" />
           <strong>{cats.length - 1}</strong> Sectors
         </div>
         <div className="stats-dark-item">
-          <i className="ti ti-globe" />
+          <i className="ti ti-world" />
           <strong>3</strong> Continents
         </div>
+      </div>
+
+      {/* ── QUICK FILTER PILLS ── */}
+      <div className="quick-filters">
+        {(['All', 'Pro', ...cats.filter(c => c !== 'All').slice(0, 5)]).map(f => (
+          <button
+            key={f}
+            className={`qf-pill${(f === 'All' && activeCat === 'All' && activeFilter === 'All') || (f === 'Pro' && activeFilter === 'Pro') || (f !== 'All' && f !== 'Pro' && activeCat === f) ? ' active' : ''}`}
+            onClick={() => {
+              resetPaging()
+              if (f === 'All') { setActiveCat('All'); setActiveFilter('All') }
+              else if (f === 'Pro') { setActiveCat('All'); setActiveFilter('Pro') }
+              else { setActiveCat(f); setActiveFilter('All') }
+            }}
+          >
+            {f === 'Pro' ? <><i className="ti ti-crown" /> PRO</> : f}
+          </button>
+        ))}
+        <button
+          aria-label="Show saved businesses"
+          className={`qf-pill${showFavs ? ' active' : ''}`}
+          onClick={() => { setShowFavs(v => !v); resetPaging() }}
+        >
+          <i className="ti ti-heart" /> Saved
+        </button>
       </div>
 
       {/* ── MAIN LAYOUT ── */}

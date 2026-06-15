@@ -80,7 +80,14 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .hero-search button:hover{background:#D4AE6A}
 
 /* ━━━ STATS DARK BAR ━━━ */
-.stats-dark-bar{background:var(--cream);padding:0.6rem 1.5rem;display:flex;justify-content:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.stats-dark-bar{background:var(--cream);padding:0.65rem 1.5rem;display:flex;justify-content:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+/* ━━━ QUICK FILTER PILLS ━━━ */
+.quick-filters{display:flex;align-items:center;gap:0.4rem;padding:0.65rem 1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap;background:#fff}
+.qf-pill{display:inline-flex;align-items:center;gap:0.3rem;padding:0.32rem 0.85rem;border-radius:20px;border:1px solid var(--border);font-size:0.78rem;color:var(--text2);cursor:pointer;background:#fff;font-family:inherit;transition:all 0.15s;white-space:nowrap;font-weight:400}
+.qf-pill:hover{border-color:var(--navy-20);color:var(--navy);background:var(--navy-05)}
+.qf-pill.active{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:500}
+.qf-pill.active i{color:#fff}
+.qf-pill i{font-size:0.78rem;color:var(--text3)}
 .stats-dark-item{color:var(--text3);font-size:0.72rem;padding:0 1.25rem;display:flex;align-items:center;gap:0.35rem;border-right:0.5px solid var(--border)}
 .stats-dark-item:last-child{border-right:none}
 .stats-dark-item strong{color:var(--amber);font-weight:600}
