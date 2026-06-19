@@ -43,6 +43,7 @@ export default async function FormPage() {
         <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
           {[
             { t: 'Global Reach', d: 'Visible to Tamil entrepreneurs, partners, and investors across the US, India, Canada, UK, Singapore and beyond.' },
+            { t: 'SEO-Indexed', d: 'Every listing gets its own URL so customers can find you on Google, not just inside the directory.' },
             { t: 'Verified Community', d: 'Listings are reviewed by FiTEN community moderators. Provide your registration number to fast-track verification.' },
             { t: 'B2B Signals', d: 'Tell the network what you need — partners, clients, talent, capital, or speaker invitations.' },
           ].map(b => (
