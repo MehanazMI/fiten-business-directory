@@ -186,7 +186,7 @@ export default function AddBusinessStandalone() {
       <div style={{ marginBottom: '1.5rem' }}>
         <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '0.4rem' }}>Add Your Business</h1>
         <p style={{ color: 'var(--text2)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-          Join the FiTEN Business Directory and connect with Tamil entrepreneurs worldwide. Your listing goes live instantly.
+          List your business on the FiTEN Tamil Business Directory and get discovered by founders, investors, and professionals across the community.
         </p>
       </div>
 
@@ -368,7 +368,7 @@ export default function AddBusinessStandalone() {
         {submitting ? 'Publishing...' : 'Publish My Listing'}
       </button>
       <p style={{ fontSize: '0.8rem', color: 'var(--text2)', textAlign: 'center', marginTop: '0.75rem' }}>
-        Your listing goes live instantly — no approval needed.
+        Your listing goes live instantly. Free, always.
       </p>
     </div>
   )
