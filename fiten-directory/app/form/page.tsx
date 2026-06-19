@@ -25,49 +25,48 @@ export default async function FormPage() {
   ]
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem 1rem 4rem', display: 'grid', gridTemplateColumns: '340px 1fr', gap: '2.5rem', alignItems: 'start' }}>
-      {/* Left info panel */}
-      <aside style={{ position: 'sticky', top: '2rem' }}>
-        <div style={{ background: '#0D2340', borderRadius: '0.8rem', padding: '2rem', color: 'white' }}>
-          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#C8972A', marginBottom: '0.75rem' }}>
-            Why List With Us
-          </p>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '1rem' }}>
-            Be found by the Tamil business community
-          </h2>
-          <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: '1.75rem' }}>
-            The first platform built exclusively for the Tamil business community — connecting founders, investors, and professionals year-round, not just at conventions.
-          </p>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '4rem 1.5rem 6rem', display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '5rem', alignItems: 'start' }}>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem', marginBottom: '1.75rem' }}>
-            {[
-              { icon: '⚡', title: 'Live instantly', body: 'Your listing appears in the directory the moment you submit — no waiting, no approval queue.' },
-              { icon: '🔍', title: 'SEO-indexed', body: 'Every listing gets its own Google-indexed URL so customers can find you on Google, not just inside the directory.' },
-              { icon: '🤝', title: 'B2B connections', body: 'Signal exactly what you need — partners, clients, investment, or talent — so the right people find you.' },
-              { icon: '🏅', title: 'Community trust', body: 'FeTNA-affiliated badges for sponsors, women-led businesses, and conference speakers set you apart.' },
-            ].map(b => (
-              <div key={b.title} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '1.1rem', marginTop: '0.1rem', flexShrink: 0 }}>{b.icon}</span>
-                <div>
-                  <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#C8972A', marginBottom: '0.2rem' }}>{b.title}</p>
-                  <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.6 }}>{b.body}</p>
-                </div>
+      {/* Left: info panel */}
+      <aside style={{ position: 'sticky', top: '3rem' }}>
+        <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#C8972A', marginBottom: '1rem' }}>
+          For Business Owners
+        </p>
+        <h1 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '3rem', lineHeight: 1.05, fontWeight: 700, color: '#0D2340', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
+          Add your business{' '}
+          <em style={{ fontStyle: 'italic', color: '#C8972A' }}>to FiTEN.</em>
+        </h1>
+        <p style={{ fontSize: '1rem', color: '#6B7280', lineHeight: 1.75, marginBottom: '2.5rem' }}>
+          Join Tamil-led businesses trusted by partners, clients, and investors worldwide. Listings are free for the community — sponsorship unlocks priority placement and verified status.
+        </p>
+
+        <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          {[
+            { t: 'Global Reach', d: 'Visible to Tamil entrepreneurs, partners, and investors across the US, India, Canada, UK, Singapore and beyond.' },
+            { t: 'Verified Community', d: 'Listings are reviewed by FiTEN community moderators. Free listings go live instantly; sponsored listings receive a verified badge.' },
+            { t: 'B2B Signals', d: 'Tell the network what you need — partners, clients, talent, capital, or speaker invitations.' },
+          ].map(b => (
+            <div key={b.t} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#C8972A', flexShrink: 0, marginTop: '0.4rem' }} />
+              <div>
+                <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0D2340', marginBottom: '0.3rem' }}>{b.t}</p>
+                <p style={{ fontSize: '0.875rem', color: '#6B7280', lineHeight: 1.65 }}>{b.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '1.5rem' }}>
+          <p style={{ fontSize: '0.65rem', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem', fontWeight: 600 }}>
+            Already in the directory
+          </p>
+          <div style={{ display: 'flex', gap: '2rem' }}>
+            {stats.map(([n, l]) => (
+              <div key={l}>
+                <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0D2340', lineHeight: 1 }}>{n}</p>
+                <p style={{ fontSize: '0.75rem', color: '#9CA3AF', marginTop: '0.25rem' }}>{l}</p>
               </div>
             ))}
-          </div>
-
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.25rem' }}>
-            <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.75rem', fontWeight: 600 }}>
-              Already in the directory
-            </p>
-            <div style={{ display: 'flex', gap: '1.25rem' }}>
-              {stats.map(([n, l]) => (
-                <div key={l}>
-                  <p style={{ fontSize: '1.3rem', fontWeight: 800, color: '#C8972A', lineHeight: 1 }}>{n}</p>
-                  <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', marginTop: '0.2rem' }}>{l}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </aside>
