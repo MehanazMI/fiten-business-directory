@@ -413,13 +413,19 @@ describe('DirectoryClient — live Firestore updates', () => {
     )
   })
 
-  it('merges live data without replacing existing list', async () => {
+  it('replaces list with full snapshot from Firestore', async () => {
     vi.mocked(onSnapshot).mockImplementation((_q, onNext) => {
       const snap = {
-        docs: [{
-          id: 'live-new',
-          data: () => ({ businessName: 'Live New Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, rating: 0, reviews: 0, views: 0, createdAt: '' }),
-        }],
+        docs: [
+          {
+            id: 'existing',
+            data: () => ({ businessName: 'Existing Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, rating: 0, reviews: 0, views: 0, createdAt: '' }),
+          },
+          {
+            id: 'live-new',
+            data: () => ({ businessName: 'Live New Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, rating: 0, reviews: 0, views: 0, createdAt: '' }),
+          },
+        ],
       }
       ;(onNext as (s: typeof snap) => void)(snap)
       return vi.fn()

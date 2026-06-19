@@ -107,11 +107,8 @@ export default function DirectoryClient({ initialData }: Props) {
             .filter(b => b.status === 'active')
             .map(b => [b.id, b])
         )
-        setBusinesses(prev => {
-          const merged = prev.map(b => liveMap.get(b.id) ?? b)
-          liveMap.forEach((b, id) => {
-            if (!merged.find(m => m.id === id)) merged.push(b)
-          })
+        setBusinesses(() => {
+          const merged = Array.from(liveMap.values())
           return merged.sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0) || b.reviews - a.reviews)
         })
       },
