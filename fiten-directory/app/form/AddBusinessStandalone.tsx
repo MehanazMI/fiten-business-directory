@@ -63,23 +63,23 @@ function validate(form: Record<string, string>): Errors {
 
 const required = ['businessName', 'contactName', 'category', 'city', 'email', 'description'] as const
 
-// Dark-on-navy style primitives
+// Light form card style primitives
 const lbl: React.CSSProperties = {
   display: 'block',
   fontSize: '0.625rem',
   fontWeight: 700,
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
-  color: 'rgba(255,255,255,0.55)',
+  color: '#6B7280',
   marginBottom: '0.4rem',
 }
 
 const inp: React.CSSProperties = {
   width: '100%',
   padding: '0.7rem 1rem',
-  background: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.18)',
-  color: 'white',
+  background: 'white',
+  border: '1px solid #D1D5DB',
+  color: '#111827',
   fontSize: '0.875rem',
   fontFamily: 'inherit',
   outline: 'none',
@@ -107,8 +107,8 @@ export default function AddBusinessStandalone() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const fieldErrors = validate(form)
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm(f => ({ ...f, [field]: e.target.value }))
+  const set = (f2: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [f2]: e.target.value }))
   const touch = (field: string) => () => setTouched(t => ({ ...t, [field]: true }))
   const focus = (field: string) => () => setFocused(field)
   const blur = (field: string) => () => { setFocused(null); setTouched(t => ({ ...t, [field]: true })) }
@@ -194,17 +194,14 @@ export default function AddBusinessStandalone() {
 
   const inputStyle = (field: string): React.CSSProperties => ({
     ...inp,
-    borderColor: showErr(field)
-      ? 'rgba(248,113,113,0.8)'
-      : focused === field
-        ? '#C8972A'
-        : 'rgba(255,255,255,0.18)',
+    borderColor: showErr(field) ? '#EF4444' : focused === field ? '#0D2340' : '#D1D5DB',
+    boxShadow: showErr(field) ? '0 0 0 3px rgba(239,68,68,0.08)' : focused === field ? '0 0 0 3px rgba(13,35,64,0.08)' : undefined,
   })
 
   const selectStyle = (field: string): React.CSSProperties => ({
     ...inputStyle(field),
     appearance: 'none',
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 0.9rem center',
     paddingRight: '2.5rem',
@@ -214,7 +211,7 @@ export default function AddBusinessStandalone() {
 
   if (success) {
     return (
-      <div style={{ background: '#0D2340', padding: '3.5rem 2.5rem', textAlign: 'center' }}>
+      <div style={{ background: 'white', border: '1px solid #E5E7EB', padding: '3.5rem 2.5rem', textAlign: 'center' }}>
         <div style={{
           width: 64, height: 64, borderRadius: '50%',
           background: 'linear-gradient(135deg,#10B981,#059669)',
@@ -224,19 +221,19 @@ export default function AddBusinessStandalone() {
         <div style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C8972A', marginBottom: '0.75rem' }}>
           You&rsquo;re live
         </div>
-        <h2 style={{ color: 'white', fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.75rem', lineHeight: 1.2 }}>
+        <h2 style={{ color: '#0D2340', fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.75rem', lineHeight: 1.2 }}>
           {form.businessName} is now listed.
         </h2>
-        <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: '2.5rem', fontSize: '0.9rem', maxWidth: 400, margin: '0 auto 2.5rem' }}>
+        <p style={{ color: '#6B7280', lineHeight: 1.7, marginBottom: '2.5rem', fontSize: '0.9rem', maxWidth: 400, margin: '0 auto 2.5rem' }}>
           Your listing is visible to Tamil entrepreneurs, partners, and investors worldwide.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href={newDocId ? `/directory/${newDocId}` : '/directory'}
-            style={{ padding: '0.85rem 2rem', background: '#C8972A', color: '#0D2340', textDecoration: 'none', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            style={{ padding: '0.85rem 2rem', background: '#0D2340', color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             View My Listing
           </a>
           <a href="/directory"
-            style={{ padding: '0.85rem 2rem', background: 'rgba(255,255,255,0.08)', color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            style={{ padding: '0.85rem 2rem', background: '#F5E9CC', color: '#0D2340', textDecoration: 'none', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             Browse Directory
           </a>
         </div>
@@ -252,10 +249,10 @@ export default function AddBusinessStandalone() {
         ← Back to Directory
       </a>
 
-      <div style={{ background: '#0D2340', color: 'white', padding: '2.5rem 3rem' }}>
+      <div style={{ background: 'white', border: '1px solid #E5E7EB', padding: '2.5rem 3rem' }}>
 
         {submitError && (
-          <div style={{ background: 'rgba(239,68,68,0.15)', color: '#FCA5A5', padding: '0.8rem 1rem', marginBottom: '1.5rem', borderLeft: '3px solid rgba(239,68,68,0.7)', fontSize: '0.85rem' }}>
+          <div style={{ background: '#fef2f2', color: '#991b1b', padding: '0.8rem 1rem', marginBottom: '1.5rem', borderLeft: '3px solid #EF4444', fontSize: '0.85rem' }}>
             {submitError}
           </div>
         )}
@@ -291,8 +288,8 @@ export default function AddBusinessStandalone() {
         <Field label="Primary Sector" required>
           <select style={selectStyle('category')} value={form.category}
             onChange={set('category')} onFocus={focus('category')} onBlur={blur('category')}>
-            <option value="" style={{ background: '#0D2340' }}>Select...</option>
-            {CATEGORIES.map(c => <option key={c} value={c} style={{ background: '#0D2340' }}>{c}</option>)}
+            <option value="" style={{ background: 'white' }}>Select...</option>
+            {CATEGORIES.map(c => <option key={c} value={c} style={{ background: 'white' }}>{c}</option>)}
           </select>
           {showErr('category') && <ErrMsg>{fieldErrors.category}</ErrMsg>}
         </Field>
@@ -301,8 +298,8 @@ export default function AddBusinessStandalone() {
           <Field label="Firm Size" hint="optional">
             <select style={selectStyle('firmSize')} value={form.firmSize}
               onChange={set('firmSize')} onFocus={focus('firmSize')} onBlur={() => setFocused(null)}>
-              <option value="" style={{ background: '#0D2340' }}>Select...</option>
-              {FIRM_SIZES.map(s => <option key={s.value} value={s.value} style={{ background: '#0D2340' }}>{s.label}</option>)}
+              <option value="" style={{ background: 'white' }}>Select...</option>
+              {FIRM_SIZES.map(s => <option key={s.value} value={s.value} style={{ background: 'white' }}>{s.label}</option>)}
             </select>
           </Field>
           <Field label="Registration No." hint="optional">
@@ -316,11 +313,11 @@ export default function AddBusinessStandalone() {
           <select style={{ ...selectStyle('region'), borderColor: focused === 'region' ? '#C8972A' : 'rgba(255,255,255,0.18)' }}
             value={form.region} onChange={set('region')}
             onFocus={focus('region')} onBlur={() => setFocused(null)}>
-            <option value="" style={{ background: '#0D2340' }}>Select...</option>
-            <optgroup label="USA">{REGIONS_USA.map(r => <option key={r} value={r} style={{ background: '#0D2340' }}>{r}</option>)}</optgroup>
-            <optgroup label="Canada">{REGIONS_CA.map(r => <option key={r} value={r} style={{ background: '#0D2340' }}>{r}</option>)}</optgroup>
-            <optgroup label="India">{REGIONS_IN.map(r => <option key={r} value={r} style={{ background: '#0D2340' }}>{r}</option>)}</optgroup>
-            <optgroup label="International">{REGIONS_INTL.map(r => <option key={r} value={r} style={{ background: '#0D2340' }}>{r}</option>)}</optgroup>
+            <option value="" style={{ background: 'white' }}>Select...</option>
+            <optgroup label="USA">{REGIONS_USA.map(r => <option key={r} value={r} style={{ background: 'white' }}>{r}</option>)}</optgroup>
+            <optgroup label="Canada">{REGIONS_CA.map(r => <option key={r} value={r} style={{ background: 'white' }}>{r}</option>)}</optgroup>
+            <optgroup label="India">{REGIONS_IN.map(r => <option key={r} value={r} style={{ background: 'white' }}>{r}</option>)}</optgroup>
+            <optgroup label="International">{REGIONS_INTL.map(r => <option key={r} value={r} style={{ background: 'white' }}>{r}</option>)}</optgroup>
           </select>
         </Field>
 
@@ -368,7 +365,7 @@ export default function AddBusinessStandalone() {
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.3rem' }}>
             {showErr('description') ? <ErrMsg>{fieldErrors.description}</ErrMsg> : <span />}
-            <span style={{ fontSize: '0.7rem', color: form.description.length > DESCRIPTION_MAX * 0.9 ? '#FCA5A5' : 'rgba(255,255,255,0.3)' }}>
+            <span style={{ fontSize: '0.7rem', color: form.description.length > DESCRIPTION_MAX * 0.9 ? '#EF4444' : '#9CA3AF' }}>
               {form.description.length} / {DESCRIPTION_MAX}
             </span>
           </div>
@@ -380,15 +377,15 @@ export default function AddBusinessStandalone() {
               <label key={o.value} style={{
                 display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
                 padding: '0.4rem 0.85rem', cursor: 'pointer',
-                border: `1px solid ${looking.includes(o.value) ? '#C8972A' : 'rgba(255,255,255,0.2)'}`,
-                background: looking.includes(o.value) ? 'rgba(200,151,42,0.12)' : 'rgba(255,255,255,0.04)',
+                border: `1px solid ${looking.includes(o.value) ? '#0D2340' : '#D1D5DB'}`,
+                background: looking.includes(o.value) ? '#EEF1F8' : '#FAFAFA',
                 fontSize: '0.8rem', fontWeight: looking.includes(o.value) ? 600 : 400,
-                color: looking.includes(o.value) ? '#C8972A' : 'rgba(255,255,255,0.7)',
+                color: looking.includes(o.value) ? '#0D2340' : '#6B7280',
                 transition: 'all 0.12s', userSelect: 'none',
               }}>
                 <input type="checkbox" checked={looking.includes(o.value)}
                   onChange={() => toggleLooking(o.value)}
-                  style={{ accentColor: '#C8972A', width: 12, height: 12 }} />
+                  style={{ accentColor: '#0D2340', width: 12, height: 12 }} />
                 {o.label}
               </label>
             ))}
@@ -401,9 +398,9 @@ export default function AddBusinessStandalone() {
               { state: women, setState: setWomen, label: 'Women-Led Business' },
               { state: convention, setState: setConvention, label: 'FeTNA Convention Participant' },
             ].map(o => (
-              <label key={o.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', cursor: 'pointer', color: 'rgba(255,255,255,0.75)' }}>
+              <label key={o.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', cursor: 'pointer', color: '#374151' }}>
                 <input type="checkbox" checked={o.state} onChange={e => o.setState(e.target.checked)}
-                  style={{ accentColor: '#C8972A', width: 14, height: 14 }} />
+                  style={{ accentColor: '#0D2340', width: 14, height: 14 }} />
                 {o.label}
               </label>
             ))}
@@ -417,11 +414,11 @@ export default function AddBusinessStandalone() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             style={{
-              border: `2px dashed ${dragOver ? '#C8972A' : 'rgba(255,255,255,0.2)'}`,
+              border: `2px dashed ${dragOver ? '#0D2340' : '#D1D5DB'}`,
               padding: '2rem',
               textAlign: 'center',
               cursor: 'pointer',
-              background: dragOver ? 'rgba(200,151,42,0.06)' : 'transparent',
+              background: dragOver ? '#F0F4FF' : '#FAFAFA',
               transition: 'all 0.15s',
             }}
           >
@@ -433,22 +430,22 @@ export default function AddBusinessStandalone() {
               style={{ display: 'none' }}
               onChange={e => handleFiles(e.target.files)}
             />
-            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: '0.8rem', color: '#9CA3AF', lineHeight: 1.6, margin: 0 }}>
               Drop your logo, brand assets, or business registration here.
               <br />
-              <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.73rem' }}>PNG, PDF, or DOCX · Up to 25 MB</span>
+              <span style={{ color: '#C4C9D4', fontSize: '0.73rem' }}>PNG, PDF, or DOCX · Up to 25 MB</span>
             </p>
           </div>
 
           {uploadedFiles.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.6rem' }}>
               {uploadedFiles.map(f => (
-                <div key={f.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', padding: '0.45rem 0.75rem', fontSize: '0.78rem' }}>
-                  <span style={{ color: 'rgba(255,255,255,0.7)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85%' }}>
+                <div key={f.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#F9FAFB', border: '1px solid #E5E7EB', padding: '0.45rem 0.75rem', fontSize: '0.78rem' }}>
+                  <span style={{ color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85%' }}>
                     {f.name} ({(f.size / 1024).toFixed(0)} KB)
                   </span>
                   <button onClick={e => { e.stopPropagation(); removeFile(f.name) }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.35)', fontSize: '1rem', padding: '0 0.25rem' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF', fontSize: '1rem', padding: '0 0.25rem' }}
                     aria-label="Remove file">×</button>
                 </div>
               ))}
@@ -462,8 +459,8 @@ export default function AddBusinessStandalone() {
           style={{
             width: '100%',
             padding: '1rem 1.5rem',
-            background: submitting ? 'rgba(200,151,42,0.5)' : '#C8972A',
-            color: '#0D2340',
+            background: submitting ? '#6B7280' : '#0D2340',
+            color: 'white',
             border: 'none',
             fontSize: '0.75rem',
             fontWeight: 700,
@@ -478,7 +475,7 @@ export default function AddBusinessStandalone() {
           {submitting ? 'Submitting…' : 'Submit Business Listing'}
         </button>
 
-        <p style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginTop: '1rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <p style={{ fontSize: '0.625rem', color: '#9CA3AF', textAlign: 'center', marginTop: '1rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           By submitting, you agree to FiTEN&rsquo;s community guidelines and verification process.
         </p>
 
@@ -498,7 +495,7 @@ function Field({ label, hint, required, children }: {
       <label style={lbl}>
         {label}
         {required && <span style={{ color: 'rgba(200,151,42,0.8)', marginLeft: '0.2rem' }}>*</span>}
-        {hint && <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.3)', marginLeft: '0.4rem', textTransform: 'none', letterSpacing: 0 }}>— {hint}</span>}
+        {hint && <span style={{ fontWeight: 400, color: '#9CA3AF', marginLeft: '0.4rem', textTransform: 'none', letterSpacing: 0 }}>— {hint}</span>}
       </label>
       {children}
     </div>
@@ -506,5 +503,5 @@ function Field({ label, hint, required, children }: {
 }
 
 function ErrMsg({ children }: { children: React.ReactNode }) {
-  return <p style={{ fontSize: '0.73rem', color: '#FCA5A5', margin: '0.3rem 0 0', fontWeight: 500 }}>{children}</p>
+  return <p style={{ fontSize: '0.73rem', color: '#EF4444', margin: '0.3rem 0 0', fontWeight: 500 }}>{children}</p>
 }
