@@ -74,15 +74,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [activeFilter, setActiveFilter] = useState('All')
   const [activeView, setActiveView] = useState<'grid' | 'list' | 'region'>('grid')
   const [showFavs, setShowFavs] = useState(false)
-  const [favorites, setFavorites] = useState<Set<string>>(() => {
-    if (typeof window === 'undefined') return new Set()
-    try {
-      const stored = localStorage.getItem('fiten_favorites')
-      return stored ? new Set(JSON.parse(stored) as string[]) : new Set()
-    } catch {
-      return new Set()
-    }
-  })
+  const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [currentBusiness, setCurrentBusiness] = useState<Business | null>(null)
   const [claimTarget, setClaimTarget] = useState<string | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
@@ -92,6 +84,13 @@ export default function DirectoryClient({ initialData }: Props) {
   const [activeOpps, setActiveOpps] = useState<Array<Business['looking'][number]>>([])
   const [showWomen, setShowWomen] = useState(false)
   const [showSpeaker, setShowSpeaker] = useState(false)
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('fiten_favorites')
+      if (stored) setFavorites(new Set(JSON.parse(stored) as string[]))
+    } catch { /* ignore */ }
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('fiten_favorites', JSON.stringify([...favorites]))

@@ -1,4 +1,4 @@
-export default function SiteHeader() {
+export default function SiteHeader({ page }: { page?: 'form' } = {}) {
   return (
     <header className="site-header">
       <div className="logo-area">
@@ -13,9 +13,13 @@ export default function SiteHeader() {
       </div>
 
       <div className="hdr-right">
-        <a className="hdr-btn" href="/form">
-          Add Your Business
-        </a>
+        {page === 'form' ? (
+          <a className="nav-link" href="/directory" style={{ color: 'rgba(255,255,255,0.7)' }}>
+            View Directory
+          </a>
+        ) : (
+          <a className="hdr-btn" href="/form">Add Your Business</a>
+        )}
       </div>
     </header>
   )
