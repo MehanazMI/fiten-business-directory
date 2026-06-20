@@ -13,13 +13,14 @@ const PINS = [
   { x: 51, y: 37, city: 'London' },
 ]
 
-export default function WorldMap() {
+export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
+  const dotFill = theme === 'light' ? 'rgba(15,23,42,0.18)' : 'rgba(255,255,255,0.22)'
   return (
     <div className="worldmap">
       <svg viewBox="0 0 100 50" className="worldmap-svg" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <pattern id="wm-dots" x="0" y="0" width="1.2" height="1.2" patternUnits="userSpaceOnUse">
-            <circle cx="0.6" cy="0.6" r="0.22" fill="rgba(255,255,255,0.22)" />
+            <circle cx="0.6" cy="0.6" r="0.22" fill={dotFill} />
           </pattern>
           <mask id="wm-mask">
             <rect width="100" height="50" fill="black" />

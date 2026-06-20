@@ -72,7 +72,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [lang, setLang] = useState<Lang>('en')
   const [activeCat, setActiveCat] = useState('All')
   const [activeFilter, setActiveFilter] = useState('All')
-  const [activeView, setActiveView] = useState<'grid' | 'list' | 'region'>('grid')
+  const [activeView, setActiveView] = useState<'grid' | 'list' | 'map'>('grid')
   const [showFavs, setShowFavs] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [currentBusiness, setCurrentBusiness] = useState<Business | null>(null)
@@ -150,7 +150,7 @@ export default function DirectoryClient({ initialData }: Props) {
 
     if (sort === 'az') list = [...list].sort((a, b) => a.businessName.localeCompare(b.businessName))
     else if (sort === 'reviews') list = [...list].sort((a, b) => b.reviews - a.reviews)
-    else if (sort === 'views') list = [...list].sort((a, b) => b.views - a.views)
+    else if (sort === 'rating') list = [...list].sort((a, b) => b.rating - a.rating)
     else list = [...list].sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0))
 
     return list
@@ -266,7 +266,7 @@ export default function DirectoryClient({ initialData }: Props) {
         })}
         <button
           aria-label="Show saved businesses"
-          className={`qf-pill${showFavs ? ' active' : ''}`}
+          className={`qf-pill qf-saved${showFavs ? ' active' : ''}`}
           onClick={() => { setShowFavs(v => !v); resetPaging() }}
         >
           ♡ Saved
@@ -373,7 +373,7 @@ export default function DirectoryClient({ initialData }: Props) {
                 <option value="default">Sponsors first</option>
                 <option value="az">A–Z</option>
                 <option value="reviews">Most Reviewed</option>
-                <option value="views">Most Viewed</option>
+                <option value="rating">Top Rated</option>
               </select>
               <div className="view-toggle">
                 <button
@@ -391,9 +391,9 @@ export default function DirectoryClient({ initialData }: Props) {
                   <i className="ti ti-layout-list" />
                 </button>
                 <button
-                  className={`view-btn${activeView === 'region' ? ' active' : ''}`}
-                  title="Region view"
-                  onClick={() => { setActiveView('region'); resetPaging() }}
+                  className={`view-btn${activeView === 'map' ? ' active' : ''}`}
+                  title="Map view"
+                  onClick={() => { setActiveView('map'); resetPaging() }}
                 >
                   <i className="ti ti-map-pin" />
                 </button>

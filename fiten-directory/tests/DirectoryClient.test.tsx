@@ -208,11 +208,14 @@ describe('DirectoryClient — sorting', () => {
     expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('Alpha')
   })
 
-  it('views sort orders by view count descending', async () => {
-    const { user } = setup()
-    await user.selectOptions(screen.getByRole('combobox'), 'views')
-    // Alpha Tech has views=500, highest → first card
-    expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('Alpha')
+  it('Top Rated sort orders by rating descending', async () => {
+    const biz = [
+      makeBusiness({ id: 'r1', businessName: 'Low Rated', rating: 3.0 }),
+      makeBusiness({ id: 'r2', businessName: 'High Rated', rating: 5.0 }),
+    ]
+    const { user } = setup(biz)
+    await user.selectOptions(screen.getByRole('combobox'), 'rating')
+    expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('High Rated')
   })
 })
 
@@ -289,15 +292,15 @@ describe('DirectoryClient — language toggle', () => {
 // View toggle
 // ---------------------------------------------------------------------------
 describe('DirectoryClient — view toggle', () => {
-  it('switches to region view', async () => {
+  it('switches to map view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region view/i }))
-    expect(screen.getByRole('button', { name: /Region view/i })).toHaveClass('active')
+    await user.click(screen.getByRole('button', { name: /Map view/i }))
+    expect(screen.getByRole('button', { name: /Map view/i })).toHaveClass('active')
   })
 
   it('switches back to grid view', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: /Region view/i }))
+    await user.click(screen.getByRole('button', { name: /Map view/i }))
     await user.click(screen.getByRole('button', { name: /Grid view/i }))
     expect(screen.getByRole('button', { name: /Grid view/i })).toHaveClass('active')
   })

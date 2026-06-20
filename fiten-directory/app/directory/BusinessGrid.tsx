@@ -1,10 +1,11 @@
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
 import BusinessCard from './BusinessCard'
+import WorldMap from '@/app/components/home/WorldMap'
 
 interface Props {
   businesses: Business[]
-  view: 'grid' | 'list' | 'region'
+  view: 'grid' | 'list' | 'map'
   visibleCount: number
   favorites: Set<string>
   lang: Lang
@@ -28,43 +29,14 @@ export default function BusinessGrid({
     )
   }
 
-  if (view === 'region') {
-    const groups: Record<string, Business[]> = {}
-    businesses.forEach(b => {
-      const r = b.region || 'Other'
-      if (!groups[r]) groups[r] = []
-      groups[r].push(b)
-    })
+  if (view === 'map') {
     return (
-      <>
-        {Object.entries(groups).map(([region, items]) => (
-          <div key={region} className="region-section">
-            <div className="region-heading">
-              <span className="region-flag">🌍</span>
-              {region}
-              <span className="region-count">{items.length}</span>
-            </div>
-            <div className="region-list">
-              {items.map(b => (
-                <div
-                  key={b.id}
-                  className={`region-row${b.pro ? ' pro-row' : ''}`}
-                  onClick={() => onSelect(b)}
-                >
-                  <div className="region-avatar">{b.initials}</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="region-name">
-                      {lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName}
-                    </div>
-                    <div className="region-sub">{b.category} · {b.city}</div>
-                  </div>
-                  {b.pro && <span className="pro-badge" style={{ position: 'static' }}><i className="ti ti-crown" /> PRO</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </>
+      <div className="map-view-card">
+        <WorldMap theme="light" />
+        <div className="map-view-caption">
+          {businesses.length} {businesses.length === 1 ? 'business' : 'businesses'} · hover a pin for the city
+        </div>
+      </div>
     )
   }
 
