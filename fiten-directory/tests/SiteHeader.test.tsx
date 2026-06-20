@@ -9,10 +9,10 @@ describe('SiteHeader — default (directory page)', () => {
     expect(screen.getByText('TEN')).toBeInTheDocument()
   })
 
-  it('logo links to /directory', () => {
+  it('logo links to home', () => {
     render(<SiteHeader />)
     const logoLink = screen.getByRole('link', { name: /FiTEN.*Business Directory/i })
-    expect(logoLink).toHaveAttribute('href', '/directory')
+    expect(logoLink).toHaveAttribute('href', '/')
   })
 
   it('shows "Add Your Business" button linking to /form', () => {
@@ -35,10 +35,10 @@ describe('SiteHeader — form page (page="form")', () => {
     expect(screen.getByText('TEN')).toBeInTheDocument()
   })
 
-  it('logo still links to /directory', () => {
+  it('logo still links to home', () => {
     render(<SiteHeader page="form" />)
     const logoLink = screen.getByRole('link', { name: /FiTEN.*Business Directory/i })
-    expect(logoLink).toHaveAttribute('href', '/directory')
+    expect(logoLink).toHaveAttribute('href', '/')
   })
 
   it('shows "View Directory" link to /directory', () => {

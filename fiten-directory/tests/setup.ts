@@ -39,3 +39,16 @@ vi.stubGlobal('localStorage', {
   removeItem: (k: string) => { delete store[k] },
   clear: () => { Object.keys(store).forEach(k => delete store[k]) },
 })
+
+// Stub IntersectionObserver (jsdom has none) — fire immediately as intersecting
+vi.stubGlobal(
+  'IntersectionObserver',
+  class {
+    cb: IntersectionObserverCallback
+    constructor(cb: IntersectionObserverCallback) { this.cb = cb }
+    observe() { this.cb([{ isIntersecting: true } as IntersectionObserverEntry], this as never) }
+    disconnect() {}
+    unobserve() {}
+    takeRecords() { return [] }
+  }
+)

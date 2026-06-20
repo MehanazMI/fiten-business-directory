@@ -2,7 +2,7 @@ export default function SiteHeader({ page }: { page?: 'form' } = {}) {
   return (
     <header className="site-header">
       <div className="logo-area">
-        <a href="/directory" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 'inherit' }}>
+        <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 'inherit' }}>
           <span className="logo-text">
             <span className="logo-fi">Fi</span>
             <span className="logo-ten">TEN</span>

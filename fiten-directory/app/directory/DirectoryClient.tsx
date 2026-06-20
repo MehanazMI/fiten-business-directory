@@ -93,6 +93,11 @@ export default function DirectoryClient({ initialData }: Props) {
   }, [])
 
   useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q')
+    if (q) setSearchQuery(q)
+  }, [])
+
+  useEffect(() => {
     localStorage.setItem('fiten_favorites', JSON.stringify([...favorites]))
   }, [favorites])
 
