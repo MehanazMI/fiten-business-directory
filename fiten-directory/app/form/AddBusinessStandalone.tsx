@@ -269,7 +269,7 @@ export default function AddBusinessStandalone() {
 
   return (
     <div>
-      <a href="/directory" style={{ color: '#6B7280', textDecoration: 'none', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '0.35rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+      <a href="/directory" style={{ color: '#0D2340', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1.5rem', fontSize: '0.875rem', borderBottom: '1.5px solid #C8972A', paddingBottom: '0.1rem' }}>
         ← Back to Directory
       </a>
 

@@ -34,7 +34,7 @@ export default async function FormPage() {
         </p>
         <h1 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '3.25rem', lineHeight: 1.05, fontWeight: 700, color: '#0D2340', marginBottom: '1.25rem', letterSpacing: '-0.02em' }}>
           Add your business{' '}
-          <em style={{ fontStyle: 'italic', color: '#C8972A' }}>to FiTEN.</em>
+          <em style={{ fontStyle: 'italic', color: '#C8972A' }}>to FiTEN</em>
         </h1>
         <p style={{ fontSize: '1rem', color: '#6B7280', lineHeight: 1.75, marginBottom: '2.5rem' }}>
           Join Tamil-led businesses trusted by partners, clients, and investors worldwide. Listings are free for the community — sponsorship unlocks priority placement and verified status.
