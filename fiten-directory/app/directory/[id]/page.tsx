@@ -78,7 +78,7 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
           <div>
             <div className="detail-name">{b.businessName}</div>
             {b.nameTamil && <div className="detail-name-sub">{b.nameTamil}</div>}
-            <div className="detail-cat-loc">{b.category} · 📍 {b.city}{(b as Record<string,unknown>).founded ? ` · Est. ${(b as Record<string,unknown>).founded}` : ''}</div>
+            <div className="detail-cat-loc">{b.category} · 📍 {b.city}{b.founded ? ` · Est. ${b.founded}` : ''}</div>
           </div>
         </div>
 
