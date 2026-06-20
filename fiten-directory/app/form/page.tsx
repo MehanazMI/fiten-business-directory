@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import AddBusinessStandalone from './AddBusinessStandalone'
+import SiteHeader from '@/app/components/SiteHeader'
+import SiteFooter from '@/app/components/SiteFooter'
 import { fetchBusinesses } from '@/lib/firestore-rest'
 
 export const metadata: Metadata = {
@@ -25,6 +27,8 @@ export default async function FormPage() {
   ]
 
   return (
+    <>
+    <SiteHeader />
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '5rem 1.5rem 6rem', display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '4rem', alignItems: 'start' }}>
 
       {/* Left: content panel — no card, white page */}
@@ -75,5 +79,7 @@ export default async function FormPage() {
       {/* Right: navy form card */}
       <AddBusinessStandalone />
     </div>
+    <SiteFooter />
+    </>
   )
 }
