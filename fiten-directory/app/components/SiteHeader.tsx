@@ -12,6 +12,12 @@ export default function SiteHeader({ page }: { page?: 'form' } = {}) {
         </a>
       </div>
 
+      <nav className="nav-hdr">
+        <a className="nav-link" href="/directory">Directory</a>
+        <a className="nav-link" href="/directory#categories">Categories</a>
+        <a className="nav-link" href="/form">For Partners</a>
+      </nav>
+
       <div className="hdr-right">
         {page === 'form' ? (
           <a className="nav-link" href="/directory" style={{ color: 'rgba(255,255,255,0.7)' }}>

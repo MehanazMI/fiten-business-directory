@@ -198,6 +198,12 @@ export default function DirectoryClient({ initialData }: Props) {
           <span className="logo-tag">Business Directory</span>
         </div>
 
+        <nav className="nav-hdr">
+          <a className="nav-link active" href="/directory">Directory</a>
+          <a className="nav-link" href="#categories">Categories</a>
+          <a className="nav-link" href="/form">For Partners</a>
+        </nav>
+
         <div className="hdr-right">
           <div className="lang-toggle">
             <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
@@ -239,7 +245,7 @@ export default function DirectoryClient({ initialData }: Props) {
       </section>
 
       {/* ── QUICK FILTER PILLS ── */}
-      <div className="quick-filters">
+      <div className="quick-filters" id="categories">
         {(['All', 'Pro', ...cats.filter(c => c !== 'All').slice(0, 5)]).map(f => {
           const isActive = (f === 'All' && activeCat === 'All' && activeFilter === 'All') || (f === 'Pro' && activeFilter === 'Pro') || (f !== 'All' && f !== 'Pro' && activeCat === f)
           const isPro = f === 'Pro'

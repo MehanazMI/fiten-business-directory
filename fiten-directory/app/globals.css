@@ -58,6 +58,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .nav-link{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.68rem;font-weight:400;padding:0.3rem 0.7rem;border-radius:4px;cursor:pointer;transition:color 0.15s;text-transform:uppercase;letter-spacing:0.1em}
 .nav-link:hover{color:var(--gold)}
 .nav-link.active{color:#fff}
+@media (max-width:768px){.nav-hdr{display:none}}
 .hdr-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
 /* Ghost language toggle */
 .lang-toggle{display:flex;align-items:center;gap:0}

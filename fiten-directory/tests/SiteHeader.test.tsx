@@ -26,6 +26,14 @@ describe('SiteHeader — default (directory page)', () => {
     render(<SiteHeader />)
     expect(screen.queryByRole('link', { name: /View Directory/i })).not.toBeInTheDocument()
   })
+
+  it('renders the primary nav menu links', () => {
+    render(<SiteHeader />)
+    const nav = document.querySelector('.nav-hdr') as HTMLElement
+    expect(within(nav).getByRole('link', { name: 'Directory' })).toHaveAttribute('href', '/directory')
+    expect(within(nav).getByRole('link', { name: 'Categories' })).toHaveAttribute('href', '/directory#categories')
+    expect(within(nav).getByRole('link', { name: 'For Partners' })).toHaveAttribute('href', '/form')
+  })
 })
 
 describe('SiteHeader — form page (page="form")', () => {
