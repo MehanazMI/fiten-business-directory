@@ -36,7 +36,7 @@ export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' 
         style={{ width: '100%', height: '100%', display: 'block' }}
       >
         <Geographies geography={countries}>
-          {({ geographies }) =>
+          {({ geographies }: { geographies: any[] }) =>
             geographies.map(geo => (
               <Geography
                 key={geo.rsmKey}
