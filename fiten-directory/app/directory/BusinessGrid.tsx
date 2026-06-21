@@ -1,7 +1,7 @@
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
 import BusinessCard from './BusinessCard'
-import WorldMap from '@/app/components/home/WorldMap'
+import WorldMap from '@/app/components/home/WorldMapLazy'
 
 interface Props {
   businesses: Business[]
@@ -32,7 +32,7 @@ export default function BusinessGrid({
   if (view === 'map') {
     return (
       <div className="map-view-card">
-        <WorldMap theme="light" />
+        <WorldMap theme="dark" />
         <div className="map-view-caption">
           {businesses.length} {businesses.length === 1 ? 'business' : 'businesses'} · hover a pin for the city
         </div>

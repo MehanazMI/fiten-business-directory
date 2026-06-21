@@ -15,9 +15,10 @@ describe('SiteHeader — default (directory page)', () => {
     expect(logoLink).toHaveAttribute('href', '/')
   })
 
-  it('shows "Add Your Business" button linking to /form', () => {
+  it('shows "Add Your Business" button in hdr-right linking to /form', () => {
     render(<SiteHeader />)
-    const btn = screen.getByRole('link', { name: /Add Your Business/i })
+    const hdrRight = document.querySelector('.hdr-right') as HTMLElement
+    const btn = within(hdrRight).getByRole('link', { name: /Add Your Business/i })
     expect(btn).toBeInTheDocument()
     expect(btn).toHaveAttribute('href', '/form')
   })
@@ -30,9 +31,10 @@ describe('SiteHeader — default (directory page)', () => {
   it('renders the primary nav menu links', () => {
     render(<SiteHeader />)
     const nav = document.querySelector('.nav-hdr') as HTMLElement
+    expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/')
     expect(within(nav).getByRole('link', { name: 'Directory' })).toHaveAttribute('href', '/directory')
-    expect(within(nav).getByRole('link', { name: 'Categories' })).toHaveAttribute('href', '/directory#categories')
-    expect(within(nav).getByRole('link', { name: 'For Partners' })).toHaveAttribute('href', '/form')
+    expect(within(nav).getByRole('link', { name: 'Connect' })).toHaveAttribute('href', '/connect')
+    expect(within(nav).getByRole('link', { name: 'Add Your Business' })).toHaveAttribute('href', '/form')
   })
 })
 
@@ -56,8 +58,9 @@ describe('SiteHeader — form page (page="form")', () => {
     expect(link).toHaveAttribute('href', '/directory')
   })
 
-  it('does not show "Add Your Business" button', () => {
+  it('does not show "Add Your Business" CTA button in hdr-right', () => {
     render(<SiteHeader page="form" />)
-    expect(screen.queryByRole('link', { name: /Add Your Business/i })).not.toBeInTheDocument()
+    const hdrRight = document.querySelector('.hdr-right') as HTMLElement
+    expect(within(hdrRight).queryByRole('link', { name: /Add Your Business/i })).not.toBeInTheDocument()
   })
 })

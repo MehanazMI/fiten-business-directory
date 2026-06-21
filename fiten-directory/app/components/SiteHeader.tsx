@@ -1,4 +1,9 @@
-export default function SiteHeader({ page }: { page?: 'form' } = {}) {
+interface SiteHeaderProps {
+  page?: 'form'
+  activeLink?: 'home' | 'directory' | 'connect'
+}
+
+export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
   return (
     <header className="site-header">
       <div className="logo-area">
@@ -13,9 +18,10 @@ export default function SiteHeader({ page }: { page?: 'form' } = {}) {
       </div>
 
       <nav className="nav-hdr">
-        <a className="nav-link" href="/directory">Directory</a>
-        <a className="nav-link" href="/directory#categories">Categories</a>
-        <a className="nav-link" href="/form">For Partners</a>
+        <a className={`nav-link${activeLink === 'home' ? ' active' : ''}`} href="/">Home</a>
+        <a className={`nav-link${activeLink === 'directory' ? ' active' : ''}`} href="/directory">Directory</a>
+        <a className={`nav-link${activeLink === 'connect' ? ' active' : ''}`} href="/connect">Connect</a>
+        <a className="nav-link nav-link-cta" href="/form">Add Your Business</a>
       </nav>
 
       <div className="hdr-right">

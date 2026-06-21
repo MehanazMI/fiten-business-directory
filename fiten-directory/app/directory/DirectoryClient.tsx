@@ -187,35 +187,6 @@ export default function DirectoryClient({ initialData }: Props) {
     <>
       {fbError && <div className="fb-error-banner">{fbError}</div>}
 
-      {/* ── HEADER ── */}
-      <header className="site-header">
-        <div className="logo-area" onClick={resetAll}>
-          <span className="logo-text">
-            <span className="logo-fi">Fi</span>
-            <span className="logo-ten">TEN</span>
-          </span>
-          <span className="logo-divider" aria-hidden="true" />
-          <span className="logo-tag">Business Directory</span>
-        </div>
-
-        <nav className="nav-hdr">
-          <a className="nav-link active" href="/directory">Directory</a>
-          <a className="nav-link" href="#categories">Categories</a>
-          <a className="nav-link" href="/form">For Partners</a>
-        </nav>
-
-        <div className="hdr-right">
-          <div className="lang-toggle">
-            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
-            <span className="lang-sep">|</span>
-            <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
-          </div>
-          <a className="hdr-btn" href="/form">
-            Add Your Business
-          </a>
-        </div>
-      </header>
-
       {/* ── HERO ── */}
       <section className="hero-section">
         <div className="hero-badge">🌏 Global Tamil Business Network</div>
@@ -356,6 +327,18 @@ export default function DirectoryClient({ initialData }: Props) {
             </div>
           </div>
 
+          <hr className="sidebar-divider" />
+
+          {/* Language */}
+          <div className="sb-section">
+            <div className="sb-label">Language</div>
+            <div className="lang-toggle">
+              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+              <span className="lang-sep">|</span>
+              <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
+            </div>
+          </div>
+
         </aside>
 
         {/* ── CONTENT ── */}
@@ -450,41 +433,6 @@ export default function DirectoryClient({ initialData }: Props) {
           Add Your Business
         </a>
       </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="dir-footer">
-        <div className="dir-footer-grid">
-          <div>
-            <div className="dir-footer-brand">
-              Fi<span>TEN</span>
-            </div>
-            <p className="dir-footer-tagline">
-              The official Tamil business directory of FeTNA — connecting professionals, partners, and investors across the global Tamil community.
-            </p>
-            <div className="dir-footer-org-links">
-              <a href="https://fiten.org" target="_blank" rel="noopener noreferrer" className="dir-footer-org-link">fiten.org ↗</a>
-              <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" className="dir-footer-org-link">fetna.org ↗</a>
-            </div>
-          </div>
-          <div>
-            <div className="dir-footer-col-title">Directory</div>
-            <ul className="dir-footer-links">
-              <li><span onClick={resetAll}>Browse Businesses</span></li>
-              <li><a href="/form">Add Your Business</a></li>
-            </ul>
-          </div>
-          <div>
-            <div className="dir-footer-col-title">Organization</div>
-            <ul className="dir-footer-links">
-              <li><a href="https://fetna.org" target="_blank" rel="noopener noreferrer">FeTNA</a></li>
-              <li><a href="https://fiten.org" target="_blank" rel="noopener noreferrer">FiTEN Global</a></li>
-              <li><span>Contact</span></li>
-            </ul>
-          </div>
-        </div>
-        <hr className="dir-footer-divider" />
-        <p className="dir-footer-copy">© 2026 FiTEN · Official directory of FeTNA · <a href="https://fetna.org" target="_blank" rel="noopener noreferrer" style={{color:'inherit'}}>fetna.org</a> · <a href="/privacy" style={{color:'inherit'}}>Privacy</a> · <a href="/terms" style={{color:'inherit'}}>Terms</a></p>
-      </footer>
     </>
   )
 }

@@ -4,7 +4,7 @@ import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 import Hero from '@/app/components/home/Hero'
 import FeaturedListings from '@/app/components/home/FeaturedListings'
-import WorldMap from '@/app/components/home/WorldMap'
+import WorldMap from '@/app/components/home/WorldMapLazy'
 import TestimonialMarquee from '@/app/components/home/TestimonialMarquee'
 import AnimatedCounter from '@/app/components/home/AnimatedCounter'
 

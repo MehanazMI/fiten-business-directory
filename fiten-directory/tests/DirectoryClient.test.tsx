@@ -29,9 +29,9 @@ describe('DirectoryClient — initial render', () => {
     expect(screen.getByText(`${SAMPLE_BUSINESSES.length} businesses`)).toBeInTheDocument()
   })
 
-  it('renders the FiTEN header logo', () => {
+  it('renders the hero section', () => {
     setup()
-    expect(screen.getByText((_, el) => el?.className === 'logo-text' && el.textContent === 'FiTEN')).toBeInTheDocument()
+    expect(document.querySelector('.hero-section')).toBeInTheDocument()
   })
 
   it('renders category sidebar with All item', () => {
@@ -310,10 +310,10 @@ describe('DirectoryClient — view toggle', () => {
 // Modals
 // ---------------------------------------------------------------------------
 describe('DirectoryClient — Add Business link', () => {
-  it('header Add Your Business is a link to /form', () => {
+  it('CTA section Add Your Business is a link to /form', () => {
     setup()
-    const header = document.querySelector('header') as HTMLElement
-    const link = within(header).getByRole('link', { name: /Add Your Business/i })
+    const cta = document.querySelector('.cta-listing') as HTMLElement
+    const link = within(cta).getByRole('link', { name: /Add Your Business/i })
     expect(link).toHaveAttribute('href', '/form')
   })
 
