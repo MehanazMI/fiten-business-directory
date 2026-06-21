@@ -1,8 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AnimatedCounter from './AnimatedCounter'
+
+const PLACEHOLDERS = [
+  'Lawyers in Toronto…',
+  'IT services in Dubai…',
+  'Catering in London…',
+  'Cloud security firms…',
+  'Bridal saree Toronto…',
+  'Accountants in Singapore…',
+]
 
 interface Props {
   businesses: number
@@ -16,6 +25,12 @@ const TRENDING = ['SAP', 'Catering', 'Immigration', 'Bridal Silks', 'Cloud Secur
 export default function Hero({ businesses, cities, sectors, continents }: Props) {
   const router = useRouter()
   const [query, setQuery] = useState('')
+  const [placeholderIdx, setPlaceholderIdx] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setPlaceholderIdx(i => (i + 1) % PLACEHOLDERS.length), 2800)
+    return () => clearInterval(id)
+  }, [])
 
   const goToDirectory = (q: string) => {
     router.push(q ? `/directory?q=${encodeURIComponent(q)}` : '/directory')
@@ -40,7 +55,7 @@ export default function Hero({ businesses, cities, sectors, continents }: Props)
       <div className="home-hero-inner">
         <div className="home-hero-badge">
           <span className="home-hero-badge-dot" />
-          Global Tamil Business Network · {cities} Cities · {continents} Continents
+          Tamil Business Network
         </div>
 
         <h1 className="home-hero-title">
@@ -48,8 +63,8 @@ export default function Hero({ businesses, cities, sectors, continents }: Props)
         </h1>
 
         <p className="home-hero-sub">
-          The verified directory of FiTEN-affiliated businesses — from family kitchens in Jaffna to
-          capital partners in Singapore. Find partners, clients, talent and investment.
+          The network where Tamil businesses find each other. Browse verified listings, connect with
+          partners, hire talent, and attract investment — all in one place.
         </p>
 
         <form onSubmit={submit} className="home-hero-search">
@@ -57,7 +72,7 @@ export default function Hero({ businesses, cities, sectors, continents }: Props)
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Try ‘SAP consultants’, ‘bridal saree Toronto’, ‘cloud security’…"
+            placeholder={PLACEHOLDERS[placeholderIdx]}
             aria-label="Search businesses"
           />
           <button type="submit">Search</button>
