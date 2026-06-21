@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "deck-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "4321", "C:\\Users\\rashe\\Documents\\Claude\\Projects\\Fiten-business-directory\\docs"],
+      "port": 4321
+    },
+    {
+      "name": "fiten-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\rashe\\Documents\\Claude\\Projects\\Fiten-business-directory\\fiten-directory"],
+      "port": 3000
+    }
+  ]
+}

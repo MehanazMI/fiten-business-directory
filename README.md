@@ -1,102 +1,36 @@
-# FiTEN Business Directory
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A Tamil business network directory connecting entrepreneurs and businesses globally.
+## Getting Started
 
-**Live Site:** https://fiten.org
-
----
-
-## 📁 Folder Structure
-
-```
-├── index.html                  Main homepage (v4 complete mockup)
-├── form.html                   Business signup form
-├── public/
-│   └── assets/                 Static assets (images, etc.)
-├── docs/                       Design documentation
-│   ├── DESIGN_SYSTEM.md
-│   ├── V4_SUMMARY.md
-│   ├── Google_Form_Setup_Checklist.md
-│   └── ...
-├── archive/                    Historical versions
-│   ├── mockups/               Previous mockup versions (v1-v3)
-│   └── proposals/             Old proposal documents
-├── vercel.json                Vercel deployment config
-├── .gitignore                 Git ignore rules
-└── README.md                  This file
-```
-
----
-
-## 🚀 Deployment
-
-### Vercel
-This project is optimized for Vercel static hosting.
+First, run the development server:
 
 ```bash
-# Push to GitHub, Vercel auto-deploys
-git push origin master
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-**Vercel will:**
-- Detect static HTML site
-- Deploy instantly (no build needed)
-- Serve from our domain at fiten.org
-- Provide HTTPS & CDN automatically
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 📄 Key Files
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-| File | Purpose |
-|------|---------|
-| `index.html` | Main directory homepage |
-| `form.html` | Business signup form |
-| `docs/DESIGN_SYSTEM.md` | Complete design specification |
-| `docs/V4_SUMMARY.md` | Project overview & features |
-| `archive/` | Historical mockups & proposals |
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-## ✨ Features (v4)
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- Clean, modern interface
-- Business card grid with filters
-- Search & category browsing
-- B2B signals (hiring, partnerships, investment, clients)
-- Verified badge system
-- Bilingual support (English / Tamil)
-- Responsive mobile design
-- Dark mode support
-- Business detail pages
-- Signup/claim business forms
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
----
+## Deploy on Vercel
 
-## 🔄 Routing
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- `/` → index.html (homepage)
-- `/form` → form.html (signup)
-- All other routes → index.html (for future SPA expansion)
-
----
-
-## 📝 Next Steps
-
-1. **Verify on Vercel** — Domain should point to fiten.org
-2. **Google Form** — Set up data collection using form.html
-3. **Database** — Connect to backend for business listings
-4. **Migrate to Framework** — Convert to Next.js for dynamic content
-5. **Add API** — Build admin panel for business management
-
----
-
-## 👤 Author
-
-Built for FiTEN Tamil Business Network
-
----
-
-## 📖 More Info
-
-See `docs/` folder for detailed design specifications and setup guides.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

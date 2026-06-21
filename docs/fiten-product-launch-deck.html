@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>FiTEN Business Directory — Product Launch 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy:       #0D2340;
+    --gold:       #C8972A;
+    --gold-light: #F5E9CC;
+    --gold-mid:   #E8C870;
+    --text:       #111827;
+    --muted:      #6B7280;
+    --border:     #E5E7EB;
+    --bg:         #F8FAFC;
+    --white:      #FFFFFF;
+    --green:      #10B981;
+    --red:        #EF4444;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #B0B8C4;
+    color: var(--text);
+  }
+
+  /* ── SLIDE SHELL ── */
+  .slide {
+    width: 297mm;
+    min-height: 210mm;
+    height: 210mm;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    margin: 0 auto 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+
+  .top-bar {
+    height: 6px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--gold) 100%);
+    flex-shrink: 0;
+  }
+
+  /* ── INNER ── */
+  .inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 48px 20px;
+    overflow: hidden;
+  }
+
+  /* ── FOOTER ── */
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 48px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .foot-brand { font-size: 12px; font-weight: 700; color: var(--navy); }
+  .foot-brand span { color: var(--gold); }
+  .foot-mid { font-size: 11px; color: var(--muted); }
+  .foot-num { font-size: 11px; color: var(--muted); }
+
+  /* ─────────────────────────────────────────
+     SLIDE 1 — COVER
+  ───────────────────────────────────────── */
+  .s1 .inner {
+    flex-direction: row;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .s1-left {
+    flex: 1;
+    padding: 36px 44px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .s1-right {
+    width: 220px;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-shrink: 0;
+    padding: 28px 20px;
+  }
+
+  .s1-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .s1-title {
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.0;
+    margin-bottom: 6px;
+  }
+  .s1-title em { color: var(--gold); font-style: normal; }
+
+  .s1-tagline {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 24px;
+    letter-spacing: 0.2px;
+  }
+
+  .s1-quote {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    border-left: 4px solid var(--gold);
+    padding-left: 16px;
+    max-width: 460px;
+    margin-bottom: 28px;
+  }
+
+  .s1-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .s1-pill {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: var(--gold-light);
+    color: var(--navy);
+  }
+
+  .s1-presenter { color: rgba(255,255,255,0.55); font-size: 10px; text-align: center; }
+  .s1-presenter strong { display: block; color: var(--white); font-size: 13px; margin-bottom: 4px; font-weight: 600; }
+
+  .s1-stat {
+    text-align: center;
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 14px 16px;
+    width: 100%;
+  }
+  .s1-stat-num { font-size: 26px; font-weight: 800; color: var(--gold-mid); line-height: 1; margin-bottom: 4px; }
+  .s1-stat-label { font-size: 10px; color: rgba(255,255,255,0.7); line-height: 1.4; }
+
+  .s1-event {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .s1-event strong { color: var(--white); display: block; font-size: 12px; }
+
+  /* ─────────────────────────────────────────
+     SHARED CONTENT STYLES
+  ───────────────────────────────────────── */
+  .slide-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .slide-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .meta-sep { width: 1px; height: 13px; background: var(--border); }
+  .slide-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .slide-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .slide-sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  .two-col { display: flex; gap: 28px; flex: 1; min-height: 0; }
+  .col { flex: 1; min-width: 0; }
+  .vsep { width: 1px; background: var(--border); flex-shrink: 0; }
+
+  .sec-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 2 — PROBLEM / SOLUTION
+  ───────────────────────────────────────── */
+  .card {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--bg);
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .card-left-bar {
+    width: 4px;
+    align-self: stretch;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .bar-red  { background: var(--red); }
+  .bar-gold { background: var(--gold); }
+
+  .card-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 3 — AUDIENCE & MARKET
+  ───────────────────────────────────────── */
+  .stat-grid { display: flex; gap: 12px; margin-bottom: 18px; }
+  .stat-card {
+    flex: 1;
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    color: var(--white);
+  }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--gold-mid); line-height: 1; margin-bottom: 5px; }
+  .stat-label { font-size: 11px; color: rgba(255,255,255,0.72); line-height: 1.4; }
+  .stat-src { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+  .aud-card {
+    padding: 13px 16px;
+    background: var(--bg);
+    border-radius: 10px;
+    border-left: 4px solid var(--navy);
+    margin-bottom: 10px;
+  }
+  .aud-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .aud-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  .highlight-box {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--navy);
+  }
+  .highlight-box strong { display: block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 4 — DEMO
+  ───────────────────────────────────────── */
+  .url-bar {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .url-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .url-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
+  .url-text { font-size: 18px; font-weight: 700; color: var(--gold-mid); letter-spacing: 0.3px; }
+
+  .step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 10px;
+    margin-bottom: 9px;
+  }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--navy); color: var(--white);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .step-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; font-weight: 500;
+    padding: 5px 14px; border-radius: 100px;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 5 — VISION
+  ───────────────────────────────────────── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 9px;
+  }
+  .check-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--green); color: var(--white);
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .growth-row { display: flex; gap: 10px; margin-top: 16px; }
+  .growth-box {
+    flex: 1; text-align: center;
+    padding: 12px 8px;
+    background: var(--bg);
+    border-radius: 10px;
+  }
+  .growth-num { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .growth-label { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+
+  .vision-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 18px 22px;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .vision-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .vision-text { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.88); }
+  .vision-text strong { color: var(--gold-mid); }
+
+  .phase-row { display: flex; gap: 10px; }
+  .phase-box {
+    flex: 1; text-align: center;
+    padding: 12px 8px;
+    background: var(--bg);
+    border-radius: 10px;
+    border-top: 3px solid var(--gold);
+  }
+  .phase-icon { font-size: 20px; margin-bottom: 5px; }
+  .phase-title { font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .phase-desc { font-size: 10.5px; color: var(--muted); line-height: 1.4; }
+
+  .ask-box {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--navy);
+    margin-top: 14px;
+  }
+  .ask-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    .slide { margin: 0; page-break-after: always; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════ -->
+<div class="slide s1">
+  <div class="top-bar"></div>
+  <div class="inner">
+
+    <div class="s1-left">
+      <div>
+        <div class="s1-eyebrow">FiTEN Product Launch · Edison 2026</div>
+        <div class="s1-title">Fi<em>TEN</em><br>Business<br>Directory</div>
+        <div class="s1-tagline">Connecting Tamil Entrepreneurs. Powering Community Growth.</div>
+        <div class="s1-quote">
+          A real-time, bilingual business directory built for the global Tamil diaspora — making it effortless to discover partners, clients, investors, and talent within our community.
+        </div>
+      </div>
+      <div>
+        <div class="s1-pills">
+          <span class="s1-pill">🌏 3 Continents</span>
+          <span class="s1-pill">🗂 10+ Sectors</span>
+          <span class="s1-pill">🔴 Live Today</span>
+          <span class="s1-pill">🌐 EN · தமிழ்</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="s1-right">
+      <div class="s1-stat">
+        <div class="s1-stat-num">600K+</div>
+        <div class="s1-stat-label">Tamil people in<br>US & Canada</div>
+      </div>
+      <div class="s1-stat">
+        <div class="s1-stat-num">71</div>
+        <div class="s1-stat-label">Member Tamil<br>Sangams in FeTNA</div>
+      </div>
+      <div class="s1-stat">
+        <div class="s1-stat-num">3,000+</div>
+        <div class="s1-stat-label">FeTNA convention<br>attendees (2025)</div>
+      </div>
+      <div class="s1-event">
+        <strong>FiTEN @ Edison</strong>
+        July 2, 2026<br>New Jersey Convention Center
+      </div>
+    </div>
+
+  </div>
+  <div class="foot">
+    <div class="foot-brand">Fi<span>TEN</span> Business Directory</div>
+    <div class="foot-mid">Presented by Mehanaz MI</div>
+    <div class="foot-num">1 / 5</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 2 — PROBLEM → SOLUTION
+══════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="top-bar"></div>
+  <div class="inner">
+    <div class="slide-meta">
+      <span class="slide-num">02</span>
+      <div class="meta-sep"></div>
+      <span class="slide-label">Problem · Solution</span>
+    </div>
+    <div class="slide-title">The Gap We're Closing</div>
+    <div class="slide-sub">FiTEN has spent 40 years building one of the most connected Tamil entrepreneur networks — but that network lives in event halls, not online.</div>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="sec-label">The Problem</div>
+
+        <div class="card">
+          <div class="card-left-bar bar-red"></div>
+          <div class="card-icon">🔍</div>
+          <div>
+            <div class="card-title">No Discoverability</div>
+            <div class="card-desc">A Tamil founder in New Jersey has no way to find a Tamil software agency in Chennai. The platform simply doesn't exist.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-left-bar bar-red"></div>
+          <div class="card-icon">🌐</div>
+          <div>
+            <div class="card-title">No Community Context</div>
+            <div class="card-desc">Google, LinkedIn, Yelp — none carry Tamil identity, cultural trust, or diaspora relevance for B2B decisions.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-left-bar bar-red"></div>
+          <div class="card-icon">📡</div>
+          <div>
+            <div class="card-title">No B2B Signaling</div>
+            <div class="card-desc">No way to broadcast "I'm looking for a partner, investor, or client" within the Tamil network.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vsep"></div>
+
+      <div class="col">
+        <div class="sec-label">The Solution</div>
+
+        <div class="card">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">⚡</div>
+          <div>
+            <div class="card-title">List in Minutes, Visible Globally</div>
+            <div class="card-desc">Any Tamil business submits once and appears in real time — searchable across cities, sectors, and continents.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">🤝</div>
+          <div>
+            <div class="card-title">Active B2B Signals</div>
+            <div class="card-desc">Businesses flag what they need right now: Partner · Client · Investment · Hiring — real intent, not just a profile.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">🏅</div>
+          <div>
+            <div class="card-title">Community Trust Layer</div>
+            <div class="card-desc">FeTNA Sponsors, Women-Led, Conference Speakers — curated identities backed by 40 years of FeTNA credibility.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="foot-brand">Fi<span>TEN</span> Business Directory</div>
+    <div class="foot-mid">fiten-directory.vercel.app</div>
+    <div class="foot-num">2 / 5</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 3 — AUDIENCE & MARKET
+══════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="top-bar"></div>
+  <div class="inner">
+    <div class="slide-meta">
+      <span class="slide-num">03</span>
+      <div class="meta-sep"></div>
+      <span class="slide-label">Audience · Market</span>
+    </div>
+    <div class="slide-title">A Network Already Built</div>
+    <div class="slide-sub">No cold-start problem. No user acquisition cost. The community is already here — it just needs a digital backbone.</div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">600K+</div>
+        <div class="stat-label">Tamil people in<br>US & Canada</div>
+        <div class="stat-src">US & Canadian Census</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">71</div>
+        <div class="stat-label">Member Tamil<br>Sangams in FeTNA</div>
+        <div class="stat-src">FeTNA.org verified</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3,000+</div>
+        <div class="stat-label">FeTNA convention<br>attendees (2025)</div>
+        <div class="stat-src">South Asian Herald, 2025</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">40 yrs</div>
+        <div class="stat-label">FeTNA community<br>trust & credibility</div>
+        <div class="stat-src">Est. 1988</div>
+      </div>
+    </div>
+
+    <div class="two-col" style="gap:24px;">
+      <div class="col">
+        <div class="sec-label">Who It Serves</div>
+        <div class="aud-card">
+          <div class="aud-title">Tamil Business Owners</div>
+          <div class="aud-desc">Seeking community visibility, trusted partners, and clients they can work with confidently.</div>
+        </div>
+        <div class="aud-card">
+          <div class="aud-title">Tamil Investors & Professionals</div>
+          <div class="aud-desc">Discovering vetted, community-aligned businesses for deals, partnerships, and collaboration.</div>
+        </div>
+        <div class="aud-card">
+          <div class="aud-title">FeTNA Convention Attendees</div>
+          <div class="aud-desc">Connecting with peers before, during, and long after each annual event — year-round, not just July.</div>
+        </div>
+      </div>
+
+      <div class="vsep"></div>
+
+      <div class="col" style="display:flex;align-items:center;">
+        <div class="highlight-box">
+          <strong>Why Now</strong>
+          FeTNA has connected Tamils for 38 years. For the first time, there is a real-time digital layer — turning that trusted offline network into an active, searchable business marketplace available 365 days a year.
+          <br><br>
+          Tamil diaspora entrepreneurship is accelerating. FiTEN is already at the centre of this network. The directory gives it a permanent home online.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="foot-brand">Fi<span>TEN</span> Business Directory</div>
+    <div class="foot-mid">fiten-directory.vercel.app</div>
+    <div class="foot-num">3 / 5</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 4 — LIVE DEMO
+══════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="top-bar"></div>
+  <div class="inner">
+    <div class="slide-meta">
+      <span class="slide-num">04</span>
+      <div class="meta-sep"></div>
+      <span class="slide-label">Live Demo</span>
+    </div>
+    <div class="slide-title">It's Live — Right Now</div>
+    <div class="slide-sub">A fully deployed, production-grade product. No prototype. No staging environment.</div>
+
+    <div class="url-bar">
+      <div class="url-dot"></div>
+      <div>
+        <div class="url-label">Live at</div>
+        <div class="url-text">fiten-directory.vercel.app</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="sec-label">Demo Walkthrough</div>
+
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Search & Browse</div>
+            <div class="step-desc">Find businesses by name, keyword, or any of 10+ industry categories — instantly.</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Filter by B2B Signal</div>
+            <div class="step-desc">Partner · Hiring · Seeking Investment · Seeking Clients — real intent, not just profiles.</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">View Business Profile</div>
+            <div class="step-desc">Full contact details, website, Tamil name, sector, Women-Led and Sponsor badges.</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-title">Add Your Business</div>
+            <div class="step-desc">Submit at /form — live in the directory within seconds via real-time sync.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vsep"></div>
+
+      <div class="col">
+        <div class="sec-label">Technical Foundation</div>
+
+        <div class="card" style="margin-bottom:10px;">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">⚡</div>
+          <div>
+            <div class="card-title">Real-Time Sync</div>
+            <div class="card-desc">New listings appear without page refresh — Firebase Firestore live subscriptions.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:10px;">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">🔎</div>
+          <div>
+            <div class="card-title">SEO-Indexed</div>
+            <div class="card-desc">Every business has its own URL — discoverable on Google from day one.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-left-bar bar-gold"></div>
+          <div class="card-icon">📱</div>
+          <div>
+            <div class="card-title">Mobile-Ready</div>
+            <div class="card-desc">Fully responsive — works on any device, anywhere in the world.</div>
+          </div>
+        </div>
+
+        <div class="sec-label">Built With</div>
+        <div class="tag-row">
+          <span class="tag">Next.js 16</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Vercel</span>
+          <span class="tag">TypeScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="foot-brand">Fi<span>TEN</span> Business Directory</div>
+    <div class="foot-mid">fiten-directory.vercel.app</div>
+    <div class="foot-num">4 / 5</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 5 — IMPACT & VISION
+══════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="top-bar"></div>
+  <div class="inner">
+    <div class="slide-meta">
+      <span class="slide-num">05</span>
+      <div class="meta-sep"></div>
+      <span class="slide-label">Impact · Vision</span>
+    </div>
+    <div class="slide-title">Today's Product. Tomorrow's Platform.</div>
+    <div class="slide-sub">A proven foundation with a clear path to broader community impact.</div>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="sec-label">What Exists Today</div>
+
+        <div class="check-row"><div class="check-icon">✓</div> Live, deployed product — zero downtime</div>
+        <div class="check-row"><div class="check-icon">✓</div> Real Tamil businesses listed across multiple cities</div>
+        <div class="check-row"><div class="check-icon">✓</div> Official FiTEN / FeTNA affiliation</div>
+        <div class="check-row"><div class="check-icon">✓</div> Free to list — open to any Tamil entrepreneur</div>
+        <div class="check-row"><div class="check-icon">✓</div> Bilingual, mobile-ready, SEO-indexed</div>
+
+        <div class="growth-row">
+          <div class="growth-box">
+            <div class="growth-num">500+</div>
+            <div class="growth-label">Businesses<br>in 12 months</div>
+          </div>
+          <div class="growth-box">
+            <div class="growth-num">10K+</div>
+            <div class="growth-label">Monthly<br>visitors</div>
+          </div>
+          <div class="growth-box">
+            <div class="growth-num">50+</div>
+            <div class="growth-label">Cities<br>globally</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vsep"></div>
+
+      <div class="col">
+        <div class="sec-label">The Vision</div>
+
+        <div class="vision-box">
+          <div class="vision-label">White-Label Platform — Next Phase</div>
+          <div class="vision-text">
+            FiTEN Business Directory is the <strong>proof of concept</strong>. The next step: offer this as a <strong>premium white-label platform</strong> for any diaspora, alumni, or cultural organization to launch their own branded business directory — powered by the same engine.
+          </div>
+        </div>
+
+        <div class="phase-row">
+          <div class="phase-box">
+            <div class="phase-icon">🏗</div>
+            <div class="phase-title">Phase 1</div>
+            <div class="phase-desc">FiTEN Tamil Directory — live & growing</div>
+          </div>
+          <div class="phase-box">
+            <div class="phase-icon">🌐</div>
+            <div class="phase-title">Phase 2</div>
+            <div class="phase-desc">White-label for diaspora orgs worldwide</div>
+          </div>
+          <div class="phase-box">
+            <div class="phase-icon">🚀</div>
+            <div class="phase-title">Phase 3</div>
+            <div class="phase-desc">Multi-community SaaS platform</div>
+          </div>
+        </div>
+
+        <div class="ask-box">
+          <div class="ask-label">The Ask</div>
+          FeTNA's endorsement and community mobilization to onboard Tamil businesses globally — and validate the foundation for a platform that can serve every diaspora community in the world.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="foot-brand">Fi<span>TEN</span> Business Directory</div>
+    <div class="foot-mid">fiten-directory.vercel.app</div>
+    <div class="foot-num">5 / 5</div>
+  </div>
+</div>
+
+</body>
+</html>
