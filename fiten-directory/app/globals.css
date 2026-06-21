@@ -646,7 +646,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .connect-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
 .connect-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(197,160,89,0.15),transparent 70%);pointer-events:none}
 .connect-hero-inner{position:relative;max-width:780px;margin:0 auto;text-align:center}
-.connect-hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(197,160,89,0.1);border:1px solid rgba(197,160,89,0.3);padding:0.35rem 1rem;font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.connect-hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:none;border:none;padding:0.25rem 0;font-size:0.68rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.42);margin-bottom:1.5rem}
 .connect-hero-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:hero-pulse 2s ease-in-out infinite;flex-shrink:0}
 .connect-hero-title{font-family:var(--font-serif);font-weight:700;font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;color:#fff;margin-bottom:1rem;letter-spacing:-0.01em}
 .connect-hero-title em{color:var(--gold);font-style:normal}
