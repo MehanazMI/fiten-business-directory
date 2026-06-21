@@ -1,7 +1,7 @@
 # FiTEN Business Directory — Implementation Plan
 **Version 3.0 | June 2026 | Status: MVP Live on Next.js**
 
-> Live: https://fiten-directory.vercel.app (domain cutover to fiten.org pending — see [DOMAIN_CUTOVER.md](./DOMAIN_CUTOVER.md))
+> Live: https://fiten-business-directory.vercel.app (domain cutover to fiten.org pending — see [DOMAIN_CUTOVER.md](./DOMAIN_CUTOVER.md))
 > Repo: https://github.com/MehanazMI/fiten-business-directory
 > Design reference: [DESIGN.md](./DESIGN.md)
 
@@ -79,7 +79,7 @@ The directory shipped first as a static HTML + Firebase prototype, then was full
 | SEO | `app/robots.ts`, `app/sitemap.ts`, `metadataBase`, JSON-LD | Domain-agnostic via `NEXT_PUBLIC_SITE_URL` |
 | Tests | Vitest + React Testing Library | 176 tests, run on every pre-commit hook |
 | Dev environment | Firestore emulator + Vercel preview deploys | Isolated local dev; auto preview URL per branch |
-| Domain | fiten.org (pending) | Currently on `fiten-directory.vercel.app` |
+| Domain | fiten.org (pending) | Currently on `fiten-business-directory.vercel.app` |
 
 ---
 

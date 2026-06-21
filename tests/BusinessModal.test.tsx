@@ -139,7 +139,7 @@ describe('BusinessModal — footer actions', () => {
     const { user, business } = setup()
     await user.click(screen.getByRole('button', { name: 'Share' }))
     expect(writeSpy).toHaveBeenCalledWith(
-      `https://fiten-directory.vercel.app/directory/${business.id}`
+      `https://fiten-business-directory.vercel.app/directory/${business.id}`
     )
   })
 

@@ -27,7 +27,7 @@ Object.defineProperty(navigator, 'clipboard', {
   configurable: true,
 })
 Object.defineProperty(window, 'location', {
-  value: { origin: 'https://fiten-directory.vercel.app' },
+  value: { origin: 'https://fiten-business-directory.vercel.app' },
   writable: true,
 })
 

@@ -10,7 +10,7 @@
     {
       "name": "fiten-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\rashe\\Documents\\Claude\\Projects\\Fiten-business-directory\\fiten-directory"],
+      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\rashe\\Documents\\Claude\\Projects\\Fiten-business-directory"],
       "port": 3000
     }
   ]

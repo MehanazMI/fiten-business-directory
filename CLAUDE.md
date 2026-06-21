@@ -6,14 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this directory is
 
-The Next.js App Router rewrite of the FiTEN Business Directory. Deployed at **fiten-directory.vercel.app**. The legacy `index.html` + `form.html` site lives one level up at the repo root and is kept as a reference during the domain cutover.
+The Next.js App Router rewrite of the FiTEN Business Directory. Deployed at **fiten-business-directory.vercel.app**. The legacy `index.html` + `form.html` site lives in `archive/` and is kept as a reference during the domain cutover.
 
 ---
 
 ## Commands
 
 ```bash
-# run from this directory (fiten-directory/)
+# run from the repo root
 npm run dev            # dev server → production Firestore
 npm run dev:emulator   # dev server → local Firestore emulator
 npm run seed           # seed emulator with 6 test businesses
@@ -26,7 +26,7 @@ TypeScript errors surface during `npm run build` — there is no separate lint s
 
 ### Environment variables
 
-`.env.local` (gitignored) — actual values in Vercel project (`mehanazmis-projects/fiten-directory`):
+`.env.local` (gitignored) — actual values in Vercel project (`mehanazmis-projects/fiten-business-directory`):
 
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY=

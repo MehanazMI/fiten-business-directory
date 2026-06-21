@@ -299,7 +299,7 @@ story.append(Spacer(1, 4))
 story.append(highlight_box("",
     "A real-time, bilingual business directory built for the global Tamil diaspora — "
     "making it effortless to discover partners, clients, investors, and talent "
-    "within our community. Live today at fiten-directory.vercel.app."
+    "within our community. Live today at fiten-business-directory.vercel.app."
 ))
 story.append(Spacer(1, 18))
 
@@ -320,7 +320,7 @@ story.append(Spacer(1, 22))
 # Footer meta
 meta = Table([[
     Paragraph("Presented by <b>Mehanaz MI</b>", S["small"]),
-    Paragraph("fiten-directory.vercel.app", S["small"]),
+    Paragraph("fiten-business-directory.vercel.app", S["small"]),
     Paragraph("July 2, 2026 · Edison, New Jersey", S["small"]),
 ]], colWidths=[W/3]*3)
 meta.setStyle(TableStyle([
@@ -438,7 +438,7 @@ story += page_header("04", "LIVE PRODUCT", "It's Live — Right Now",
 url_content = Table([
     [Paragraph("LIVE AT", ParagraphStyle("ul", fontName="Helvetica-Bold", fontSize=9,
                                           textColor=colors.HexColor("#9CA3AF"), letterSpacing=2, leading=12))],
-    [Paragraph("fiten-directory.vercel.app", ParagraphStyle("uv", fontName="Helvetica-Bold",
+    [Paragraph("fiten-business-directory.vercel.app", ParagraphStyle("uv", fontName="Helvetica-Bold",
                                                               fontSize=20, textColor=GOLD, leading=24))],
 ], colWidths=["100%"])
 url_content.setStyle(TableStyle([

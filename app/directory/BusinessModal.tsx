@@ -40,7 +40,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
       window.open(`https://wa.me/${waPhone(b.phone)}?text=${encodeURIComponent(connectMsg)}`, '_blank')
     } else {
       const subject = encodeURIComponent('FiTEN Directory – Connection Request')
-      const body = encodeURIComponent(`${connectMsg}\n\n---\nSent via FiTEN Business Directory · fiten-directory.vercel.app`)
+      const body = encodeURIComponent(`${connectMsg}\n\n---\nSent via FiTEN Business Directory · fiten-business-directory.vercel.app`)
       window.location.href = `mailto:${b.email}?subject=${subject}&body=${body}`
     }
   }
