@@ -58,7 +58,7 @@ export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' 
           <Marker
             key={pin.city}
             coordinates={pin.coords}
-            onMouseEnter={(e) => {
+            onMouseEnter={(e: React.MouseEvent) => {
               const g = (e.target as SVGElement).closest('g')
               const svg = (e.target as SVGElement).closest('svg')
               if (!g || !svg) return
