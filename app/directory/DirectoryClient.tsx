@@ -191,7 +191,6 @@ export default function DirectoryClient({ initialData }: Props) {
       <section className="hero-section">
         <div className="hero-inner">
           <div className="hero-badge">
-            <i className="ti ti-world hero-badge-globe" />
             Global Tamil Business Network
           </div>
           <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />

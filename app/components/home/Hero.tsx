@@ -54,7 +54,7 @@ export default function Hero({ businesses, cities, sectors, continents }: Props)
       <div className="home-hero-glow" aria-hidden="true" />
       <div className="home-hero-inner">
         <div className="home-hero-badge">
-          <span className="home-hero-badge-dot" />
+          <i className="ti ti-world home-hero-badge-globe" aria-hidden="true" />
           Tamil Business Network
         </div>
 
