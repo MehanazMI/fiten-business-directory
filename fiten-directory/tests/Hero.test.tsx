@@ -24,7 +24,7 @@ function setup() {
 describe('Hero', () => {
   it('renders the headline', () => {
     setup()
-    expect(screen.getByRole('heading', { name: /Where Tamil enterprise/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Tamil business/i })).toBeInTheDocument()
   })
 
   it('renders the search input', () => {

@@ -1,6 +1,6 @@
 interface SiteHeaderProps {
   page?: 'form'
-  activeLink?: 'home' | 'directory' | 'connect'
+  activeLink?: 'home' | 'directory' | 'connect' | 'form'
 }
 
 export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
@@ -21,7 +21,7 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
         <a className={`nav-link${activeLink === 'home' ? ' active' : ''}`} href="/">Home</a>
         <a className={`nav-link${activeLink === 'directory' ? ' active' : ''}`} href="/directory">Directory</a>
         <a className={`nav-link${activeLink === 'connect' ? ' active' : ''}`} href="/connect">Connect</a>
-        <a className="nav-link nav-link-cta" href="/form">Add Your Business</a>
+        <a className={`nav-link${activeLink === 'form' ? ' active' : ''}`} href="/form">Get Listed</a>
       </nav>
 
       <div className="hdr-right">
@@ -30,7 +30,7 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
             View Directory
           </a>
         ) : (
-          <a className="hdr-btn" href="/form">Add Your Business</a>
+          <a className="hdr-btn" href="/form">Get Listed</a>
         )}
       </div>
     </header>

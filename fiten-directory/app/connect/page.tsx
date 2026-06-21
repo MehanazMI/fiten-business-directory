@@ -1,6 +1,7 @@
 import { fetchBusinesses } from '@/lib/firestore-rest'
 import ConnectClient from './ConnectClient'
 import SiteHeader from '@/app/components/SiteHeader'
+import SiteFooter from '@/app/components/SiteFooter'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default async function ConnectPage() {
       <main>
         <ConnectClient businesses={businesses} />
       </main>
+      <SiteFooter />
     </>
   )
 }

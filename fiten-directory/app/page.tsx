@@ -38,7 +38,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader activeLink="home" />
 
       <Hero businesses={active.length} cities={cities} sectors={sectors} continents={3} />
 

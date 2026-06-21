@@ -18,7 +18,7 @@ describe('SiteHeader — default (directory page)', () => {
   it('shows "Add Your Business" button in hdr-right linking to /form', () => {
     render(<SiteHeader />)
     const hdrRight = document.querySelector('.hdr-right') as HTMLElement
-    const btn = within(hdrRight).getByRole('link', { name: /Add Your Business/i })
+    const btn = within(hdrRight).getByRole('link', { name: /Get Listed/i })
     expect(btn).toBeInTheDocument()
     expect(btn).toHaveAttribute('href', '/form')
   })
@@ -34,7 +34,7 @@ describe('SiteHeader — default (directory page)', () => {
     expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/')
     expect(within(nav).getByRole('link', { name: 'Directory' })).toHaveAttribute('href', '/directory')
     expect(within(nav).getByRole('link', { name: 'Connect' })).toHaveAttribute('href', '/connect')
-    expect(within(nav).getByRole('link', { name: 'Add Your Business' })).toHaveAttribute('href', '/form')
+    expect(within(nav).getByRole('link', { name: 'Get Listed' })).toHaveAttribute('href', '/form')
   })
 })
 
@@ -61,6 +61,6 @@ describe('SiteHeader — form page (page="form")', () => {
   it('does not show "Add Your Business" CTA button in hdr-right', () => {
     render(<SiteHeader page="form" />)
     const hdrRight = document.querySelector('.hdr-right') as HTMLElement
-    expect(within(hdrRight).queryByRole('link', { name: /Add Your Business/i })).not.toBeInTheDocument()
+    expect(within(hdrRight).queryByRole('link', { name: /Get Listed/i })).not.toBeInTheDocument()
   })
 })

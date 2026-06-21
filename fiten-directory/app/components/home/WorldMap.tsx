@@ -72,7 +72,6 @@ export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' 
             }}
             onMouseLeave={() => setTooltip(null)}
           >
-            {/* Invisible large hit area */}
             <circle r={10} fill="transparent" style={{ cursor: 'pointer' }} />
             <circle
               r={5}
@@ -88,27 +87,25 @@ export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' 
       </ComposableMap>
 
       {tooltip && (
-        <div
-          style={{
-            position: 'absolute',
-            left: tooltip.x,
-            top: tooltip.y - 36,
-            transform: 'translateX(-50%)',
-            background: isDark ? 'rgba(10,18,35,0.95)' : 'rgba(255,255,255,0.95)',
-            border: `1px solid ${isDark ? 'rgba(197,160,89,0.5)' : 'rgba(15,23,42,0.2)'}`,
-            color: isDark ? '#C5A059' : '#0f172a',
-            fontSize: '11px',
-            fontWeight: 700,
-            fontFamily: 'Inter, sans-serif',
-            letterSpacing: '0.04em',
-            padding: '4px 10px',
-            borderRadius: '4px',
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            zIndex: 10,
-            boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
-          }}
-        >
+        <div style={{
+          position: 'absolute',
+          left: tooltip.x,
+          top: tooltip.y - 36,
+          transform: 'translateX(-50%)',
+          background: isDark ? 'rgba(10,18,35,0.95)' : 'rgba(255,255,255,0.95)',
+          border: `1px solid ${isDark ? 'rgba(197,160,89,0.5)' : 'rgba(15,23,42,0.2)'}`,
+          color: isDark ? '#C5A059' : '#0f172a',
+          fontSize: '11px',
+          fontWeight: 700,
+          fontFamily: 'Inter, sans-serif',
+          letterSpacing: '0.04em',
+          padding: '4px 10px',
+          borderRadius: '4px',
+          pointerEvents: 'none',
+          whiteSpace: 'nowrap',
+          zIndex: 10,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+        }}>
           {tooltip.city}
         </div>
       )}

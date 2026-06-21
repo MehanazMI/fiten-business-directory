@@ -52,8 +52,8 @@ export const sigClass: Record<string, string> = {
 
 export const i18n = {
   en: {
-    heroTitle: 'Connect with <em>Tamil Businesses</em> Worldwide',
-    heroSub: 'Partners · Clients · Talent · Investment',
+    heroTitle: 'Tamil business, <em>built on trust.</em>',
+    heroSub: 'Discover verified Tamil-led businesses across tech, finance, healthcare, and more.',
     searchPlaceholder: 'Search businesses, keywords...',
     searchBtn: 'Search',
   },

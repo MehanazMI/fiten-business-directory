@@ -28,7 +28,7 @@ export default async function FormPage() {
 
   return (
     <>
-    <SiteHeader page="form" />
+    <SiteHeader page="form" activeLink="form" />
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '5rem 1.5rem 6rem', display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '4rem', alignItems: 'start' }}>
 
       {/* Left: content panel — no card, white page */}

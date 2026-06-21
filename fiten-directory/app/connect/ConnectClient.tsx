@@ -117,8 +117,7 @@ export default function ConnectClient({ businesses }: { businesses: Business[] }
             Live Opportunities
           </div>
           <h1 className="connect-hero-title">
-            Where Tamil Business<br />
-            <em>Connections Happen</em>
+            Tamil business, <em>connected.</em>
           </h1>
           <p className="connect-hero-sub">
             Browse businesses actively seeking partners, clients, investors, and talent.

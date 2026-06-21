@@ -44,9 +44,7 @@ export default function Hero({ businesses, cities, sectors, continents }: Props)
         </div>
 
         <h1 className="home-hero-title">
-          Where Tamil <em className="gold-gradient">enterprise</em>
-          <br />
-          meets the <em className="gold-gradient">world.</em>
+          Tamil business, <em className="gold-gradient">global reach.</em>
         </h1>
 
         <p className="home-hero-sub">

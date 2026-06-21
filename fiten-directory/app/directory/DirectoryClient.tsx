@@ -189,29 +189,46 @@ export default function DirectoryClient({ initialData }: Props) {
 
       {/* ── HERO ── */}
       <section className="hero-section">
-        <div className="hero-badge">🌏 Global Tamil Business Network</div>
-        <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
-        <p className="hero-sub">{t.heroSub}</p>
-        <div className="hero-search">
-          <input
-            type="text"
-            placeholder={t.searchPlaceholder}
-            value={searchQuery}
-            onChange={e => { setSearchQuery(e.target.value); resetPaging() }}
-          />
-          <button>
-            <i className="ti ti-search" />
-            {t.searchBtn}
-          </button>
-        </div>
-        <div className="hero-inline-stats">
-          <div className="his-item"><strong>{businesses.length}+</strong><span>Businesses</span></div>
-          <div className="his-sep" />
-          <div className="his-item"><strong>{cityCount}</strong><span>Cities</span></div>
-          <div className="his-sep" />
-          <div className="his-item"><strong>{cats.length - 1}</strong><span>Sectors</span></div>
-          <div className="his-sep" />
-          <div className="his-item"><strong>3</strong><span>Continents</span></div>
+        <div className="hero-inner">
+          <div className="hero-badge">
+            <i className="ti ti-world hero-badge-globe" />
+            Global Tamil Business Network
+          </div>
+          <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
+          <p className="hero-sub">{t.heroSub}</p>
+          <div className="hero-search">
+            <input
+              type="text"
+              placeholder={t.searchPlaceholder}
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); resetPaging() }}
+            />
+            <button>
+              <i className="ti ti-search" />
+              {t.searchBtn}
+            </button>
+          </div>
+          <div className="hero-inline-stats">
+            <div className="his-item">
+              <i className="ti ti-building-store" style={{ color: '#C5A059', fontSize: '1.1rem' }} />
+              <strong>{businesses.length}+</strong><span>Businesses</span>
+            </div>
+            <div className="his-sep" />
+            <div className="his-item">
+              <i className="ti ti-map-pin" style={{ color: '#7C3AED', fontSize: '1.1rem' }} />
+              <strong>{cityCount}</strong><span>Cities</span>
+            </div>
+            <div className="his-sep" />
+            <div className="his-item">
+              <i className="ti ti-layout-grid" style={{ color: '#059669', fontSize: '1.1rem' }} />
+              <strong>{cats.length - 1}</strong><span>Sectors</span>
+            </div>
+            <div className="his-sep" />
+            <div className="his-item">
+              <i className="ti ti-world" style={{ color: '#2563EB', fontSize: '1.1rem' }} />
+              <strong>3</strong><span>Continents</span>
+            </div>
+          </div>
         </div>
       </section>
 
