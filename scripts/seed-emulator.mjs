@@ -4,7 +4,9 @@
  * Requires the emulator to be running: firebase emulators:start --only firestore
  */
 
-const EMULATOR_URL = 'http://localhost:8080/v1/projects/fiten-business-directory/databases/(default)/documents/businesses'
+const BASE_URL = 'http://localhost:8080/v1/projects/fiten-business-directory/databases/(default)/documents'
+const EMULATOR_URL = `${BASE_URL}/businesses`
+const TESTIMONIALS_URL = `${BASE_URL}/testimonials`
 
 const businesses = [
   {
@@ -146,6 +148,17 @@ function toFirestoreFields(obj) {
   return { fields }
 }
 
+const testimonials = [
+  { quote: 'We found our SAP implementation partner through FiTEN in under a week. The verified listing made the decision easy.', author: 'R. Kumar', firm: 'Senthil Software', order: 1 },
+  { quote: 'Being listed connected us with two investors from the diaspora we would never have reached otherwise.', author: 'Anitha Devi', firm: 'TamilMed Clinics', order: 2 },
+  { quote: 'The FeTNA Sponsor badge gave new clients real confidence before our first call.', author: 'Vijay Ramesh', firm: 'ERP Partners', order: 3 },
+  { quote: 'A bride in Toronto found our Coimbatore showroom on FiTEN and flew in for her trousseau.', author: 'Lakshmi S.', firm: 'Lakshmi Silks', order: 4 },
+  { quote: 'We hired three engineers from the community through the directory. Culture fit was instant.', author: 'Prakash N.', firm: 'Cloudbridge Systems', order: 5 },
+  { quote: 'As a women-led firm, the visibility and the network around it have been genuinely transformative.', author: 'Meena R.', firm: 'Aruvi Consulting', order: 6 },
+  { quote: 'Immigration referrals used to come by word of mouth. Now they come from across three continents.', author: 'Suresh K.', firm: 'Maran Legal', order: 7 },
+  { quote: 'The directory paid for itself with a single partnership formed at the FeTNA convention.', author: 'Deepa V.', firm: 'Bharath Capital', order: 8 },
+]
+
 async function seed() {
   console.log(`Seeding ${businesses.length} businesses into emulator...`)
   let ok = 0
@@ -170,7 +183,26 @@ async function seed() {
     }
   }
 
-  console.log(`\nDone: ${ok} added, ${fail} failed.`)
+  console.log(`\nDone businesses: ${ok} added, ${fail} failed.`)
+
+  console.log(`\nSeeding ${testimonials.length} testimonials...`)
+  let tok = 0, tfail = 0
+  for (const t of testimonials) {
+    try {
+      const res = await fetch(TESTIMONIALS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(toFirestoreFields(t)),
+      })
+      if (!res.ok) throw new Error((await res.json()).error?.message ?? `HTTP ${res.status}`)
+      console.log(`  ✓ ${t.author} — ${t.firm}`)
+      tok++
+    } catch (err) {
+      console.error(`  ✗ ${t.firm}: ${err.message}`)
+      tfail++
+    }
+  }
+  console.log(`\nDone testimonials: ${tok} added, ${tfail} failed.`)
   console.log('Emulator UI: http://localhost:4000')
 }
 

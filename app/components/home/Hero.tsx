@@ -18,11 +18,13 @@ interface Props {
   cities: number
   sectors: number
   continents: number
+  trending?: string[]
 }
 
-const TRENDING = ['SAP', 'Catering', 'Immigration', 'Bridal Silks', 'Cloud Security']
+const DEFAULT_TRENDING = ['SAP', 'Catering', 'Immigration', 'Bridal Silks', 'Cloud Security']
 
-export default function Hero({ businesses, cities, sectors, continents }: Props) {
+export default function Hero({ businesses, cities, sectors, continents, trending }: Props) {
+  const TRENDING = trending?.length ? trending : DEFAULT_TRENDING
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [placeholderIdx, setPlaceholderIdx] = useState(0)

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { fetchBusinesses } from '@/lib/firestore-rest'
+import { fetchBusinesses, fetchTestimonials } from '@/lib/firestore-rest'
+import { deriveGeoStats } from '@/lib/geo'
 import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 import Hero from '@/app/components/home/Hero'
@@ -17,30 +18,42 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600
 
+const TRENDING_LIMIT = 5
+
 const HOW_IT_WORKS = [
   { n: '01', t: 'Discover', d: 'Search by sector, city, or signal. Filter by FeTNA sponsorship, women-led, hiring, and more.' },
   { n: '02', t: 'Connect', d: 'Save shortlists and explore profiles. Reach out directly from each business listing.' },
   { n: '03', t: 'Transact', d: 'Hire, partner, invest, or refer — all within a verified, accountable community network.' },
 ]
 
-const REGIONS = [
-  { l: 'Americas', n: 6 },
-  { l: 'Asia', n: 4 },
-  { l: 'Europe / GCC', n: 2 },
-]
-
 export default async function HomePage() {
-  const businesses = await fetchBusinesses().catch(() => [])
+  const [businesses, testimonials] = await Promise.all([
+    fetchBusinesses().catch(() => []),
+    fetchTestimonials().catch(() => []),
+  ])
   const active = businesses.filter(b => b.status === 'active')
 
-  const cities = new Set(active.map(b => b.city).filter(Boolean)).size
+  const cityList = active.map(b => b.city).filter(Boolean)
+  const cities = new Set(cityList).size
   const sectors = new Set(active.map(b => b.category).filter(Boolean)).size
+
+  const { continents, regions, pins } = deriveGeoStats(cityList)
+
+  const trending = Object.entries(
+    active.reduce<Record<string, number>>((acc, b) => {
+      if (b.category) acc[b.category] = (acc[b.category] ?? 0) + 1
+      return acc
+    }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, TRENDING_LIMIT)
+    .map(([cat]) => cat)
 
   return (
     <>
       <SiteHeader activeLink="home" />
 
-      <Hero businesses={active.length} cities={cities} sectors={sectors} continents={3} />
+      <Hero businesses={active.length} cities={cities} sectors={sectors} continents={continents} trending={trending} />
 
       <FeaturedListings businesses={active} />
 
@@ -50,14 +63,14 @@ export default async function HomePage() {
           <div className="home-map-copy">
             <div className="sec-kicker sec-kicker-gold">Global Presence</div>
             <h2 className="sec-title sec-title-light">
-              One community, <em className="gold-text">12 cities.</em>
+              One community, <em className="gold-text">{cities} cities.</em>
             </h2>
             <p className="home-map-text">
               Members trade, hire, and invest across North America, Europe, the Gulf, ASEAN, and South
               Asia. The map grows each time a new business joins.
             </p>
             <div className="home-map-regions">
-              {REGIONS.map(r => (
+              {regions.map(r => (
                 <div key={r.l} className="home-map-region">
                   <div className="home-map-region-num">
                     <AnimatedCounter value={r.n} />
@@ -68,7 +81,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="home-map-canvas">
-            <WorldMap />
+            <WorldMap pins={pins} />
           </div>
         </div>
       </section>
@@ -79,7 +92,7 @@ export default async function HomePage() {
           <div className="sec-kicker sec-kicker-center">In Their Words</div>
           <h2 className="sec-title sec-title-center">What clients &amp; partners say.</h2>
         </div>
-        <TestimonialMarquee />
+        <TestimonialMarquee testimonials={testimonials} />
       </section>
 
       {/* HOW IT WORKS */}

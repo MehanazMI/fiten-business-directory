@@ -76,3 +76,29 @@ export async function fetchBusinessById(id: string): Promise<Business | null> {
   if (!res.ok) return null
   return parseFirestoreDoc(await res.json())
 }
+
+export interface Testimonial {
+  quote: string
+  author: string
+  firm: string
+  order: number
+}
+
+export async function fetchTestimonials(): Promise<Testimonial[]> {
+  const url = `${FS_BASE}/testimonials${keyParam}`
+  const res = await fetch(url, { next: { revalidate: 3600 } })
+  if (!res.ok) return []
+  const data = await res.json()
+  return ((data.documents ?? []) as FirestoreRestDoc[])
+    .map(doc => {
+      const f = doc.fields
+      return {
+        quote: f.quote?.stringValue ?? '',
+        author: f.author?.stringValue ?? '',
+        firm: f.firm?.stringValue ?? '',
+        order: Number(f.order?.integerValue ?? 0),
+      }
+    })
+    .filter(t => t.quote)
+    .sort((a, b) => a.order - b.order)
+}

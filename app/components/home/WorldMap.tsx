@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import countries from 'world-atlas/countries-110m.json'
 
-const PINS: { coords: [number, number]; city: string }[] = [
+const DEFAULT_PINS: { coords: [number, number]; city: string }[] = [
   { coords: [-122.4, 37.8], city: 'San Francisco' },
   { coords: [-121.9, 37.4], city: 'Silicon Valley' },
   { coords: [-96.8,  32.8], city: 'Dallas' },
@@ -19,7 +19,14 @@ const PINS: { coords: [number, number]; city: string }[] = [
   { coords: [ -0.1,  51.5], city: 'London' },
 ]
 
-export default function WorldMap({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
+export default function WorldMap({
+  theme = 'dark',
+  pins,
+}: {
+  theme?: 'dark' | 'light'
+  pins?: { coords: [number, number]; city: string }[]
+}) {
+  const PINS = pins?.length ? pins : DEFAULT_PINS
   const isDark = theme === 'dark'
   const landFill   = isDark ? '#1e3a5f' : '#c8d6e5'
   const landHover  = isDark ? '#264a75' : '#a8c4d8'

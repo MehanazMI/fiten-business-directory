@@ -1,12 +1,14 @@
-import { testimonials } from '@/lib/testimonials'
+import { testimonials as fallback } from '@/lib/testimonials'
+import type { Testimonial } from '@/lib/firestore-rest'
 
-export default function TestimonialMarquee() {
-  const doubled = [...testimonials, ...testimonials]
+export default function TestimonialMarquee({ testimonials }: { testimonials?: Testimonial[] }) {
+  const items = testimonials?.length ? testimonials : fallback
+  const doubled = [...items, ...items]
 
   return (
     <div className="marquee">
       <div className="marquee-track">
-        {doubled.map((t, i) => (
+        {doubled.map((t: { quote: string; author: string; firm: string }, i: number) => (
           <figure key={i} className="marquee-card">
             <div className="marquee-quote-mark">&ldquo;</div>
             <blockquote className="marquee-quote">{t.quote}</blockquote>
