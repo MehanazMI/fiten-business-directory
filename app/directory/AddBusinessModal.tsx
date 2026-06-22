@@ -107,10 +107,10 @@ export default function AddBusinessModal({ onClose }: Props) {
 
         {success ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+            <i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', display: 'inline-block' }} aria-hidden="true" />
             <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Business Added!</h3>
             <p style={{ color: 'var(--cream-70)', lineHeight: 1.6 }}>
-              Your listing is now live on the FiTEN Directory. Welcome to the community! 🎉
+              Your listing is now live on the FiTEN Directory. Welcome to the community!
             </p>
             <button className="modal-submit" style={{ marginTop: '1.5rem' }} onClick={onClose}>
               Done

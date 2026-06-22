@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { fetchBusinesses, fetchBusinessById } from '@/lib/firestore-rest'
-import { colors, textColors, oppLabels, sigClass } from '@/lib/utils'
+import { categoryIcon, categoryColor, buildSignals } from '@/lib/business-meta'
 import { SITE_URL } from '@/lib/site'
+import SiteHeader from '@/app/components/SiteHeader'
+import SiteFooter from '@/app/components/SiteFooter'
 import type { Business } from '@/types/business'
 
 function businessJsonLd(b: Business) {
@@ -48,84 +50,124 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
+const CONNECT_MSG = (name: string) =>
+  `Hi ${name}, I found you on FiTEN Directory and would like to connect.`
+
 export default async function BusinessPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const b = await fetchBusinessById(id)
   if (!b) notFound()
 
-  const bg = colors[b.colorIdx]
-  const fg = textColors[b.colorIdx]
+  const icon = categoryIcon(b.category)
+  const iconColor = categoryColor(b.category)
+  const signals = buildSignals(b, { includeConvention: true })
+
+  const connectHref = b.phone
+    ? `https://wa.me/${b.phone.replace(/\D/g, '')}?text=${encodeURIComponent(CONNECT_MSG(b.businessName))}`
+    : `mailto:${b.email}?subject=${encodeURIComponent('FiTEN Directory – Connection Request')}&body=${encodeURIComponent(CONNECT_MSG(b.businessName))}`
 
   return (
-    <div style={{ maxWidth: 600, margin: '3rem auto', padding: '0 1.5rem' }}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(b)) }}
-      />
-      <a href="/directory" style={{ color: 'var(--red)', textDecoration: 'none', fontWeight: 600, display: 'inline-block', marginBottom: '1.5rem' }}>
-        ← Back to Directory
-      </a>
+    <>
+      <SiteHeader activeLink="directory" />
+      <div className="biz-detail-page">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(b)) }}
+        />
 
-      <div style={{ background: '#fff', borderRadius: '1rem', border: '1px solid var(--border)', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
-        {b.pro && (
-          <div className="pro-banner">★ PRO Member</div>
-        )}
+        <a href="/directory" className="biz-detail-back">
+          <i className="ti ti-arrow-left" aria-hidden="true" /> Back to Directory
+        </a>
 
-        <div className="detail-header">
-          <div className="detail-avatar-lg" style={{ background: bg, color: fg }}>
-            {b.initials}
-          </div>
-          <div>
-            <div className="detail-name">{b.businessName}</div>
-            {b.nameTamil && <div className="detail-name-sub">{b.nameTamil}</div>}
-            <div className="detail-cat-loc">{b.category} · 📍 {b.city}{b.founded ? ` · Est. ${b.founded}` : ''}</div>
-          </div>
-        </div>
-
-        <div className="detail-body" style={{ maxHeight: 'none' }}>
-          <div className="detail-sec">About</div>
-          <div className="detail-desc">{b.description}</div>
-
-          {b.website && (
-            <div className="detail-info-row">
-              <span className="detail-icon">🌐</span>
-              <a href={b.website} target="_blank" rel="noopener noreferrer">{b.website}</a>
+        <article className="biz-detail-card">
+          <div className="biz-detail-header">
+            <div className="biz-detail-avatar">
+              {b.logoUrl
+                ? <img src={b.logoUrl} alt={b.businessName} className="card-logo-img" />
+                : <i className={`ti ${icon}`} style={{ color: iconColor }} aria-hidden="true" />}
             </div>
-          )}
-
-          {(b.looking.length > 0 || b.speaker || b.women) && (
-            <>
-              <div className="detail-sec">B2B Signals</div>
-              <div className="b2b-signals" style={{ padding: 0, marginBottom: '0.8rem' }}>
-                {b.looking.map(l => (
-                  <span key={l} className={`b2b-signal ${sigClass[l]}`}>{oppLabels[l]}</span>
-                ))}
-                {b.speaker && <span className="b2b-signal sig-speaker">🎤 Speaker</span>}
-                {b.women && <span className="b2b-signal sig-women">♀ Women-Led</span>}
-                {b.convention && <span className="b2b-signal sig-convention">🎉 FeTNA Conv.</span>}
+            <div className="biz-detail-head-text">
+              <h1 className="biz-detail-name">{b.businessName}</h1>
+              {b.nameTamil && <div className="biz-detail-name-ta">{b.nameTamil}</div>}
+              <div className="biz-detail-meta">
+                <span>{b.category}</span>
+                {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /><span>{b.city}</span></>}
+                {b.founded ? <><span className="meta-dot">·</span><span>Est. {b.founded}</span></> : null}
               </div>
-            </>
-          )}
+              {(b.pro || b.verified) && (
+                <div className="biz-detail-badges">
+                  {b.pro && <span className="pro-badge"><i className="ti ti-rosette" /> FeTNA Sponsor</span>}
+                  {b.verified && <span className="verified-badge"><i className="ti ti-circle-check" /> Verified</span>}
+                </div>
+              )}
+            </div>
+          </div>
 
-          {b.pro && b.reviews > 0 && (
-            <>
-              <div className="detail-sec">Reviews</div>
-              <div style={{ fontSize: '0.95rem', color: 'var(--text2)' }}>
-                <span className="rating-stars">
-                  {Array.from({ length: 5 }, (_, i) => (i < Math.round(b.rating) ? '★' : '☆')).join('')}
-                </span>
-                {' '}<strong>{b.rating}</strong> ({b.reviews} reviews)
+          <div className="biz-detail-body">
+            <div className="biz-detail-sec">About</div>
+            <p className="biz-detail-desc">{b.description}</p>
+
+            <div className="biz-detail-sec">Contact</div>
+            <div className="biz-detail-contact">
+              <div className="biz-detail-contact-row">
+                <i className="ti ti-mail" aria-hidden="true" />
+                <a href={`mailto:${b.email}`}>{b.email}</a>
               </div>
-            </>
-          )}
-        </div>
+              {b.phone && (
+                <div className="biz-detail-contact-row">
+                  <i className="ti ti-phone" aria-hidden="true" />
+                  <a href={`tel:${b.phone.replace(/\s/g, '')}`}>{b.phone}</a>
+                </div>
+              )}
+              {b.website && (
+                <div className="biz-detail-contact-row">
+                  <i className="ti ti-world" aria-hidden="true" />
+                  <a href={b.website} target="_blank" rel="noopener noreferrer">
+                    {b.website.replace(/^https?:\/\//, '')}
+                  </a>
+                </div>
+              )}
+            </div>
 
-        <div className="detail-footer">
-          <a href="/directory" className="detail-connect-btn" style={{ textDecoration: 'none', textAlign: 'center' }}>
-            View All Businesses
-          </a>
-        </div>
+            {signals.length > 0 && (
+              <>
+                <div className="biz-detail-sec">Open to</div>
+                <div className="b2b-signals">
+                  {signals.map((s, i) => (
+                    <span key={s.label} className="b2b-signal">
+                      {i > 0 && <span className="sig-sep">·</span>}
+                      <i className={`ti ${s.icon}`} style={{ color: s.color }} />
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {b.pro && b.reviews > 0 && (
+              <>
+                <div className="biz-detail-sec">Reviews</div>
+                <div className="biz-detail-rating">
+                  <i className="ti ti-star" aria-hidden="true" />
+                  <strong>{b.rating}</strong>
+                  <span>· {b.reviews} reviews</span>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="biz-detail-footer">
+            <a className="biz-detail-btn" href={connectHref} target={b.phone ? '_blank' : undefined} rel={b.phone ? 'noopener noreferrer' : undefined}>
+              <i className={`ti ${b.phone ? 'ti-brand-whatsapp' : 'ti-mail'}`} aria-hidden="true" />
+              {b.phone ? 'Message on WhatsApp' : 'Email this business'}
+            </a>
+            <a className="biz-detail-btn-ghost" href="/directory">
+              Browse Directory
+            </a>
+          </div>
+        </article>
       </div>
-    </div>
+      <SiteFooter />
+    </>
   )
 }

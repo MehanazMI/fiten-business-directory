@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/lib/firebase-client'
 import { stableColorIdx, categoryMap, i18n, oppLabels, oppTooltips } from '@/lib/utils'
+import { deriveGeoStats } from '@/lib/geo'
 import type { Lang } from '@/lib/utils'
 import type { Business } from '@/types/business'
 import BusinessGrid from './BusinessGrid'
@@ -163,7 +164,12 @@ export default function DirectoryClient({ initialData }: Props) {
   }, [businesses])
 
   const cats = ['All', ...new Set(Object.values(categoryMap))]
-  const cityCount = new Set(businesses.map(b => b.city).filter(Boolean)).size
+  const cityList = businesses.map(b => b.city).filter(Boolean)
+  const cityCount = new Set(cityList).size
+  const continentCount = deriveGeoStats(cityList).continents
+  const bizCount = businesses.length >= 50
+    ? `${Math.floor(businesses.length / 10) * 10}+`
+    : `${businesses.length}`
   const t = i18n[lang]
 
   const resetPaging = () => setVisibleCount(PAGE_SIZE)
@@ -210,7 +216,7 @@ export default function DirectoryClient({ initialData }: Props) {
           <div className="hero-inline-stats">
             <div className="his-item">
               <i className="ti ti-building-store" style={{ color: '#C5A059', fontSize: '1.1rem' }} />
-              <strong>{businesses.length}+</strong><span>Businesses</span>
+              <strong>{bizCount}</strong><span>Businesses</span>
             </div>
             <div className="his-sep" />
             <div className="his-item">
@@ -225,7 +231,7 @@ export default function DirectoryClient({ initialData }: Props) {
             <div className="his-sep" />
             <div className="his-item">
               <i className="ti ti-world" style={{ color: '#2563EB', fontSize: '1.1rem' }} />
-              <strong>3</strong><span>Continents</span>
+              <strong>{continentCount}</strong><span>Continents</span>
             </div>
           </div>
         </div>
@@ -247,7 +253,7 @@ export default function DirectoryClient({ initialData }: Props) {
                 else { setActiveCat(f); setActiveFilter('All') }
               }}
             >
-              {isPro ? <>🏅 FeTNA Sponsor</> : f}
+              {isPro ? <><i className="ti ti-rosette" /> FeTNA Sponsor</> : f}
             </button>
           )
         })}
@@ -256,7 +262,7 @@ export default function DirectoryClient({ initialData }: Props) {
           className={`qf-pill qf-saved${showFavs ? ' active' : ''}`}
           onClick={() => { setShowFavs(v => !v); resetPaging() }}
         >
-          ♡ Saved
+          <i className={`ti ${showFavs ? 'ti-heart-filled' : 'ti-heart'}`} /> Saved
         </button>
       </div>
 
@@ -296,13 +302,13 @@ export default function DirectoryClient({ initialData }: Props) {
                 className={`chip${activeFilter === 'Pro' ? ' on' : ''}`}
                 onClick={() => { setActiveFilter(activeFilter === 'Pro' ? 'All' : 'Pro'); resetPaging() }}
               >
-                🏅 FeTNA Sponsor
+                <i className="ti ti-rosette" /> FeTNA Sponsor
               </button>
               <button
                 className={`chip chip-sage${showFavs ? ' on' : ''}`}
                 onClick={() => { setShowFavs(v => !v); resetPaging() }}
               >
-                ♡ Saved
+                <i className={`ti ${showFavs ? 'ti-heart-filled' : 'ti-heart'}`} /> Saved
               </button>
               <button
                 className={`chip chip-sage${showWomen ? ' on' : ''}`}

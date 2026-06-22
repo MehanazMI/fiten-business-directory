@@ -39,14 +39,14 @@ describe('BusinessModal — content', () => {
 
   it('shows PRO badge for pro member', () => {
     setup({ pro: true })
-    expect(screen.getByText('PRO', { selector: '.pro-badge' })).toBeInTheDocument()
+    expect(screen.getByText(/FeTNA Sponsor/, { selector: '.pro-badge' })).toBeInTheDocument()
   })
 
   it('shows Reviews section for pro member', () => {
     setup({ pro: true, rating: 4.5, reviews: 10 })
     expect(screen.getByText('Reviews')).toBeInTheDocument()
     expect(screen.getByText('4.5')).toBeInTheDocument()
-    expect(screen.getByText('(10)')).toBeInTheDocument()
+    expect(screen.getByText(/10 reviews/)).toBeInTheDocument()
   })
 
   it('hides Reviews section for non-pro', () => {
@@ -68,37 +68,37 @@ describe('BusinessModal — contact details', () => {
 
   it('shows website when present', () => {
     setup({ website: 'https://acme.com' })
-    expect(screen.getByRole('link', { name: 'https://acme.com' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'acme.com' })).toBeInTheDocument()
   })
 })
 
 describe('BusinessModal — B2B signals', () => {
-  it('shows B2B Signals section when looking is non-empty', () => {
+  it('shows Open to section when looking is non-empty', () => {
     setup({ looking: ['partner'] })
-    expect(screen.getByText('B2B Signals')).toBeInTheDocument()
+    expect(screen.getByText('Open to')).toBeInTheDocument()
     expect(screen.getByText('Partner')).toBeInTheDocument()
   })
 
-  it('shows B2B Signals section when speaker is true', () => {
+  it('shows Open to section when speaker is true', () => {
     setup({ looking: [], speaker: true })
-    expect(screen.getByText('B2B Signals')).toBeInTheDocument()
+    expect(screen.getByText('Open to')).toBeInTheDocument()
   })
 
-  it('hides B2B Signals section when no signals present', () => {
+  it('hides Open to section when no signals present', () => {
     setup({ looking: [], speaker: false, women: false, convention: false })
-    expect(screen.queryByText('B2B Signals')).not.toBeInTheDocument()
+    expect(screen.queryByText('Open to')).not.toBeInTheDocument()
   })
 })
 
 describe('BusinessModal — footer actions', () => {
   it('shows WhatsApp connect button for pro business with phone', () => {
     setup({ pro: true, phone: '+1234567890' })
-    expect(screen.getByRole('button', { name: '💬 WhatsApp' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /WhatsApp/ })).toBeInTheDocument()
   })
 
   it('shows Email connect button for pro business without phone', () => {
     setup({ pro: true, phone: undefined })
-    expect(screen.getByRole('button', { name: '✉️ Email' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Email/ })).toBeInTheDocument()
   })
 
   it('shows Claim Listing button for non-pro', () => {
@@ -109,7 +109,7 @@ describe('BusinessModal — footer actions', () => {
   it('opens WhatsApp when Connect is clicked and phone exists', async () => {
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
     const { user } = setup({ pro: true, phone: '+16471234567' })
-    await user.click(screen.getByRole('button', { name: '💬 WhatsApp' }))
+    await user.click(screen.getByRole('button', { name: /WhatsApp/ }))
     expect(openSpy).toHaveBeenCalledWith(
       expect.stringContaining('wa.me/16471234567'),
       '_blank'
@@ -118,7 +118,7 @@ describe('BusinessModal — footer actions', () => {
 
   it('opens mailto when Connect is clicked and no phone', async () => {
     const { user } = setup({ pro: true, phone: undefined, email: 'hello@acme.com' })
-    await user.click(screen.getByRole('button', { name: '✉️ Email' }))
+    await user.click(screen.getByRole('button', { name: /Email/ }))
     expect(window.location.href).toContain('mailto:hello@acme.com')
   })
 
@@ -152,15 +152,15 @@ describe('BusinessModal — footer actions', () => {
 })
 
 describe('BusinessModal — close behaviour', () => {
-  it('calls onClose when close button (×) is clicked', async () => {
+  it('calls onClose when close button is clicked', async () => {
     const { user, onClose } = setup()
-    await user.click(screen.getByRole('button', { name: '×' }))
+    await user.click(screen.getByRole('button', { name: 'Close' }))
     expect(onClose).toHaveBeenCalled()
   })
 
   it('calls onClose when overlay backdrop is clicked', async () => {
     const { user, onClose } = setup()
-    await user.click(screen.getByRole('button', { name: '×' }).closest('.detail-overlay')!)
+    await user.click(screen.getByRole('button', { name: 'Close' }).closest('.detail-overlay')!)
     expect(onClose).toHaveBeenCalled()
   })
 })
