@@ -38,12 +38,12 @@ describe('BusinessCard — display', () => {
 
   it('shows PRO badge for pro businesses', () => {
     setup({ pro: true })
-    expect(screen.getByText('🏅 FeTNA Sponsor')).toBeInTheDocument()
+    expect(screen.getByText(/FeTNA Sponsor/)).toBeInTheDocument()
   })
 
   it('does not show PRO badge for non-pro businesses', () => {
     setup({ pro: false })
-    expect(screen.queryByText('🏅 FeTNA Sponsor', { selector: '.pro-badge' })).not.toBeInTheDocument()
+    expect(screen.queryByText(/FeTNA Sponsor/, { selector: '.pro-badge' })).not.toBeInTheDocument()
   })
 })
 
@@ -70,7 +70,7 @@ describe('BusinessCard — B2B signals', () => {
 
   it('shows FeTNA Sponsor badge when pro is true', () => {
     setup({ pro: true })
-    expect(screen.getByText('🏅 FeTNA Sponsor')).toBeInTheDocument()
+    expect(screen.getByText(/FeTNA Sponsor/)).toBeInTheDocument()
   })
 
   it('renders no signal badges when looking is empty and all flags false', () => {
@@ -141,7 +141,7 @@ describe('BusinessCard — language', () => {
 describe('BusinessCard — star rating', () => {
   it('renders star rating in new format', () => {
     setup({ rating: 4, reviews: 1 })
-    expect(screen.getByText('★')).toBeInTheDocument()
+    expect(document.querySelector('.rating-star')).toBeInTheDocument()
     expect(screen.getByText(/4\.0/)).toBeInTheDocument()
   })
 

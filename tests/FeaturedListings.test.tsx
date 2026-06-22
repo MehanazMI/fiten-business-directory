@@ -29,34 +29,38 @@ function setup(businesses = BUSINESSES) {
 }
 
 describe('FeaturedListings', () => {
-  it('renders all businesses under the All chip by default', () => {
+  it('shows the pro business as the spotlight first', () => {
     setup()
-    expect(screen.getByText('Tech One')).toBeInTheDocument()
+    // Spotlight renders the full card; pro is sorted to the front.
+    const names = Array.from(document.querySelectorAll('.biz-name')).map(el => el.textContent)
+    expect(names[0]).toBe('Tech One')
+  })
+
+  it('lists the remaining businesses in the supporting strip', () => {
+    setup()
     expect(screen.getByText('Food One')).toBeInTheDocument()
     expect(screen.getByText('Food Two')).toBeInTheDocument()
   })
 
-  it('filters to a single category when its chip is clicked', async () => {
+  it('navigates to the detail page when a strip item is clicked', async () => {
     const { user } = setup()
-    await user.click(screen.getByRole('button', { name: 'Tech' }))
-    expect(screen.getByText('Tech One')).toBeInTheDocument()
-    expect(screen.queryByText('Food One')).not.toBeInTheDocument()
+    await user.click(screen.getByText('Food One'))
+    expect(push).toHaveBeenCalledWith('/directory/f1')
   })
 
-  it('navigates to the detail page when a card is clicked', async () => {
-    const { user } = setup()
-    await user.click(screen.getByText('Tech One'))
-    expect(push).toHaveBeenCalledWith('/directory/t1')
-  })
-
-  it('pro businesses are sorted first', () => {
+  it('renders a dot control per business', () => {
     setup()
-    const names = Array.from(document.querySelectorAll('.biz-name')).map(el => el.textContent)
-    expect(names[0]).toBe('Tech One')
+    expect(document.querySelectorAll('.featured-dot').length).toBe(BUSINESSES.length)
   })
 
   it('has a link to the full directory', () => {
     setup()
     expect(screen.getByRole('link', { name: /Browse the Full Directory/i })).toHaveAttribute('href', '/directory')
+  })
+
+  it('still renders the title when there are no businesses', () => {
+    setup([])
+    expect(screen.getByText(/Meet the/)).toBeInTheDocument()
+    expect(document.querySelectorAll('.featured-dot').length).toBe(0)
   })
 })

@@ -1,5 +1,4 @@
 import type { Business } from '@/types/business'
-import { oppLabels, sigClass } from '@/lib/utils'
 import type { Lang } from '@/lib/utils'
 
 interface Props {
@@ -11,17 +10,43 @@ interface Props {
   lang: Lang
 }
 
-const CAT_ICON: Record<string, string> = {
+export const CAT_ICON: Record<string, string> = {
   'Healthcare':    'ti-stethoscope',
   'Tech':          'ti-device-laptop',
+  'Technology':    'ti-device-laptop',
   'Education':     'ti-school',
   'Legal':         'ti-scale',
   'Food':          'ti-tools-kitchen-2',
+  'Food & Beverage': 'ti-tools-kitchen-2',
   'Finance':       'ti-coin',
   'Real Estate':   'ti-home',
   'Retail':        'ti-shopping-cart',
   'Entertainment': 'ti-music',
   'Services':      'ti-tool',
+}
+
+export const CAT_COLOR: Record<string, string> = {
+  'Healthcare':      '#993556',
+  'Tech':            '#185FA5',
+  'Technology':      '#185FA5',
+  'Education':       '#3B6D11',
+  'Legal':           '#3C3489',
+  'Food':            '#854F0B',
+  'Food & Beverage': '#854F0B',
+  'Finance':         '#0F6E56',
+  'Real Estate':     '#185FA5',
+  'Retail':          '#993556',
+  'Entertainment':   '#3C3489',
+  'Services':        '#0F6E56',
+}
+
+type SignalMeta = { icon: string; label: string; color: string }
+
+const LOOKING_META: Record<string, SignalMeta> = {
+  partner: { icon: 'ti-heart-handshake', label: 'Partner',        color: '#7C3AED' },
+  client:  { icon: 'ti-users',       label: 'Seeking clients',    color: '#059669' },
+  invest:  { icon: 'ti-chart-line',  label: 'Seeking investment', color: '#C5A059' },
+  hire:    { icon: 'ti-briefcase',   label: 'Hiring',             color: '#2563EB' },
 }
 
 function stars(r: number) {
@@ -31,7 +56,15 @@ function stars(r: number) {
 export default function BusinessCard({ business: b, isFavorited, view = 'grid', onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
   const icon = CAT_ICON[b.category] ?? 'ti-building'
+  const iconColor = CAT_COLOR[b.category] ?? 'var(--navy)'
   const isListView = view === 'list'
+
+  const signals: SignalMeta[] = [
+    ...(b.pro     ? [{ icon: 'ti-rosette',       label: 'FeTNA Sponsor', color: '#C5A059' }] : []),
+    ...b.looking.map(l => LOOKING_META[l]).filter(Boolean),
+    ...(b.women   ? [{ icon: 'ti-gender-female', label: 'Women-led', color: '#D4537E' }] : []),
+    ...(b.speaker ? [{ icon: 'ti-microphone',    label: 'Speaker',   color: '#0284C7' }] : []),
+  ]
 
   return (
     <div
@@ -42,7 +75,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
         <div className="card-initials">
           {b.logoUrl
             ? <img src={b.logoUrl} alt={b.businessName} className="card-logo-img" />
-            : <i className={`ti ${icon}`} />
+            : <i className={`ti ${icon}`} style={{ color: iconColor }} />
           }
         </div>
         <div className="card-header-text">
@@ -51,22 +84,12 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
             <div className="biz-name-tamil">{b.businessName}</div>
           )}
           <div className="biz-meta">
-            <i className={`ti ${icon} biz-cat-icon`} />
             <span>{b.category}</span>
             {b.city && <><span className="meta-dot">·</span><span className="biz-location">{b.city}</span></>}
-            {b.women && (
-              <span className="women-tag">
-                <i className="ti ti-gender-female" />
-                Women-led
-              </span>
-            )}
           </div>
         </div>
         {b.verified && (
-          <span className="verified-badge" title="Business email and website verified by FiTEN">✓ Verified</span>
-        )}
-        {b.pro && (
-          <span className="pro-badge">🏅 FeTNA Sponsor</span>
+          <span className="verified-badge" title="Business email and website verified by FiTEN"><i className="ti ti-circle-check" /> Verified</span>
         )}
       </div>
 
@@ -75,12 +98,15 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           <div className="card-desc">{b.description}</div>
         )}
 
-        {(b.looking.length > 0 || b.speaker) && (
+        {signals.length > 0 && (
           <div className="b2b-signals">
-            {b.looking.map(l => (
-              <span key={l} className={`b2b-signal ${sigClass[l] ?? ''}`}>{oppLabels[l]}</span>
+            {signals.map((s, i) => (
+              <span key={s.label} className="b2b-signal">
+                {i > 0 && <span className="sig-sep">·</span>}
+                <i className={`ti ${s.icon}`} style={{ color: s.color }} />
+                {s.label}
+              </span>
             ))}
-            {b.speaker && <span className="b2b-signal sig-speaker">Speaker</span>}
           </div>
         )}
       </div>
@@ -95,7 +121,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
         </button>
         {b.reviews > 0 ? (
           <span className="card-rating">
-            <span className="rating-star">★</span>
+            <i className="ti ti-star rating-star" />
             {stars(b.rating)} · {b.reviews} reviews
           </span>
         ) : (

@@ -60,3 +60,5 @@ screenshots/phase*.png
 screenshots/phase*.b64
 docs/design-evolution.html
 docs/screenshots/
+
+.vercel

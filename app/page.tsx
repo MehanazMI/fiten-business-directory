@@ -5,6 +5,7 @@ import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 import Hero from '@/app/components/home/Hero'
 import FeaturedListings from '@/app/components/home/FeaturedListings'
+import ConnectPreview from '@/app/components/home/ConnectPreview'
 import WorldMap from '@/app/components/home/WorldMapLazy'
 import TestimonialMarquee from '@/app/components/home/TestimonialMarquee'
 import AnimatedCounter from '@/app/components/home/AnimatedCounter'
@@ -21,10 +22,23 @@ export const revalidate = 3600
 const TRENDING_LIMIT = 5
 
 const HOW_IT_WORKS = [
-  { n: '01', t: 'Discover', d: 'Search by sector, city, or signal. Filter by FeTNA sponsorship, women-led, hiring, and more.' },
-  { n: '02', t: 'Connect', d: 'Save shortlists and explore profiles. Reach out directly from each business listing.' },
-  { n: '03', t: 'Transact', d: 'Hire, partner, invest, or refer — all within a verified, accountable community network.' },
+  { n: '01', t: 'Discover', d: 'Search by sector, city, or signal. Filter by FeTNA sponsorship, women-led, hiring, and more.', icon: 'ti-search',          href: '/directory', cta: 'Browse the directory' },
+  { n: '02', t: 'Connect',  d: 'Save shortlists and explore profiles. Reach out directly from each business listing.',        icon: 'ti-heart-handshake', href: '/connect',   cta: 'See opportunities' },
+  { n: '03', t: 'Grow',     d: 'Hire, partner, invest, or refer — all within a verified, accountable community network.',     icon: 'ti-trending-up',     href: '/form',      cta: 'Add your business' },
 ]
+
+const JOIN_BENEFITS = [
+  { icon: 'ti-gift',          label: 'Free for the community' },
+  { icon: 'ti-circle-check',  label: 'Verified listings' },
+  { icon: 'ti-rosette',       label: 'Premium placement for sponsors' },
+]
+
+function humanList(items: string[]): string {
+  if (items.length === 0) return ''
+  if (items.length === 1) return items[0]
+  if (items.length === 2) return `${items[0]} and ${items[1]}`
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`
+}
 
 export default async function HomePage() {
   const [businesses, testimonials] = await Promise.all([
@@ -57,6 +71,8 @@ export default async function HomePage() {
 
       <FeaturedListings businesses={active} />
 
+      <ConnectPreview businesses={active} />
+
       {/* GLOBAL MAP */}
       <section className="home-map">
         <div className="home-map-inner">
@@ -66,8 +82,10 @@ export default async function HomePage() {
               One community, <em className="gold-text">{cities} cities.</em>
             </h2>
             <p className="home-map-text">
-              Members trade, hire, and invest across North America, Europe, the Gulf, ASEAN, and South
-              Asia. The map grows each time a new business joins.
+              Members trade, hire, and invest across {continents}{' '}
+              {continents === 1 ? 'continent' : 'continents'}
+              {regions.length > 0 && <> — from {humanList(regions.map(r => r.l))}</>}. The map grows
+              each time a new business joins.
             </p>
             <div className="home-map-regions">
               {regions.map(r => (
@@ -90,7 +108,7 @@ export default async function HomePage() {
       <section className="home-testimonials">
         <div className="home-testimonials-head">
           <div className="sec-kicker sec-kicker-center">In Their Words</div>
-          <h2 className="sec-title sec-title-center">What clients &amp; partners say.</h2>
+          <h2 className="sec-title sec-title-center">Trusted by the <em>community.</em></h2>
         </div>
         <TestimonialMarquee testimonials={testimonials} />
       </section>
@@ -103,11 +121,17 @@ export default async function HomePage() {
         </div>
         <div className="home-howit-grid">
           {HOW_IT_WORKS.map(s => (
-            <div key={s.n} className="home-howit-step">
-              <div className="home-howit-num">{s.n}</div>
+            <a key={s.n} href={s.href} className="home-howit-step">
+              <div className="home-howit-step-head">
+                <span className="home-howit-num">{s.n}</span>
+                <span className="home-howit-icon"><i className={`ti ${s.icon}`} aria-hidden="true" /></span>
+              </div>
               <h3 className="home-howit-step-title">{s.t}</h3>
               <p className="home-howit-step-desc">{s.d}</p>
-            </div>
+              <span className="home-howit-link">
+                {s.cta} <i className="ti ti-arrow-right" aria-hidden="true" />
+              </span>
+            </a>
           ))}
         </div>
       </section>
@@ -121,9 +145,17 @@ export default async function HomePage() {
             Get found by the people <em className="gold-text">who already trust you.</em>
           </h2>
           <p className="home-join-text">
-            Free for the community. Verified listings. Premium profiles for FeTNA sponsors with featured
-            placement and priority visibility.
+            List your business in minutes and get discovered by the community that already values your
+            work.
           </p>
+          <div className="home-join-benefits">
+            {JOIN_BENEFITS.map(b => (
+              <span key={b.label} className="home-join-benefit">
+                <i className={`ti ${b.icon}`} aria-hidden="true" />
+                {b.label}
+              </span>
+            ))}
+          </div>
           <div className="home-join-cta">
             <a href="/form" className="home-btn-gold">
               Add Your Business
@@ -132,6 +164,12 @@ export default async function HomePage() {
               Browse Directory
             </a>
           </div>
+          {active.length > 0 && (
+            <p className="home-join-proof">
+              <i className="ti ti-users" aria-hidden="true" />
+              <strong>{active.length}</strong> Tamil businesses already listed
+            </p>
+          )}
         </div>
       </section>
 
