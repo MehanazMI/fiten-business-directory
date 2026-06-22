@@ -85,6 +85,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [activeOpps, setActiveOpps] = useState<Array<Business['looking'][number]>>([])
   const [showWomen, setShowWomen] = useState(false)
   const [showSpeaker, setShowSpeaker] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {
     try {
@@ -101,6 +102,19 @@ export default function DirectoryClient({ initialData }: Props) {
   useEffect(() => {
     localStorage.setItem('fiten_favorites', JSON.stringify([...favorites]))
   }, [favorites])
+
+  // Lock body scroll + close on Escape while the mobile filter drawer is open.
+  useEffect(() => {
+    if (!mobileFiltersOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileFiltersOpen(false) }
+    document.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [mobileFiltersOpen])
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -266,11 +280,32 @@ export default function DirectoryClient({ initialData }: Props) {
         </button>
       </div>
 
+      {/* ── MOBILE FILTER BUTTON (≤768px) ── */}
+      <button
+        className="dir-filter-btn"
+        aria-expanded={mobileFiltersOpen}
+        onClick={() => setMobileFiltersOpen(true)}
+      >
+        <i className="ti ti-adjustments-horizontal" /> Filters
+        {activeChips.length > 0 && <span className="dir-filter-count">{activeChips.length}</span>}
+      </button>
+
       {/* ── MAIN LAYOUT ── */}
       <div className="main-layout">
 
-        {/* ── SIDEBAR ── */}
-        <aside className="sidebar">
+        {/* ── SIDEBAR (becomes a drawer ≤768px) ── */}
+        {mobileFiltersOpen && (
+          <div className="sidebar-overlay" onClick={() => setMobileFiltersOpen(false)} aria-hidden="true" />
+        )}
+        <aside className={`sidebar${mobileFiltersOpen ? ' sidebar--open' : ''}`}>
+
+          {/* Drawer header (mobile only) */}
+          <div className="sidebar-drawer-head">
+            <span className="sidebar-drawer-title">Filters</span>
+            <button className="sidebar-drawer-close" aria-label="Close filters" onClick={() => setMobileFiltersOpen(false)}>
+              <i className="ti ti-x" />
+            </button>
+          </div>
 
           {/* Categories */}
           <div className="sb-section">
@@ -359,6 +394,13 @@ export default function DirectoryClient({ initialData }: Props) {
               <span className="lang-sep">|</span>
               <button className={`lang-btn${lang === 'ta' ? ' active' : ''}`} onClick={() => setLang('ta')}>தமிழ்</button>
             </div>
+          </div>
+
+          {/* Drawer footer (mobile only) */}
+          <div className="sidebar-drawer-foot">
+            <button className="sidebar-drawer-apply" onClick={() => setMobileFiltersOpen(false)}>
+              Show {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
+            </button>
           </div>
 
         </aside>

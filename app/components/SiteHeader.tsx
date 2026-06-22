@@ -1,3 +1,5 @@
+import MobileNav from './MobileNav'
+
 interface SiteHeaderProps {
   page?: 'form'
   activeLink?: 'home' | 'directory' | 'connect' | 'form'
@@ -26,12 +28,13 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
 
       <div className="hdr-right">
         {page === 'form' ? (
-          <a className="nav-link" href="/directory" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <a className="nav-link hdr-right-link" href="/directory" style={{ color: 'rgba(255,255,255,0.7)' }}>
             View Directory
           </a>
         ) : (
           <a className="hdr-btn" href="/form">Get Listed</a>
         )}
+        <MobileNav activeLink={activeLink} />
       </div>
     </header>
   )
