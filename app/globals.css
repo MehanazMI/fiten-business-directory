@@ -615,11 +615,9 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 @media (max-width:1024px){
   .main-layout{grid-template-columns:200px 1fr;gap:1.75rem}
   .biz-grid-v{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .home-connect-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
-}
-@media (max-width:860px){
-  .featured-spotlight{grid-template-columns:1fr}
-  .featured-spot-strip{height:auto}
+  /* .home-connect-grid + .featured-spotlight collapse rules live after their
+     base declarations (in the HOME responsive block) so source order doesn't
+     let the multi-column base override them. */
 }
 @media (max-width:768px){
   .main-layout{grid-template-columns:1fr}
@@ -826,10 +824,16 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 .home-join-proof strong{color:#fff;font-weight:700}
 
 /* HOME — responsive */
+@media (max-width:1024px){
+  .home-connect-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+}
 @media (max-width:860px){
   .home-map-inner{grid-template-columns:1fr;gap:2.5rem}
   .home-howit-grid{grid-template-columns:1fr}
   .home-stats{grid-template-columns:repeat(2,1fr)}
+  .featured-spotlight{grid-template-columns:1fr}
+  .featured-spot-strip{height:auto}
+  .featured-spot-main .biz-card{height:auto;min-height:240px}
 }
 @media (max-width:820px){
   .home-hero-title{white-space:normal;font-size:clamp(1.6rem,7vw,2.8rem)}
