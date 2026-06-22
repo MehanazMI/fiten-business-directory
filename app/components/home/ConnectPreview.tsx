@@ -6,7 +6,7 @@ import BusinessCard from '@/app/directory/BusinessCard'
 import type { Business } from '@/types/business'
 
 const VISIBLE = 3
-const ROTATE_MS = 2600
+const ROTATE_MS = 3200
 const FADE_MS = 500
 
 export default function ConnectPreview({ businesses }: { businesses: Business[] }) {

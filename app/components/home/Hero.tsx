@@ -43,10 +43,15 @@ export default function Hero({ businesses, cities, sectors, continents, trending
     goToDirectory(query.trim())
   }
 
+  // Only badge a count with "+" once it's large enough to impress, rounding down
+  // to the nearest 10 (e.g. 153 → "150+"). Small counts show their exact value.
+  const bigStat = (n: number): { v: number; suffix: string } =>
+    n >= 50 ? { v: Math.floor(n / 10) * 10, suffix: '+' } : { v: n, suffix: '' }
+
   const stats = [
-    { v: businesses, suffix: '+', l: 'Businesses' },
-    { v: cities, suffix: '', l: 'Cities' },
-    { v: sectors, suffix: '', l: 'Sectors' },
+    { ...bigStat(businesses), l: 'Businesses' },
+    { ...bigStat(cities), l: 'Cities' },
+    { ...bigStat(sectors), l: 'Sectors' },
     { v: continents, suffix: '', l: 'Continents' },
   ]
 

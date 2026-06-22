@@ -104,15 +104,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="home-testimonials">
-        <div className="home-testimonials-head">
-          <div className="sec-kicker sec-kicker-center">In Their Words</div>
-          <h2 className="sec-title sec-title-center">Trusted by the <em>community.</em></h2>
-        </div>
-        <TestimonialMarquee testimonials={testimonials} />
-      </section>
-
       {/* HOW IT WORKS */}
       <section className="home-howit">
         <div className="home-howit-head">
@@ -134,6 +125,15 @@ export default async function HomePage() {
             </a>
           ))}
         </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="home-testimonials">
+        <div className="home-testimonials-head">
+          <div className="sec-kicker sec-kicker-center">In Their Words</div>
+          <h2 className="sec-title sec-title-center">Trusted by the <em>community.</em></h2>
+        </div>
+        <TestimonialMarquee testimonials={testimonials} />
       </section>
 
       {/* JOIN CTA */}
