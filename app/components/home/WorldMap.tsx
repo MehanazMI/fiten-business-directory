@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, Graticule, Marker } from 'react-simple-maps'
 import countries from 'world-atlas/countries-110m.json'
 
 const DEFAULT_PINS: { coords: [number, number]; city: string }[] = [
@@ -28,9 +28,10 @@ export default function WorldMap({
 }) {
   const PINS = pins?.length ? pins : DEFAULT_PINS
   const isDark = theme === 'dark'
-  const landFill   = isDark ? '#1e3a5f' : '#c8d6e5'
-  const landHover  = isDark ? '#264a75' : '#a8c4d8'
-  const landStroke = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(15,23,42,0.20)'
+  const landFill   = isDark ? '#213d61' : '#c8d6e5'
+  const landHover  = isDark ? '#2c5183' : '#a8c4d8'
+  const landStroke = isDark ? 'rgba(197,160,89,0.28)' : 'rgba(15,23,42,0.20)'
+  const gridStroke = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.06)'
   const pinColor   = '#C5A059'
 
   const [tooltip, setTooltip] = useState<{ city: string; x: number; y: number } | null>(null)
@@ -42,6 +43,8 @@ export default function WorldMap({
         projectionConfig={{ scale: 185, center: [15, 25] }}
         style={{ width: '100%', height: '100%', display: 'block' }}
       >
+        <Graticule stroke={gridStroke} strokeWidth={0.4} />
+
         <Geographies geography={countries}>
           {({ geographies }: { geographies: any[] }) =>
             geographies.map(geo => (
@@ -79,7 +82,8 @@ export default function WorldMap({
             }}
             onMouseLeave={() => setTooltip(null)}
           >
-            <circle r={10} fill="transparent" style={{ cursor: 'pointer' }} />
+            <circle r={11} fill="transparent" style={{ cursor: 'pointer' }} />
+            <circle r={7} fill={pinColor} opacity={0.18} style={{ pointerEvents: 'none' }} />
             <circle
               r={5}
               fill="none"
@@ -88,7 +92,8 @@ export default function WorldMap({
               opacity={0.6}
               style={{ animation: `rsm-pulse 2.2s ease-out ${i * 220}ms infinite`, pointerEvents: 'none' }}
             />
-            <circle r={2.8} fill={pinColor} style={{ pointerEvents: 'none' }} />
+            <circle r={3} fill="#E8C77E" style={{ pointerEvents: 'none' }} />
+            <circle r={1.2} fill="#FFF3DA" style={{ pointerEvents: 'none' }} />
           </Marker>
         ))}
       </ComposableMap>
@@ -119,8 +124,8 @@ export default function WorldMap({
 
       <style>{`
         @keyframes rsm-pulse {
-          0%   { r: 3;  opacity: 0.9; }
-          100% { r: 12; opacity: 0;   }
+          0%   { r: 4;  opacity: 0.7; }
+          100% { r: 13; opacity: 0;   }
         }
       `}</style>
     </div>
