@@ -208,15 +208,6 @@ describe('DirectoryClient — sorting', () => {
     expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('Alpha')
   })
 
-  it('Top Rated sort orders by rating descending', async () => {
-    const biz = [
-      makeBusiness({ id: 'r1', businessName: 'Low Rated', rating: 3.0 }),
-      makeBusiness({ id: 'r2', businessName: 'High Rated', rating: 5.0 }),
-    ]
-    const { user } = setup(biz)
-    await user.selectOptions(screen.getByRole('combobox'), 'rating')
-    expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('High Rated')
-  })
 })
 
 // ---------------------------------------------------------------------------
@@ -422,11 +413,11 @@ describe('DirectoryClient — live Firestore updates', () => {
         docs: [
           {
             id: 'existing',
-            data: () => ({ businessName: 'Existing Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, rating: 0, reviews: 0, views: 0, createdAt: '' }),
+            data: () => ({ businessName: 'Existing Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, views: 0, createdAt: '' }),
           },
           {
             id: 'live-new',
-            data: () => ({ businessName: 'Live New Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, rating: 0, reviews: 0, views: 0, createdAt: '' }),
+            data: () => ({ businessName: 'Live New Biz', status: 'active', category: 'Services', looking: [], pro: false, speaker: false, women: false, convention: false, views: 0, createdAt: '' }),
           },
         ],
       }

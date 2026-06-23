@@ -13,10 +13,6 @@ interface Props {
   lang: Lang
 }
 
-function stars(r: number) {
-  return r.toFixed(1)
-}
-
 export default function BusinessCard({ business: b, isFavorited, view = 'grid', onSelect, onFavorite, lang }: Props) {
   const displayName = lang === 'ta' && b.nameTamil ? b.nameTamil : b.businessName
   const icon = categoryIcon(b.category)
@@ -88,10 +84,10 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
         >
           <i className={`ti ${isFavorited ? 'ti-heart-filled' : 'ti-heart'}`} />
         </button>
-        {b.reviews > 0 ? (
-          <span className="card-rating">
-            <i className="ti ti-star rating-star" />
-            {stars(b.rating)} · {b.reviews} reviews
+        {b.views > 0 ? (
+          <span className="card-views">
+            <i className="ti ti-eye" />
+            {b.views} visits
           </span>
         ) : (
           <span className="card-new-label">New listing</span>

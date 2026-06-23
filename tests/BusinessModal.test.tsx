@@ -42,17 +42,6 @@ describe('BusinessModal — content', () => {
     expect(screen.getByText(/FeTNA Sponsor/, { selector: '.pro-badge' })).toBeInTheDocument()
   })
 
-  it('shows Reviews section for pro member', () => {
-    setup({ pro: true, rating: 4.5, reviews: 10 })
-    expect(screen.getByText('Reviews')).toBeInTheDocument()
-    expect(screen.getByText('4.5')).toBeInTheDocument()
-    expect(screen.getByText(/10 reviews/)).toBeInTheDocument()
-  })
-
-  it('hides Reviews section for non-pro', () => {
-    setup({ pro: false })
-    expect(screen.queryByText('Reviews')).not.toBeInTheDocument()
-  })
 })
 
 describe('BusinessModal — contact details', () => {
@@ -174,5 +163,12 @@ describe('BusinessModal — language', () => {
   it('shows English sub-name alongside Tamil name', () => {
     setup({ nameTamil: 'அக்மே கார்ப்' }, 'ta')
     expect(screen.getByText('Acme Corp')).toBeInTheDocument()
+  })
+})
+
+describe('BusinessModal — visit count', () => {
+  it('shows visit count when views > 0', () => {
+    setup({ views: 200 })
+    expect(screen.getByText(/200 visits/)).toBeInTheDocument()
   })
 })

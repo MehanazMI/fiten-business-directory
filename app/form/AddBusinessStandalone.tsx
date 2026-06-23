@@ -83,7 +83,7 @@ export default function AddBusinessStandalone() {
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
     founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
-    email: '', phone: '', website: '', linkedin: '', instagram: '', description: '',
+    email: '', phone: '', website: '', linkedin: '', description: '',
   })
   const [services, setServices] = useState<string[]>([])
   const [serviceInput, setServiceInput] = useState('')
@@ -164,7 +164,6 @@ export default function AddBusinessStandalone() {
           phone: form.phone.trim(),
           website: form.website.trim(),
           linkedin: form.linkedin.trim(),
-          instagram: form.instagram.trim(),
           description: form.description.trim(),
           services,
           employeeCount: form.employeeCount,
@@ -174,7 +173,7 @@ export default function AddBusinessStandalone() {
           convention,
           logoUrls,
           verificationStatus: form.registrationNo.trim() ? 'pending' : 'unverified',
-          status: 'active', pro: false, rating: 0, reviews: 0, views: 0,
+          status: 'active', pro: false, views: 0,
           createdAt: new Date().toISOString(),
         })),
       })
@@ -302,7 +301,7 @@ export default function AddBusinessStandalone() {
               value={form.email} onChange={set('email')} onBlur={markTouched('email')} />
             {showErr('email') && <Err>{errors.email}</Err>}
           </F>
-          <F label="Direct Phone" hint="optional">
+          <F label="Phone / WhatsApp" hint="optional">
             <input className="bizform-input" type="tel" placeholder="+1 212 ..."
               value={form.phone} onChange={set('phone')} />
           </F>
@@ -313,16 +312,10 @@ export default function AddBusinessStandalone() {
             value={form.website} onChange={set('website')} />
         </F>
 
-        <div className="bizform-row">
-          <F label="LinkedIn URL" hint="optional">
-            <input className="bizform-input" type="url" placeholder="https://linkedin.com/company/…"
-              value={form.linkedin} onChange={set('linkedin')} />
-          </F>
-          <F label="Instagram URL" hint="optional">
-            <input className="bizform-input" type="url" placeholder="https://instagram.com/…"
-              value={form.instagram} onChange={set('instagram')} />
-          </F>
-        </div>
+        <F label="LinkedIn URL" hint="optional">
+          <input className="bizform-input" type="url" placeholder="https://linkedin.com/company/…"
+            value={form.linkedin} onChange={set('linkedin')} />
+        </F>
 
         <F label="Business Summary" required>
           <textarea className={cls('description')} rows={5} maxLength={DESCRIPTION_MAX}

@@ -138,16 +138,16 @@ describe('BusinessCard — language', () => {
   })
 })
 
-describe('BusinessCard — star rating', () => {
-  it('renders star rating in new format', () => {
-    setup({ rating: 4, reviews: 1 })
-    expect(document.querySelector('.rating-star')).toBeInTheDocument()
-    expect(screen.getByText(/4\.0/)).toBeInTheDocument()
+describe('BusinessCard — visit count', () => {
+  it('shows view count when views > 0', () => {
+    setup({ views: 150 })
+    expect(document.querySelector('.card-views')).toBeInTheDocument()
+    expect(screen.getByText(/150 visits/)).toBeInTheDocument()
   })
 
-  it('shows rating value and review count', () => {
-    setup({ rating: 4.5, reviews: 12 })
-    expect(screen.getByText(/4\.5/)).toBeInTheDocument()
-    expect(screen.getByText(/12/)).toBeInTheDocument()
+  it('shows "New listing" when views = 0', () => {
+    setup({ views: 0 })
+    expect(screen.getByText('New listing')).toBeInTheDocument()
   })
 })
+

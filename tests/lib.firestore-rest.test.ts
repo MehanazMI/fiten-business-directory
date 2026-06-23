@@ -39,8 +39,6 @@ describe('parseFirestoreDoc (via fetchBusinesses)', () => {
     expect(b.women).toBe(true)
     expect(b.speaker).toBe(false)
     expect(b.looking).toEqual(['partner', 'hire'])
-    expect(b.rating).toBe(4.2)
-    expect(b.reviews).toBe(7)
     expect(b.views).toBe(150)
     expect(b.status).toBe('active')
   })
@@ -91,12 +89,6 @@ describe('parseFirestoreDoc (via fetchBusinesses)', () => {
     expect(b.looking).toEqual([])
   })
 
-  it('handles integerValue for rating', async () => {
-    const doc = { ...RAW_FIRESTORE_DOC, fields: { ...RAW_FIRESTORE_DOC.fields, rating: { integerValue: 5 } } }
-    mockFetch.mockReturnValue(makeResponse({ documents: [doc] }))
-    const [b] = await fetchBusinesses()
-    expect(b.rating).toBe(5)
-  })
 })
 
 describe('fetchBusinesses', () => {

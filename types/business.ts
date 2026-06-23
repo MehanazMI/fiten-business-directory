@@ -17,8 +17,6 @@ export interface Business {
   speaker: boolean
   women: boolean
   convention: boolean
-  rating: number
-  reviews: number
   views: number
   createdAt: string
   verified: boolean
@@ -26,7 +24,6 @@ export interface Business {
   // Phase 2 fields (all optional — backward-compatible)
   services?: string[]
   linkedin?: string
-  instagram?: string
   twitter?: string
   employeeCount?: 'solo' | '2-10' | '11-50' | '51-200' | '200+'
   updatedAt?: string

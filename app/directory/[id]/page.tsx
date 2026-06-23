@@ -6,6 +6,7 @@ import { SITE_URL } from '@/lib/site'
 import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 import ConnectionRequestForm from './ConnectionRequestForm'
+import ViewTracker from './ViewTracker'
 import type { Business } from '@/types/business'
 
 function businessJsonLd(b: Business) {
@@ -18,13 +19,6 @@ function businessJsonLd(b: Business) {
     description: b.description,
     ...(b.website && { url: b.website }),
     ...(b.city && { address: { '@type': 'PostalAddress', addressLocality: b.city } }),
-    ...(b.pro && b.reviews > 0 && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: b.rating,
-        reviewCount: b.reviews,
-      },
-    }),
   }
 }
 
@@ -69,6 +63,7 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
 
   return (
     <>
+      <ViewTracker businessId={b.id} />
       <SiteHeader activeLink="directory" />
       <div className="biz-detail-page">
         <script
@@ -144,12 +139,6 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                   <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 </div>
               )}
-              {b.instagram && (
-                <div className="biz-detail-contact-row">
-                  <i className="ti ti-brand-instagram" aria-hidden="true" />
-                  <a href={b.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-                </div>
-              )}
               {b.twitter && (
                 <div className="biz-detail-contact-row">
                   <i className="ti ti-brand-twitter" aria-hidden="true" />
@@ -157,6 +146,13 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                 </div>
               )}
             </div>
+
+            {b.views > 0 && (
+              <div className="biz-detail-stat">
+                <i className="ti ti-eye" aria-hidden="true" />
+                <span>{b.views} visits</span>
+              </div>
+            )}
 
             {signals.length > 0 && (
               <>
@@ -173,16 +169,6 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
               </>
             )}
 
-            {b.pro && b.reviews > 0 && (
-              <>
-                <div className="biz-detail-sec">Reviews</div>
-                <div className="biz-detail-rating">
-                  <i className="ti ti-star" aria-hidden="true" />
-                  <strong>{b.rating}</strong>
-                  <span>· {b.reviews} reviews</span>
-                </div>
-              </>
-            )}
           </div>
 
           {b.looking.length > 0 && (

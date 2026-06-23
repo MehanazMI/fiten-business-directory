@@ -52,13 +52,10 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     looking: (f.looking?.arrayValue?.values ?? [])
       .map(v => v.stringValue as Business['looking'][number])
       .filter(Boolean),
-    rating: f.rating?.doubleValue ?? Number(f.rating?.integerValue ?? 0),
-    reviews: Number(f.reviews?.integerValue ?? 0),
     views: Number(f.views?.integerValue ?? 0),
     createdAt: f.createdAt?.timestampValue ?? '',
     services: (f.services?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
     linkedin: f.linkedin?.stringValue,
-    instagram: f.instagram?.stringValue,
     twitter: f.twitter?.stringValue,
     employeeCount: f.employeeCount?.stringValue as Business['employeeCount'],
     updatedAt: f.updatedAt?.timestampValue ?? f.updatedAt?.stringValue,
@@ -107,6 +104,21 @@ export async function postConnection(conn: Omit<Connection, 'id'>): Promise<void
     const d = await res.json().catch(() => ({}))
     throw new Error(d.error?.message ?? `HTTP ${res.status}`)
   }
+}
+
+export async function incrementViews(businessId: string): Promise<void> {
+  await fetch(`${FS_BASE}:commit${keyParam}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      writes: [{
+        transform: {
+          document: `projects/${PROJECT_ID}/databases/(default)/documents/businesses/${businessId}`,
+          fieldTransforms: [{ fieldPath: 'views', increment: { integerValue: '1' } }],
+        },
+      }],
+    }),
+  })
 }
 
 export interface Testimonial {

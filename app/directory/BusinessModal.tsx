@@ -91,7 +91,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
             </>
           )}
 
-          {(b.phone || b.website || b.linkedin || b.instagram || b.twitter) && <div className="detail-sec">Contact</div>}
+          {(b.phone || b.website || b.linkedin || b.twitter) && <div className="detail-sec">Contact</div>}
           {b.phone && (
             <div className="detail-info-row">
               <i className="ti ti-phone detail-icon" aria-hidden="true" />
@@ -116,16 +116,17 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
               <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
           )}
-          {b.instagram && (
-            <div className="detail-info-row">
-              <i className="ti ti-brand-instagram detail-icon" aria-hidden="true" />
-              <a href={b.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-            </div>
-          )}
           {b.twitter && (
             <div className="detail-info-row">
               <i className="ti ti-brand-twitter detail-icon" aria-hidden="true" />
               <a href={b.twitter} target="_blank" rel="noopener noreferrer">Twitter / X</a>
+            </div>
+          )}
+
+          {b.views > 0 && (
+            <div className="detail-stat">
+              <i className="ti ti-eye" aria-hidden="true" />
+              <span>{b.views} visits</span>
             </div>
           )}
 
@@ -144,16 +145,6 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
             </>
           )}
 
-          {b.pro && b.reviews > 0 && (
-            <>
-              <div className="detail-sec">Reviews</div>
-              <div className="detail-rating">
-                <i className="ti ti-star" aria-hidden="true" />
-                <strong>{b.rating}</strong>
-                <span>· {b.reviews} reviews</span>
-              </div>
-            </>
-          )}
         </div>
 
         <div className="detail-footer">

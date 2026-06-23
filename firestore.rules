@@ -8,6 +8,8 @@ service cloud.firestore {
       allow create: if true
         && !('verified' in request.resource.data)
         && !('verificationStatus' in request.resource.data);
+      // Allow incrementing the views counter only
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']);
     }
     match /claims/{id} {
       allow create: if true;
