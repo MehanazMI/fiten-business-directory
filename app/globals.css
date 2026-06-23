@@ -941,9 +941,9 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 .detail-svc-chip{font-size:.78rem;padding:4px 12px;border-radius:20px;background:rgba(197,160,89,.08);color:var(--amber-deep);border:.5px solid rgba(197,160,89,.3)}
 
 /* ━━━ PHASE 2 — CONNECTION REQUEST (connect page, inline) ━━━ */
-.connect-action-req{background:var(--navy);color:#fff;border-color:var(--navy)}
-.connect-action-req:hover{background:#1e293b;border-color:#1e293b;color:#fff}
-.connect-action-req.active{background:#1e293b;border-color:#1e293b;color:#fff}
+.connect-action-req{background:transparent;color:var(--navy);border-color:rgba(15,23,42,.3)}
+.connect-action-req:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.connect-action-req.active{background:var(--navy);color:#fff;border-color:var(--navy)}
 .connect-req-form{background:rgba(197,160,89,.05);border:.5px solid rgba(197,160,89,.3);border-radius:6px;padding:14px;margin-top:12px}
 .connect-req-label{font-size:.63rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
 .connect-req-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:5px}
