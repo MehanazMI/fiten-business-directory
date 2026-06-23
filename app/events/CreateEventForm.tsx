@@ -6,8 +6,9 @@ import type { Event } from '@/types/event'
 
 const EVENT_TYPES: Event['eventType'][] = ['webinar', 'meetup', 'conference', 'workshop', 'panel', 'networking', 'training', 'other']
 
-export default function CreateEventForm({ businessId, businessName }: { businessId: string; businessName: string }) {
+export default function CreateEventForm({ businessId = '', businessName: initialBusinessName = '' }: { businessId?: string; businessName?: string } = {}) {
   const [form, setForm] = useState<{
+    businessName: string
     title: string
     description: string
     eventType: Event['eventType']
@@ -21,6 +22,7 @@ export default function CreateEventForm({ businessId, businessName }: { business
     capacity: string
     speakers: string
   }>({
+    businessName: initialBusinessName,
     title: '',
     description: '',
     eventType: 'webinar',
@@ -44,7 +46,7 @@ export default function CreateEventForm({ businessId, businessName }: { business
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!form.title.trim() || !form.description.trim() || !form.date || !form.startTime || !form.endTime) {
+    if (!form.businessName.trim() || !form.title.trim() || !form.description.trim() || !form.date || !form.startTime || !form.endTime) {
       setError('Please fill in all required fields')
       return
     }
@@ -58,6 +60,7 @@ export default function CreateEventForm({ businessId, businessName }: { business
         .map(s => s.trim())
         .filter(Boolean)
 
+      const generatedId = businessId || `biz-${Date.now()}`
       const eventData: Omit<Event, 'id' | 'status'> = {
         title: form.title.trim(),
         description: form.description.trim(),
@@ -71,8 +74,8 @@ export default function CreateEventForm({ businessId, businessName }: { business
         registrationLink: form.registrationLink.trim() || undefined,
         capacity: form.capacity ? Number(form.capacity) : undefined,
         image: undefined,
-        organizerId: businessId,
-        organizerName: businessName,
+        organizerId: generatedId,
+        organizerName: form.businessName.trim(),
         speakers: speakers.length > 0 ? speakers : undefined,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -81,6 +84,7 @@ export default function CreateEventForm({ businessId, businessName }: { business
       await postEvent(eventData)
       setSuccess(true)
       setForm({
+        businessName: '',
         title: '',
         description: '',
         eventType: 'webinar',
@@ -115,6 +119,18 @@ export default function CreateEventForm({ businessId, businessName }: { business
   return (
     <form onSubmit={handleSubmit} className="event-form">
       <div className="form-section">
+        <label className="form-label">
+          Your Business Name *
+          <input
+            type="text"
+            className="form-input"
+            placeholder="e.g., TamilMed Clinics or ERP Logic Inc."
+            value={form.businessName}
+            onChange={set('businessName')}
+            required
+          />
+        </label>
+
         <label className="form-label">
           Event Title *
           <input

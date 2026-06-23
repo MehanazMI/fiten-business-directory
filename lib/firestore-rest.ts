@@ -184,7 +184,7 @@ export async function fetchEvents(): Promise<Event[]> {
   return events
     .map((e: Event) => ({
       ...e,
-      status: (new Date(e.date) < now ? 'past' : 'upcoming') as Event['status'],
+      status: (new Date(e.date + 'T00:00:00') < now ? 'past' : 'upcoming') as Event['status'],
     }))
     .sort((a: Event, b: Event) => new Date(a.date).getTime() - new Date(b.date).getTime())
 }
@@ -197,7 +197,7 @@ export async function fetchEventById(id: string): Promise<Event | null> {
   const now = new Date()
   return {
     ...event,
-    status: new Date(event.date) < now ? 'past' : 'upcoming' as const,
+    status: new Date(event.date + 'T00:00:00') < now ? 'past' : 'upcoming' as const,
   }
 }
 

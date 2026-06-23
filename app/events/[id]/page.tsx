@@ -27,7 +27,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const event = await fetchEventById(id)
   if (!event) notFound()
 
-  const eventDate = new Date(event.date)
+  const eventDate = new Date(event.date + 'T00:00:00')
   const dateStr = eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
   const dateShort = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 

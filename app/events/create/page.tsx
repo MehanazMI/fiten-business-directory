@@ -18,10 +18,7 @@ export default function CreateEventPage() {
 
         <div className="create-event-container">
           <div className="create-event-form">
-            <CreateEventForm
-              businessId="sample-biz-id"
-              businessName="Your Business"
-            />
+            <CreateEventForm />
           </div>
 
           <aside className="create-event-sidebar">
