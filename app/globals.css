@@ -136,24 +136,22 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .main-layout{display:grid;grid-template-columns:240px 1fr;gap:2.5rem;max-width:1240px;margin:0 auto;width:100%;padding:2rem 1.5rem 5rem;align-items:start}
 
 /* ━━━ SIDEBAR ━━━ */
-.sidebar{background:transparent;border-right:none;padding:0;overflow-y:auto;max-height:calc(100vh - 72px);position:sticky;top:72px;display:flex;flex-direction:column;gap:2rem;scrollbar-width:none}
+.sidebar{background:transparent;border-right:none;padding:0;overflow-y:visible;max-height:none;position:sticky;top:72px;display:flex;flex-direction:column;gap:1.25rem;scrollbar-width:none}
 .sidebar::-webkit-scrollbar{display:none}
 .sb-section{display:flex;flex-direction:column;gap:0.35rem}
 /* Gold section labels */
-.sb-label{font-size:0.65rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:0.2rem}
-/* Category list */
-.cat-list{list-style:none;display:flex;flex-direction:column;gap:1px;max-height:260px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.cat-list::-webkit-scrollbar{width:3px}
-.cat-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.cat-item{padding:0.32rem 0.5rem;font-size:0.82rem;color:var(--text2);cursor:pointer;border-radius:6px;display:flex;justify-content:space-between;align-items:center;transition:all 0.12s}
-.cat-item:hover{background:#F5F5F3;color:var(--text)}
-.cat-item.active{background:var(--navy-lt);color:var(--navy);font-weight:500;box-shadow:-2px 0 0 var(--gold)}
-.cat-item--zero{opacity:0.38;pointer-events:none}
-.cat-item-left{display:flex;align-items:center;gap:0.4rem}
-.cat-icon{font-size:0.78rem;opacity:0.5;flex-shrink:0}
-.cat-item.active .cat-icon{opacity:1}
-.cat-badge{background:#F0EEE8;color:var(--text3);font-size:0.65rem;padding:1px 6px;border-radius:10px;font-weight:400}
-.cat-item.active .cat-badge{background:rgba(12,68,124,0.12);color:var(--navy)}
+.sb-label{font-size:0.62rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.1rem}
+/* Category chip cloud */
+.cat-list{list-style:none;display:flex;flex-wrap:wrap;gap:4px;overflow:visible}
+.cat-item{padding:3px 9px;font-size:0.72rem;color:var(--text2);cursor:pointer;border-radius:20px;border:.5px solid var(--border);background:#fff;display:inline-flex;align-items:center;gap:3px;transition:all 0.12s;white-space:nowrap}
+.cat-item:hover{background:var(--navy-lt);color:var(--navy);border-color:rgba(12,68,124,0.2)}
+.cat-item.active{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:500}
+.cat-item--zero{display:none}
+.cat-item-left{display:flex;align-items:center;gap:0.3rem}
+.cat-icon{display:none}
+.cat-item.active .cat-icon{display:none}
+.cat-badge{background:transparent;color:inherit;font-size:0.62rem;padding:0;border-radius:0;font-weight:400;opacity:.65}
+.cat-item.active .cat-badge{color:#fff;opacity:.8}
 .sidebar-divider{border:none;border-top:0.5px solid var(--border);margin:0.1rem 0}
 /* Chip filters */
 .chip-row{display:flex;flex-wrap:wrap;gap:0.25rem}
