@@ -57,6 +57,13 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     reviews: (d.reviews as number) ?? 0,
     views: (d.views as number) ?? 0,
     createdAt: (d.createdAt as string) ?? '',
+    services: ((d.services as string[]) ?? []),
+    linkedin: d.linkedin as string | undefined,
+    instagram: d.instagram as string | undefined,
+    twitter: d.twitter as string | undefined,
+    employeeCount: d.employeeCount as Business['employeeCount'],
+    updatedAt: d.updatedAt as string | undefined,
+    featured: (d.featured as boolean) ?? false,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }
@@ -128,7 +135,7 @@ export default function DirectoryClient({ initialData }: Props) {
         )
         setBusinesses(() => {
           const merged = Array.from(liveMap.values())
-          return merged.sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0) || b.reviews - a.reviews)
+          return merged.sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0) || b.views - a.views)
         })
       },
       err => {
@@ -164,7 +171,8 @@ export default function DirectoryClient({ initialData }: Props) {
     })
 
     if (sort === 'az') list = [...list].sort((a, b) => a.businessName.localeCompare(b.businessName))
-    else if (sort === 'reviews') list = [...list].sort((a, b) => b.reviews - a.reviews)
+    else if (sort === 'views') list = [...list].sort((a, b) => b.views - a.views)
+    else if (sort === 'updated') list = [...list].sort((a, b) => (b.updatedAt ?? b.createdAt).localeCompare(a.updatedAt ?? a.createdAt))
     else if (sort === 'rating') list = [...list].sort((a, b) => b.rating - a.rating)
     else list = [...list].sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0))
 
@@ -419,7 +427,8 @@ export default function DirectoryClient({ initialData }: Props) {
               >
                 <option value="default">Sponsors first</option>
                 <option value="az">A–Z</option>
-                <option value="reviews">Most Reviewed</option>
+                <option value="views">Most Visited</option>
+                <option value="updated">Most Active</option>
                 <option value="rating">Top Rated</option>
               </select>
               <div className="view-toggle">

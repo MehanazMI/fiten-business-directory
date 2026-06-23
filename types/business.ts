@@ -23,6 +23,14 @@ export interface Business {
   createdAt: string
   verified: boolean
   verificationStatus: 'auto' | 'pending' | 'unverified'
+  // Phase 2 fields (all optional — backward-compatible)
+  services?: string[]
+  linkedin?: string
+  instagram?: string
+  twitter?: string
+  employeeCount?: 'solo' | '2-10' | '11-50' | '51-200' | '200+'
+  updatedAt?: string
+  featured?: boolean
   // Derived at read time
   initials: string
   colorIdx: number

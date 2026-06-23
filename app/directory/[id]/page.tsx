@@ -5,6 +5,7 @@ import { categoryIcon, categoryColor, buildSignals } from '@/lib/business-meta'
 import { SITE_URL } from '@/lib/site'
 import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
+import ConnectionRequestForm from './ConnectionRequestForm'
 import type { Business } from '@/types/business'
 
 function businessJsonLd(b: Business) {
@@ -93,6 +94,7 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                 <span>{b.category}</span>
                 {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /><span>{b.city}</span></>}
                 {b.founded ? <><span className="meta-dot">·</span><span>Est. {b.founded}</span></> : null}
+                {b.employeeCount && <><span className="meta-dot">·</span><span>{b.employeeCount} emp</span></>}
               </div>
               {(b.pro || b.verified) && (
                 <div className="biz-detail-badges">
@@ -106,6 +108,15 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
           <div className="biz-detail-body">
             <div className="biz-detail-sec">About</div>
             <p className="biz-detail-desc">{b.description}</p>
+
+            {b.services && b.services.length > 0 && (
+              <>
+                <div className="biz-detail-sec">What we do</div>
+                <div className="detail-services">
+                  {b.services.map(s => <span key={s} className="detail-svc-chip">{s}</span>)}
+                </div>
+              </>
+            )}
 
             <div className="biz-detail-sec">Contact</div>
             <div className="biz-detail-contact">
@@ -125,6 +136,24 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                   <a href={b.website} target="_blank" rel="noopener noreferrer">
                     {b.website.replace(/^https?:\/\//, '')}
                   </a>
+                </div>
+              )}
+              {b.linkedin && (
+                <div className="biz-detail-contact-row">
+                  <i className="ti ti-brand-linkedin" aria-hidden="true" />
+                  <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+              )}
+              {b.instagram && (
+                <div className="biz-detail-contact-row">
+                  <i className="ti ti-brand-instagram" aria-hidden="true" />
+                  <a href={b.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+                </div>
+              )}
+              {b.twitter && (
+                <div className="biz-detail-contact-row">
+                  <i className="ti ti-brand-twitter" aria-hidden="true" />
+                  <a href={b.twitter} target="_blank" rel="noopener noreferrer">Twitter / X</a>
                 </div>
               )}
             </div>
@@ -155,6 +184,14 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
               </>
             )}
           </div>
+
+          {b.looking.length > 0 && (
+            <ConnectionRequestForm
+              businessId={b.id}
+              businessName={b.businessName}
+              looking={b.looking}
+            />
+          )}
 
           <div className="biz-detail-footer">
             <a className="biz-detail-btn" href={connectHref} target={b.phone ? '_blank' : undefined} rel={b.phone ? 'noopener noreferrer' : undefined}>

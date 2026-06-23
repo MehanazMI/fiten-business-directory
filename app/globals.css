@@ -931,3 +931,54 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
   .connect-stats{gap:0.5rem}
   .connect-stat-pill{flex:1;justify-content:center}
 }
+
+/* ━━━ PHASE 2 — SERVICES CHIPS ━━━ */
+.card-svc-chips{display:flex;gap:4px;flex-wrap:wrap}
+.card-svc-chip{font-size:.67rem;padding:2px 8px;border-radius:20px;background:rgba(197,160,89,.08);color:var(--amber-deep);border:.5px solid rgba(197,160,89,.3);white-space:nowrap}
+.card-svc-more{background:rgba(15,23,42,.04);color:var(--text3);border-color:var(--border)}
+.card-emp{font-size:.66rem;background:rgba(15,23,42,.05);color:var(--text3);border:.5px solid var(--border);border-radius:10px;padding:1px 6px}
+.detail-services{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.5rem}
+.detail-svc-chip{font-size:.78rem;padding:4px 12px;border-radius:20px;background:rgba(197,160,89,.08);color:var(--amber-deep);border:.5px solid rgba(197,160,89,.3)}
+
+/* ━━━ PHASE 2 — CONNECTION REQUEST (connect page, inline) ━━━ */
+.connect-action-req{background:var(--navy);color:#fff;border-color:var(--navy)}
+.connect-action-req:hover{background:#1e293b;border-color:#1e293b;color:#fff}
+.connect-action-req.active{background:#1e293b;border-color:#1e293b;color:#fff}
+.connect-req-form{background:rgba(197,160,89,.05);border:.5px solid rgba(197,160,89,.3);border-radius:6px;padding:14px;margin-top:12px}
+.connect-req-label{font-size:.63rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.connect-req-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:5px}
+.connect-req-input{width:100%;box-sizing:border-box;background:#fff;border:.5px solid var(--border);border-radius:5px;padding:7px 10px;font-size:.78rem;color:var(--text);font-family:inherit;margin-bottom:5px;display:block;outline:none}
+.connect-req-input:focus{border-color:var(--gold)}
+.connect-req-input::placeholder{color:var(--text3)}
+.connect-req-submit{width:100%;padding:8px;border-radius:5px;background:var(--navy);color:#fff;border:none;font-size:.78rem;cursor:pointer;margin-top:5px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px}
+.connect-req-submit:disabled{opacity:.6;cursor:not-allowed}
+.connect-req-cancel{display:block;width:100%;text-align:center;margin-top:6px;font-size:.68rem;color:var(--text3);cursor:pointer;background:none;border:none;font-family:inherit}
+.connect-req-success{font-size:.8rem;color:var(--teal-fg);display:flex;align-items:flex-start;gap:7px;padding:10px 0 2px}
+.connect-req-success .ti{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.connect-req-error{font-size:.72rem;color:#dc2626;margin-top:4px}
+
+/* ━━━ PHASE 2 — CONNECTION REQUEST (detail page) ━━━ */
+.biz-detail-req-toggle{display:flex;align-items:center;gap:6px;margin:1rem 1.5rem;padding:10px 16px;background:var(--navy);color:#fff;border:none;font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;border-radius:6px}
+.biz-detail-req-form{margin:1rem 1.5rem;background:rgba(197,160,89,.05);border:.5px solid rgba(197,160,89,.3);border-radius:8px;padding:16px}
+.biz-detail-req-label{font-size:.63rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.biz-detail-req-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:7px}
+.biz-detail-req-input{width:100%;box-sizing:border-box;background:#fff;border:.5px solid var(--border);border-radius:5px;padding:8px 11px;font-size:.82rem;color:var(--text);font-family:inherit;margin-bottom:7px;display:block;outline:none}
+.biz-detail-req-input:focus{border-color:var(--gold)}
+.biz-detail-req-input::placeholder{color:var(--text3)}
+.biz-detail-req-submit{width:100%;padding:10px;border-radius:6px;background:var(--navy);color:#fff;border:none;font-size:.82rem;font-weight:500;cursor:pointer;margin-top:6px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.biz-detail-req-submit:disabled{opacity:.6;cursor:not-allowed}
+.biz-detail-req-cancel{display:block;width:100%;text-align:center;margin-top:7px;font-size:.72rem;color:var(--text3);cursor:pointer;background:none;border:none;font-family:inherit}
+.biz-detail-req-success{margin:1rem 1.5rem;font-size:.85rem;color:var(--teal-fg);display:flex;align-items:flex-start;gap:8px;padding:12px 16px;background:var(--teal-bg);border:.5px solid var(--teal-bd);border-radius:6px}
+.biz-detail-req-success .ti{font-size:1.15rem;flex-shrink:0;margin-top:1px}
+.biz-detail-req-error{font-size:.75rem;color:#dc2626;margin-top:5px}
+@media (max-width:600px){
+  .connect-req-row,.biz-detail-req-row{grid-template-columns:1fr}
+}
+
+/* ━━━ PHASE 2 — FORM TAG INPUT (services) ━━━ */
+.bizform-tag-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 10px;min-height:42px}
+.bizform-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.bizform-tag{font-size:.75rem;padding:3px 8px 3px 10px;border-radius:20px;background:rgba(197,160,89,.14);color:var(--gold);border:.5px solid rgba(197,160,89,.35);display:flex;align-items:center;gap:5px}
+.bizform-tag-x{background:none;border:none;cursor:pointer;color:rgba(197,160,89,.55);font-size:.65rem;padding:0;line-height:1;display:flex}
+.bizform-tag-input-field{background:transparent;border:none;outline:none;font-size:.82rem;color:#fff;font-family:inherit;width:100%;min-width:120px}
+.bizform-tag-input-field::placeholder{color:rgba(255,255,255,.25)}

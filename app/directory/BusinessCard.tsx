@@ -45,6 +45,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           <div className="biz-meta">
             <span>{b.category}</span>
             {b.city && <><span className="meta-dot">·</span><span className="biz-location">{b.city}</span></>}
+            {b.employeeCount && <><span className="meta-dot">·</span><span className="card-emp">{b.employeeCount} emp</span></>}
           </div>
         </div>
         {b.verified && (
@@ -55,6 +56,15 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
       <div className="card-body">
         {b.description && (
           <div className="card-desc">{b.description}</div>
+        )}
+
+        {b.services && b.services.length > 0 && (
+          <div className="card-svc-chips">
+            {b.services.slice(0, 3).map(s => (
+              <span key={s} className="card-svc-chip">{s}</span>
+            ))}
+            {b.services.length > 3 && <span className="card-svc-chip card-svc-more">+{b.services.length - 3}</span>}
+          </div>
         )}
 
         {signals.length > 0 && (

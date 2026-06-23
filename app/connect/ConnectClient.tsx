@@ -3,13 +3,15 @@
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Business } from '@/types/business'
+import type { Connection } from '@/types/connection'
+import { postConnection } from '@/lib/firestore-rest'
 import { colors, textColors } from '@/lib/utils'
 
 type OppType = 'partner' | 'client' | 'invest' | 'hire'
 type VisitorRole = 'all' | OppType
 
 const OPP_META: Record<OppType, { label: string; icon: string; desc: string; color: string }> = {
-  partner:  { label: 'Partnership',    icon: 'ti-handshake',        desc: 'Open to strategic partnerships & collaborations', color: '#7C3AED' },
+  partner:  { label: 'Partnership',    icon: 'ti-heart-handshake',  desc: 'Open to strategic partnerships & collaborations', color: '#7C3AED' },
   client:   { label: 'New Clients',    icon: 'ti-users',            desc: 'Actively seeking new clients & customers',        color: '#059669' },
   invest:   { label: 'Investment',     icon: 'ti-chart-line',       desc: 'Open to investors & funding opportunities',       color: '#C5A059' },
   hire:     { label: 'Hiring',         icon: 'ti-briefcase',        desc: 'Currently hiring talent',                         color: '#2563EB' },
@@ -17,7 +19,7 @@ const OPP_META: Record<OppType, { label: string; icon: string; desc: string; col
 
 const ROLE_FILTERS: { value: VisitorRole; label: string; icon: string }[] = [
   { value: 'all',     label: 'All Opportunities', icon: 'ti-layout-grid' },
-  { value: 'partner', label: 'Find Partners',     icon: 'ti-handshake' },
+  { value: 'partner', label: 'Find Partners',     icon: 'ti-heart-handshake' },
   { value: 'client',  label: 'Find Clients',      icon: 'ti-users' },
   { value: 'invest',  label: 'Invest',            icon: 'ti-chart-line' },
   { value: 'hire',    label: 'Find Talent',       icon: 'ti-briefcase' },
@@ -25,12 +27,48 @@ const ROLE_FILTERS: { value: VisitorRole; label: string; icon: string }[] = [
 
 const SECTOR_FILTERS = ['All Sectors', 'Tech', 'Healthcare', 'Finance', 'Education', 'Food', 'Legal', 'Retail', 'Services']
 
-function OpportunityCard({ b, onView }: { b: Business; onView: () => void }) {
+function OpportunityCard({
+  b, onView, isRequestOpen, onRequestToggle,
+}: {
+  b: Business
+  onView: () => void
+  isRequestOpen: boolean
+  onRequestToggle: () => void
+}) {
   const bg = colors[b.colorIdx % colors.length]
   const fg = textColors[b.colorIdx % textColors.length]
+  const [form, setForm] = useState({ name: '', email: '', business: '', type: (b.looking[0] ?? 'client') as Connection['type'], message: '' })
+  const [submitting, setSubmitting] = useState(false)
+  const [done, setDone] = useState(false)
+  const [reqError, setReqError] = useState('')
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!form.name.trim() || !form.email.trim() || form.message.trim().length < 20) return
+    setSubmitting(true)
+    setReqError('')
+    try {
+      await postConnection({
+        fromName: form.name.trim(),
+        fromEmail: form.email.trim(),
+        fromBusiness: form.business.trim() || undefined,
+        toBusinessId: b.id,
+        toBusinessName: b.businessName,
+        type: form.type,
+        message: form.message.trim(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      })
+      setDone(true)
+    } catch (err) {
+      setReqError(err instanceof Error ? err.message : 'Failed — please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
-    <div className="connect-card" onClick={onView}>
+    <div className="connect-card" onClick={isRequestOpen ? undefined : onView}>
       <div className="connect-card-top">
         {b.logoUrl ? (
           <img src={b.logoUrl} alt={b.businessName} className="connect-card-logo" />
@@ -72,7 +110,52 @@ function OpportunityCard({ b, onView }: { b: Business; onView: () => void }) {
         <button className="connect-action-btn connect-action-view" onClick={e => { e.stopPropagation(); onView() }}>
           View Profile
         </button>
+        <button
+          className={`connect-action-btn connect-action-req${isRequestOpen ? ' active' : ''}`}
+          onClick={e => { e.stopPropagation(); onRequestToggle() }}
+        >
+          <i className="ti ti-send" /> Send Request
+        </button>
       </div>
+
+      {isRequestOpen && (
+        <div className="connect-req-form" onClick={e => e.stopPropagation()}>
+          {done ? (
+            <div className="connect-req-success">
+              <i className="ti ti-circle-check" aria-hidden="true" />
+              Request sent to <strong>{b.businessName}</strong>. They will reach out to you directly.
+            </div>
+          ) : (
+            <form onSubmit={handleSend}>
+              <div className="connect-req-label">Connection request</div>
+              <div className="connect-req-row">
+                <input className="connect-req-input" placeholder="Your name *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+                <input className="connect-req-input" type="email" placeholder="Your email *" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+              </div>
+              <input className="connect-req-input" placeholder="Your business (optional)" value={form.business} onChange={e => setForm(f => ({ ...f, business: e.target.value }))} />
+              {b.looking.length > 1 && (
+                <select className="connect-req-input" value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value as Connection['type'] }))}>
+                  {b.looking.map(op => <option key={op} value={op}>{OPP_META[op].label}</option>)}
+                </select>
+              )}
+              <textarea
+                className="connect-req-input"
+                rows={3}
+                placeholder={`Message to ${b.businessName} (min 20 chars) *`}
+                value={form.message}
+                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                required
+                minLength={20}
+              />
+              {reqError && <div className="connect-req-error">{reqError}</div>}
+              <button className="connect-req-submit" type="submit" disabled={submitting}>
+                {submitting ? 'Sending…' : <><i className="ti ti-send" aria-hidden="true" /> Send</>}
+              </button>
+              <button type="button" className="connect-req-cancel" onClick={onRequestToggle}>cancel</button>
+            </form>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -82,6 +165,7 @@ export default function ConnectClient({ businesses }: { businesses: Business[] }
   const [role, setRole] = useState<VisitorRole>('all')
   const [sector, setSector] = useState('All Sectors')
   const [search, setSearch] = useState('')
+  const [openRequestId, setOpenRequestId] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
     return businesses
@@ -181,7 +265,13 @@ export default function ConnectClient({ businesses }: { businesses: Business[] }
         ) : (
           <div className="connect-grid">
             {filtered.map(b => (
-              <OpportunityCard key={b.id} b={b} onView={() => router.push(`/directory/${b.id}`)} />
+              <OpportunityCard
+                key={b.id}
+                b={b}
+                onView={() => router.push(`/directory/${b.id}`)}
+                isRequestOpen={openRequestId === b.id}
+                onRequestToggle={() => setOpenRequestId(id => id === b.id ? null : b.id)}
+              />
             ))}
           </div>
         )}

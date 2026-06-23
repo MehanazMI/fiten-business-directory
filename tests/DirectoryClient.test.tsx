@@ -201,10 +201,10 @@ describe('DirectoryClient — sorting', () => {
     expect(cards).toEqual(sorted)
   })
 
-  it('reviews sort orders by review count descending', async () => {
+  it('views sort orders by view count descending', async () => {
     const { user } = setup()
-    await user.selectOptions(screen.getByRole('combobox'), 'reviews')
-    // Alpha Tech has reviews=20, highest in fixtures → first card
+    await user.selectOptions(screen.getByRole('combobox'), 'views')
+    // Alpha Tech has views=500, highest in fixtures → first card
     expect(document.querySelectorAll('.biz-card')[0].textContent).toContain('Alpha')
   })
 

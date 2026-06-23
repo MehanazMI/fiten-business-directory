@@ -12,5 +12,9 @@ service cloud.firestore {
     match /claims/{id} {
       allow create: if true;
     }
+    match /connections/{id} {
+      allow create: if true;
+      allow read: if false;
+    }
   }
 }

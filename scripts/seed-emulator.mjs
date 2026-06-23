@@ -27,6 +27,8 @@ const businesses = [
     rating: 4.8,
     reviews: 87,
     views: 489,
+    services: ['Family Medicine', 'Bilingual Care', 'Preventive Health'],
+    employeeCount: '11-50',
   },
   {
     businessName: '[TEST] ERP Logic Inc.',
@@ -46,6 +48,9 @@ const businesses = [
     rating: 4.6,
     reviews: 56,
     views: 198,
+    services: ['SAP Implementation', 'ERP Consulting', 'Cloud Migration', 'Training'],
+    employeeCount: '51-200',
+    linkedin: 'https://linkedin.com/company/erplogic',
   },
   {
     businessName: '[TEST] Vani Language Academy',
@@ -65,6 +70,8 @@ const businesses = [
     rating: 4.8,
     reviews: 134,
     views: 0,
+    services: ['Tamil Language', 'Carnatic Music', 'Online Classes'],
+    employeeCount: '2-10',
   },
   {
     businessName: '[TEST] Tamil Legal Group',
@@ -84,6 +91,8 @@ const businesses = [
     rating: 4.7,
     reviews: 95,
     views: 0,
+    services: ['Immigration Law', 'Business Formation', 'Family Law'],
+    employeeCount: '2-10',
   },
   {
     businessName: '[TEST] Jaffna Bakery',
@@ -103,6 +112,8 @@ const businesses = [
     rating: 0,
     reviews: 0,
     views: 0,
+    services: ['Murukku', 'Sweets', 'Baked Goods', 'Delivery'],
+    employeeCount: 'solo',
   },
   {
     businessName: '[TEST] Pending Business',

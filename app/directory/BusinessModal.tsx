@@ -66,6 +66,8 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
             <div className="detail-cat-loc">
               {b.category}
               {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}</>}
+              {b.employeeCount && <><span className="meta-dot">·</span><span>{b.employeeCount}</span></>}
+              {b.founded && <><span className="meta-dot">·</span><span>Est. {b.founded}</span></>}
             </div>
             {(b.pro || b.verified) && (
               <div className="detail-badges">
@@ -80,7 +82,16 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
           <div className="detail-sec">About</div>
           <div className="detail-desc">{b.description}</div>
 
-          {(b.phone || b.website) && <div className="detail-sec">Contact</div>}
+          {b.services && b.services.length > 0 && (
+            <>
+              <div className="detail-sec">What we do</div>
+              <div className="detail-services">
+                {b.services.map(s => <span key={s} className="detail-svc-chip">{s}</span>)}
+              </div>
+            </>
+          )}
+
+          {(b.phone || b.website || b.linkedin || b.instagram || b.twitter) && <div className="detail-sec">Contact</div>}
           {b.phone && (
             <div className="detail-info-row">
               <i className="ti ti-phone detail-icon" aria-hidden="true" />
@@ -97,6 +108,24 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
               <a href={b.website} target="_blank" rel="noopener noreferrer">
                 {b.website.replace(/^https?:\/\//, '')}
               </a>
+            </div>
+          )}
+          {b.linkedin && (
+            <div className="detail-info-row">
+              <i className="ti ti-brand-linkedin detail-icon" aria-hidden="true" />
+              <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          )}
+          {b.instagram && (
+            <div className="detail-info-row">
+              <i className="ti ti-brand-instagram detail-icon" aria-hidden="true" />
+              <a href={b.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+          )}
+          {b.twitter && (
+            <div className="detail-info-row">
+              <i className="ti ti-brand-twitter detail-icon" aria-hidden="true" />
+              <a href={b.twitter} target="_blank" rel="noopener noreferrer">Twitter / X</a>
             </div>
           )}
 

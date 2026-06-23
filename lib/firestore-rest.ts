@@ -1,4 +1,5 @@
 import type { Business } from '@/types/business'
+import type { Connection } from '@/types/connection'
 import { stableColorIdx, categoryMap } from '@/lib/utils'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
@@ -55,6 +56,13 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     reviews: Number(f.reviews?.integerValue ?? 0),
     views: Number(f.views?.integerValue ?? 0),
     createdAt: f.createdAt?.timestampValue ?? '',
+    services: (f.services?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
+    linkedin: f.linkedin?.stringValue,
+    instagram: f.instagram?.stringValue,
+    twitter: f.twitter?.stringValue,
+    employeeCount: f.employeeCount?.stringValue as Business['employeeCount'],
+    updatedAt: f.updatedAt?.timestampValue ?? f.updatedAt?.stringValue,
+    featured: f.featured?.booleanValue ?? false,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }
@@ -75,6 +83,30 @@ export async function fetchBusinessById(id: string): Promise<Business | null> {
   const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) return null
   return parseFirestoreDoc(await res.json())
+}
+
+export async function postConnection(conn: Omit<Connection, 'id'>): Promise<void> {
+  const res = await fetch(`${FS_BASE}/connections${keyParam}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fields: {
+        fromName:       { stringValue: conn.fromName },
+        fromEmail:      { stringValue: conn.fromEmail },
+        ...(conn.fromBusiness ? { fromBusiness: { stringValue: conn.fromBusiness } } : {}),
+        toBusinessId:   { stringValue: conn.toBusinessId },
+        toBusinessName: { stringValue: conn.toBusinessName },
+        type:           { stringValue: conn.type },
+        message:        { stringValue: conn.message },
+        status:         { stringValue: conn.status },
+        createdAt:      { stringValue: conn.createdAt },
+      },
+    }),
+  })
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}))
+    throw new Error(d.error?.message ?? `HTTP ${res.status}`)
+  }
 }
 
 export interface Testimonial {

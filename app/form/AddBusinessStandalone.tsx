@@ -82,9 +82,11 @@ const OPT_BG = { background: 'var(--navy)' }
 export default function AddBusinessStandalone() {
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
-    founded: '', registrationNo: '', region: '', city: '',
-    email: '', phone: '', website: '', description: '',
+    founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
+    email: '', phone: '', website: '', linkedin: '', instagram: '', description: '',
   })
+  const [services, setServices] = useState<string[]>([])
+  const [serviceInput, setServiceInput] = useState('')
   const [looking, setLooking] = useState<string[]>([])
   const [women, setWomen] = useState(false)
   const [convention, setConvention] = useState(false)
@@ -161,7 +163,11 @@ export default function AddBusinessStandalone() {
           email: form.email.trim(),
           phone: form.phone.trim(),
           website: form.website.trim(),
+          linkedin: form.linkedin.trim(),
+          instagram: form.instagram.trim(),
           description: form.description.trim(),
+          services,
+          employeeCount: form.employeeCount,
           looking: lookingWithoutSpeaker,
           speaker: speakerInB2B,
           women,
@@ -245,6 +251,20 @@ export default function AddBusinessStandalone() {
           </F>
         </div>
 
+        <div className="bizform-row">
+          <F label="Employee Count" hint="optional">
+            <select className="bizform-input" value={form.employeeCount} onChange={set('employeeCount')}>
+              <option value="" style={OPT_BG}>Select...</option>
+              <option value="solo" style={OPT_BG}>Solo / Freelancer</option>
+              <option value="2-10" style={OPT_BG}>2–10</option>
+              <option value="11-50" style={OPT_BG}>11–50</option>
+              <option value="51-200" style={OPT_BG}>51–200</option>
+              <option value="200+" style={OPT_BG}>200+</option>
+            </select>
+          </F>
+          <div />
+        </div>
+
         <F label="Primary Sector" required>
           <select className={cls('category')} value={form.category}
             onChange={set('category')} onBlur={markTouched('category')}>
@@ -293,6 +313,17 @@ export default function AddBusinessStandalone() {
             value={form.website} onChange={set('website')} />
         </F>
 
+        <div className="bizform-row">
+          <F label="LinkedIn URL" hint="optional">
+            <input className="bizform-input" type="url" placeholder="https://linkedin.com/company/…"
+              value={form.linkedin} onChange={set('linkedin')} />
+          </F>
+          <F label="Instagram URL" hint="optional">
+            <input className="bizform-input" type="url" placeholder="https://instagram.com/…"
+              value={form.instagram} onChange={set('instagram')} />
+          </F>
+        </div>
+
         <F label="Business Summary" required>
           <textarea className={cls('description')} rows={5} maxLength={DESCRIPTION_MAX}
             placeholder="Describe what your business does and who it serves in the Tamil community."
@@ -302,6 +333,39 @@ export default function AddBusinessStandalone() {
             <span className={`bizform-counter${descNear ? ' near' : ''}`}>
               {form.description.length} / {DESCRIPTION_MAX}
             </span>
+          </div>
+        </F>
+
+        <F label="Services" hint={`optional — up to 5, press Enter to add`}>
+          <div className="bizform-tag-input">
+            {services.length > 0 && (
+              <div className="bizform-tags">
+                {services.map(s => (
+                  <span key={s} className="bizform-tag">
+                    {s}
+                    <button type="button" className="bizform-tag-x" onClick={() => setServices(prev => prev.filter(x => x !== s))} aria-label={`Remove ${s}`}>
+                      <i className="ti ti-x" aria-hidden="true" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+            {services.length < 5 && (
+              <input
+                className="bizform-tag-input-field"
+                placeholder="Add a service…"
+                value={serviceInput}
+                onChange={e => setServiceInput(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    const val = serviceInput.trim()
+                    if (val && !services.includes(val)) setServices(prev => [...prev, val])
+                    setServiceInput('')
+                  }
+                }}
+              />
+            )}
           </div>
         </F>
 
