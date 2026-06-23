@@ -12,6 +12,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\rashe\\Documents\\Claude\\Projects\\Fiten-business-directory"],
       "port": 3000
+    },
+    {
+      "name": "fiten-dev-3100",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "3100"],
+      "port": 3100,
+      "autoPort": false
     }
   ]
 }
