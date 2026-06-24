@@ -41,7 +41,13 @@ describe('SiteHeader — default (directory page)', () => {
   it('applies active class to the correct nav link', () => {
     render(<SiteHeader activeLink="events" />)
     const nav = document.querySelector('.nav-hdr') as HTMLElement
-    expect(within(nav).getByRole('link', { name: 'Events' }).className).toContain('active')
+    const eventsLink = within(nav).getByRole('link', { name: 'Events' })
+    expect(eventsLink.className).toContain('active')
+  })
+
+  it('renders without crashing when AuthButton is in loading state (default)', () => {
+    const { container } = render(<SiteHeader />)
+    expect(container.querySelector('.site-header')).toBeInTheDocument()
   })
 })
 
