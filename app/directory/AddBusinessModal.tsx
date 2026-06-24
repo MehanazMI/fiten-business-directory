@@ -76,7 +76,7 @@ export default function AddBusinessModal({ onClose }: Props) {
           women,
           speaker,
           convention,
-          status: 'active',
+          status: 'pending',
           pro: false,
           rating: 0,
           reviews: 0,
@@ -108,9 +108,9 @@ export default function AddBusinessModal({ onClose }: Props) {
         {success ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
             <i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', display: 'inline-block' }} aria-hidden="true" />
-            <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Business Added!</h3>
+            <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Submitted!</h3>
             <p style={{ color: 'var(--cream-70)', lineHeight: 1.6 }}>
-              Your listing is now live on the FiTEN Directory. Welcome to the community!
+              Your listing is pending review. We'll approve it shortly — welcome to the community!
             </p>
             <button className="modal-submit" style={{ marginTop: '1.5rem' }} onClick={onClose}>
               Done
@@ -120,7 +120,7 @@ export default function AddBusinessModal({ onClose }: Props) {
           <>
             <h3>List Your Business</h3>
             <p style={{ color: 'var(--cream-70)', marginBottom: '1.5rem', fontSize: '0.9rem', lineHeight: 1.5 }}>
-              Your listing will be live immediately after submission.
+              Your listing will go live after a quick review — usually within 24 hours.
             </p>
 
             {error && (

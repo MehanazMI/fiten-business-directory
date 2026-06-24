@@ -95,7 +95,7 @@ describe('AddBusinessModal — successful submission', () => {
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
-    await waitFor(() => expect(screen.getByText(/Business Added/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Submitted/i)).toBeInTheDocument())
   })
 
   it('shows Done button in success state', async () => {
@@ -121,11 +121,11 @@ describe('AddBusinessModal — successful submission', () => {
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
-    await waitFor(() => screen.getByText(/Business Added/i))
+    await waitFor(() => screen.getByText(/Submitted/i))
     const body = JSON.parse(mockFetch.mock.calls[0][1].body)
     expect(body.fields.businessName.stringValue).toBe('New Biz')
     expect(body.fields.category.stringValue).toBe('Technology')
-    expect(body.fields.status.stringValue).toBe('active')
+    expect(body.fields.status.stringValue).toBe('pending')
     expect(body.fields.pro.booleanValue).toBe(false)
   })
 })
