@@ -50,8 +50,8 @@ export default function AdminClient() {
         }).catch(() => setFetching(false))
     } else {
       const q = tab === 'pending'
-        ? query(collection(db, 'businesses'), where('status', '==', 'pending'), orderBy('createdAt', 'desc'))
-        : query(collection(db, 'businesses'), orderBy('createdAt', 'desc'))
+        ? query(collection(db, 'businesses'), where('status', '==', 'pending'))
+        : query(collection(db, 'businesses'), orderBy('businessName'))
       getDocs(q).then(snap => {
         setBusinesses(snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminBusiness)))
         setFetching(false)
