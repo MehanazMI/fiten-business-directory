@@ -16,7 +16,8 @@ export interface Event {
   organizerName: string // business name (denormalized for display)
   speakers?: string[]
   region?: string // e.g. 'nyc' — used for regional grouping
-  status: 'upcoming' | 'live' | 'past'
+  status: 'upcoming' | 'past'
+  featured?: boolean
   createdAt: string
   updatedAt: string
 }

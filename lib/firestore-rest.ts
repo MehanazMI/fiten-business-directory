@@ -169,7 +169,8 @@ function parseEventDoc(doc: FirestoreRestDoc): Event {
     organizerName: f.organizerName?.stringValue ?? '',
     speakers: (f.speakers?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
     region: f.region?.stringValue,
-    status: (f.status?.stringValue as Event['status']) ?? 'upcoming',
+    status: f.date?.stringValue && f.date.stringValue < new Date().toISOString().slice(0, 10) ? 'past' : 'upcoming',
+    featured: f.featured?.booleanValue ?? false,
     createdAt: f.createdAt?.timestampValue ?? '',
     updatedAt: f.updatedAt?.timestampValue ?? '',
   }

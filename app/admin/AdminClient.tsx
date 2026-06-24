@@ -8,12 +8,13 @@ import {
 import { auth, googleProvider, db } from '@/lib/firebase-client'
 import { useAuth } from '@/lib/auth-context'
 import type { Business } from '@/types/business'
+import type { Event } from '@/types/event'
 
 type Tab = 'pending' | 'listings' | 'events'
 
-interface AdminBusiness extends Business {
-  createdAt?: string
-}
+type AdminBusiness = Business
+
+type AdminEvent = Event
 
 export default function AdminClient() {
   const { user, loading } = useAuth()
@@ -21,6 +22,7 @@ export default function AdminClient() {
   const [checkingClaim, setCheckingClaim] = useState(true)
   const [tab, setTab] = useState<Tab>('pending')
   const [businesses, setBusinesses] = useState<AdminBusiness[]>([])
+  const [events, setEvents] = useState<AdminEvent[]>([])
   const [fetching, setFetching] = useState(false)
   const [actionId, setActionId] = useState<string | null>(null)
 
@@ -38,15 +40,23 @@ export default function AdminClient() {
     if (!isAdmin) return
     setFetching(true)
     setBusinesses([])
+    setEvents([])
 
-    const q = tab === 'pending'
-      ? query(collection(db, 'businesses'), where('status', '==', 'pending'), orderBy('createdAt', 'desc'))
-      : query(collection(db, 'businesses'), orderBy('createdAt', 'desc'))
-
-    getDocs(q).then(snap => {
-      setBusinesses(snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminBusiness)))
-      setFetching(false)
-    }).catch(() => setFetching(false))
+    if (tab === 'events') {
+      getDocs(query(collection(db, 'events'), orderBy('createdAt', 'desc')))
+        .then(snap => {
+          setEvents(snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminEvent)))
+          setFetching(false)
+        }).catch(() => setFetching(false))
+    } else {
+      const q = tab === 'pending'
+        ? query(collection(db, 'businesses'), where('status', '==', 'pending'), orderBy('createdAt', 'desc'))
+        : query(collection(db, 'businesses'), orderBy('createdAt', 'desc'))
+      getDocs(q).then(snap => {
+        setBusinesses(snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminBusiness)))
+        setFetching(false)
+      }).catch(() => setFetching(false))
+    }
   }, [isAdmin, tab])
 
   async function approve(id: string) {
@@ -67,6 +77,20 @@ export default function AdminClient() {
     setActionId(id)
     await updateDoc(doc(db, 'businesses', id), { pro: !current })
     setBusinesses(prev => prev.map(b => b.id === id ? { ...b, pro: !current } : b))
+    setActionId(null)
+  }
+
+  async function deleteEvent(id: string) {
+    setActionId(id)
+    await deleteDoc(doc(db, 'events', id))
+    setEvents(prev => prev.filter(e => e.id !== id))
+    setActionId(null)
+  }
+
+  async function toggleFeatured(id: string, current: boolean) {
+    setActionId(id)
+    await updateDoc(doc(db, 'events', id), { featured: !current })
+    setEvents(prev => prev.map(e => e.id === id ? { ...e, featured: !current } : e))
     setActionId(null)
   }
 
@@ -141,7 +165,15 @@ export default function AdminClient() {
         </div>
       )}
 
-      {!fetching && businesses.length > 0 && (
+      {!fetching && tab === 'events' && events.length === 0 && (
+        <div className="admin-empty">
+          <i className="ti ti-calendar-off" aria-hidden="true" />
+          <p>No events found.</p>
+        </div>
+      )}
+
+      {/* Business / pending list */}
+      {!fetching && tab !== 'events' && businesses.length > 0 && (
         <div className="admin-list">
           {tab === 'pending' && (
             <p className="admin-count">{pendingCount} submission{pendingCount !== 1 ? 's' : ''} awaiting review</p>
@@ -161,26 +193,15 @@ export default function AdminClient() {
                   <span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.region ? `, ${b.region}` : ''}</span>
                   <span><i className="ti ti-mail" aria-hidden="true" /> {b.email}</span>
                 </div>
-                {b.description && (
-                  <p className="admin-card-desc">{b.description}</p>
-                )}
+                {b.description && <p className="admin-card-desc">{b.description}</p>}
               </div>
-
               <div className="admin-card-actions">
                 {tab === 'pending' ? (
                   <>
-                    <button
-                      className="admin-btn admin-btn-approve"
-                      onClick={() => approve(b.id)}
-                      disabled={actionId === b.id}
-                    >
+                    <button className="admin-btn admin-btn-approve" onClick={() => approve(b.id)} disabled={actionId === b.id}>
                       {actionId === b.id ? '…' : 'Approve'}
                     </button>
-                    <button
-                      className="admin-btn admin-btn-reject"
-                      onClick={() => reject(b.id)}
-                      disabled={actionId === b.id}
-                    >
+                    <button className="admin-btn admin-btn-reject" onClick={() => reject(b.id)} disabled={actionId === b.id}>
                       Reject
                     </button>
                   </>
@@ -200,11 +221,53 @@ export default function AdminClient() {
                     >
                       {actionId === b.id ? '…' : b.status === 'active' ? 'Deactivate' : 'Activate'}
                     </button>
-                    <a href={`/directory/${b.id}`} className="admin-btn admin-btn-view" target="_blank" rel="noopener noreferrer">
-                      View
-                    </a>
+                    <a href={`/directory/${b.id}`} className="admin-btn admin-btn-view" target="_blank" rel="noopener noreferrer">View</a>
                   </>
                 )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Events list */}
+      {!fetching && tab === 'events' && events.length > 0 && (
+        <div className="admin-list">
+          <p className="admin-count">{events.length} event{events.length !== 1 ? 's' : ''}</p>
+          {events.map(e => (
+            <div key={e.id} className="admin-card">
+              <div className="admin-card-main">
+                <div className="admin-card-top">
+                  <span className="admin-biz-name">{e.title}</span>
+                  <span className={`dashboard-status dashboard-status-${e.status === 'upcoming' ? 'active' : 'pending'}`}>
+                    {e.status}
+                  </span>
+                  {e.featured && <span className="admin-pro-badge">⭐ Featured</span>}
+                </div>
+                <div className="admin-card-meta">
+                  <span><i className="ti ti-calendar" aria-hidden="true" /> {e.date}</span>
+                  <span><i className="ti ti-tag" aria-hidden="true" /> {e.eventType}</span>
+                  <span><i className="ti ti-map-pin" aria-hidden="true" /> {e.location === 'virtual' ? 'Virtual' : e.city || 'In Person'}</span>
+                  <span><i className="ti ti-user" aria-hidden="true" /> {e.organizerName}</span>
+                </div>
+                {e.description && <p className="admin-card-desc">{e.description.slice(0, 120)}{e.description.length > 120 ? '…' : ''}</p>}
+              </div>
+              <div className="admin-card-actions">
+                <button
+                  className={`admin-btn ${e.featured ? 'admin-btn-unpro' : 'admin-btn-pro'}`}
+                  onClick={() => toggleFeatured(e.id, e.featured ?? false)}
+                  disabled={actionId === e.id}
+                >
+                  {actionId === e.id ? '…' : e.featured ? 'Unfeature' : 'Feature'}
+                </button>
+                <button
+                  className="admin-btn admin-btn-reject"
+                  onClick={() => deleteEvent(e.id)}
+                  disabled={actionId === e.id}
+                >
+                  Delete
+                </button>
+                <a href={`/events/${e.id}`} className="admin-btn admin-btn-view" target="_blank" rel="noopener noreferrer">View</a>
               </div>
             </div>
           ))}

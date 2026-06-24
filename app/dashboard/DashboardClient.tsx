@@ -43,11 +43,11 @@ export default function DashboardClient() {
         setBusiness(biz)
         setForm({
           description: data.description ?? '',
-          website: (data as Record<string, string>).website ?? '',
+          website: data.website ?? '',
           phone: data.phone ?? '',
           category: data.category ?? '',
         })
-        setLooking(data.looking ?? [])
+        setLooking((data.looking ?? []) as string[])
         setWomen(data.women ?? false)
         setSpeaker(data.speaker ?? false)
       }
@@ -68,7 +68,7 @@ export default function DashboardClient() {
         women,
         speaker,
       })
-      setBusiness(prev => prev ? { ...prev, ...form, looking, women, speaker } : prev)
+      setBusiness(prev => prev ? { ...prev, ...form, looking: looking as Business['looking'], women, speaker } : prev)
       setSaved(true)
       setEditing(false)
       setTimeout(() => setSaved(false), 3000)
@@ -188,8 +188,8 @@ export default function DashboardClient() {
               <div className="dashboard-meta-row">
                 <span><i className="ti ti-tag" /> {business.category}</span>
                 {business.phone && <span><i className="ti ti-phone" /> {business.phone}</span>}
-                {(business as Record<string, unknown>).website && (
-                  <a href={String((business as Record<string, unknown>).website)} target="_blank" rel="noopener noreferrer">
+                {business.website && (
+                  <a href={business.website} target="_blank" rel="noopener noreferrer">
                     <i className="ti ti-world" /> Website
                   </a>
                 )}
