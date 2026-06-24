@@ -230,6 +230,7 @@ export async function postEvent(event: Omit<Event, 'id' | 'status'>): Promise<st
             },
           },
         } : {}),
+        status:           { stringValue: 'pending' },
         createdAt:        { stringValue: new Date().toISOString() },
         updatedAt:        { stringValue: new Date().toISOString() },
       },

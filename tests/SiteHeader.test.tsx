@@ -34,7 +34,14 @@ describe('SiteHeader — default (directory page)', () => {
     expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/')
     expect(within(nav).getByRole('link', { name: 'Directory' })).toHaveAttribute('href', '/directory')
     expect(within(nav).getByRole('link', { name: 'Connect' })).toHaveAttribute('href', '/connect')
+    expect(within(nav).getByRole('link', { name: 'Events' })).toHaveAttribute('href', '/events')
     expect(within(nav).getByRole('link', { name: 'Get Listed' })).toHaveAttribute('href', '/form')
+  })
+
+  it('applies active class to the correct nav link', () => {
+    render(<SiteHeader activeLink="events" />)
+    const nav = document.querySelector('.nav-hdr') as HTMLElement
+    expect(within(nav).getByRole('link', { name: 'Events' }).className).toContain('active')
   })
 })
 

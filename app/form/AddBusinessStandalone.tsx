@@ -173,7 +173,7 @@ export default function AddBusinessStandalone() {
           convention,
           logoUrls,
           verificationStatus: form.registrationNo.trim() ? 'pending' : 'unverified',
-          status: 'active', pro: false, views: 0,
+          status: 'pending', pro: false, views: 0,
           createdAt: new Date().toISOString(),
         })),
       })
@@ -198,11 +198,11 @@ export default function AddBusinessStandalone() {
     return (
       <div className="bizform-success">
         <div className="bizform-success-check"><i className="ti ti-check" aria-hidden="true" /></div>
-        <div className="bizform-success-kicker">You&rsquo;re live</div>
-        <h2 className="bizform-success-title">{form.businessName} is now listed.</h2>
+        <div className="bizform-success-kicker">Submitted for review</div>
+        <h2 className="bizform-success-title">{form.businessName} is pending approval.</h2>
         <p className="bizform-success-text">
-          Visible to Tamil entrepreneurs, partners, and investors worldwide.
-          {form.registrationNo && ' Your registration number has been submitted for verification review.'}
+          Your listing will go live after a quick review — usually within 24 hours.
+          {form.registrationNo && ' Your registration number has been submitted for verification.'}
         </p>
         <div className="bizform-success-actions">
           <a href={newDocId ? `/directory/${newDocId}` : '/directory'} className="bizform-btn-gold">

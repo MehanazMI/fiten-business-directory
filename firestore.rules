@@ -3,9 +3,8 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /businesses/{id} {
       allow read: if true;
-      // Users can create listings but cannot set verified/verificationStatus —
-      // those fields are written only by the Cloud Function (admin SDK bypasses rules)
-      allow create: if true
+      // Clients must submit with status=pending; verified/verificationStatus set by admin SDK only
+      allow create: if request.resource.data.status == 'pending'
         && !('verified' in request.resource.data)
         && !('verificationStatus' in request.resource.data);
       // Allow incrementing the views counter only
@@ -20,7 +19,7 @@ service cloud.firestore {
     }
     match /events/{id} {
       allow read: if true;
-      allow create: if true;
+      allow create: if request.resource.data.status == 'pending';
       allow update: if resource.data.organizerId == request.auth.uid;
       allow delete: if resource.data.organizerId == request.auth.uid;
     }
