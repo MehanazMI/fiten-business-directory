@@ -1,4 +1,5 @@
 import MobileNav from './MobileNav'
+import AuthButton from './AuthButton'
 
 interface SiteHeaderProps {
   page?: 'form'
@@ -35,6 +36,7 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
         ) : (
           <a className="hdr-btn" href="/form">Get Listed</a>
         )}
+        <AuthButton />
         <MobileNav activeLink={activeLink} />
       </div>
     </header>

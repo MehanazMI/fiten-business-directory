@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '@/lib/site'
+import { AuthProvider } from '@/lib/auth-context'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ⚠ Preview deployment — form submissions are disabled
           </div>
         )}
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )

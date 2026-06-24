@@ -7,8 +7,10 @@ service cloud.firestore {
       allow create: if request.resource.data.status == 'pending'
         && !('verified' in request.resource.data)
         && !('verificationStatus' in request.resource.data);
-      // Allow incrementing the views counter only
-      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']);
+      // Owner can edit their own listing (email matches); anyone can increment views
+      allow update: if (request.auth != null && request.auth.token.email == resource.data.email
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['status', 'verified', 'verificationStatus', 'pro']))
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']);
     }
     match /claims/{id} {
       allow create: if true;
