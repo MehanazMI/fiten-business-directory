@@ -168,6 +168,7 @@ function parseEventDoc(doc: FirestoreRestDoc): Event {
     organizerId: f.organizerId?.stringValue ?? '',
     organizerName: f.organizerName?.stringValue ?? '',
     speakers: (f.speakers?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
+    region: f.region?.stringValue,
     status: (f.status?.stringValue as Event['status']) ?? 'upcoming',
     createdAt: f.createdAt?.timestampValue ?? '',
     updatedAt: f.updatedAt?.timestampValue ?? '',
@@ -221,6 +222,7 @@ export async function postEvent(event: Omit<Event, 'id' | 'status'>): Promise<st
         ...(event.image ? { image: { stringValue: event.image } } : {}),
         organizerId:      { stringValue: event.organizerId },
         organizerName:    { stringValue: event.organizerName },
+        ...(event.region ? { region: { stringValue: event.region } } : {}),
         ...(event.speakers?.length ? {
           speakers: {
             arrayValue: {

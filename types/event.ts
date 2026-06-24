@@ -14,7 +14,8 @@ export interface Event {
   image?: string
   organizerId: string // businessId who posted the event
   organizerName: string // business name (denormalized for display)
-  speakers?: string[] // speaker names or descriptions
+  speakers?: string[]
+  region?: string // e.g. 'nyc' — used for regional grouping
   status: 'upcoming' | 'live' | 'past'
   createdAt: string
   updatedAt: string
