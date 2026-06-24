@@ -2,7 +2,7 @@ import MobileNav from './MobileNav'
 
 interface SiteHeaderProps {
   page?: 'form'
-  activeLink?: 'home' | 'directory' | 'connect' | 'form'
+  activeLink?: 'home' | 'directory' | 'connect' | 'events' | 'form'
 }
 
 export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
@@ -23,6 +23,7 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
         <a className={`nav-link${activeLink === 'home' ? ' active' : ''}`} href="/">Home</a>
         <a className={`nav-link${activeLink === 'directory' ? ' active' : ''}`} href="/directory">Directory</a>
         <a className={`nav-link${activeLink === 'connect' ? ' active' : ''}`} href="/connect">Connect</a>
+        <a className={`nav-link${activeLink === 'events' ? ' active' : ''}`} href="/events">Events</a>
         <a className={`nav-link${activeLink === 'form' ? ' active' : ''}`} href="/form">Get Listed</a>
       </nav>
 

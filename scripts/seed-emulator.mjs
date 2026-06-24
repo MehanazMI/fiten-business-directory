@@ -8,6 +8,69 @@ const BASE_URL = 'http://localhost:8080/v1/projects/fiten-business-directory/dat
 const EMULATOR_URL = `${BASE_URL}/businesses`
 const TESTIMONIALS_URL = `${BASE_URL}/testimonials`
 
+const events = [
+  {
+    title: '[TEST] Summer Networking Mixer',
+    description: 'Join us for an evening of networking with Tamil business professionals. Light refreshments and great conversation awaits!',
+    eventType: 'networking',
+    date: '2025-08-15',
+    startTime: '18:00',
+    endTime: '20:00',
+    location: 'in-person',
+    city: 'Toronto',
+    address: '123 King St W, Toronto, ON M5H 2R2',
+    registrationLink: 'https://eventbrite.com/e/sample',
+    capacity: 100,
+    organizerId: 'biz-001',
+    organizerName: '[TEST] TamilMed Clinics',
+    speakers: ['Raj Kumar', 'Priya Sharma'],
+  },
+  {
+    title: '[TEST] Business Growth Webinar',
+    description: 'Learn scaling strategies from successful entrepreneurs. Topics include funding, hiring, and market expansion in the Tamil diaspora.',
+    eventType: 'webinar',
+    date: '2025-07-20',
+    startTime: '19:00',
+    endTime: '20:30',
+    location: 'virtual',
+    registrationLink: 'https://zoom.us/webinar/sample',
+    organizerId: 'biz-002',
+    organizerName: '[TEST] ERP Logic Inc.',
+    speakers: ['Vijay Ramesh - CEO, ERP Logic', 'Anitha - CFO, TechStart Tamil'],
+  },
+  {
+    title: '[TEST] Women Entrepreneurs Conference 2025',
+    description: 'Annual conference celebrating women-led businesses in the Tamil community. Workshops, keynotes, and networking opportunities.',
+    eventType: 'conference',
+    date: '2025-09-10',
+    startTime: '09:00',
+    endTime: '17:00',
+    location: 'in-person',
+    city: 'San Francisco',
+    address: 'Moscone Center, 747 Howard St',
+    registrationLink: 'https://eventbrite.com/e/tamil-women-2025',
+    capacity: 500,
+    organizerId: 'biz-003',
+    organizerName: '[TEST] Tamil Business Alliance',
+    speakers: ['Meena Iyer', 'Lakshmi Krishnan', 'Dr. Padma Subramaniam'],
+  },
+  {
+    title: '[TEST] Tech & Innovation Workshop',
+    description: 'Hands-on workshop on AI, blockchain, and emerging technologies. Perfect for entrepreneurs looking to stay ahead.',
+    eventType: 'workshop',
+    date: '2025-08-03',
+    startTime: '10:00',
+    endTime: '13:00',
+    location: 'in-person',
+    city: 'New York',
+    address: 'WeWork, 115 Broadway, New York, NY',
+    registrationLink: 'https://meetup.com/tamil-tech',
+    capacity: 50,
+    organizerId: 'biz-004',
+    organizerName: '[TEST] CloudBridge Systems',
+  },
+]
+
 const businesses = [
   {
     businessName: '[TEST] TamilMed Clinics',
@@ -183,6 +246,32 @@ async function seed() {
   }
 
   console.log(`\nDone businesses: ${ok} added, ${fail} failed.`)
+
+  console.log(`\nSeeding ${events.length} events into emulator...`)
+  let eok = 0
+  let efail = 0
+  const EVENTS_URL = `${BASE_URL}/events`
+
+  for (const event of events) {
+    try {
+      const res = await fetch(EVENTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(toFirestoreFields(event)),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error?.message ?? `HTTP ${res.status}`)
+      }
+      console.log(`  ✓ ${event.title}`)
+      eok++
+    } catch (err) {
+      console.error(`  ✗ ${event.title}: ${err.message}`)
+      efail++
+    }
+  }
+
+  console.log(`\nDone events: ${eok} added, ${efail} failed.`)
 
   console.log(`\nSeeding ${testimonials.length} testimonials...`)
   let tok = 0, tfail = 0

@@ -1,5 +1,6 @@
 import type { Business } from '@/types/business'
 import type { Connection } from '@/types/connection'
+import type { Event } from '@/types/event'
 import { stableColorIdx, categoryMap } from '@/lib/utils'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
@@ -145,4 +146,99 @@ export async function fetchTestimonials(): Promise<Testimonial[]> {
     })
     .filter(t => t.quote)
     .sort((a, b) => a.order - b.order)
+}
+
+function parseEventDoc(doc: FirestoreRestDoc): Event {
+  const f = doc.fields
+  const id = doc.name.split('/').pop()!
+  return {
+    id,
+    title: f.title?.stringValue ?? '',
+    description: f.description?.stringValue ?? '',
+    eventType: (f.eventType?.stringValue as Event['eventType']) ?? 'other',
+    date: f.date?.stringValue ?? '',
+    startTime: f.startTime?.stringValue ?? '',
+    endTime: f.endTime?.stringValue ?? '',
+    location: (f.location?.stringValue as 'virtual' | 'in-person') ?? 'virtual',
+    city: f.city?.stringValue,
+    address: f.address?.stringValue,
+    registrationLink: f.registrationLink?.stringValue,
+    capacity: Number(f.capacity?.integerValue ?? 0) || undefined,
+    image: f.image?.stringValue,
+    organizerId: f.organizerId?.stringValue ?? '',
+    organizerName: f.organizerName?.stringValue ?? '',
+    speakers: (f.speakers?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
+    region: f.region?.stringValue,
+    status: (f.status?.stringValue as Event['status']) ?? 'upcoming',
+    createdAt: f.createdAt?.timestampValue ?? '',
+    updatedAt: f.updatedAt?.timestampValue ?? '',
+  }
+}
+
+export async function fetchEvents(): Promise<Event[]> {
+  const url = `${FS_BASE}/events${keyParam}`
+  const res = await fetch(url, { next: { revalidate: 300 } })
+  if (!res.ok) throw new Error(`Firestore fetch failed: ${res.status}`)
+  const data = await res.json()
+  const events = (data.documents ?? []).map(parseEventDoc)
+  const now = new Date()
+  return events
+    .map((e: Event) => ({
+      ...e,
+      status: (new Date(e.date + 'T00:00:00') < now ? 'past' : 'upcoming') as Event['status'],
+    }))
+    .sort((a: Event, b: Event) => new Date(a.date).getTime() - new Date(b.date).getTime())
+}
+
+export async function fetchEventById(id: string): Promise<Event | null> {
+  const url = `${FS_BASE}/events/${id}${keyParam}`
+  const res = await fetch(url, { next: { revalidate: 300 } })
+  if (!res.ok) return null
+  const event = parseEventDoc(await res.json())
+  const now = new Date()
+  return {
+    ...event,
+    status: new Date(event.date + 'T00:00:00') < now ? 'past' : 'upcoming' as const,
+  }
+}
+
+export async function postEvent(event: Omit<Event, 'id' | 'status'>): Promise<string> {
+  const res = await fetch(`${FS_BASE}/events${keyParam}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fields: {
+        title:            { stringValue: event.title },
+        description:      { stringValue: event.description },
+        eventType:        { stringValue: event.eventType },
+        date:             { stringValue: event.date },
+        startTime:        { stringValue: event.startTime },
+        endTime:          { stringValue: event.endTime },
+        location:         { stringValue: event.location },
+        ...(event.city ? { city: { stringValue: event.city } } : {}),
+        ...(event.address ? { address: { stringValue: event.address } } : {}),
+        ...(event.registrationLink ? { registrationLink: { stringValue: event.registrationLink } } : {}),
+        ...(event.capacity ? { capacity: { integerValue: String(event.capacity) } } : {}),
+        ...(event.image ? { image: { stringValue: event.image } } : {}),
+        organizerId:      { stringValue: event.organizerId },
+        organizerName:    { stringValue: event.organizerName },
+        ...(event.region ? { region: { stringValue: event.region } } : {}),
+        ...(event.speakers?.length ? {
+          speakers: {
+            arrayValue: {
+              values: event.speakers.map(s => ({ stringValue: s })),
+            },
+          },
+        } : {}),
+        createdAt:        { stringValue: new Date().toISOString() },
+        updatedAt:        { stringValue: new Date().toISOString() },
+      },
+    }),
+  })
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}))
+    throw new Error(d.error?.message ?? `HTTP ${res.status}`)
+  }
+  const data = await res.json()
+  return data.name?.split('/').pop() ?? ''
 }

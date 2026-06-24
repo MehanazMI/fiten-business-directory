@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react'
 
 interface MobileNavProps {
-  activeLink?: 'home' | 'directory' | 'connect' | 'form'
+  activeLink?: 'home' | 'directory' | 'connect' | 'events' | 'form'
 }
 
 const LINKS: { href: string; label: string; key: MobileNavProps['activeLink'] }[] = [
   { href: '/', label: 'Home', key: 'home' },
   { href: '/directory', label: 'Directory', key: 'directory' },
   { href: '/connect', label: 'Connect', key: 'connect' },
+  { href: '/events', label: 'Events', key: 'events' },
   { href: '/form', label: 'Get Listed', key: 'form' },
 ]
 
