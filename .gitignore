@@ -52,6 +52,9 @@ next-env.d.ts
 logs/
 *.log
 
+# credentials
+scripts/service-account.json
+
 # misc
 test_write.tmp
 directorate/
