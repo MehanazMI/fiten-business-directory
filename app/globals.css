@@ -821,6 +821,28 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 .home-join-proof .ti{font-size:1rem;color:var(--gold)}
 .home-join-proof strong{color:#fff;font-weight:700}
 
+/* FETNA PROMO */
+.fetna-promo{position:relative;background:var(--navy);color:#fff;padding:5rem 1.5rem;overflow:hidden;border-top:0.5px solid rgba(255,255,255,0.06)}
+.fetna-promo-grid{position:absolute;inset:0;pointer-events:none;opacity:0.07;background-image:linear-gradient(to right,rgba(255,255,255,0.4) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.4) 1px,transparent 1px);background-size:56px 56px}
+.fetna-promo-inner{position:relative;max-width:720px;margin:0 auto;text-align:center}
+.fetna-promo-logos{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:2rem}
+.fetna-promo-fiten-logo{object-fit:contain;height:44px;width:auto}
+.fetna-promo-fetna-logo{object-fit:contain;height:52px;width:52px}
+.fetna-promo-logo-divider{width:1px;height:40px;background:rgba(255,255,255,0.15)}
+.fetna-promo-pill{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(197,160,89,0.12);border:0.5px solid rgba(197,160,89,0.35);border-radius:20px;padding:0.35rem 1rem;font-size:0.75rem;color:var(--gold);font-weight:500;letter-spacing:0.02em;margin-bottom:1.5rem}
+.fetna-promo-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:fetna-pulse 2s infinite}
+@keyframes fetna-pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.fetna-promo-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;line-height:1.15;margin-bottom:1rem;color:#fff}
+.fetna-promo-title em{color:var(--gold);font-style:normal}
+.fetna-promo-text{color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.75;max-width:560px;margin:0 auto 2.5rem}
+.fetna-promo-stats{display:flex;align-items:center;justify-content:center;gap:0;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;margin-bottom:2.5rem;background:rgba(255,255,255,0.03)}
+.fetna-promo-stat{flex:1;padding:1.1rem 1rem;text-align:center}
+.fetna-promo-stat-divider{width:1px;height:48px;background:rgba(255,255,255,0.1);flex-shrink:0}
+.fetna-promo-stat-num{display:block;font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:0.2rem}
+.fetna-promo-stat-label{display:block;font-size:0.7rem;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em}
+.fetna-promo-cta{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+@media(max-width:640px){.fetna-promo{padding:3.5rem 1.25rem}.fetna-promo-stats{flex-direction:column}.fetna-promo-stat-divider{width:80%;height:1px}}
+
 /* HOME — responsive */
 @media (max-width:1024px){
   .home-connect-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
