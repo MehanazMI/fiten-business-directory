@@ -36,6 +36,11 @@ async function fillForm(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByPlaceholderText(/Phone/i), '123-456-7890')
   await user.type(screen.getByPlaceholderText(/City/i), 'Toronto')
   await user.type(screen.getByPlaceholderText(/description/i), 'A new business description')
+  // Consent checkbox is required to submit
+  const consentCheckbox = screen.getAllByRole('checkbox').find(
+    el => el.closest('label')?.textContent?.includes('Terms of Use')
+  )!
+  await user.click(consentCheckbox)
 }
 
 beforeEach(() => {

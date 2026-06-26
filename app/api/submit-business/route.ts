@@ -94,6 +94,8 @@ export async function POST(req: NextRequest) {
     reviews: 0,
     views: 0,
     createdAt: new Date().toISOString(),
+    consentGiven: body.consentGiven === true,
+    consentAt: typeof body.consentAt === 'string' ? body.consentAt : new Date().toISOString(),
   }
 
   try {

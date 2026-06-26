@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRecaptcha } from '@/lib/useRecaptcha'
 
 interface Props {
@@ -34,6 +35,7 @@ export default function AddBusinessModal({ onClose }: Props) {
   const [women, setWomen] = useState(false)
   const [speaker, setSpeaker] = useState(false)
   const [convention, setConvention] = useState(false)
+  const [consent, setConsent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -45,8 +47,12 @@ export default function AddBusinessModal({ onClose }: Props) {
     setLooking(prev => prev.includes(val) ? prev.filter(x => x !== val) : [...prev, val])
 
   const handleSubmit = async () => {
-    if (!form.businessName || !form.category || !form.email || !form.phone || !form.city || !form.description) {
+    if (!form.businessName || !form.category || !form.email || !form.city || !form.description) {
       setError('Please fill in all required fields.')
+      return
+    }
+    if (!consent) {
+      setError('Please agree to the Terms of Use and Privacy Policy to continue.')
       return
     }
     if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
@@ -69,7 +75,7 @@ export default function AddBusinessModal({ onClose }: Props) {
       const res = await fetch('/api/submit-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, looking, women, speaker, convention }),
+        body: JSON.stringify({ ...form, looking, women, speaker, convention, consentGiven: true, consentAt: new Date().toISOString() }),
       })
       if (!res.ok) {
         if (res.status === 409) throw new Error('A listing with this email already exists.')
@@ -170,6 +176,17 @@ export default function AddBusinessModal({ onClose }: Props) {
                 FeTNA Convention Participant
               </label>
             </div>
+
+            <label className="filter-check" style={{ padding: '0.4rem 0', marginBottom: '1rem', fontSize: '0.82rem', lineHeight: 1.5, alignItems: 'flex-start' }}>
+              <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} style={{ marginTop: '0.15rem', flexShrink: 0 }} />
+              <span>
+                I agree to the{' '}
+                <Link href="/terms" target="_blank" style={{ color: 'var(--gold)' }}>Terms of Use</Link>
+                {' '}and{' '}
+                <Link href="/privacy" target="_blank" style={{ color: 'var(--gold)' }}>Privacy Policy</Link>
+                , and consent to my business information being publicly displayed in the FiTEN directory. *
+              </span>
+            </label>
 
             <button className="modal-submit" onClick={handleSubmit} disabled={submitting}>
               {submitting ? 'Saving...' : 'Add My Business'}

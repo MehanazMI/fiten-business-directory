@@ -78,6 +78,7 @@ export default function AddBusinessStandalone() {
   const [looking, setLooking] = useState<string[]>([])
   const [women, setWomen] = useState(false)
   const [convention, setConvention] = useState(false)
+  const [consent, setConsent] = useState(false)
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [submitting, setSubmitting] = useState(false)
   const [uploadProgress, setUploadProgress] = useState<string | null>(null)
@@ -115,6 +116,10 @@ export default function AddBusinessStandalone() {
     const allTouched = Object.fromEntries(requiredFields.map(f => [f, true]))
     setTouched(t => ({ ...t, ...allTouched }))
     if (Object.keys(errors).length > 0) return
+    if (!consent) {
+      setSubmitError('Please agree to the Terms of Use and Privacy Policy to continue.')
+      return
+    }
     if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
       setSubmitError('Form submissions are disabled on preview deployments.')
       return
@@ -172,6 +177,8 @@ export default function AddBusinessStandalone() {
           convention,
           logoUrls,
           verificationStatus: form.registrationNo.trim() ? 'pending' : 'unverified',
+          consentGiven: true,
+          consentAt: new Date().toISOString(),
         }),
       })
 
@@ -426,13 +433,20 @@ export default function AddBusinessStandalone() {
           )}
         </F>
 
+        <label className="bizform-check" style={{ marginBottom: '1rem', fontSize: '0.85rem', lineHeight: 1.5, alignItems: 'flex-start' }}>
+          <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} style={{ marginTop: '0.2rem', flexShrink: 0 }} />
+          <span>
+            I agree to the{' '}
+            <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+            {' '}and{' '}
+            <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            , and consent to my business information being publicly displayed in the FiTEN directory. *
+          </span>
+        </label>
+
         <button className="bizform-submit" onClick={handleSubmit} disabled={submitting}>
           {uploadProgress ?? (submitting ? 'Submitting…' : 'Submit Business Listing')}
         </button>
-
-        <p className="bizform-fineprint">
-          By submitting, you agree to FiTEN&rsquo;s community guidelines and verification process.
-        </p>
       </div>
     </div>
   )
