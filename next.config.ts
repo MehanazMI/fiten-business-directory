@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['firebase-admin', 'jwks-rsa', 'jose'],
 
   async redirects() {
     // Legacy static-site URLs (pre-cutover index.html/form.html deployment).
