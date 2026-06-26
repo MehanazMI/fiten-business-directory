@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
+import { useRecaptcha } from '@/lib/useRecaptcha'
 
 const CATEGORIES = [
   'Technology', 'Healthcare', 'Finance & Insurance', 'Food & Beverage',
@@ -80,6 +81,7 @@ const requiredFields = ['businessName', 'contactName', 'category', 'city', 'emai
 const OPT_BG = { background: 'var(--navy)' }
 
 export default function AddBusinessStandalone() {
+  const { getToken } = useRecaptcha()
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
     founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
@@ -136,7 +138,18 @@ export default function AddBusinessStandalone() {
     setSubmitError('')
 
     try {
-      const submissionId = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+      // Verify reCAPTCHA before writing to Firestore
+      const captchaToken = await getToken('submit_business')
+      const captchaRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: captchaToken }),
+      })
+      if (!captchaRes.ok) {
+        throw new Error('Security check failed. Please try again.')
+      }
+
+      const submissionId = crypto.randomUUID()
 
       let logoUrls: string[] = []
       if (files.length > 0) {
@@ -179,8 +192,8 @@ export default function AddBusinessStandalone() {
       })
 
       if (!res.ok) {
-        const d = await res.json()
-        throw new Error(d.error?.message ?? `HTTP ${res.status}`)
+        console.error('Firestore write failed', res.status)
+        throw new Error('Something went wrong. Please try again.')
       }
       const data = await res.json()
       setNewDocId(data.name?.split('/').pop() ?? '')

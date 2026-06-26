@@ -6,6 +6,14 @@ import AddBusinessModal from '@/app/directory/AddBusinessModal'
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
 
+// Mock reCAPTCHA hook — always returns a valid token in tests
+vi.mock('@/lib/useRecaptcha', () => ({
+  useRecaptcha: () => ({ getToken: vi.fn().mockResolvedValue('test-captcha-token') }),
+}))
+
+function makeCaptchaOk() {
+  return Promise.resolve({ ok: true, json: () => Promise.resolve({ success: true, score: 0.9 }) })
+}
 function makeOkResponse() {
   return Promise.resolve({ ok: true, json: () => Promise.resolve({ name: 'businesses/new-id' }) })
 }
@@ -78,7 +86,7 @@ describe('AddBusinessModal — validation', () => {
 
   it('clears error message when form is corrected and resubmitted', async () => {
     const { user } = setup()
-    mockFetch.mockReturnValue(makeOkResponse())
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     // Trigger error first
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
     expect(screen.getByText(/fill in all required fields/i)).toBeInTheDocument()
@@ -91,7 +99,7 @@ describe('AddBusinessModal — validation', () => {
 
 describe('AddBusinessModal — successful submission', () => {
   it('shows success state after valid submission', async () => {
-    mockFetch.mockReturnValue(makeOkResponse())
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
@@ -99,7 +107,7 @@ describe('AddBusinessModal — successful submission', () => {
   })
 
   it('shows Done button in success state', async () => {
-    mockFetch.mockReturnValue(makeOkResponse())
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
@@ -107,7 +115,7 @@ describe('AddBusinessModal — successful submission', () => {
   })
 
   it('calls onClose when Done is clicked after success', async () => {
-    mockFetch.mockReturnValue(makeOkResponse())
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     const { user, onClose } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
@@ -117,12 +125,13 @@ describe('AddBusinessModal — successful submission', () => {
   })
 
   it('posts correct fields to Firestore', async () => {
-    mockFetch.mockReturnValue(makeOkResponse())
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
     await waitFor(() => screen.getByText(/Submitted/i))
-    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    // Second fetch call [1] is the Firestore write (first [0] is captcha)
+    const body = JSON.parse(mockFetch.mock.calls[1][1].body)
     expect(body.fields.businessName.stringValue).toBe('New Biz')
     expect(body.fields.category.stringValue).toBe('Technology')
     expect(body.fields.status.stringValue).toBe('pending')
@@ -131,25 +140,25 @@ describe('AddBusinessModal — successful submission', () => {
 })
 
 describe('AddBusinessModal — error handling', () => {
-  it('shows API error message on failure', async () => {
-    mockFetch.mockReturnValue(makeErrResponse('Permission denied'))
+  it('shows generic error message on Firestore failure', async () => {
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeErrResponse('Permission denied'))
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
-    await waitFor(() => expect(screen.getByText(/Permission denied/)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Something went wrong/)).toBeInTheDocument())
   })
 
-  it('shows generic network error when fetch throws', async () => {
-    mockFetch.mockRejectedValue(new Error('Network error'))
+  it('shows generic error when fetch throws', async () => {
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockRejectedValueOnce(new Error('Network error'))
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
-    await waitFor(() => expect(screen.getByText(/Network error/)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Something went wrong/)).toBeInTheDocument())
   })
 
   it('disables submit button while submitting', async () => {
-    // Never resolves — keeps the spinner up
-    mockFetch.mockReturnValue(new Promise(() => {}))
+    // Captcha resolves, Firestore never resolves — keeps the spinner up
+    mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(new Promise(() => {}))
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))

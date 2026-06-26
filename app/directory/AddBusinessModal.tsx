@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRecaptcha } from '@/lib/useRecaptcha'
 
 interface Props {
   onClose: () => void
@@ -38,6 +39,7 @@ function toFields(obj: Record<string, unknown>) {
 }
 
 export default function AddBusinessModal({ onClose }: Props) {
+  const { getToken } = useRecaptcha()
   const [form, setForm] = useState({
     businessName: '', category: '', region: '', email: '', phone: '', city: '', website: '', logoUrl: '', description: '',
   })
@@ -67,6 +69,16 @@ export default function AddBusinessModal({ onClose }: Props) {
     setSubmitting(true)
     setError('')
     try {
+      const captchaToken = await getToken('submit_business')
+      const captchaRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: captchaToken }),
+      })
+      if (!captchaRes.ok) {
+        throw new Error('Security check failed. Please try again.')
+      }
+
       const res = await fetch(FS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,12 +97,13 @@ export default function AddBusinessModal({ onClose }: Props) {
         })),
       })
       if (!res.ok) {
-        const d = await res.json()
-        throw new Error(d.error?.message ?? `HTTP ${res.status}`)
+        console.error('Firestore write failed', res.status)
+        throw new Error('Something went wrong. Please try again.')
       }
       setSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Network error — please try again.')
+      const msg = err instanceof Error ? err.message : ''
+      setError(msg.startsWith('Security check') ? msg : 'Something went wrong. Please try again.')
     } finally {
       setSubmitting(false)
     }
