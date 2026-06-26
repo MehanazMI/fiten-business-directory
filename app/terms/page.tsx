@@ -41,12 +41,12 @@ export default function TermsPage() {
               <li>You will not submit spam, duplicate, or fictitious listings</li>
               <li>Your listing does not contain offensive, defamatory, or illegal content</li>
             </ul>
-            <p>FiTEN reserves the right to reject, edit, or remove any listing at its sole discretion, without notice. If your listing is removed and you believe this was in error, contact us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong> to request a review.</p>
+            <p>FiTEN reserves the right to reject, edit, or remove any listing at its sole discretion, without notice. If your listing is removed and you believe this was in error, contact us at <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> to request a review.</p>
           </section>
 
           <section>
             <h2>4. Consent and Data Processing</h2>
-            <p>By checking the consent checkbox at submission, you explicitly consent to FiTEN collecting and publicly displaying the information in your listing in accordance with our <Link href="/privacy">Privacy Policy</Link>. You may withdraw consent and request removal of your listing at any time by contacting us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong>.</p>
+            <p>By checking the consent checkbox at submission, you explicitly consent to FiTEN collecting and publicly displaying the information in your listing in accordance with our <Link href="/privacy">Privacy Policy</Link>. You may withdraw consent and request removal of your listing at any time by contacting us at <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a>.</p>
           </section>
 
           <section>
@@ -81,7 +81,7 @@ export default function TermsPage() {
 
           <section>
             <h2>11. Contact</h2>
-            <p>For questions about these terms or to dispute a listing removal, contact us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong> or through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> or <a href="https://fetna.org" target="_blank" rel="noopener noreferrer">fetna.org</a>.</p>
+            <p>For questions about these terms or to dispute a listing removal, contact us through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a>.</p>
           </section>
         </div>
       </div>
