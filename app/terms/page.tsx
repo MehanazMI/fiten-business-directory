@@ -41,17 +41,17 @@ export default function TermsPage() {
               <li>You will not submit spam, duplicate, or fictitious listings</li>
               <li>Your listing does not contain offensive, defamatory, or illegal content</li>
             </ul>
-            <p>FiTEN reserves the right to reject, edit, or remove any listing at its sole discretion, without notice.</p>
+            <p>FiTEN reserves the right to reject, edit, or remove any listing at its sole discretion, without notice. If your listing is removed and you believe this was in error, contact us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a> to request a review.</p>
           </section>
 
           <section>
             <h2>4. Consent and Data Processing</h2>
-            <p>By checking the consent checkbox at submission, you explicitly consent to FiTEN collecting and publicly displaying the information in your listing in accordance with our <Link href="/privacy">Privacy Policy</Link>. You may withdraw consent and request removal of your listing at any time by contacting us through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a>.</p>
+            <p>By checking the consent checkbox at submission, you explicitly consent to FiTEN collecting and publicly displaying the information in your listing in accordance with our <Link href="/privacy">Privacy Policy</Link>. You may withdraw consent and request removal of your listing at any time by contacting us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a>.</p>
           </section>
 
           <section>
             <h2>5. Public Display of Information</h2>
-            <p>Information you submit — including your business name, contact email, phone number, city, and description — will be displayed publicly in the directory and may be indexed by search engines. Do not submit information you do not wish to be publicly visible.</p>
+            <p>Information you submit — including your business name, contact email, city, and description — will be displayed publicly in the directory and may be indexed by search engines. Optional fields such as phone number and website will only be displayed if you choose to provide them. Do not submit information you do not wish to be publicly visible.</p>
           </section>
 
           <section>
@@ -71,17 +71,17 @@ export default function TermsPage() {
 
           <section>
             <h2>9. Governing Law</h2>
-            <p>These terms are governed by the laws of the Province of Ontario, Canada, and applicable federal Canadian law, without regard to conflict of law principles. For EU users, nothing in these terms limits your rights under applicable EU consumer protection or data protection law.</p>
+            <p>These terms are governed by the laws of the Province of Ontario, Canada, and applicable federal Canadian law, without regard to conflict of law principles. For EU users, nothing in these terms limits your rights under applicable EU consumer protection or data protection law, including GDPR.</p>
           </section>
 
           <section>
             <h2>10. Changes to Terms</h2>
-            <p>We may update these terms from time to time. The "Last updated" date at the top reflects the most recent revision. Continued use of the directory after changes constitutes acceptance of the revised terms.</p>
+            <p>We may update these terms from time to time. The "Last updated" date at the top reflects the most recent revision. For material changes, we will take reasonable steps to notify users. For changes that affect how we process your personal data, we will seek fresh consent where required by applicable law. Continued use of the directory following non-material updates constitutes acceptance of the revised terms.</p>
           </section>
 
           <section>
             <h2>11. Contact</h2>
-            <p>For questions about these terms, please contact us through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> or <a href="https://fetna.org" target="_blank" rel="noopener noreferrer">fetna.org</a>.</p>
+            <p>For questions about these terms or to dispute a listing removal, contact us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a> or through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> or <a href="https://fetna.org" target="_blank" rel="noopener noreferrer">fetna.org</a>.</p>
           </section>
         </div>
       </div>
