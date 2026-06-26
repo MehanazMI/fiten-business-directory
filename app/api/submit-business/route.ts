@@ -28,11 +28,10 @@ export async function POST(req: NextRequest) {
   const businessName = sanitizeString(body.businessName)
   const category     = sanitizeString(body.category)
   const email        = sanitizeString(body.email)
-  const phone        = sanitizeString(body.phone)
   const city         = sanitizeString(body.city)
   const description  = sanitizeString(body.description)
 
-  if (!businessName || !category || !email || !phone || !city || !description) {
+  if (!businessName || !category || !email || !city || !description) {
     return NextResponse.json({ error: 'missing_required_fields' }, { status: 400 })
   }
   if (!isValidEmail(email)) {
@@ -49,6 +48,7 @@ export async function POST(req: NextRequest) {
   }
 
   // --- Optional fields ---
+  const phone       = sanitizeString(body.phone)
   const nameTamil  = sanitizeString(body.nameTamil)
   const region     = sanitizeString(body.region)
   const website    = sanitizeUrl(body.website)
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     ...(region && { region }),
     description,
     email,
-    phone,
+    ...(phone && { phone }),
     ...(website && { website }),
     ...(logoUrl && { logoUrl }),
     looking,
