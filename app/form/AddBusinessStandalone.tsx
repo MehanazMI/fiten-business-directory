@@ -214,7 +214,7 @@ export default function AddBusinessStandalone() {
         <div className="bizform-success-kicker">Submitted for review</div>
         <h2 className="bizform-success-title">{form.businessName} is pending approval.</h2>
         <p className="bizform-success-text">
-          Check your email for a verification link to activate your listing instantly. If you prefer, our team can also approve it manually within 24 hours.
+          Check your email for a verification link to activate your listing instantly. If you prefer, our team can also approve it manually within 5 business days.
         </p>
         <div className="bizform-success-actions">
           <a href={newDocId ? `/directory/${newDocId}` : '/directory'} className="bizform-btn-gold">
