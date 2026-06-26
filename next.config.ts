@@ -11,33 +11,28 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
+    const csp = [
+      "default-src 'self'",
+      // unsafe-eval needed by React in dev mode for call-stack reconstruction; omitted in prod
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/`,
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
+      "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
+      "img-src 'self' data: https:",
+      "frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/",
+      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
+    ].join("; ");
+
     return [
       {
         source: "/(.*)",
         headers: [
-          // Prevent browsers from MIME-sniffing the response content type
           { key: "X-Content-Type-Options", value: "nosniff" },
-          // Block clickjacking — only allow framing from same origin
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          // Stop sending referrer to cross-origin destinations
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          // Restrict powerful browser features we don't use
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-          // Force HTTPS for 1 year (includeSubDomains for good measure)
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
-          // CSP: allow scripts from self + Google (reCAPTCHA), styles from self + fonts, fonts from Google
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: https:",
-              "frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/",
-              "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
-            ].join("; "),
-          },
+          { key: "Content-Security-Policy", value: csp },
         ],
       },
     ];
