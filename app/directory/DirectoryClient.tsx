@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/lib/firebase-client'
+import { useAuth } from '@/lib/auth-context'
 import { stableColorIdx, categoryMap, i18n, oppLabels, oppTooltips } from '@/lib/utils'
 import { deriveGeoStats } from '@/lib/geo'
 import type { Lang } from '@/lib/utils'
@@ -71,6 +72,7 @@ interface Props {
 }
 
 export default function DirectoryClient({ initialData }: Props) {
+  const { user } = useAuth()
   const [businesses, setBusinesses] = useState<Business[]>(initialData)
   const [fbError, setFbError] = useState<string | null>(null)
 
@@ -484,6 +486,7 @@ export default function DirectoryClient({ initialData }: Props) {
         lang={lang}
         onClose={() => setCurrentBusiness(null)}
         onClaim={(id, name) => { setClaimTarget({ id, name }); setCurrentBusiness(null) }}
+        isOwner={!!user && !!currentBusiness && user.email === currentBusiness.email}
       />
 
       <ClaimModal

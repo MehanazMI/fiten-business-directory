@@ -10,13 +10,14 @@ interface Props {
   lang: Lang
   onClose: () => void
   onClaim: (id: string, name: string) => void
+  isOwner?: boolean
 }
 
 function waPhone(phone: string) {
   return phone.replace(/\D/g, '')
 }
 
-export default function BusinessModal({ business: b, lang, onClose, onClaim }: Props) {
+export default function BusinessModal({ business: b, lang, onClose, onClaim, isOwner = false }: Props) {
   const [copied, setCopied] = useState(false)
 
   if (!b) return null
@@ -153,11 +154,11 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
               <i className={`ti ${b.phone ? 'ti-brand-whatsapp' : 'ti-mail'}`} aria-hidden="true" />
               {b.phone ? 'WhatsApp' : 'Email'}
             </button>
-          ) : (
+          ) : !isOwner ? (
             <button className="detail-connect-btn" onClick={() => { onClaim(b.id, b.businessName); onClose() }}>
               Claim Listing
             </button>
-          )}
+          ) : null}
           <button className="detail-share-btn" onClick={handleShare}>
             {copied ? 'Copied ✓' : 'Share'}
           </button>
