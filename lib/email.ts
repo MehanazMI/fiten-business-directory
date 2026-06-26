@@ -6,7 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://fiten-business-dir
 
 export async function sendVerificationEmail(to: string, businessName: string, token: string) {
   const link = `${BASE_URL}/verify?token=${token}`
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Verify your FiTEN listing — ${businessName}`,
@@ -58,4 +58,5 @@ export async function sendVerificationEmail(to: string, businessName: string, to
 </body>
 </html>`,
   })
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`)
 }
