@@ -67,6 +67,16 @@ const requiredFields = ['businessName', 'contactName', 'category', 'city', 'emai
 
 const OPT_BG = { background: 'var(--navy)' }
 
+const TEST_BUSINESSES = [
+  { businessName: 'Sunrise Tech Solutions', nameTamil: 'சன்ரைஸ் டெக்', contactName: 'Arun Natarajan', category: 'Technology', city: 'Toronto', region: 'Greater Toronto Area', email: 'rasheed.comm@gmail.com', phone: '4165550101', website: 'https://sunrisetech.ca', description: 'Full-stack software development firm specialising in fintech integrations and cloud-native applications for Canadian SMEs.', looking: ['partner', 'client'], women: false, convention: true },
+  { businessName: 'Valli Wellness Clinic', nameTamil: 'வல்லி வெல்னஸ்', contactName: 'Valli Subramaniam', category: 'Healthcare', city: 'Mississauga', region: 'Greater Toronto Area', email: 'rasheed.comm@gmail.com', phone: '9055550202', website: 'https://valliwellness.ca', description: 'Naturopathic and Ayurvedic wellness clinic serving Tamil-speaking families in the GTA with holistic health consultations.', looking: ['client'], women: true, convention: false },
+  { businessName: 'Murugan Legal Group', nameTamil: '', contactName: 'Raj Murugan', category: 'Legal', city: 'Brampton', region: 'Greater Toronto Area', email: 'rasheed.comm@gmail.com', phone: '9055550303', website: 'https://muругаnlegal.ca', description: 'Immigration and family law practice focused on serving the South Asian diaspora with over 15 years of experience in Ontario courts.', looking: ['client', 'partner'], women: false, convention: true },
+]
+
+function randomTestBusiness() {
+  return TEST_BUSINESSES[Math.floor(Math.random() * TEST_BUSINESSES.length)]
+}
+
 export default function AddBusinessStandalone() {
   const { getToken } = useRecaptcha()
   const { user } = useAuth()
@@ -90,6 +100,16 @@ export default function AddBusinessStandalone() {
   const [dragOver, setDragOver] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const fillTestData = () => {
+    const t = randomTestBusiness()
+    setForm(f => ({ ...f, businessName: t.businessName, nameTamil: t.nameTamil, contactName: t.contactName, category: t.category, city: t.city, region: t.region, email: t.email, phone: t.phone, website: t.website, description: t.description }))
+    setLooking(t.looking)
+    setWomen(t.women)
+    setConvention(t.convention)
+    setConsent(true)
+    setTouched({})
+  }
 
   const errors = validate(form)
   const set = (f2: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -238,6 +258,13 @@ export default function AddBusinessStandalone() {
 
       <div className="bizform">
         {submitError && <div className="bizform-error-banner">{submitError}</div>}
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem' }}>
+          <button type="button" onClick={fillTestData}
+            style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold)', border: '1px dashed rgba(201,168,76,0.4)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}>
+            ⚡ Fill test data
+          </button>
+        </div>
 
         <F label="Business Name" required>
           <input className={cls('businessName')} placeholder="e.g. Kumaran Software Labs"
