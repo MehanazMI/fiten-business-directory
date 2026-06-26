@@ -75,7 +75,7 @@ export default function AdminClient() {
 
   async function reject(id: string) {
     setActionId(id)
-    await deleteDoc(doc(db, 'businesses', id))
+    await updateDoc(doc(db, 'businesses', id), { status: 'rejected' })
     setBusinesses(prev => prev.filter(b => b.id !== id))
     setActionId(null)
   }

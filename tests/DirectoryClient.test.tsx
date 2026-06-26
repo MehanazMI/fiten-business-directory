@@ -339,7 +339,7 @@ describe('DirectoryClient — business detail modal', () => {
     await user.click(document.querySelectorAll('.biz-card')[2] as HTMLElement)
     // Opens BusinessModal with Claim Listing footer button
     await user.click(screen.getByRole('button', { name: 'Claim Listing' }))
-    expect(screen.getByPlaceholderText('your@email.com')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('your@businessemail.com')).toBeInTheDocument()
   })
 })
 

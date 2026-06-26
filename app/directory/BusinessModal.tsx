@@ -9,7 +9,7 @@ interface Props {
   business: Business | null
   lang: Lang
   onClose: () => void
-  onClaim: (name: string) => void
+  onClaim: (id: string, name: string) => void
 }
 
 function waPhone(phone: string) {
@@ -154,7 +154,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim }: P
               {b.phone ? 'WhatsApp' : 'Email'}
             </button>
           ) : (
-            <button className="detail-connect-btn" onClick={() => { onClaim(b.businessName); onClose() }}>
+            <button className="detail-connect-btn" onClick={() => { onClaim(b.id, b.businessName); onClose() }}>
               Claim Listing
             </button>
           )}

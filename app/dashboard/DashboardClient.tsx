@@ -7,6 +7,11 @@ import { auth, googleProvider, db } from '@/lib/firebase-client'
 import { useAuth } from '@/lib/auth-context'
 import type { Business } from '@/types/business'
 
+type DashBusiness = Business & {
+  emailVerified?: boolean
+  domainVerified?: boolean
+}
+
 const CATEGORIES = [
   'Technology', 'Healthcare', 'Finance & Insurance', 'Food & Beverage',
   'Retail', 'Real Estate', 'Education', 'Services', 'Legal', 'Entertainment', 'Other',
@@ -21,11 +26,11 @@ const B2B_OPTIONS = [
 
 export default function DashboardClient() {
   const { user, loading } = useAuth()
-  const [business, setBusiness] = useState<Business | null>(null)
+  const [businesses, setBusinesses] = useState<DashBusiness[]>([])
   const [fetching, setFetching] = useState(false)
-  const [editing, setEditing] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [savedId, setSavedId] = useState<string | null>(null)
   const [form, setForm] = useState({ description: '', website: '', phone: '', category: '' })
   const [looking, setLooking] = useState<string[]>([])
   const [women, setWomen] = useState(false)
@@ -34,46 +39,48 @@ export default function DashboardClient() {
   useEffect(() => {
     if (!user) return
     setFetching(true)
-    const q = query(collection(db, 'businesses'), where('email', '==', user.email))
-    getDocs(q).then(snap => {
-      if (!snap.empty) {
-        const d = snap.docs[0]
-        const data = d.data() as Omit<Business, 'id'>
-        const biz: Business = { id: d.id, ...data }
-        setBusiness(biz)
-        setForm({
-          description: data.description ?? '',
-          website: data.website ?? '',
-          phone: data.phone ?? '',
-          category: data.category ?? '',
+
+    // Query by submittedBy.uid (Google-linked) OR by email match
+    Promise.all([
+      getDocs(query(collection(db, 'businesses'), where('submittedBy.uid', '==', user.uid))),
+      getDocs(query(collection(db, 'businesses'), where('email', '==', user.email))),
+    ]).then(([byUid, byEmail]) => {
+      const seen = new Set<string>()
+      const all: DashBusiness[] = []
+      for (const snap of [byUid, byEmail]) {
+        snap.docs.forEach(d => {
+          if (!seen.has(d.id)) {
+            seen.add(d.id)
+            all.push({ id: d.id, ...d.data() } as DashBusiness)
+          }
         })
-        setLooking((data.looking ?? []) as string[])
-        setWomen(data.women ?? false)
-        setSpeaker(data.speaker ?? false)
       }
+      setBusinesses(all)
       setFetching(false)
     }).catch(() => setFetching(false))
   }, [user])
 
-  async function handleSave() {
-    if (!business) return
+  function startEdit(b: DashBusiness) {
+    setEditingId(b.id)
+    setForm({ description: b.description ?? '', website: b.website ?? '', phone: b.phone ?? '', category: b.category ?? '' })
+    setLooking((b.looking ?? []) as string[])
+    setWomen(b.women ?? false)
+    setSpeaker(b.speaker ?? false)
+  }
+
+  async function handleSave(id: string) {
     setSaving(true)
     try {
-      await updateDoc(doc(db, 'businesses', business.id), {
-        description: form.description,
-        website: form.website,
-        phone: form.phone,
-        category: form.category,
-        looking,
-        women,
-        speaker,
-      })
-      setBusiness(prev => prev ? { ...prev, ...form, looking: looking as Business['looking'], women, speaker } : prev)
-      setSaved(true)
-      setEditing(false)
-      setTimeout(() => setSaved(false), 3000)
+      await updateDoc(doc(db, 'businesses', id), { ...form, looking, women, speaker })
+      setBusinesses(prev => prev.map(b => b.id === id
+        ? { ...b, ...form, looking: looking as Business['looking'], women, speaker }
+        : b
+      ))
+      setSavedId(id)
+      setEditingId(null)
+      setTimeout(() => setSavedId(null), 3000)
     } catch {
-      // update failed — user may not own this listing
+      // Firestore rules may block — listing owner must match
     } finally {
       setSaving(false)
     }
@@ -86,8 +93,8 @@ export default function DashboardClient() {
       <div className="dashboard-gate">
         <div className="dashboard-gate-inner">
           <i className="ti ti-user-circle" aria-hidden="true" style={{ fontSize: '3rem', opacity: .3 }} />
-          <h2>Sign in to manage your listing</h2>
-          <p>Use the same Google account whose email matches your FiTEN business listing.</p>
+          <h2>Sign in to manage your listings</h2>
+          <p>Use the Google account you used when submitting your business.</p>
           <button className="auth-signin-btn auth-signin-btn-lg" onClick={() => signInWithPopup(auth, googleProvider)}>
             <i className="ti ti-brand-google" aria-hidden="true" />
             Sign in with Google
@@ -101,7 +108,7 @@ export default function DashboardClient() {
     <div className="dashboard-page">
       <div className="dashboard-header">
         <div>
-          <h1>My Dashboard</h1>
+          <h1>My Listings</h1>
           <p className="dashboard-sub">Signed in as <strong>{user.email}</strong></p>
         </div>
         <button className="auth-signout-btn auth-signout-btn-text" onClick={() => signOut(auth)}>
@@ -109,40 +116,49 @@ export default function DashboardClient() {
         </button>
       </div>
 
-      {fetching && <div className="dashboard-loading">Loading your listing…</div>}
+      {fetching && <div className="dashboard-loading">Loading your listings…</div>}
 
-      {!fetching && !business && (
+      {!fetching && businesses.length === 0 && (
         <div className="dashboard-no-listing">
           <i className="ti ti-building-store" aria-hidden="true" style={{ fontSize: '2.5rem', opacity: .3 }} />
-          <p>No listing found for <strong>{user.email}</strong>.</p>
+          <p>No listings found for <strong>{user.email}</strong>.</p>
           <a href="/form" className="hdr-btn" style={{ display: 'inline-block', marginTop: '1rem' }}>Add Your Business</a>
         </div>
       )}
 
-      {business && (
-        <div className="dashboard-listing">
+      {businesses.map(b => (
+        <div key={b.id} className="dashboard-listing">
           <div className="dashboard-listing-header">
             <div>
-              <h2>{business.businessName}</h2>
-              <span className={`dashboard-status dashboard-status-${business.status}`}>
-                {business.status === 'active' ? 'Live' : business.status === 'pending' ? 'Pending Review' : business.status}
-              </span>
+              <h2>{b.businessName}</h2>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.4rem', alignItems: 'center' }}>
+                <span className={`dashboard-status dashboard-status-${b.status}`}>
+                  {b.status === 'active' ? 'Live' : b.status === 'pending' ? 'Pending Review' : b.status === 'rejected' ? 'Rejected' : b.status}
+                </span>
+                {b.emailVerified
+                  ? <span className="admin-trust-badge verified"><i className="ti ti-circle-check" /> Email verified</span>
+                  : <span className="admin-trust-badge unverified"><i className="ti ti-clock" /> Email unverified — check your inbox</span>
+                }
+                {b.domainVerified && (
+                  <span className="admin-trust-badge verified"><i className="ti ti-shield-check" /> Verified domain</span>
+                )}
+              </div>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              {saved && <span className="dashboard-saved">Saved ✓</span>}
-              {!editing
-                ? <button className="dashboard-edit-btn" onClick={() => setEditing(true)}>Edit Listing</button>
+              {savedId === b.id && <span className="dashboard-saved">Saved ✓</span>}
+              {editingId !== b.id
+                ? <button className="dashboard-edit-btn" onClick={() => startEdit(b)}>Edit</button>
                 : <>
-                    <button className="dashboard-cancel-btn" onClick={() => setEditing(false)}>Cancel</button>
-                    <button className="dashboard-save-btn" onClick={handleSave} disabled={saving}>
-                      {saving ? 'Saving…' : 'Save Changes'}
+                    <button className="dashboard-cancel-btn" onClick={() => setEditingId(null)}>Cancel</button>
+                    <button className="dashboard-save-btn" onClick={() => handleSave(b.id)} disabled={saving}>
+                      {saving ? 'Saving…' : 'Save'}
                     </button>
                   </>
               }
             </div>
           </div>
 
-          {editing ? (
+          {editingId === b.id ? (
             <div className="dashboard-form">
               <label className="dashboard-field">
                 <span>Category</span>
@@ -184,26 +200,35 @@ export default function DashboardClient() {
             </div>
           ) : (
             <div className="dashboard-listing-view">
-              <p className="dashboard-desc">{business.description || <em style={{ opacity: .5 }}>No description</em>}</p>
+              <p className="dashboard-desc">{b.description || <em style={{ opacity: .5 }}>No description added yet.</em>}</p>
               <div className="dashboard-meta-row">
-                <span><i className="ti ti-tag" /> {business.category}</span>
-                {business.phone && <span><i className="ti ti-phone" /> {business.phone}</span>}
-                {business.website && (
-                  <a href={business.website} target="_blank" rel="noopener noreferrer">
-                    <i className="ti ti-world" /> Website
-                  </a>
-                )}
+                <span><i className="ti ti-tag" /> {b.category}</span>
+                {b.phone && <span><i className="ti ti-phone" /> {b.phone}</span>}
+                {b.website && <a href={b.website} target="_blank" rel="noopener noreferrer"><i className="ti ti-world" /> Website</a>}
               </div>
-              {business.looking?.length > 0 && (
+              {(b.looking?.length ?? 0) > 0 && (
                 <div className="dashboard-signals">
-                  {business.looking.map(l => <span key={l} className="sig-badge">{l}</span>)}
+                  {b.looking.map(l => <span key={l} className="sig-badge">{l}</span>)}
                 </div>
               )}
-              <div style={{ marginTop: '1rem' }}>
-                <a href={`/directory/${business.id}`} className="dashboard-view-link">View public listing →</a>
-              </div>
+              {b.status === 'active' && (
+                <div style={{ marginTop: '1rem' }}>
+                  <a href={`/directory/${b.id}`} className="dashboard-view-link">View public listing →</a>
+                </div>
+              )}
+              {b.status === 'rejected' && (
+                <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)' }}>
+                  This listing was not approved. <a href="/form" style={{ color: 'var(--gold)' }}>Submit a new listing</a> if you'd like to try again.
+                </p>
+              )}
             </div>
           )}
+        </div>
+      ))}
+
+      {!fetching && businesses.length > 0 && (
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <a href="/form" className="dashboard-view-link">+ Add another listing</a>
         </div>
       )}
     </div>

@@ -81,7 +81,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [showFavs, setShowFavs] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [currentBusiness, setCurrentBusiness] = useState<Business | null>(null)
-  const [claimTarget, setClaimTarget] = useState<string | null>(null)
+  const [claimTarget, setClaimTarget] = useState<{ id: string; name: string } | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [searchQuery, setSearchQuery] = useState('')
@@ -483,11 +483,12 @@ export default function DirectoryClient({ initialData }: Props) {
         business={currentBusiness}
         lang={lang}
         onClose={() => setCurrentBusiness(null)}
-        onClaim={name => { setClaimTarget(name); setCurrentBusiness(null) }}
+        onClaim={(id, name) => { setClaimTarget({ id, name }); setCurrentBusiness(null) }}
       />
 
       <ClaimModal
-        businessName={claimTarget}
+        businessId={claimTarget?.id ?? null}
+        businessName={claimTarget?.name ?? null}
         onClose={() => setClaimTarget(null)}
       />
 

@@ -1,22 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
 
 interface Props {
+  businessId: string | null
   businessName: string | null
   onClose: () => void
 }
 
-const FS_URL = `https://firestore.googleapis.com/v1/projects/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/databases/(default)/documents/claims`
-  + `?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`
-
-export default function ClaimModal({ businessName, onClose }: Props) {
-  const [email, setEmail] = useState('')
+export default function ClaimModal({ businessId, businessName, onClose }: Props) {
+  const { user } = useAuth()
+  const [email, setEmail] = useState(user?.email ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
 
-  if (!businessName) return null
+  if (!businessName || !businessId) return null
 
   const handleSubmit = async () => {
     if (!email) return
@@ -27,22 +27,17 @@ export default function ClaimModal({ businessName, onClose }: Props) {
     setSubmitting(true)
     setError('')
     try {
-      const res = await fetch(FS_URL, {
+      const res = await fetch('/api/submit-claim', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fields: {
-            businessName: { stringValue: businessName },
-            email: { stringValue: email },
-            status: { stringValue: 'pending' },
-            createdAt: { stringValue: new Date().toISOString() },
-          },
+          email,
+          businessId,
+          businessName,
+          ...(user && { submittedByUid: user.uid, submittedByEmail: user.email }),
         }),
       })
-      if (!res.ok) {
-        const d = await res.json()
-        throw new Error(d.error?.message ?? `HTTP ${res.status}`)
-      }
+      if (!res.ok) throw new Error('Something went wrong. Please try again.')
       setSubmitted(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Network error — please try again.')
@@ -60,19 +55,19 @@ export default function ClaimModal({ businessName, onClose }: Props) {
           <div className="modal-success" style={{ display: 'block' }}>
             <div className="modal-success-mark">✓</div>
             <h4>Claim Submitted</h4>
-            <p>We&apos;ll verify your ownership and follow up at {email}.</p>
+            <p>Check <strong>{email}</strong> for a verification link. Once verified, our team will review your ownership claim.</p>
           </div>
         ) : (
           <>
             <h3>Claim Listing</h3>
             <p>
-              Enter your email to claim{' '}
+              Enter the email address associated with{' '}
               <span className="claim-biz-name">{businessName}</span>.
-              We&apos;ll verify ownership and follow up within 24 hours.
+              We&apos;ll send a verification link to confirm your ownership.
             </p>
 
             {error && (
-              <div style={{ background: '#f8d7da', color: '#721c24', padding: '0.8rem', borderRadius: '0.4rem', marginBottom: '1rem', fontSize: '0.9rem' }}>
+              <div style={{ background: 'rgba(255,255,255,0.1)', color: 'var(--cream)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.75rem 1rem', borderRadius: '0.375rem', marginBottom: '1rem', fontSize: '0.88rem' }}>
                 {error}
               </div>
             )}
@@ -80,12 +75,12 @@ export default function ClaimModal({ businessName, onClose }: Props) {
             <input
               className="modal-input"
               type="email"
-              placeholder="your@email.com"
+              placeholder="your@businessemail.com"
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
             <button className="modal-submit" onClick={handleSubmit} disabled={submitting}>
-              {submitting ? 'Submitting...' : 'Submit Claim'}
+              {submitting ? 'Submitting...' : 'Send Verification Email'}
             </button>
           </>
         )}

@@ -65,7 +65,7 @@ describe('DashboardClient — not authenticated', () => {
 
   it('shows sign-in gate heading', () => {
     render(<DashboardClient />)
-    expect(screen.getByText(/sign in to manage your listing/i)).toBeInTheDocument()
+    expect(screen.getByText(/sign in to manage your listings/i)).toBeInTheDocument()
   })
 
   it('shows Sign in with Google button', () => {
@@ -103,7 +103,7 @@ describe('DashboardClient — authenticated, listing found', () => {
   const MOCK_USER = { email: 'owner@acme.com', displayName: 'Owner' }
 
   beforeEach(() => {
-    mockUseAuth.mockReturnValue({ user: MOCK_USER, loading: false })
+    mockUseAuth.mockReturnValue({ user: { ...MOCK_USER, uid: 'uid-1' }, loading: false })
     mockGetDocs.mockResolvedValue(makeSnap(MOCK_BIZ))
   })
 
@@ -157,14 +157,14 @@ describe('DashboardClient — authenticated, listing found', () => {
 
   it('shows Edit Listing button', async () => {
     render(<DashboardClient />)
-    await waitFor(() => expect(screen.getByRole('button', { name: /edit listing/i })).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByRole('button', { name: /^edit$/i })).toBeInTheDocument())
   })
 })
 
 // ── Authenticated, no listing ──────────────────────────────────────────────
 
 describe('DashboardClient — authenticated, no listing found', () => {
-  const MOCK_USER = { email: 'nobody@example.com', displayName: 'Nobody' }
+  const MOCK_USER = { email: 'nobody@example.com', displayName: 'Nobody', uid: 'uid-nobody' }
 
   beforeEach(() => {
     mockUseAuth.mockReturnValue({ user: MOCK_USER, loading: false })
@@ -173,7 +173,7 @@ describe('DashboardClient — authenticated, no listing found', () => {
 
   it('shows no-listing message', async () => {
     render(<DashboardClient />)
-    await waitFor(() => expect(screen.getByText(/no listing found/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/no listings found/i)).toBeInTheDocument())
   })
 
   it('shows the signed-in email in the no-listing message', async () => {
@@ -193,7 +193,7 @@ describe('DashboardClient — authenticated, no listing found', () => {
 // ── Edit flow ──────────────────────────────────────────────────────────────
 
 describe('DashboardClient — edit flow', () => {
-  const MOCK_USER = { email: 'owner@acme.com', displayName: 'Owner' }
+  const MOCK_USER = { email: 'owner@acme.com', displayName: 'Owner', uid: 'uid-owner' }
 
   beforeEach(() => {
     mockUseAuth.mockReturnValue({ user: MOCK_USER, loading: false })
@@ -203,34 +203,34 @@ describe('DashboardClient — edit flow', () => {
   it('clicking Edit Listing reveals Save Changes and Cancel buttons', async () => {
     const user = userEvent.setup()
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
-    expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument()
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
+    expect(screen.getByRole('button', { name: /^save$/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument()
   })
 
   it('Cancel exits edit mode and restores Edit Listing button', async () => {
     const user = userEvent.setup()
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
     await user.click(screen.getByRole('button', { name: /cancel/i }))
-    expect(screen.getByRole('button', { name: /edit listing/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^edit$/i })).toBeInTheDocument()
   })
 
   it('edit form pre-populates description field', async () => {
     const user = userEvent.setup()
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
     expect(screen.getByDisplayValue('We build software.')).toBeInTheDocument()
   })
 
   it('edit form pre-populates phone field', async () => {
     const user = userEvent.setup()
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
     expect(screen.getByDisplayValue('416-555-0001')).toBeInTheDocument()
   })
 
@@ -238,9 +238,9 @@ describe('DashboardClient — edit flow', () => {
     const user = userEvent.setup()
     mockUpdateDoc.mockResolvedValue({})
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /save changes/i }))
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^save$/i }))
     await waitFor(() => expect(mockUpdateDoc).toHaveBeenCalledWith(
       'docRef',
       expect.objectContaining({
@@ -258,9 +258,9 @@ describe('DashboardClient — edit flow', () => {
     const user = userEvent.setup()
     mockUpdateDoc.mockResolvedValue({})
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /save changes/i }))
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^save$/i }))
     await waitFor(() => expect(screen.getByText(/saved/i)).toBeInTheDocument())
   })
 
@@ -268,9 +268,9 @@ describe('DashboardClient — edit flow', () => {
     const user = userEvent.setup()
     mockUpdateDoc.mockResolvedValue({})
     render(<DashboardClient />)
-    await waitFor(() => screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /edit listing/i }))
-    await user.click(screen.getByRole('button', { name: /save changes/i }))
-    await waitFor(() => expect(screen.getByRole('button', { name: /edit listing/i })).toBeInTheDocument())
+    await waitFor(() => screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^edit$/i }))
+    await user.click(screen.getByRole('button', { name: /^save$/i }))
+    await waitFor(() => expect(screen.getByRole('button', { name: /^edit$/i })).toBeInTheDocument())
   })
 })

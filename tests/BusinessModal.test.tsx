@@ -114,7 +114,7 @@ describe('BusinessModal — footer actions', () => {
   it('calls onClaim with businessName and then onClose when Claim Listing is clicked', async () => {
     const { user, onClaim, onClose, business } = setup({ pro: false })
     await user.click(screen.getByRole('button', { name: 'Claim Listing' }))
-    expect(onClaim).toHaveBeenCalledWith(business.businessName)
+    expect(onClaim).toHaveBeenCalledWith(business.id, business.businessName)
     expect(onClose).toHaveBeenCalled()
   })
 
