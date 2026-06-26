@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
       "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
       "img-src 'self' data: https:",
       "frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/",
-      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
+      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
     ].join("; ");
 
     return [
