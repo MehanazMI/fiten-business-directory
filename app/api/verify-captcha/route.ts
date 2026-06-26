@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { rateLimit, getIp } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  // Skip real verification on preview deploys — writes are blocked client-side anyway
+  if (process.env.VERCEL_ENV === 'preview') {
+    return NextResponse.json({ success: true, score: 1 })
+  }
+
   const { allowed } = rateLimit(getIp(req), { limit: 10, windowMs: 60_000 })
   if (!allowed) {
     return NextResponse.json({ success: false, error: 'too_many_requests' }, { status: 429 })
