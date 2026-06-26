@@ -3,17 +3,28 @@ import { adminDb } from '@/lib/firebase-admin'
 import { sendVerificationEmail } from '@/lib/email'
 import { randomBytes } from 'crypto'
 
+// Firebase public keys for JWT verification — avoids firebase-admin/auth → jwks-rsa → jose ESM crash
+const FIREBASE_JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
+
+async function verifyAdminToken(idToken: string): Promise<boolean> {
+  const { createRemoteJWKSet, jwtVerify } = await import('jose')
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  const JWKS = createRemoteJWKSet(new URL(FIREBASE_JWKS_URL))
+  const { payload } = await jwtVerify(idToken, JWKS, {
+    issuer: `https://securetoken.google.com/${projectId}`,
+    audience: projectId,
+  })
+  return payload['admin'] === true
+}
+
 export async function POST(req: NextRequest) {
-  // Verify admin claim via Bearer token
   const authHeader = req.headers.get('authorization') ?? ''
   const idToken = authHeader.replace('Bearer ', '')
   if (!idToken) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   try {
-    // Dynamic import to avoid firebase-admin/auth → jwks-rsa → jose ESM crash at module load
-    const { adminAuth } = await import('@/lib/firebase-admin-auth')
-    const decoded = await adminAuth.verifyIdToken(idToken)
-    if (!decoded.admin) return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+    const isAdmin = await verifyAdminToken(idToken)
+    if (!isAdmin) return NextResponse.json({ error: 'forbidden' }, { status: 403 })
   } catch {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
