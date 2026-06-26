@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react'
 import { useRecaptcha } from '@/lib/useRecaptcha'
+import { useAuth } from '@/lib/auth-context'
 
 const CATEGORIES = [
   'Technology', 'Healthcare', 'Finance & Insurance', 'Food & Beverage',
@@ -68,6 +69,7 @@ const OPT_BG = { background: 'var(--navy)' }
 
 export default function AddBusinessStandalone() {
   const { getToken } = useRecaptcha()
+  const { user } = useAuth()
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
     founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
@@ -176,9 +178,9 @@ export default function AddBusinessStandalone() {
           women,
           convention,
           logoUrls,
-          verificationStatus: form.registrationNo.trim() ? 'pending' : 'unverified',
           consentGiven: true,
           consentAt: new Date().toISOString(),
+          ...(user && { submittedByUid: user.uid, submittedByEmail: user.email }),
         }),
       })
 
@@ -212,8 +214,7 @@ export default function AddBusinessStandalone() {
         <div className="bizform-success-kicker">Submitted for review</div>
         <h2 className="bizform-success-title">{form.businessName} is pending approval.</h2>
         <p className="bizform-success-text">
-          Your listing will go live after a quick review — usually within 24 hours.
-          {form.registrationNo && ' Your registration number has been submitted for verification.'}
+          Check your email for a verification link to activate your listing instantly. If you prefer, our team can also approve it manually within 24 hours.
         </p>
         <div className="bizform-success-actions">
           <a href={newDocId ? `/directory/${newDocId}` : '/directory'} className="bizform-btn-gold">

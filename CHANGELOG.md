@@ -11,6 +11,25 @@ Format: newest first. Each entry links to the relevant commit(s).
 
 ---
 
+## June 2026 (continued)
+
+### Features
+- **Email verification** — every new submission triggers a verification email (via Resend) to the business email. Clicking the link activates the listing instantly without admin action.
+- **Verified Domain badge** — listings where the business email domain matches the website domain AND email is verified earn a "Verified Domain" badge.
+- **Google account linkage** — if a submitter is signed in with Google when submitting, their Google UID/email is stored with the listing and shown in the admin queue as a trust signal.
+- **Admin verification queue** — pending listings now display trust badges (Email verified, Verified Domain, Business email, Google account) and a "Resend email" button for expired tokens.
+- **`/verify` page** — branded verification landing page with distinct states: verified, domain-verified, already-verified, expired, invalid.
+
+### Infrastructure
+- `lib/email.ts` — Resend email helper with branded HTML template.
+- `lib/domain-utils.ts` — email domain extraction, free-provider detection, domain-match logic.
+- `lib/firebase-admin.ts` — added `adminAuth` export.
+- `app/api/verify-listing/route.ts` — token verification endpoint (GET).
+- `app/api/admin/resend-verification/route.ts` — admin-only resend endpoint (POST, requires admin claim).
+- New env vars required: `RESEND_API_KEY`, `NEXT_PUBLIC_BASE_URL`.
+
+---
+
 ## June 2026
 
 ### Legal & Compliance

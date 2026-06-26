@@ -12,7 +12,14 @@ import type { Event } from '@/types/event'
 
 type Tab = 'pending' | 'listings' | 'events'
 
-type AdminBusiness = Business
+type AdminBusiness = Business & {
+  emailVerified?: boolean
+  domainVerified?: boolean
+  businessEmail?: boolean
+  domainMatch?: boolean
+  submittedBy?: { uid: string; email: string }
+  verificationExpiry?: string
+}
 
 type AdminEvent = Event
 
@@ -70,6 +77,17 @@ export default function AdminClient() {
     setActionId(id)
     await deleteDoc(doc(db, 'businesses', id))
     setBusinesses(prev => prev.filter(b => b.id !== id))
+    setActionId(null)
+  }
+
+  async function resendVerification(id: string) {
+    setActionId(id)
+    const token = await user!.getIdToken()
+    await fetch('/api/admin/resend-verification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id }),
+    })
     setActionId(null)
   }
 
@@ -192,6 +210,27 @@ export default function AdminClient() {
                   <span><i className="ti ti-tag" aria-hidden="true" /> {b.category}</span>
                   <span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.region ? `, ${b.region}` : ''}</span>
                   <span><i className="ti ti-mail" aria-hidden="true" /> {b.email}</span>
+                  {b.submittedBy && (
+                    <span style={{ color: 'var(--gold)' }}>
+                      <i className="ti ti-brand-google" aria-hidden="true" /> {b.submittedBy.email}
+                    </span>
+                  )}
+                </div>
+                {/* Verification trust signals */}
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', margin: '0.5rem 0' }}>
+                  {b.emailVerified
+                    ? <span className="admin-trust-badge verified"><i className="ti ti-circle-check" /> Email verified</span>
+                    : <span className="admin-trust-badge unverified"><i className="ti ti-clock" /> Email unverified</span>
+                  }
+                  {b.domainVerified && (
+                    <span className="admin-trust-badge verified"><i className="ti ti-shield-check" /> Verified domain</span>
+                  )}
+                  {!b.domainVerified && b.businessEmail && (
+                    <span className="admin-trust-badge neutral"><i className="ti ti-building" /> Business email</span>
+                  )}
+                  {b.submittedBy && (
+                    <span className="admin-trust-badge verified"><i className="ti ti-brand-google" /> Google account</span>
+                  )}
                 </div>
                 {b.description && <p className="admin-card-desc">{b.description}</p>}
               </div>
@@ -204,6 +243,11 @@ export default function AdminClient() {
                     <button className="admin-btn admin-btn-reject" onClick={() => reject(b.id)} disabled={actionId === b.id}>
                       Reject
                     </button>
+                    {!b.emailVerified && (
+                      <button className="admin-btn admin-btn-resend" onClick={() => resendVerification(b.id)} disabled={actionId === b.id} title="Resend verification email">
+                        {actionId === b.id ? '…' : 'Resend email'}
+                      </button>
+                    )}
                   </>
                 ) : (
                   <>

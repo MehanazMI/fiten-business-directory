@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
 import { sanitizeString, sanitizeUrl, isValidEmail } from '@/lib/sanitize'
 import { rateLimit, getIp } from '@/lib/rate-limit'
+import { sendVerificationEmail } from '@/lib/email'
+import { isBusinessEmail, domainsMatch } from '@/lib/domain-utils'
+import { randomBytes } from 'crypto'
 
 const VALID_CATEGORIES = new Set([
   'Technology', 'Healthcare', 'Finance', 'Finance & Insurance', 'Education',
@@ -24,7 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_body' }, { status: 400 })
   }
 
-  // --- Validate required fields ---
+  // --- Required fields ---
   const businessName = sanitizeString(body.businessName)
   const category     = sanitizeString(body.category)
   const email        = sanitizeString(body.email)
@@ -49,16 +52,24 @@ export async function POST(req: NextRequest) {
 
   // --- Optional fields ---
   const phone       = sanitizeString(body.phone)
-  const nameTamil  = sanitizeString(body.nameTamil)
-  const region     = sanitizeString(body.region)
-  const website    = sanitizeUrl(body.website)
-  const logoUrl    = sanitizeUrl(body.logoUrl)
-  const looking    = Array.isArray(body.looking)
+  const nameTamil   = sanitizeString(body.nameTamil)
+  const region      = sanitizeString(body.region)
+  const website     = sanitizeUrl(body.website)
+  const logoUrl     = sanitizeUrl(body.logoUrl)
+  const looking     = Array.isArray(body.looking)
     ? (body.looking as unknown[]).filter(v => VALID_LOOKING.includes(v as string)) as string[]
     : []
-  const women      = body.women === true
-  const speaker    = body.speaker === true
-  const convention = body.convention === true
+  const women       = body.women === true
+  const speaker     = body.speaker === true
+  const convention  = body.convention === true
+
+  // --- Google auth linkage ---
+  const submittedByUid   = typeof body.submittedByUid === 'string' ? body.submittedByUid : null
+  const submittedByEmail = typeof body.submittedByEmail === 'string' ? body.submittedByEmail : null
+
+  // --- Domain trust signals ---
+  const businessEmailFlag = isBusinessEmail(email)
+  const domainMatchFlag   = businessEmailFlag && domainsMatch(email, website ?? '')
 
   // --- Duplicate check ---
   const existing = await adminDb
@@ -72,8 +83,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'business_exists' }, { status: 409 })
   }
 
+  // --- Verification token (48h expiry) ---
+  const verificationToken  = randomBytes(32).toString('hex')
+  const verificationExpiry = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
+
   // --- Write to Firestore ---
-  const doc = {
+  const doc: Record<string, unknown> = {
     businessName,
     ...(nameTamil && { nameTamil }),
     category,
@@ -96,13 +111,29 @@ export async function POST(req: NextRequest) {
     createdAt: new Date().toISOString(),
     consentGiven: body.consentGiven === true,
     consentAt: typeof body.consentAt === 'string' ? body.consentAt : new Date().toISOString(),
+    // Verification
+    emailVerified: false,
+    verificationToken,
+    verificationExpiry,
+    // Domain trust
+    businessEmail: businessEmailFlag,
+    domainMatch: domainMatchFlag,
+    // Google auth
+    ...(submittedByUid && { submittedBy: { uid: submittedByUid, email: submittedByEmail } }),
   }
 
+  let ref: FirebaseFirestore.DocumentReference
   try {
-    const ref = await adminDb.collection('businesses').add(doc)
-    return NextResponse.json({ success: true, id: ref.id })
+    ref = await adminDb.collection('businesses').add(doc)
   } catch (err) {
     console.error('Firestore write failed:', err)
     return NextResponse.json({ error: 'server_error' }, { status: 500 })
   }
+
+  // --- Send verification email (non-blocking — don't fail submission if email fails) ---
+  sendVerificationEmail(email, businessName, verificationToken).catch(err =>
+    console.error('Verification email failed:', err)
+  )
+
+  return NextResponse.json({ success: true, id: ref.id })
 }

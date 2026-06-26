@@ -9,6 +9,15 @@
             "shell": "bash"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ git -C \"$PWD\" diff --name-only HEAD 2>/dev/null; git -C \"$PWD\" diff --name-only HEAD~1 HEAD 2>/dev/null; } | sort -u | grep -vE '^(CHANGELOG\\.md|\\.claude/|.*\\.md)$' | grep -q . && echo '{\"systemMessage\": \"CHANGELOG reminder: code changes detected this session. Update CHANGELOG.md before ending — one line per meaningful change, grouped by: Features, Security, Bug Fixes, Legal, Infrastructure.\"}' || true",
+            "shell": "bash"
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -17,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '{\"systemMessage\": \"💡 Before compacting: review what was worked on this session and surface 2-3 specific improvement suggestions for the FiTEN directory (UI quality, data gaps, dead code, missing features). Be concrete — file names and line numbers where relevant.\"}'",
+            "command": "echo '{\"systemMessage\": \"Before compacting: review what was worked on this session and surface 2-3 specific improvement suggestions for the FiTEN directory (UI quality, data gaps, dead code, missing features). Be concrete — file names and line numbers where relevant.\"}'",
             "shell": "powershell"
           }
         ]

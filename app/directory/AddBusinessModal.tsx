@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRecaptcha } from '@/lib/useRecaptcha'
+import { useAuth } from '@/lib/auth-context'
 
 interface Props {
   onClose: () => void
@@ -28,6 +29,7 @@ const B2B_OPTIONS = [
 
 export default function AddBusinessModal({ onClose }: Props) {
   const { getToken } = useRecaptcha()
+  const { user } = useAuth()
   const [form, setForm] = useState({
     businessName: '', category: '', region: '', email: '', phone: '', city: '', website: '', logoUrl: '', description: '',
   })
@@ -75,7 +77,11 @@ export default function AddBusinessModal({ onClose }: Props) {
       const res = await fetch('/api/submit-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, looking, women, speaker, convention, consentGiven: true, consentAt: new Date().toISOString() }),
+        body: JSON.stringify({
+          ...form, looking, women, speaker, convention,
+          consentGiven: true, consentAt: new Date().toISOString(),
+          ...(user && { submittedByUid: user.uid, submittedByEmail: user.email }),
+        }),
       })
       if (!res.ok) {
         if (res.status === 409) throw new Error('A listing with this email already exists.')
@@ -105,7 +111,7 @@ export default function AddBusinessModal({ onClose }: Props) {
             <i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', display: 'inline-block' }} aria-hidden="true" />
             <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Submitted!</h3>
             <p style={{ color: 'var(--cream-70)', lineHeight: 1.6 }}>
-              Your listing is pending review. We'll approve it shortly — welcome to the community!
+              Check your email for a verification link to activate your listing instantly. If you prefer, our team can also approve it manually within 24 hours.
             </p>
             <button className="modal-submit" style={{ marginTop: '1.5rem' }} onClick={onClose}>
               Done
