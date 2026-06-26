@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
-import { adminAuth } from '@/lib/firebase-admin-auth'
 import { sendVerificationEmail } from '@/lib/email'
 import { randomBytes } from 'crypto'
 
@@ -11,6 +10,8 @@ export async function POST(req: NextRequest) {
   if (!idToken) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   try {
+    // Dynamic import to avoid firebase-admin/auth → jwks-rsa → jose ESM crash at module load
+    const { adminAuth } = await import('@/lib/firebase-admin-auth')
     const decoded = await adminAuth.verifyIdToken(idToken)
     if (!decoded.admin) return NextResponse.json({ error: 'forbidden' }, { status: 403 })
   } catch {
