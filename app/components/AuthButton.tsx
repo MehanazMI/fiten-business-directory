@@ -32,7 +32,12 @@ export default function AuthButton() {
   return (
     <button
       className="auth-signin-btn"
-      onClick={() => signInWithPopup(auth, googleProvider)}
+      onClick={() => signInWithPopup(auth, googleProvider).catch((err) => {
+        // Silently ignore user-initiated cancellations; log unexpected errors
+        if (err?.code !== 'auth/popup-closed-by-user' && err?.code !== 'auth/popup-blocked') {
+          console.error('Sign-in error:', err)
+        }
+      })}
     >
       <i className="ti ti-brand-google" aria-hidden="true" />
       Sign in

@@ -56,6 +56,25 @@ describe('AuthButton — signed out', () => {
     await user.click(screen.getByRole('button', { name: /sign in/i }))
     expect(mockSignIn).toHaveBeenCalledWith({}, {})
   })
+
+  it('does not throw when user cancels the popup', async () => {
+    const user = userEvent.setup()
+    // Firebase throws auth/popup-closed-by-user when the user dismisses the popup
+    mockSignIn.mockRejectedValue({ code: 'auth/popup-closed-by-user' })
+    render(<AuthButton />)
+    await expect(
+      user.click(screen.getByRole('button', { name: /sign in/i }))
+    ).resolves.not.toThrow()
+  })
+
+  it('does not throw when popup is blocked by the browser', async () => {
+    const user = userEvent.setup()
+    mockSignIn.mockRejectedValue({ code: 'auth/popup-blocked' })
+    render(<AuthButton />)
+    await expect(
+      user.click(screen.getByRole('button', { name: /sign in/i }))
+    ).resolves.not.toThrow()
+  })
 })
 
 describe('AuthButton — signed in with photo', () => {
