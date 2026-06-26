@@ -130,10 +130,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'server_error' }, { status: 500 })
   }
 
-  // --- Send verification email (non-blocking — don't fail submission if email fails) ---
-  sendVerificationEmail(email, businessName, verificationToken).catch(err =>
+  // --- Send verification email (awaited so it completes before serverless fn terminates) ---
+  try {
+    await sendVerificationEmail(email, businessName, verificationToken)
+  } catch (err) {
     console.error('Verification email failed:', err)
-  )
+  }
 
   return NextResponse.json({ success: true, id: ref.id })
 }
