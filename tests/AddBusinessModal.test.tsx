@@ -124,18 +124,18 @@ describe('AddBusinessModal — successful submission', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('posts correct fields to Firestore', async () => {
+  it('posts correct fields to server route', async () => {
     mockFetch.mockReturnValueOnce(makeCaptchaOk()).mockReturnValueOnce(makeOkResponse())
     const { user } = setup()
     await fillForm(user)
     await user.click(screen.getByRole('button', { name: /Add My Business/i }))
     await waitFor(() => screen.getByText(/Submitted/i))
-    // Second fetch call [1] is the Firestore write (first [0] is captcha)
-    const body = JSON.parse(mockFetch.mock.calls[1][1].body)
-    expect(body.fields.businessName.stringValue).toBe('New Biz')
-    expect(body.fields.category.stringValue).toBe('Technology')
-    expect(body.fields.status.stringValue).toBe('pending')
-    expect(body.fields.pro.booleanValue).toBe(false)
+    // Second fetch call [1] is the server route (first [0] is captcha)
+    const [url, opts] = mockFetch.mock.calls[1]
+    expect(url).toBe('/api/submit-business')
+    const body = JSON.parse(opts.body)
+    expect(body.businessName).toBe('New Biz')
+    expect(body.category).toBe('Technology')
   })
 })
 

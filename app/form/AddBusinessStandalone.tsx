@@ -28,9 +28,6 @@ const B2B_OPTIONS = [
 const DESCRIPTION_MAX = 300
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 
-const FS_URL = `https://firestore.googleapis.com/v1/projects/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/databases/(default)/documents/businesses`
-  + `?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`
-
 const STORAGE_BUCKET = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
   ?? `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`
 
@@ -48,17 +45,6 @@ async function uploadFile(file: File, submissionId: string): Promise<string> {
     throw new Error(d.error?.message ?? `Upload failed (${res.status})`)
   }
   return `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${encodeURIComponent(path)}?alt=media`
-}
-
-function toFields(obj: Record<string, unknown>) {
-  const fields: Record<string, unknown> = {}
-  for (const [k, v] of Object.entries(obj)) {
-    if (typeof v === 'boolean') fields[k] = { booleanValue: v }
-    else if (typeof v === 'number') fields[k] = { doubleValue: v }
-    else if (Array.isArray(v)) fields[k] = { arrayValue: { values: v.map(s => ({ stringValue: s })) } }
-    else fields[k] = { stringValue: String(v) }
-  }
-  return { fields }
 }
 
 type Errors = Record<string, string>
@@ -161,10 +147,10 @@ export default function AddBusinessStandalone() {
       const speakerInB2B = looking.includes('speaker')
       const lookingWithoutSpeaker = looking.filter(v => v !== 'speaker')
 
-      const res = await fetch(FS_URL, {
+      const res = await fetch('/api/submit-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(toFields({
+        body: JSON.stringify({
           businessName: form.businessName.trim(),
           nameTamil: form.nameTamil.trim(),
           contactName: form.contactName.trim(),
@@ -186,21 +172,26 @@ export default function AddBusinessStandalone() {
           convention,
           logoUrls,
           verificationStatus: form.registrationNo.trim() ? 'pending' : 'unverified',
-          status: 'pending', pro: false, views: 0,
-          createdAt: new Date().toISOString(),
-        })),
+        }),
       })
 
       if (!res.ok) {
-        console.error('Firestore write failed', res.status)
+        const data = await res.json().catch(() => ({}))
+        if (res.status === 409) throw new Error('A listing with this email already exists.')
+        console.error('submit-business failed', res.status, data)
         throw new Error('Something went wrong. Please try again.')
       }
       const data = await res.json()
-      setNewDocId(data.name?.split('/').pop() ?? '')
+      setNewDocId(data.id ?? '')
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Network error — please try again.')
+      const msg = err instanceof Error ? err.message : ''
+      setSubmitError(
+        msg.startsWith('Security check') || msg.startsWith('A listing with')
+          ? msg
+          : 'Something went wrong. Please try again.'
+      )
     } finally {
       setSubmitting(false)
       setUploadProgress(null)

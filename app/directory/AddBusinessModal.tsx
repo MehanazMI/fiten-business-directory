@@ -24,19 +24,6 @@ const B2B_OPTIONS = [
   { value: 'client', label: 'Seeking Clients' },
 ]
 
-const FS_URL = `https://firestore.googleapis.com/v1/projects/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/databases/(default)/documents/businesses`
-  + `?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`
-
-function toFields(obj: Record<string, unknown>) {
-  const fields: Record<string, unknown> = {}
-  for (const [k, v] of Object.entries(obj)) {
-    if (typeof v === 'boolean') fields[k] = { booleanValue: v }
-    else if (typeof v === 'number') fields[k] = { doubleValue: v }
-    else if (Array.isArray(v)) fields[k] = { arrayValue: { values: v.map(s => ({ stringValue: s })) } }
-    else fields[k] = { stringValue: String(v) }
-  }
-  return { fields }
-}
 
 export default function AddBusinessModal({ onClose }: Props) {
   const { getToken } = useRecaptcha()
@@ -79,25 +66,14 @@ export default function AddBusinessModal({ onClose }: Props) {
         throw new Error('Security check failed. Please try again.')
       }
 
-      const res = await fetch(FS_URL, {
+      const res = await fetch('/api/submit-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(toFields({
-          ...form,
-          looking,
-          women,
-          speaker,
-          convention,
-          status: 'pending',
-          pro: false,
-          rating: 0,
-          reviews: 0,
-          views: 0,
-          createdAt: new Date().toISOString(),
-        })),
+        body: JSON.stringify({ ...form, looking, women, speaker, convention }),
       })
       if (!res.ok) {
-        console.error('Firestore write failed', res.status)
+        if (res.status === 409) throw new Error('A listing with this email already exists.')
+        console.error('submit-business failed', res.status)
         throw new Error('Something went wrong. Please try again.')
       }
       setSuccess(true)
