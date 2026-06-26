@@ -7,7 +7,7 @@ const mockSignIn = vi.fn()
 const mockSignOut = vi.fn()
 
 vi.mock('firebase/auth', () => ({
-  signInWithPopup: (...args: unknown[]) => mockSignIn(...args),
+  signInWithRedirect: (...args: unknown[]) => mockSignIn(...args),
   signOut: (...args: unknown[]) => mockSignOut(...args),
 }))
 
@@ -49,7 +49,7 @@ describe('AuthButton — signed out', () => {
     expect(screen.queryByTitle(/sign out/i)).not.toBeInTheDocument()
   })
 
-  it('calls signInWithPopup when Sign in is clicked', async () => {
+  it('calls signInWithRedirect when Sign in is clicked', async () => {
     const user = userEvent.setup()
     mockSignIn.mockResolvedValue({})
     render(<AuthButton />)

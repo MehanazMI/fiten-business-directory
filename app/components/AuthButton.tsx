@@ -1,6 +1,6 @@
 'use client'
 
-import { signInWithPopup, signOut } from 'firebase/auth'
+import { signInWithRedirect, signOut } from 'firebase/auth'
 import { auth, googleProvider } from '@/lib/firebase-client'
 import { useAuth } from '@/lib/auth-context'
 
@@ -32,7 +32,7 @@ export default function AuthButton() {
   return (
     <button
       className="auth-signin-btn"
-      onClick={() => signInWithPopup(auth, googleProvider)}
+      onClick={() => signInWithRedirect(auth, googleProvider)}
     >
       <i className="ti ti-brand-google" aria-hidden="true" />
       Sign in
