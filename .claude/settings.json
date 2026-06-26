@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git -C \"$PWD\" diff --name-only HEAD~1 HEAD 2>/dev/null | grep -qE '(firestore\\.rules|\\.env\\.local|next\\.config\\.ts|lib/firebase-admin\\.ts|app/api/)' && echo '{\"systemMessage\": \"Reminder: if you changed Firebase config, env vars, API routes, or security rules — update SETUP.md to keep the manual setup guide current.\"}' || true",
+            "shell": "bash"
+          }
+        ]
+      }
+    ],
     "PreCompact": [
       {
         "matcher": "auto",
