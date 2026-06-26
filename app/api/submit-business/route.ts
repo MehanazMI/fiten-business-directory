@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
 import { sanitizeString, sanitizeUrl, isValidEmail } from '@/lib/sanitize'
+import { rateLimit, getIp } from '@/lib/rate-limit'
 
 const VALID_CATEGORIES = new Set([
   'Technology', 'Healthcare', 'Finance', 'Finance & Insurance', 'Education',
@@ -11,6 +12,11 @@ const VALID_CATEGORIES = new Set([
 const VALID_LOOKING = ['partner', 'client', 'invest', 'hire']
 
 export async function POST(req: NextRequest) {
+  const { allowed } = rateLimit(getIp(req), { limit: 5, windowMs: 60_000 })
+  if (!allowed) {
+    return NextResponse.json({ error: 'too_many_requests' }, { status: 429 })
+  }
+
   let body: Record<string, unknown>
   try {
     body = await req.json()
