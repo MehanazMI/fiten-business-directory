@@ -6,36 +6,55 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.admin == true;
     }
 
+    function isOwner(resource) {
+      return request.auth != null && request.auth.token.email == resource.data.email;
+    }
+
     match /businesses/{id} {
       allow read: if true;
-      // Clients must submit with status=pending; verified/verificationStatus set by admin SDK only
-      allow create: if request.resource.data.status == 'pending'
+      // Require auth to create; status must be pending; verified fields set by admin SDK only
+      allow create: if request.auth != null
+        && request.resource.data.status == 'pending'
         && !('verified' in request.resource.data)
         && !('verificationStatus' in request.resource.data);
       // Admin: full update. Owner: edit own listing (not status/verified/pro). Anyone: increment views.
       allow update: if isAdmin()
-        || (request.auth != null && request.auth.token.email == resource.data.email
+        || (isOwner(resource)
             && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['status', 'verified', 'verificationStatus', 'pro']))
         || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']);
       allow delete: if isAdmin();
+
+      // Private contact subcollection — only owner or admin can read
+      match /private/{doc} {
+        allow read: if isAdmin() || isOwner(get(/databases/$(database)/documents/businesses/$(id)));
+        allow write: if isAdmin();
+      }
     }
 
     match /claims/{id} {
       allow read: if isAdmin();
-      allow create: if true;
+      allow create: if request.auth != null;
       allow update: if isAdmin();
     }
 
     match /connections/{id} {
-      allow create: if true;
       allow read: if isAdmin();
+      allow create: if request.auth != null;
     }
 
     match /events/{id} {
       allow read: if true;
-      allow create: if request.resource.data.status == 'pending';
-      allow update: if isAdmin() || resource.data.organizerId == request.auth.uid;
-      allow delete: if isAdmin() || resource.data.organizerId == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.status == 'pending';
+      allow update: if isAdmin()
+        || (request.auth != null && resource.data.organizerId == request.auth.uid);
+      allow delete: if isAdmin()
+        || (request.auth != null && resource.data.organizerId == request.auth.uid);
+    }
+
+    match /rate_limits/{id} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
     }
   }
 }
