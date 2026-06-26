@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2>1. Who We Are (Data Controller)</h2>
-            <p>The FiTEN Business Directory is operated by FiTEN, part of the Federation of Tamil Sangams of North America (FeTNA). For privacy enquiries or data requests, contact us directly at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a> or through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a>.</p>
+            <p>The FiTEN Business Directory is operated by FiTEN, part of the Federation of Tamil Sangams of North America (FeTNA). For privacy enquiries or data requests, contact us directly at <strong>[privacy@fetna.org — placeholder, update before launch]</strong> or through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a>.</p>
           </section>
 
           <section>
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
               <li><strong>Object</strong> — to processing based on legitimate interests</li>
               <li><strong>Lodge a complaint</strong> — with your local data protection authority (e.g. ICO in the UK, CNIL in France, DPC in Ireland)</li>
             </ul>
-            <p>To exercise any of these rights, contact us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a>. We will respond within <strong>one month</strong> as required by GDPR Article 12.</p>
+            <p>To exercise any of these rights, contact us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong>. We will respond within <strong>one month</strong> as required by GDPR Article 12.</p>
           </section>
 
           <section>
@@ -94,7 +94,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2>9. Children's Privacy</h2>
-            <p>The FiTEN Business Directory is not directed at children under 16. We do not knowingly collect data from children. If you believe a child under 16 has submitted data, contact us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a> and we will delete it promptly.</p>
+            <p>The FiTEN Business Directory is not directed at children under 16. We do not knowingly collect data from children. If you believe a child under 16 has submitted data, contact us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong> and we will delete it promptly.</p>
           </section>
 
           <section>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2>11. Contact</h2>
-            <p>For any privacy-related questions or data requests, email us at <a href="mailto:privacy@fetna.org">privacy@fetna.org</a> or contact us through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> or <a href="https://fetna.org" target="_blank" rel="noopener noreferrer">fetna.org</a>.</p>
+            <p>For any privacy-related questions or data requests, email us at <strong>[privacy@fetna.org — placeholder, update before launch]</strong> or contact us through <a href="https://fiten.org" target="_blank" rel="noopener noreferrer">fiten.org</a> or <a href="https://fetna.org" target="_blank" rel="noopener noreferrer">fetna.org</a>.</p>
           </section>
         </div>
       </div>
