@@ -265,14 +265,12 @@ export default function AddBusinessStandalone() {
       <div className="bizform">
         {submitError && <div className="bizform-error-banner">{submitError}</div>}
 
-        {isAdmin && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem' }}>
-            <button type="button" onClick={fillTestData}
-              style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold)', border: '1px dashed rgba(201,168,76,0.4)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}>
-              ⚡ Fill test data
-            </button>
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem' }}>
+          <button type="button" onClick={fillTestData}
+            style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold)', border: '1px dashed rgba(201,168,76,0.4)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}>
+            ⚡ Fill test data
+          </button>
+        </div>
 
         <F label="Business Name" required>
           <input className={cls('businessName')} placeholder="e.g. Kumaran Software Labs"
