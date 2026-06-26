@@ -1,8 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['firebase-admin', 'jwks-rsa'],
-
   async redirects() {
     // Legacy static-site URLs (pre-cutover index.html/form.html deployment).
     // Keep these so old bookmarks and shared links survive the fiten.org cutover.
