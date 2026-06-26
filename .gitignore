@@ -65,3 +65,6 @@ docs/design-evolution.html
 docs/screenshots/
 
 .vercel
+
+# standee export
+public/logos/*.pdf

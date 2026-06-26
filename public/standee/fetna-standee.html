@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>FiTEN Standee — FeTNA 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    font-family: 'Inter', Arial, sans-serif;
+  }
+
+  @media print {
+    @page {
+      size: 33in 79in;
+      margin: 0;
+    }
+    body { background: none; padding: 0; }
+    .standee { box-shadow: none; }
+  }
+
+  .standee {
+    width: 33in;
+    height: 79in;
+    background: #0a1628;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+  }
+
+  /* Background geometric circles */
+  .geo-circle-1 {
+    position: absolute;
+    top: -4in;
+    right: -3in;
+    width: 18in;
+    height: 18in;
+    border-radius: 50%;
+    border: 4in solid rgba(245,160,32,0.06);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .geo-circle-2 {
+    position: absolute;
+    bottom: 8in;
+    left: -4in;
+    width: 14in;
+    height: 14in;
+    border-radius: 50%;
+    border: 3in solid rgba(96,165,250,0.04);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LOGO BAR ── */
+  .logo-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45in 0.8in;
+    border-bottom: 2pt solid #1e3a5f;
+    gap: 0.6in;
+  }
+  .logo-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.14in;
+  }
+  .logo-col img { object-fit: contain; }
+  .logo-fiten-wrap {
+    background: transparent;
+    padding: 0.1in 0.3in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .logo-fetna-wrap {
+    background: linear-gradient(160deg, rgba(255,255,255,0.92) 0%, rgba(240,248,255,0.82) 100%);
+    border-radius: 50%;
+    width: 4.5in;
+    height: 4.5in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0.6in 0.2in rgba(10,22,40,0.7);
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .logo-fiten { width: 100%; max-width: 11in; height: auto; mix-blend-mode: multiply; filter: brightness(1.1); }
+  .logo-fetna { width: 3.8in; height: 3.8in; object-fit: contain; }
+  .logo-divider {
+    width: 2pt;
+    height: 2.5in;
+    background: #1e3a5f;
+    flex-shrink: 0;
+  }
+  .logo-label {
+    font-size: 0.16in;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 0.7in 1.2in 0.6in;
+  }
+  .kicker {
+    font-size: 0.18in;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-weight: 500;
+    margin-bottom: 0.2in;
+  }
+  .headline {
+    font-size: 1.5in;
+    font-weight: 900;
+    line-height: 1.0;
+    color: #ffffff;
+    margin-bottom: 0in;
+  }
+  .headline-accent {
+    font-size: 1.5in;
+    font-weight: 900;
+    line-height: 1.05;
+    color: #f5a020;
+    margin-bottom: 0.4in;
+  }
+  .tagline-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.2in;
+  }
+  .tagline-bar {
+    width: 6pt;
+    height: 0.9in;
+    background: #f5a020;
+    border-radius: 3pt;
+    flex-shrink: 0;
+    margin-top: 0.05in;
+  }
+  .tagline {
+    font-size: 0.26in;
+    color: #94a3b8;
+    line-height: 1.65;
+    font-weight: 400;
+    max-width: 22in;
+  }
+
+  /* ── STATS ── */
+  .stats {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    background: #111f3a;
+    border-top: 2pt solid #1e3a5f;
+    border-bottom: 2pt solid #1e3a5f;
+    margin-top: 0.5in;
+  }
+  .stat {
+    flex: 1;
+    padding: 0.55in 0.4in;
+    text-align: center;
+    border-right: 2pt solid #1e3a5f;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    display: block;
+    font-size: 0.85in;
+    font-weight: 900;
+    color: #f5a020;
+    line-height: 1;
+    margin-bottom: 0.1in;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.15in;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    position: relative;
+    z-index: 1;
+    padding: 0.5in 1.2in 0in;
+  }
+  .feat-kicker {
+    font-size: 0.16in;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    margin-bottom: 0.3in;
+  }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.22in;
+  }
+  .feat {
+    display: flex;
+    align-items: center;
+    gap: 0.4in;
+    padding: 0.45in 0.55in;
+    background: rgba(255,255,255,0.03);
+    border: 1pt solid rgba(255,255,255,0.07);
+    border-radius: 0.18in;
+  }
+  .feat.full-width {
+    grid-column: 1 / -1;
+  }
+  .feat-icon {
+    width: 1.4in;
+    height: 1.4in;
+    border-radius: 0.15in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.75in;
+  }
+  .feat-icon.amber { background: rgba(245,160,32,0.12); border: 1.5pt solid rgba(245,160,32,0.25); color: #f5a020; }
+  .feat-icon.blue  { background: rgba(96,165,250,0.1);  border: 1.5pt solid rgba(96,165,250,0.2);  color: #60a5fa; }
+  .feat-icon.green { background: rgba(52,211,153,0.1);  border: 1.5pt solid rgba(52,211,153,0.2);  color: #34d399; }
+  .feat-icon.purple{ background: rgba(167,139,250,0.1); border: 1.5pt solid rgba(167,139,250,0.2); color: #a78bfa; }
+  .feat-icon.coral { background: rgba(251,113,133,0.1); border: 1.5pt solid rgba(251,113,133,0.2); color: #fb7185; }
+  .feat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .feat-name {
+    font-size: 0.38in;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.1in;
+  }
+  .feat-desc {
+    font-size: 0.23in;
+    color: #64748b;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* ── QR SECTION ── */
+  .qr-section {
+    position: relative;
+    z-index: 1;
+    margin: 0.5in 1.2in 0.5in;
+    background: #111f3a;
+    border: 2pt solid #1e3a5f;
+    border-radius: 0.2in;
+    padding: 0.55in 0.6in;
+    display: flex;
+    align-items: center;
+    gap: 0.6in;
+  }
+  .qr-img {
+    width: 3.8in;
+    height: 3.8in;
+    background: #fff;
+    border-radius: 0.12in;
+    padding: 0.18in;
+    flex-shrink: 0;
+  }
+  .qr-img img { width: 100%; height: 100%; object-fit: contain; }
+  .qr-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.18in;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .qr-cta {
+    font-size: 0.38in;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 0.18in;
+  }
+  .qr-url {
+    font-size: 0.24in;
+    color: #f5a020;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    border-top: 2pt solid #1e3a5f;
+    padding: 0.4in 1.2in;
+    text-align: center;
+  }
+  .footer-text {
+    font-size: 0.17in;
+    color: #475569;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+
+  /* print hint */
+  .print-hint {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1e293b;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 9999;
+  }
+  .print-hint strong { color: #f5a020; }
+  @media print { .print-hint { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="standee">
+  <div class="geo-circle-1"></div>
+  <div class="geo-circle-2"></div>
+
+  <!-- LOGO BAR -->
+  <div class="logo-bar">
+    <div class="logo-col">
+      <div class="logo-fiten-wrap">
+        <img class="logo-fiten"
+          src="../logos/fiten-logo.png"
+          alt="FiTEN — FeTNA International Tamil Entrepreneur Network" />
+      </div>
+      <span class="logo-label">Organised by</span>
+    </div>
+    <div class="logo-divider"></div>
+    <div class="logo-col" style="flex: 0; align-items: center;">
+      <div class="logo-fetna-wrap">
+        <img class="logo-fetna"
+          src="../logos/fetna-logo-Edited.png"
+          alt="FeTNA 39th Tamil Convention 2026" />
+      </div>
+      <span class="logo-label">Official event</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="kicker">Introducing</div>
+    <div class="headline">Tamil Business</div>
+    <div class="headline-accent">Directory</div>
+    <div class="tagline-wrap">
+      <div class="tagline-bar"></div>
+      <div class="tagline">Find and connect with Tamil-owned businesses across the globe — all in one place.</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num">100+</span>
+      <span class="stat-label">Businesses listed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">20+</span>
+      <span class="stat-label">Cities covered</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Free</span>
+      <span class="stat-label">To list &amp; browse</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="feat-kicker">What you can do</div>
+    <div class="feat-grid">
+
+    <div class="feat">
+      <div class="feat-icon amber">🏪</div>
+      <div class="feat-body">
+        <div class="feat-name">List Your Business</div>
+        <div class="feat-desc">Get discovered — list free in 60 seconds</div>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-icon blue">🔍</div>
+      <div class="feat-body">
+        <div class="feat-name">Find Businesses Worldwide</div>
+        <div class="feat-desc">Search by city, sector or opportunity signal</div>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-icon green">🤝</div>
+      <div class="feat-body">
+        <div class="feat-name">Build Real Connections</div>
+        <div class="feat-desc">Partners, clients &amp; investors — all in one place</div>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-icon coral">📅</div>
+      <div class="feat-body">
+        <div class="feat-name">Track Business Events</div>
+        <div class="feat-desc">Conferences, meetups &amp; community gatherings</div>
+      </div>
+    </div>
+
+    <div class="feat full-width">
+      <div class="feat-icon purple">📈</div>
+      <div class="feat-body">
+        <div class="feat-name">Open to Opportunities?</div>
+        <div class="feat-desc">Signal you're ready to invest, hire or partner</div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  <!-- QR -->
+  <div class="qr-section">
+    <div class="qr-img">
+      <img src="./qr-code.png" alt="QR code for fiten-directory.vercel.app" style="width:100%;height:100%;object-fit:contain;" />
+    </div>
+    <div>
+      <div class="qr-cta">One scan. The entire Tamil business network.</div>
+      <div class="qr-url">fiten-directory.vercel.app</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-text">FeTNA International Tamil Entrepreneur Network &nbsp;·&nbsp; fiten-directory.vercel.app</div>
+  </div>
+</div>
+
+<div class="print-hint">
+  To export: <strong>Ctrl+P</strong> → Save as PDF → set paper size to <strong>33 × 79 inches</strong>
+</div>
+
+</body>
+</html>
