@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { VerifyState } from './page'
+import { VerifyState } from './VerifyState'
 
 type State = 'loading' | 'verified' | 'domain_verified' | 'already_verified' | 'expired' | 'invalid'
 
