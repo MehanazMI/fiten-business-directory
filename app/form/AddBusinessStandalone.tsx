@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useRecaptcha } from '@/lib/useRecaptcha'
 import { useAuth } from '@/lib/auth-context'
 
@@ -80,7 +80,6 @@ function randomTestBusiness() {
 export default function AddBusinessStandalone() {
   const { getToken } = useRecaptcha()
   const { user } = useAuth()
-  const [isAdmin, setIsAdmin] = useState(false)
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
     founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
@@ -101,11 +100,6 @@ export default function AddBusinessStandalone() {
   const [dragOver, setDragOver] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (!user) { setIsAdmin(false); return }
-    user.getIdTokenResult().then(r => setIsAdmin(r.claims.admin === true))
-  }, [user])
 
   const fillTestData = () => {
     const t = randomTestBusiness()
