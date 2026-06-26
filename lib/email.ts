@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'FiTEN Directory <noreply@fiten.org>'
+const FROM = 'FiTEN Directory <onboarding@resend.dev>'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://fiten-business-directory.vercel.app'
 
 export async function sendVerificationEmail(to: string, businessName: string, token: string) {
