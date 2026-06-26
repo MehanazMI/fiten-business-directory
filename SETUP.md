@@ -78,12 +78,14 @@ The user must sign out and back in for the claim to take effect.
 
 ---
 
-## 2. Google reCAPTCHA v3
+## 2. Google reCAPTCHA v3 (Classic)
+
+Use the **classic reCAPTCHA v3** — it's free with no usage limits. Do not use reCAPTCHA Enterprise (it requires billing and charges above 10k assessments/month).
 
 - Go to [google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)
-- Create a new site:
+- Click **+** to create a new site:
   - Type: **reCAPTCHA v3**
-  - Domains: add all your domains (vercel preview URLs are `*.vercel.app`)
+  - Domains: add all your domains:
     ```
     localhost
     fiten-directory.vercel.app
@@ -92,9 +94,8 @@ The user must sign out and back in for the claim to take effect.
     ```
 - Copy the **Site Key** → `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
 - Copy the **Secret Key** → `RECAPTCHA_SECRET_KEY`
-- **When switching domains:** add the new domain in the reCAPTCHA admin panel. The keys stay the same unless you create a new site.
-- **Rotate secret key** if it was ever exposed (e.g. pasted in chat/email):
-  Go to reCAPTCHA admin → your site → Settings → Rotate secret key → update `RECAPTCHA_SECRET_KEY` in Vercel
+- **When switching domains:** add the new domain here. Keys stay the same.
+- **Rotate secret key** if it was ever exposed: reCAPTCHA admin → your site → Settings → Rotate secret key → update `RECAPTCHA_SECRET_KEY` in Vercel
 
 ---
 
@@ -109,7 +110,7 @@ NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 
-# reCAPTCHA v3 (from google.com/recaptcha/admin)
+# reCAPTCHA v3 classic (from google.com/recaptcha/admin)
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 

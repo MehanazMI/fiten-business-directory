@@ -26,7 +26,6 @@ export function useRecaptcha() {
   return { getToken }
 }
 
-// Extend window type for grecaptcha
 declare global {
   interface Window {
     grecaptcha: {
