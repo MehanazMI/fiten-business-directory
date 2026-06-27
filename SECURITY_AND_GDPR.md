@@ -17,7 +17,7 @@ The FiTEN Business Directory is built with privacy and security as first-class c
 Business listings are collected under two lawful bases:
 
 - **Consent** — submitters tick an explicit GDPR consent checkbox before submitting. The consent timestamp is stored alongside the submission in Firestore.
-- **Legitimate interest** — a public business directory serves the legitimate interest of connecting the Tamil-Canadian business community, with minimal intrusion into personal life.
+- **Legitimate interest** — a public business directory serves the legitimate interest of connecting the global Tamil business community (US, Canada, UK, India, Singapore, and beyond), with minimal intrusion into personal life.
 
 ### Data Minimisation
 
