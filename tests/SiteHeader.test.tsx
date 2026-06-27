@@ -59,21 +59,14 @@ describe('SiteHeader — form page (page="form")', () => {
   })
 
   it('logo still links to home', () => {
-    render(<SiteHeader page="form" />)
+    render(<SiteHeader activeLink="form" />)
     const logoLink = screen.getByRole('link', { name: /FiTEN.*Business Directory/i })
     expect(logoLink).toHaveAttribute('href', '/')
   })
 
-  it('shows "View Directory" link to /directory', () => {
-    render(<SiteHeader page="form" />)
-    const link = screen.getByRole('link', { name: /View Directory/i })
-    expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/directory')
-  })
-
-  it('does not show "Add Your Business" CTA button in hdr-right', () => {
-    render(<SiteHeader page="form" />)
+  it('shows "Get Listed" CTA in hdr-right', () => {
+    render(<SiteHeader activeLink="form" />)
     const hdrRight = document.querySelector('.hdr-right') as HTMLElement
-    expect(within(hdrRight).queryByRole('link', { name: /Get Listed/i })).not.toBeInTheDocument()
+    expect(within(hdrRight).getByRole('link', { name: /Get Listed/i })).toBeInTheDocument()
   })
 })
