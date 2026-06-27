@@ -43,15 +43,16 @@ const COMMUNITY_OPTIONS = [
 
 const DESCRIPTION_MAX = 300
 const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']
+const ACCEPTED_DOC_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 const MAX_LOGO_SIZE_MB = 5
 const MAX_LOGO_SIZE_BYTES = MAX_LOGO_SIZE_MB * 1024 * 1024
+const MAX_DOC_SIZE_MB = 25
+const MAX_DOC_SIZE_BYTES = MAX_DOC_SIZE_MB * 1024 * 1024
 
 const STORAGE_BUCKET = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
   ?? `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`
 
-async function uploadFile(file: File, submissionId: string): Promise<string> {
-  if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) throw new Error(`Invalid file type: ${file.name}`)
-  if (file.size > MAX_LOGO_SIZE_BYTES) throw new Error(`${file.name} exceeds ${MAX_LOGO_SIZE_MB} MB limit`)
+async function uploadToStorage(file: File, submissionId: string): Promise<string> {
   const path = `submissions/${submissionId}/${Date.now()}_${file.name}`
   const url = `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o`
     + `?uploadType=media&name=${encodeURIComponent(path)}&key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`
@@ -65,6 +66,18 @@ async function uploadFile(file: File, submissionId: string): Promise<string> {
     throw new Error(d.error?.message ?? `Upload failed (${res.status})`)
   }
   return `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${encodeURIComponent(path)}?alt=media`
+}
+
+async function uploadLogoFile(file: File, submissionId: string): Promise<string> {
+  if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) throw new Error(`Invalid file type: ${file.name}`)
+  if (file.size > MAX_LOGO_SIZE_BYTES) throw new Error(`${file.name} exceeds ${MAX_LOGO_SIZE_MB} MB limit`)
+  return uploadToStorage(file, submissionId)
+}
+
+async function uploadDocFile(file: File, submissionId: string): Promise<string> {
+  if (!ACCEPTED_DOC_TYPES.includes(file.type)) throw new Error(`Invalid file type: ${file.name}`)
+  if (file.size > MAX_DOC_SIZE_BYTES) throw new Error(`${file.name} exceeds ${MAX_DOC_SIZE_MB} MB limit`)
+  return uploadToStorage(file, submissionId)
 }
 
 async function translateToTamil(text: string): Promise<string | null> {
@@ -150,6 +163,10 @@ export default function AddBusinessStandalone() {
   const [files, setFiles] = useState<File[]>([])
   const [fileError, setFileError] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [docDragOver, setDocDragOver] = useState(false)
+  const [docs, setDocs] = useState<File[]>([])
+  const [docError, setDocError] = useState('')
+  const docInputRef = useRef<HTMLInputElement>(null)
 
   const fillTestData = () => {
     const t = randomTestBusiness()
@@ -200,6 +217,30 @@ export default function AddBusinessStandalone() {
     e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files)
   }, [addFiles])
 
+  const addDocs = useCallback((fl: FileList | null) => {
+    if (!fl) return
+    setDocError('')
+    const all = Array.from(fl)
+    const wrongType = all.filter(f => !ACCEPTED_DOC_TYPES.includes(f.type))
+    const tooBig = all.filter(f => ACCEPTED_DOC_TYPES.includes(f.type) && f.size > MAX_DOC_SIZE_BYTES)
+    if (wrongType.length > 0) {
+      setDocError(`Only PDF or Word documents accepted. Rejected: ${wrongType.map(f => f.name).join(', ')}`)
+      return
+    }
+    if (tooBig.length > 0) {
+      setDocError(`Each document must be under ${MAX_DOC_SIZE_MB} MB. Rejected: ${tooBig.map(f => f.name).join(', ')}`)
+      return
+    }
+    setDocs(prev => {
+      const names = new Set(prev.map(f => f.name))
+      return [...prev, ...all.filter(f => !names.has(f.name))]
+    })
+  }, [])
+
+  const handleDocDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault(); setDocDragOver(false); addDocs(e.dataTransfer.files)
+  }, [addDocs])
+
   const showErr = (f2: string) => touched[f2] && errors[f2]
   const cls = (f2: string) => `bizform-input${showErr(f2) ? ' err' : ''}`
 
@@ -233,9 +274,12 @@ export default function AddBusinessStandalone() {
       const submissionId = crypto.randomUUID()
 
       let logoUrls: string[] = []
-      if (files.length > 0) {
-        setUploadProgress(`Uploading ${files.length} file${files.length > 1 ? 's' : ''}…`)
-        logoUrls = await Promise.all(files.map(f => uploadFile(f, submissionId)))
+      let docUrls: string[] = []
+      const totalFiles = files.length + docs.length
+      if (totalFiles > 0) {
+        setUploadProgress(`Uploading ${totalFiles} file${totalFiles > 1 ? 's' : ''}…`)
+        if (files.length > 0) logoUrls = await Promise.all(files.map(f => uploadLogoFile(f, submissionId)))
+        if (docs.length > 0) docUrls = await Promise.all(docs.map(f => uploadDocFile(f, submissionId)))
         setUploadProgress(null)
       }
 
@@ -260,6 +304,7 @@ export default function AddBusinessStandalone() {
           nonprofit: community.nonprofit,
           convention: community.convention,
           logoUrls,
+          documentUrls: docUrls,
           consentGiven: true,
           consentAt: new Date().toISOString(),
           ...(user && { submittedByUid: user.uid, submittedByEmail: user.email }),
@@ -481,6 +526,42 @@ export default function AddBusinessStandalone() {
                     {f.name} <span className="bizform-file-size">({(f.size / 1024).toFixed(0)} KB)</span>
                   </span>
                   <button onClick={e => { e.stopPropagation(); setFiles(prev => prev.filter(x => x.name !== f.name)) }}
+                    className="bizform-file-remove" aria-label="Remove file">
+                    <i className="ti ti-x" aria-hidden="true" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </F>
+
+        <F label="Supporting Documents" hint="optional">
+          <div
+            className={`bizform-drop${docDragOver ? ' over' : ''}`}
+            onDragOver={e => { e.preventDefault(); setDocDragOver(true) }}
+            onDragLeave={() => setDocDragOver(false)}
+            onDrop={handleDocDrop}
+            onClick={() => docInputRef.current?.click()}
+          >
+            <input ref={docInputRef} type="file" multiple accept=".pdf,.docx"
+              style={{ display: 'none' }} onChange={e => addDocs(e.target.files)} />
+            <p className="bizform-drop-text">
+              Business registration, certifications, or any supporting docs.
+              <br />
+              <span className="bizform-drop-hint">PDF or Word (DOCX) · Max {MAX_DOC_SIZE_MB} MB per file</span>
+            </p>
+          </div>
+
+          {docError && <p className="bizform-err" style={{ marginTop: '0.4rem' }}>{docError}</p>}
+
+          {docs.length > 0 && (
+            <div className="bizform-files">
+              {docs.map(f => (
+                <div key={f.name} className="bizform-file">
+                  <span className="bizform-file-name">
+                    {f.name} <span className="bizform-file-size">({(f.size / 1024).toFixed(0)} KB)</span>
+                  </span>
+                  <button onClick={e => { e.stopPropagation(); setDocs(prev => prev.filter(x => x.name !== f.name)) }}
                     className="bizform-file-remove" aria-label="Remove file">
                     <i className="ti ti-x" aria-hidden="true" />
                   </button>
