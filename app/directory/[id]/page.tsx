@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { fetchBusinesses, fetchBusinessById } from '@/lib/firestore-rest'
-import { categoryIcon, categoryColor, buildSignals } from '@/lib/business-meta'
+import { categoryIcon, categoryColor, buildB2BSignals, buildCommunityBadges } from '@/lib/business-meta'
 import { SITE_URL } from '@/lib/site'
 import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
@@ -55,7 +55,8 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
 
   const icon = categoryIcon(b.category)
   const iconColor = categoryColor(b.category)
-  const signals = buildSignals(b, { includeConvention: true })
+  const b2bSignals = buildB2BSignals(b)
+  const communityBadges = buildCommunityBadges(b, { includePro: true })
 
   const connectHref = b.phone
     ? `https://wa.me/${b.phone.replace(/\D/g, '')}?text=${encodeURIComponent(CONNECT_MSG(b.businessName))}`
@@ -87,9 +88,7 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
               {b.nameTamil && <div className="biz-detail-name-ta">{b.nameTamil}</div>}
               <div className="biz-detail-meta">
                 <span>{b.category}</span>
-                {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /><span>{b.city}</span></>}
-                {b.founded ? <><span className="meta-dot">·</span><span>Est. {b.founded}</span></> : null}
-                {b.employeeCount && <><span className="meta-dot">·</span><span>{b.employeeCount} emp</span></>}
+                {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /><span>{b.city}{b.country ? `, ${b.country}` : ''}</span></>}
               </div>
               {(b.pro || b.verified) && (
                 <div className="biz-detail-badges">
@@ -133,18 +132,6 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                   </a>
                 </div>
               )}
-              {b.linkedin && (
-                <div className="biz-detail-contact-row">
-                  <i className="ti ti-brand-linkedin" aria-hidden="true" />
-                  <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                </div>
-              )}
-              {b.twitter && (
-                <div className="biz-detail-contact-row">
-                  <i className="ti ti-brand-twitter" aria-hidden="true" />
-                  <a href={b.twitter} target="_blank" rel="noopener noreferrer">Twitter / X</a>
-                </div>
-              )}
             </div>
 
             {b.views > 0 && (
@@ -154,11 +141,26 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
               </div>
             )}
 
-            {signals.length > 0 && (
+            {b2bSignals.length > 0 && (
               <>
-                <div className="biz-detail-sec">Open to</div>
+                <div className="biz-detail-sec">Looking for</div>
                 <div className="b2b-signals">
-                  {signals.map((s, i) => (
+                  {b2bSignals.map((s, i) => (
+                    <span key={s.label} className="b2b-signal">
+                      {i > 0 && <span className="sig-sep">·</span>}
+                      <i className={`ti ${s.icon}`} style={{ color: s.color }} />
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {communityBadges.length > 0 && (
+              <>
+                <div className="biz-detail-sec">Community</div>
+                <div className="b2b-signals">
+                  {communityBadges.map((s, i) => (
                     <span key={s.label} className="b2b-signal">
                       {i > 0 && <span className="sig-sep">·</span>}
                       <i className={`ti ${s.icon}`} style={{ color: s.color }} />

@@ -50,7 +50,7 @@ describe('BusinessCard — display', () => {
 describe('BusinessCard — B2B signals', () => {
   it('renders "partner" signal', () => {
     setup({ looking: ['partner'] })
-    expect(screen.getByText('Partner')).toBeInTheDocument()
+    expect(screen.getByText('Open to Partnerships')).toBeInTheDocument()
   })
 
   it('renders "hire" signal', () => {
@@ -63,9 +63,9 @@ describe('BusinessCard — B2B signals', () => {
     expect(screen.getByText(/Speaker/)).toBeInTheDocument()
   })
 
-  it('renders women-led inline in location', () => {
+  it('renders women-led community badge', () => {
     setup({ women: true })
-    expect(screen.getByText(/Women-led/)).toBeInTheDocument()
+    expect(screen.getByText(/Women-Led/)).toBeInTheDocument()
   })
 
   it('shows FeTNA Sponsor badge when pro is true', () => {

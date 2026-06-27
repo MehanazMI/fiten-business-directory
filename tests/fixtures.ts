@@ -7,7 +7,7 @@ export function makeBusiness(overrides: Partial<Business> = {}): Business {
     nameTamil: 'அக்மே கார்ப்',
     category: 'Tech',
     city: 'Toronto',
-    region: 'Ontario',
+    country: 'Canada',
     description: 'A great tech company',
     email: 'hello@acme.com',
     phone: '416-555-0100',
@@ -19,6 +19,7 @@ export function makeBusiness(overrides: Partial<Business> = {}): Business {
     looking: [],
     speaker: false,
     women: false,
+    nonprofit: false,
     convention: false,
     views: 200,
     createdAt: '2024-01-01T00:00:00Z',
@@ -29,13 +30,13 @@ export function makeBusiness(overrides: Partial<Business> = {}): Business {
 }
 
 export const SAMPLE_BUSINESSES: Business[] = [
-  makeBusiness({ id: 'b1', businessName: 'Alpha Tech', category: 'Tech', region: 'Ontario', city: 'Toronto', pro: true, looking: ['partner', 'hire'], views: 500 }),
-  makeBusiness({ id: 'b2', businessName: 'Beta Foods', category: 'Food', region: 'Quebec', city: 'Montreal', pro: false, looking: ['client'], women: true }),
-  makeBusiness({ id: 'b3', businessName: 'Gamma Health', category: 'Healthcare', region: 'Ontario', city: 'Ottawa', pro: false, looking: ['invest'], speaker: true }),
-  makeBusiness({ id: 'b4', businessName: 'Delta Finance', category: 'Finance', region: 'BC', city: 'Vancouver', pro: true, looking: [], convention: true, views: 300 }),
-  makeBusiness({ id: 'b5', businessName: 'Epsilon Legal', category: 'Legal', region: 'Alberta', city: 'Calgary', pro: false, looking: ['partner', 'client'] }),
-  makeBusiness({ id: 'b6', businessName: 'Zeta Retail', category: 'Retail', region: 'Quebec', city: 'Quebec City', pro: false, looking: [] }),
-  makeBusiness({ id: 'b7', businessName: 'Eta Services', category: 'Services', region: 'Ontario', city: 'Mississauga', pro: false, looking: ['hire'] }),
+  makeBusiness({ id: 'b1', businessName: 'Alpha Tech', category: 'Tech', city: 'Toronto', country: 'Canada', pro: true, looking: ['partner', 'hire'], views: 500 }),
+  makeBusiness({ id: 'b2', businessName: 'Beta Foods', category: 'Food', city: 'Montreal', country: 'Canada', pro: false, looking: ['client'], women: true }),
+  makeBusiness({ id: 'b3', businessName: 'Gamma Health', category: 'Healthcare', city: 'Ottawa', country: 'Canada', pro: false, looking: ['invest'], speaker: true }),
+  makeBusiness({ id: 'b4', businessName: 'Delta Finance', category: 'Finance', city: 'Vancouver', country: 'Canada', pro: true, looking: [], convention: true, views: 300 }),
+  makeBusiness({ id: 'b5', businessName: 'Epsilon Legal', category: 'Legal', city: 'Calgary', country: 'Canada', pro: false, looking: ['partner', 'client'] }),
+  makeBusiness({ id: 'b6', businessName: 'Zeta Retail', category: 'Retail', city: 'Quebec City', country: 'Canada', pro: false, looking: [] }),
+  makeBusiness({ id: 'b7', businessName: 'Eta Services', category: 'Services', city: 'Mississauga', country: 'Canada', pro: false, looking: ['hire'] }),
 ]
 
 // A raw Firestore REST document for parseFirestoreDoc tests
@@ -46,7 +47,7 @@ export const RAW_FIRESTORE_DOC = {
     nameTamil:     { stringValue: 'ரா பிசினஸ்' },
     category:      { stringValue: 'Food & Beverage' },
     city:          { stringValue: 'Chennai' },
-    region:        { stringValue: 'Tamil Nadu' },
+    country:       { stringValue: 'India' },
     description:   { stringValue: 'A raw test business' },
     email:         { stringValue: 'raw@test.com' },
     phone:         { stringValue: '999-000-1234' },
@@ -57,6 +58,7 @@ export const RAW_FIRESTORE_DOC = {
     verificationStatus: { stringValue: 'auto' },
     speaker:       { booleanValue: false },
     women:         { booleanValue: true },
+    nonprofit:     { booleanValue: false },
     convention:    { booleanValue: false },
     looking:       { arrayValue: { values: [{ stringValue: 'partner' }, { stringValue: 'hire' }] } },
     views:         { integerValue: 150 },

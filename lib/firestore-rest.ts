@@ -38,7 +38,7 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     nameTamil: f.nameTamil?.stringValue,
     category: categoryMap[f.category?.stringValue ?? ''] ?? f.category?.stringValue ?? 'Other',
     city: f.city?.stringValue ?? '',
-    region: f.region?.stringValue ?? '',
+    country: f.country?.stringValue,
     description: f.description?.stringValue ?? '',
     email: f.email?.stringValue ?? '',
     phone: f.phone?.stringValue,
@@ -50,6 +50,7 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     verificationStatus: (f.verificationStatus?.stringValue as Business['verificationStatus']) ?? 'unverified',
     speaker: f.speaker?.booleanValue ?? false,
     women: f.women?.booleanValue ?? false,
+    nonprofit: f.nonprofit?.booleanValue ?? false,
     convention: f.convention?.booleanValue ?? false,
     looking: (f.looking?.arrayValue?.values ?? [])
       .map(v => v.stringValue as Business['looking'][number])
@@ -57,15 +58,8 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     views: Number(f.views?.integerValue ?? 0),
     createdAt: f.createdAt?.timestampValue ?? '',
     services: (f.services?.arrayValue?.values ?? []).map(v => v.stringValue as string).filter(Boolean),
-    linkedin: f.linkedin?.stringValue,
-    twitter: f.twitter?.stringValue,
-    employeeCount: f.employeeCount?.stringValue as Business['employeeCount'],
     updatedAt: f.updatedAt?.timestampValue ?? f.updatedAt?.stringValue,
     featured: f.featured?.booleanValue ?? false,
-    country: f.country?.stringValue,
-    address: f.address?.stringValue,
-    timezone: f.timezone?.stringValue,
-    businessHours: f.businessHours?.stringValue,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }

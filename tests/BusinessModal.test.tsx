@@ -62,20 +62,22 @@ describe('BusinessModal — contact details', () => {
 })
 
 describe('BusinessModal — B2B signals', () => {
-  it('shows Open to section when looking is non-empty', () => {
+  it('shows "Looking for" section when looking is non-empty', () => {
     setup({ looking: ['partner'] })
-    expect(screen.getByText('Open to')).toBeInTheDocument()
-    expect(screen.getByText('Partner')).toBeInTheDocument()
+    expect(screen.getByText('Looking for')).toBeInTheDocument()
+    expect(screen.getByText('Open to Partnerships')).toBeInTheDocument()
   })
 
-  it('shows Open to section when speaker is true', () => {
+  it('shows "Community" section when speaker is true', () => {
     setup({ looking: [], speaker: true })
-    expect(screen.getByText('Open to')).toBeInTheDocument()
+    expect(screen.getByText('Community')).toBeInTheDocument()
+    expect(screen.getByText('Available as Speaker')).toBeInTheDocument()
   })
 
-  it('hides Open to section when no signals present', () => {
-    setup({ looking: [], speaker: false, women: false, convention: false })
-    expect(screen.queryByText('Open to')).not.toBeInTheDocument()
+  it('hides both sections when no signals present', () => {
+    setup({ looking: [], speaker: false, women: false, nonprofit: false, convention: false })
+    expect(screen.queryByText('Looking for')).not.toBeInTheDocument()
+    expect(screen.queryByText('Community')).not.toBeInTheDocument()
   })
 })
 
