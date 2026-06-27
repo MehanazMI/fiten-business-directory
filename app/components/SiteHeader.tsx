@@ -2,11 +2,10 @@ import MobileNav from './MobileNav'
 import AuthButton from './AuthButton'
 
 interface SiteHeaderProps {
-  page?: 'form'
   activeLink?: 'home' | 'directory' | 'connect' | 'events' | 'form'
 }
 
-export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
+export default function SiteHeader({ activeLink }: SiteHeaderProps = {}) {
   return (
     <header className="site-header">
       <div className="logo-area">
@@ -29,13 +28,7 @@ export default function SiteHeader({ page, activeLink }: SiteHeaderProps = {}) {
       </nav>
 
       <div className="hdr-right">
-        {page === 'form' ? (
-          <a className="nav-link hdr-right-link" href="/directory" style={{ color: 'rgba(255,255,255,0.7)' }}>
-            View Directory
-          </a>
-        ) : (
-          <a className="hdr-btn" href="/form">Get Listed</a>
-        )}
+        <a className="hdr-btn" href="/form">Get Listed</a>
         <AuthButton />
         <MobileNav activeLink={activeLink} />
       </div>

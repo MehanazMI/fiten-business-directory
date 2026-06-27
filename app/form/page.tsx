@@ -36,7 +36,7 @@ export default async function FormPage() {
 
   return (
     <>
-      <SiteHeader page="form" activeLink="form" />
+      <SiteHeader activeLink="form" />
       <div className="form-page">
 
         <aside className="form-intro">
