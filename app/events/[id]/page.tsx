@@ -4,7 +4,7 @@ import { fetchEvents, fetchEventById } from '@/lib/firestore-rest'
 import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 const EVENT_TYPE_COLORS: Record<string, string> = {
   webinar: '#0066cc',

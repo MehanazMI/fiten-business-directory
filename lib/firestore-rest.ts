@@ -177,7 +177,7 @@ function parseEventDoc(doc: FirestoreRestDoc): Event {
 
 export async function fetchEvents(): Promise<Event[]> {
   const url = `${FS_BASE}/events${keyParam}`
-  const res = await fetch(url, { next: { revalidate: 300 } })
+  const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) throw new Error(`Firestore fetch failed: ${res.status}`)
   const data = await res.json()
   const events = (data.documents ?? []).map(parseEventDoc)
@@ -192,7 +192,7 @@ export async function fetchEvents(): Promise<Event[]> {
 
 export async function fetchEventById(id: string): Promise<Event | null> {
   const url = `${FS_BASE}/events/${id}${keyParam}`
-  const res = await fetch(url, { next: { revalidate: 300 } })
+  const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) return null
   const event = parseEventDoc(await res.json())
   const now = new Date()

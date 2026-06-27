@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useRecaptcha } from '@/lib/useRecaptcha'
 import { useAuth } from '@/lib/auth-context'
 
@@ -108,6 +108,8 @@ function validate(form: Record<string, string>): Errors {
   if (!form.city.trim()) errs.city = 'City is required.'
   if (!form.email.trim()) errs.email = 'Email is required.'
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Enter a valid email address.'
+  if (form.phone.trim() && !/^\+?[\d\s\-().]{7,20}$/.test(form.phone.trim()))
+    errs.phone = 'Enter a valid phone number (7–20 digits, spaces and + allowed).'
   if (!form.description.trim()) errs.description = 'Please add a business description.'
   else if (form.description.trim().length < 20) errs.description = 'Description must be at least 20 characters.'
   return errs
@@ -141,7 +143,8 @@ function randomTestBusiness() {
 }
 
 export default function AddBusinessStandalone() {
-  const { getToken } = useRecaptcha()
+  const { getToken, loadRecaptcha } = useRecaptcha()
+  useEffect(() => { loadRecaptcha() }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const { user } = useAuth()
   const [form, setForm] = useState({
     businessName: '', contactName: '', category: '',
@@ -417,8 +420,9 @@ export default function AddBusinessStandalone() {
             {showErr('email') && <Err>{errors.email}</Err>}
           </F>
           <F label="Phone / WhatsApp" hint="optional">
-            <input className="bizform-input" type="tel" placeholder="+1 212 ..."
-              value={form.phone} onChange={set('phone')} />
+            <input className={cls('phone')} type="tel" placeholder="+1 212 555 0100"
+              value={form.phone} onChange={set('phone')} onBlur={markTouched('phone')} />
+            {showErr('phone') && <Err>{errors.phone}</Err>}
           </F>
         </div>
 

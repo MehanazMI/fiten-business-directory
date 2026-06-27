@@ -240,6 +240,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .card-footer{border-top:1px solid var(--card-divider);padding:0.55rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-top:auto}
 .card-rating{font-size:0.75rem;color:var(--text3);display:flex;align-items:center;gap:0.2rem}
 .rating-star{color:var(--gold)}
+.card-views{font-size:0.68rem;color:var(--text3);display:flex;align-items:center;gap:0.25rem}
 .card-new-label{font-size:0.68rem;color:var(--text3);font-style:italic}
 .fav-btn{background:none;border:none;cursor:pointer;padding:0.15rem 0.2rem;line-height:1;display:flex;align-items:center;color:#bbb;transition:color 0.15s}
 .fav-btn i{font-size:1rem}
