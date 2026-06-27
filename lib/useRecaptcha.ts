@@ -5,14 +5,18 @@ import { useEffect } from 'react'
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''
 
 export function useRecaptcha() {
-  useEffect(() => {
+  // Script is NOT loaded eagerly — call loadRecaptcha() first (e.g. on modal open)
+  // to avoid the reCAPTCHA badge appearing on every page.
+  useEffect(() => {}, [])
+
+  function loadRecaptcha() {
     if (!SITE_KEY || document.getElementById('recaptcha-script')) return
     const script = document.createElement('script')
     script.id = 'recaptcha-script'
     script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`
     script.async = true
     document.head.appendChild(script)
-  }, [])
+  }
 
   async function getToken(action: string): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -23,7 +27,7 @@ export function useRecaptcha() {
     })
   }
 
-  return { getToken }
+  return { getToken, loadRecaptcha }
 }
 
 declare global {

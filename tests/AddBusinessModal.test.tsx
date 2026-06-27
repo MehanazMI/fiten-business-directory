@@ -8,7 +8,7 @@ vi.stubGlobal('fetch', mockFetch)
 
 // Mock reCAPTCHA hook — always returns a valid token in tests
 vi.mock('@/lib/useRecaptcha', () => ({
-  useRecaptcha: () => ({ getToken: vi.fn().mockResolvedValue('test-captcha-token') }),
+  useRecaptcha: () => ({ getToken: vi.fn().mockResolvedValue('test-captcha-token'), loadRecaptcha: vi.fn() }),
 }))
 
 function makeCaptchaOk() {

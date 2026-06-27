@@ -165,7 +165,7 @@ export default function DirectoryClient({ initialData }: Props) {
           !b.category.toLowerCase().includes(q) &&
           !b.city.toLowerCase().includes(q) &&
           !(b.country ?? '').toLowerCase().includes(q) &&
-          !(b.country ?? '').toLowerCase().includes(q)) return false
+          !(b.services ?? []).some(s => s.toLowerCase().includes(q))) return false
       if (activeCountry !== 'All' && (b.country ?? '') !== activeCountry) return false
       if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
       if (showWomen && !b.women) return false

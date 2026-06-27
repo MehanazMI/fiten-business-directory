@@ -3,7 +3,7 @@ import SiteHeader from '@/app/components/SiteHeader'
 import SiteFooter from '@/app/components/SiteFooter'
 import EventsClient from './EventsClient'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 export default async function EventsPage() {
   const events = await fetchEvents()

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRecaptcha } from '@/lib/useRecaptcha'
 import { useAuth } from '@/lib/auth-context'
@@ -28,7 +28,8 @@ const B2B_OPTIONS = [
 
 
 export default function AddBusinessModal({ onClose }: Props) {
-  const { getToken } = useRecaptcha()
+  const { getToken, loadRecaptcha } = useRecaptcha()
+  useEffect(() => { loadRecaptcha() }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const { user } = useAuth()
   const [form, setForm] = useState({
     businessName: '', category: '', region: '', email: '', phone: '', city: '', website: '', logoUrl: '', description: '',
