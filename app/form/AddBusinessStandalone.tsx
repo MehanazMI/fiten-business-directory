@@ -15,23 +15,6 @@ const COUNTRIES = [
   'UAE', 'Germany', 'France', 'Malaysia', 'Sri Lanka', 'South Africa', 'Other',
 ]
 
-const TIMEZONES = [
-  'America/New_York (ET)', 'America/Chicago (CT)', 'America/Denver (MT)', 'America/Los_Angeles (PT)',
-  'America/Toronto (ET)', 'America/Vancouver (PT)',
-  'Europe/London (GMT/BST)', 'Europe/Paris (CET)',
-  'Asia/Kolkata (IST)', 'Asia/Colombo (SLT)',
-  'Asia/Singapore (SGT)', 'Australia/Sydney (AEDT)',
-  'Asia/Dubai (GST)',
-]
-
-const REGIONS_USA = [
-  'New York, NY', 'New Jersey, NJ', 'California', 'Texas', 'Illinois',
-  'Massachusetts', 'Georgia', 'Washington', 'Pennsylvania', 'Florida', 'Other USA',
-]
-const REGIONS_CA = ['Greater Toronto Area', 'Vancouver', 'Montreal', 'Ottawa', 'Calgary', 'Edmonton', 'Other Canada']
-const REGIONS_IN = ['Chennai, India', 'Coimbatore, India', 'Madurai, India', 'Bengaluru, India', 'Mumbai, India', 'Delhi, India', 'Other India']
-const REGIONS_INTL = ['UK', 'Europe', 'Middle East', 'Singapore', 'Australia', 'Other']
-
 const B2B_OPTIONS = [
   { value: 'partner', label: 'Partner' },
   { value: 'client', label: 'Seeking Clients' },
@@ -62,6 +45,23 @@ async function uploadFile(file: File, submissionId: string): Promise<string> {
   return `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${encodeURIComponent(path)}?alt=media`
 }
 
+async function translateToTamil(text: string): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ta`,
+      { signal: AbortSignal.timeout(4000) }
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    const translated = data?.responseData?.translatedText
+    // MyMemory returns the original text if it can't translate
+    if (!translated || translated === text) return null
+    return translated
+  } catch {
+    return null
+  }
+}
+
 type Errors = Record<string, string>
 
 function validate(form: Record<string, string>): Errors {
@@ -69,6 +69,7 @@ function validate(form: Record<string, string>): Errors {
   if (!form.businessName.trim()) errs.businessName = 'Business name is required.'
   if (!form.contactName.trim()) errs.contactName = 'Contact name is required.'
   if (!form.category) errs.category = 'Please select a category.'
+  if (!form.country) errs.country = 'Please select a country.'
   if (!form.city.trim()) errs.city = 'City is required.'
   if (!form.email.trim()) errs.email = 'Email is required.'
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Enter a valid email address.'
@@ -77,27 +78,27 @@ function validate(form: Record<string, string>): Errors {
   return errs
 }
 
-const requiredFields = ['businessName', 'contactName', 'category', 'city', 'email', 'description'] as const
+const requiredFields = ['businessName', 'contactName', 'category', 'country', 'city', 'email', 'description'] as const
 
 const OPT_BG = { background: 'var(--navy)' }
 
 const TEST_BUSINESSES = [
   // Canada
-  { businessName: 'Sunrise Tech Solutions', nameTamil: 'சன்ரைஸ் டெக்', contactName: 'Arun Natarajan', category: 'Technology', city: 'Toronto', region: 'Greater Toronto Area', email: 'rasheed.comm@gmail.com', phone: '4165550101', website: 'https://sunrisetech.ca', description: 'Full-stack software development firm specialising in fintech integrations and cloud-native applications for global SMEs.', looking: ['partner', 'client'], women: false, convention: true },
-  { businessName: "Amma's Kitchen Catering", nameTamil: 'அம்மா கிச்சன்', contactName: 'Meena Krishnan', category: 'Food & Beverage', city: 'Markham', region: 'Greater Toronto Area', email: 'rasheed.comm@gmail.com', phone: '9055550505', website: 'https://ammaskitchen.ca', description: 'Authentic South Indian and Sri Lankan catering for weddings, corporate events, and cultural festivals. Specialising in banana-leaf meals and traditional sweets.', looking: ['client', 'partner'], women: true, convention: true },
+  { businessName: 'Sunrise Tech Solutions', contactName: 'Arun Natarajan', category: 'Technology', city: 'Toronto', country: 'Canada', email: 'rasheed.comm@gmail.com', phone: '4165550101', website: 'https://sunrisetech.ca', description: 'Full-stack software development firm specialising in fintech integrations and cloud-native applications for global SMEs.', looking: ['partner', 'client'], women: false, convention: true },
+  { businessName: "Amma's Kitchen Catering", contactName: 'Meena Krishnan', category: 'Food & Beverage', city: 'Markham', country: 'Canada', email: 'rasheed.comm@gmail.com', phone: '9055550505', website: 'https://ammaskitchen.ca', description: 'Authentic South Indian and Sri Lankan catering for weddings, corporate events, and cultural festivals. Specialising in banana-leaf meals and traditional sweets.', looking: ['client', 'partner'], women: true, convention: true },
   // USA
-  { businessName: 'Bay Area Tamil Ventures', nameTamil: 'பே ஏரியா தமிழ்', contactName: 'Karthik Selvam', category: 'Finance & Insurance', city: 'San Jose', region: 'California', email: 'rasheed.comm@gmail.com', phone: '4085550101', website: 'https://batventures.com', description: 'Silicon Valley-based venture fund focused on early-stage Tamil diaspora founders across the US, Canada, and South Asia.', looking: ['invest', 'partner'], women: false, convention: true },
-  { businessName: 'Valli Wellness Center', nameTamil: 'வல்லி வெல்னஸ்', contactName: 'Valli Subramaniam', category: 'Healthcare', city: 'New Jersey', region: 'New Jersey', email: 'rasheed.comm@gmail.com', phone: '8625550202', website: 'https://valliwellness.com', description: 'Integrative medicine clinic combining Ayurveda and modern healthcare, serving the Tamil-speaking diaspora community across the tri-state area.', looking: ['client'], women: true, convention: false },
+  { businessName: 'Bay Area Tamil Ventures', contactName: 'Karthik Selvam', category: 'Finance & Insurance', city: 'San Jose', country: 'USA', email: 'rasheed.comm@gmail.com', phone: '4085550101', website: 'https://batventures.com', description: 'Silicon Valley-based venture fund focused on early-stage Tamil diaspora founders across the US, Canada, and South Asia.', looking: ['invest', 'partner'], women: false, convention: true },
+  { businessName: 'Valli Wellness Center', contactName: 'Valli Subramaniam', category: 'Healthcare', city: 'New Jersey', country: 'USA', email: 'rasheed.comm@gmail.com', phone: '8625550202', website: 'https://valliwellness.com', description: 'Integrative medicine clinic combining Ayurveda and modern healthcare, serving the Tamil-speaking diaspora community across the tri-state area.', looking: ['client'], women: true, convention: false },
   // UK
-  { businessName: 'Rajan & Associates Law', nameTamil: '', contactName: 'Raj Rajan', category: 'Legal', city: 'London', region: 'United Kingdom', email: 'rasheed.comm@gmail.com', phone: '+442075550303', website: 'https://rajanlaw.co.uk', description: 'Immigration and commercial law practice with over 15 years serving the Tamil diaspora across the UK and Europe. Free initial consultations available.', looking: ['client', 'partner'], women: false, convention: true },
-  { businessName: 'Ponni Textiles & Sarees', nameTamil: 'பொன்னி டெக்ஸ்டைல்ஸ்', contactName: 'Ponni Chandran', category: 'Retail', city: 'London', region: 'United Kingdom', email: 'rasheed.comm@gmail.com', phone: '+442075550909', website: 'https://ponnitextiles.co.uk', description: 'Curated collection of Kanchipuram silk sarees, salwar kameez, and bridal jewellery imported directly from Tamil Nadu for special occasions across the UK.', looking: ['client'], women: true, convention: true },
+  { businessName: 'Rajan & Associates Law', contactName: 'Raj Rajan', category: 'Legal', city: 'London', country: 'UK', email: 'rasheed.comm@gmail.com', phone: '+442075550303', website: 'https://rajanlaw.co.uk', description: 'Immigration and commercial law practice with over 15 years serving the Tamil diaspora across the UK and Europe. Free initial consultations available.', looking: ['client', 'partner'], women: false, convention: true },
+  { businessName: 'Ponni Textiles & Sarees', contactName: 'Ponni Chandran', category: 'Retail', city: 'London', country: 'UK', email: 'rasheed.comm@gmail.com', phone: '+442075550909', website: 'https://ponnitextiles.co.uk', description: 'Curated collection of Kanchipuram silk sarees, salwar kameez, and bridal jewellery imported directly from Tamil Nadu for special occasions across the UK.', looking: ['client'], women: true, convention: true },
   // Singapore
-  { businessName: 'Senthil Digital Consulting', nameTamil: '', contactName: 'Senthil Kumar', category: 'Technology', city: 'Singapore', region: 'Singapore', email: 'rasheed.comm@gmail.com', phone: '+6587550808', website: 'https://senthildigital.sg', description: 'Digital transformation consultancy helping APAC enterprises adopt cloud infrastructure, AI tools, and agile delivery practices.', looking: ['partner', 'hire'], women: false, convention: false },
+  { businessName: 'Senthil Digital Consulting', contactName: 'Senthil Kumar', category: 'Technology', city: 'Singapore', country: 'Singapore', email: 'rasheed.comm@gmail.com', phone: '+6587550808', website: 'https://senthildigital.sg', description: 'Digital transformation consultancy helping APAC enterprises adopt cloud infrastructure, AI tools, and agile delivery practices.', looking: ['partner', 'hire'], women: false, convention: false },
   // India
-  { businessName: 'Tamil School of Excellence', nameTamil: 'தமிழ் சிறப்பு பள்ளி', contactName: 'Kavitha Arumugam', category: 'Education', city: 'Chennai', region: 'Tamil Nadu', email: 'rasheed.comm@gmail.com', phone: '+914455550707', website: 'https://tamilschoolofexcellence.in', description: 'Supplementary school offering Tamil language, Bharatanatyam dance, and STEM enrichment for children aged 5–16, with online classes available globally.', looking: ['partner'], women: true, convention: true },
-  { businessName: 'Thendral Exports', nameTamil: 'தென்றல் ஏற்றுமதி', contactName: 'Priya Thendral', category: 'Retail', city: 'Coimbatore', region: 'Tamil Nadu', email: 'rasheed.comm@gmail.com', phone: '+914225550404', website: 'https://thendralexports.com', description: 'Exporter of handloom textiles, natural spices, and artisan handicrafts from Tamil Nadu to diaspora markets in North America, Europe, and Southeast Asia.', looking: ['client', 'partner'], women: true, convention: false },
+  { businessName: 'Tamil School of Excellence', contactName: 'Kavitha Arumugam', category: 'Education', city: 'Chennai', country: 'India', email: 'rasheed.comm@gmail.com', phone: '+914455550707', website: 'https://tamilschoolofexcellence.in', description: 'Supplementary school offering Tamil language, Bharatanatyam dance, and STEM enrichment for children aged 5–16, with online classes available globally.', looking: ['partner'], women: true, convention: true },
+  { businessName: 'Thendral Exports', contactName: 'Priya Thendral', category: 'Retail', city: 'Coimbatore', country: 'India', email: 'rasheed.comm@gmail.com', phone: '+914225550404', website: 'https://thendralexports.com', description: 'Exporter of handloom textiles, natural spices, and artisan handicrafts from Tamil Nadu to diaspora markets in North America, Europe, and Southeast Asia.', looking: ['client', 'partner'], women: true, convention: false },
   // Australia
-  { businessName: 'Murugesan Constructions', nameTamil: 'முருகேசன் கட்டுமானம்', contactName: 'Kumar Murugesan', category: 'Services', city: 'Sydney', region: 'Australia', email: 'rasheed.comm@gmail.com', phone: '+61295551010', website: 'https://murugesanconstructions.com.au', description: 'Residential and commercial construction firm with 20 years of experience in custom home builds and large-scale project management across New South Wales.', looking: ['client', 'partner'], women: false, convention: false },
+  { businessName: 'Murugesan Constructions', contactName: 'Kumar Murugesan', category: 'Services', city: 'Sydney', country: 'Australia', email: 'rasheed.comm@gmail.com', phone: '+61295551010', website: 'https://murugesanconstructions.com.au', description: 'Residential and commercial construction firm with 20 years of experience in custom home builds and large-scale project management across New South Wales.', looking: ['client', 'partner'], women: false, convention: false },
 ]
 
 function randomTestBusiness() {
@@ -108,11 +109,10 @@ export default function AddBusinessStandalone() {
   const { getToken } = useRecaptcha()
   const { user } = useAuth()
   const [form, setForm] = useState({
-    businessName: '', nameTamil: '', contactName: '', category: '',
-    founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
-    country: '', address: '', timezone: '', businessHours: '',
-    email: '', phone: '', website: '', linkedin: '', description: '',
+    businessName: '', contactName: '', category: '',
+    city: '', country: '', email: '', phone: '', website: '', description: '',
   })
+  const [nameTamil, setNameTamil] = useState('')
   const [services, setServices] = useState<string[]>([])
   const [serviceInput, setServiceInput] = useState('')
   const [looking, setLooking] = useState<string[]>([])
@@ -131,7 +131,7 @@ export default function AddBusinessStandalone() {
 
   const fillTestData = () => {
     const t = randomTestBusiness()
-    setForm(f => ({ ...f, businessName: t.businessName, nameTamil: t.nameTamil, contactName: t.contactName, category: t.category, city: t.city, region: t.region, email: t.email, phone: t.phone, website: t.website, description: t.description }))
+    setForm({ businessName: t.businessName, contactName: t.contactName, category: t.category, city: t.city, country: t.country, email: t.email, phone: t.phone ?? '', website: t.website ?? '', description: t.description })
     setLooking(t.looking)
     setWomen(t.women)
     setConvention(t.convention)
@@ -145,6 +145,15 @@ export default function AddBusinessStandalone() {
   const markTouched = (f2: string) => () => setTouched(t => ({ ...t, [f2]: true }))
   const toggleLooking = (val: string) =>
     setLooking(prev => prev.includes(val) ? prev.filter(x => x !== val) : [...prev, val])
+
+  const handleBusinessNameBlur = async () => {
+    markTouched('businessName')()
+    const name = form.businessName.trim()
+    if (name && !nameTamil) {
+      const translated = await translateToTamil(name)
+      if (translated) setNameTamil(translated)
+    }
+  }
 
   const addFiles = useCallback((fl: FileList | null) => {
     if (!fl) return
@@ -179,7 +188,6 @@ export default function AddBusinessStandalone() {
     setSubmitError('')
 
     try {
-      // Verify reCAPTCHA before writing to Firestore
       const captchaToken = await getToken('submit_business')
       const captchaRes = await fetch('/api/verify-captcha', {
         method: 'POST',
@@ -207,24 +215,16 @@ export default function AddBusinessStandalone() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           businessName: form.businessName.trim(),
-          nameTamil: form.nameTamil.trim(),
+          nameTamil,
           contactName: form.contactName.trim(),
           category: form.category,
-          founded: form.founded.trim(),
-          registrationNo: form.registrationNo.trim(),
-          region: form.region,
           city: form.city.trim(),
           country: form.country,
-          address: form.address.trim(),
-          timezone: form.timezone,
-          businessHours: form.businessHours.trim(),
           email: form.email.trim(),
           phone: form.phone.trim(),
           website: form.website.trim(),
-          linkedin: form.linkedin.trim(),
           description: form.description.trim(),
           services,
-          employeeCount: form.employeeCount,
           looking: lookingWithoutSpeaker,
           speaker: speakerInB2B,
           women,
@@ -300,40 +300,9 @@ export default function AddBusinessStandalone() {
 
         <F label="Business Name" required>
           <input className={cls('businessName')} placeholder="e.g. Kumaran Software Labs"
-            value={form.businessName} onChange={set('businessName')} onBlur={markTouched('businessName')} />
+            value={form.businessName} onChange={set('businessName')} onBlur={handleBusinessNameBlur} />
           {showErr('businessName') && <Err>{errors.businessName}</Err>}
         </F>
-
-        <F label="Business Name in Tamil" hint="optional">
-          <input className="bizform-input" placeholder="e.g. குமரன்"
-            value={form.nameTamil} onChange={set('nameTamil')} />
-        </F>
-
-        <div className="bizform-row">
-          <F label="City" required>
-            <input className={cls('city')} placeholder="e.g. Edison, NJ"
-              value={form.city} onChange={set('city')} onBlur={markTouched('city')} />
-            {showErr('city') && <Err>{errors.city}</Err>}
-          </F>
-          <F label="Founded" hint="optional">
-            <input className="bizform-input" type="number" min={1900} max={new Date().getFullYear()}
-              placeholder="Year" value={form.founded} onChange={set('founded')} />
-          </F>
-        </div>
-
-        <div className="bizform-row">
-          <F label="Employee Count" hint="optional">
-            <select className="bizform-input" value={form.employeeCount} onChange={set('employeeCount')}>
-              <option value="" style={OPT_BG}>Select...</option>
-              <option value="solo" style={OPT_BG}>Solo / Freelancer</option>
-              <option value="2-10" style={OPT_BG}>2–10</option>
-              <option value="11-50" style={OPT_BG}>11–50</option>
-              <option value="51-200" style={OPT_BG}>51–200</option>
-              <option value="200+" style={OPT_BG}>200+</option>
-            </select>
-          </F>
-          <div />
-        </div>
 
         <F label="Primary Sector" required>
           <select className={cls('category')} value={form.category}
@@ -345,31 +314,18 @@ export default function AddBusinessStandalone() {
         </F>
 
         <div className="bizform-row">
-          <F label="Country" hint="optional">
-            <select className="bizform-input" value={form.country} onChange={set('country')}>
+          <F label="Country" required>
+            <select className={cls('country')} value={form.country}
+              onChange={set('country')} onBlur={markTouched('country')}>
               <option value="" style={OPT_BG}>Select...</option>
               {COUNTRIES.map(c => <option key={c} value={c} style={OPT_BG}>{c}</option>)}
             </select>
+            {showErr('country') && <Err>{errors.country}</Err>}
           </F>
-          <F label="Region" hint="optional">
-            <select className="bizform-input" value={form.region} onChange={set('region')}>
-              <option value="" style={OPT_BG}>Select...</option>
-              <optgroup label="USA">{REGIONS_USA.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
-              <optgroup label="Canada">{REGIONS_CA.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
-              <optgroup label="India">{REGIONS_IN.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
-              <optgroup label="International">{REGIONS_INTL.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
-            </select>
-          </F>
-        </div>
-
-        <div className="bizform-row">
-          <F label="Street Address" hint="optional — shown on map">
-            <input className="bizform-input" placeholder="e.g. 123 Main St"
-              value={form.address} onChange={set('address')} />
-          </F>
-          <F label="Registration No." hint="optional — for verification">
-            <input className="bizform-input" placeholder="e.g. LLC-12345"
-              value={form.registrationNo} onChange={set('registrationNo')} />
+          <F label="City" required>
+            <input className={cls('city')} placeholder="e.g. Toronto"
+              value={form.city} onChange={set('city')} onBlur={markTouched('city')} />
+            {showErr('city') && <Err>{errors.city}</Err>}
           </F>
         </div>
 
@@ -396,24 +352,6 @@ export default function AddBusinessStandalone() {
             value={form.website} onChange={set('website')} />
         </F>
 
-        <F label="LinkedIn URL" hint="optional">
-          <input className="bizform-input" type="url" placeholder="https://linkedin.com/company/…"
-            value={form.linkedin} onChange={set('linkedin')} />
-        </F>
-
-        <div className="bizform-row">
-          <F label="Business Hours" hint="optional">
-            <input className="bizform-input" placeholder="e.g. Mon–Fri 9am–6pm"
-              value={form.businessHours} onChange={set('businessHours')} />
-          </F>
-          <F label="Timezone" hint="optional">
-            <select className="bizform-input" value={form.timezone} onChange={set('timezone')}>
-              <option value="" style={OPT_BG}>Select...</option>
-              {TIMEZONES.map(tz => <option key={tz} value={tz} style={OPT_BG}>{tz}</option>)}
-            </select>
-          </F>
-        </div>
-
         <F label="Business Summary" required>
           <textarea className={cls('description')} rows={5} maxLength={DESCRIPTION_MAX}
             placeholder="Describe what your business does and who it serves in the Tamil community."
@@ -426,7 +364,7 @@ export default function AddBusinessStandalone() {
           </div>
         </F>
 
-        <F label="Services" hint={`optional — up to 5, press Enter to add`}>
+        <F label="Services" hint="optional — up to 5, press Enter to add">
           <div className="bizform-tag-input">
             {services.length > 0 && (
               <div className="bizform-tags">
