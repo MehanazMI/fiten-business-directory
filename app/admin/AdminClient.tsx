@@ -32,6 +32,9 @@ export default function AdminClient() {
   const [events, setEvents] = useState<AdminEvent[]>([])
   const [fetching, setFetching] = useState(false)
   const [actionId, setActionId] = useState<string | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
+  const [editId, setEditId] = useState<string | null>(null)
+  const [editFields, setEditFields] = useState<Partial<AdminBusiness>>({})
 
   // Verify admin custom claim
   useEffect(() => {
@@ -117,6 +120,36 @@ export default function AdminClient() {
     const next = current === 'active' ? 'inactive' : 'active'
     await updateDoc(doc(db, 'businesses', id), { status: next })
     setBusinesses(prev => prev.map(b => b.id === id ? { ...b, status: next } : b))
+    setActionId(null)
+  }
+
+  async function hardDelete(id: string) {
+    setActionId(id)
+    await deleteDoc(doc(db, 'businesses', id))
+    setBusinesses(prev => prev.filter(b => b.id !== id))
+    setConfirmDeleteId(null)
+    setActionId(null)
+  }
+
+  function startEdit(b: AdminBusiness) {
+    setEditId(b.id)
+    setEditFields({
+      businessName: b.businessName,
+      category: b.category,
+      city: b.city,
+      region: b.region,
+      email: b.email,
+      phone: b.phone ?? '',
+      website: b.website ?? '',
+      description: b.description,
+    })
+  }
+
+  async function saveEdit(id: string) {
+    setActionId(id)
+    await updateDoc(doc(db, 'businesses', id), editFields as Record<string, unknown>)
+    setBusinesses(prev => prev.map(b => b.id === id ? { ...b, ...editFields } : b))
+    setEditId(null)
     setActionId(null)
   }
 
@@ -216,7 +249,6 @@ export default function AdminClient() {
                     </span>
                   )}
                 </div>
-                {/* Verification trust signals */}
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', margin: '0.5rem 0' }}>
                   {b.emailVerified
                     ? <span className="admin-trust-badge verified"><i className="ti ti-circle-check" /> Email verified</span>
@@ -232,8 +264,39 @@ export default function AdminClient() {
                     <span className="admin-trust-badge verified"><i className="ti ti-brand-google" /> Google account</span>
                   )}
                 </div>
-                {b.description && <p className="admin-card-desc">{b.description}</p>}
+                {b.description && editId !== b.id && <p className="admin-card-desc">{b.description}</p>}
+
+                {/* Inline edit form */}
+                {editId === b.id && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.75rem' }}>
+                    <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem' }} placeholder="Business name" value={editFields.businessName ?? ''} onChange={e => setEditFields(f => ({ ...f, businessName: e.target.value }))} />
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="City" value={editFields.city ?? ''} onChange={e => setEditFields(f => ({ ...f, city: e.target.value }))} />
+                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Region" value={editFields.region ?? ''} onChange={e => setEditFields(f => ({ ...f, region: e.target.value }))} />
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Email" value={editFields.email ?? ''} onChange={e => setEditFields(f => ({ ...f, email: e.target.value }))} />
+                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Phone" value={editFields.phone ?? ''} onChange={e => setEditFields(f => ({ ...f, phone: e.target.value }))} />
+                    </div>
+                    <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem' }} placeholder="Website" value={editFields.website ?? ''} onChange={e => setEditFields(f => ({ ...f, website: e.target.value }))} />
+                    <textarea className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', resize: 'vertical' }} rows={3} placeholder="Description" value={editFields.description ?? ''} onChange={e => setEditFields(f => ({ ...f, description: e.target.value }))} />
+                  </div>
+                )}
+
+                {/* Delete confirmation */}
+                {confirmDeleteId === b.id && (
+                  <div style={{ marginTop: '0.75rem', padding: '0.75rem', background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: '6px', fontSize: '0.85rem', color: 'var(--cream)' }}>
+                    <strong>Permanently delete</strong> "{b.businessName}"? This cannot be undone.
+                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                      <button className="admin-btn admin-btn-reject" onClick={() => hardDelete(b.id)} disabled={actionId === b.id}>
+                        {actionId === b.id ? '…' : 'Yes, delete'}
+                      </button>
+                      <button className="admin-btn admin-btn-view" onClick={() => setConfirmDeleteId(null)}>Cancel</button>
+                    </div>
+                  </div>
+                )}
               </div>
+
               <div className="admin-card-actions">
                 {tab === 'pending' ? (
                   <>
@@ -244,28 +307,48 @@ export default function AdminClient() {
                       Reject
                     </button>
                     {!b.emailVerified && (
-                      <button className="admin-btn admin-btn-resend" onClick={() => resendVerification(b.id)} disabled={actionId === b.id} title="Resend verification email">
+                      <button className="admin-btn admin-btn-resend" onClick={() => resendVerification(b.id)} disabled={actionId === b.id}>
                         {actionId === b.id ? '…' : 'Resend email'}
                       </button>
                     )}
+                    <button className="admin-btn" style={{ background: 'rgba(220,38,38,0.15)', color: '#f87171' }} onClick={() => { setConfirmDeleteId(b.id); setEditId(null) }} disabled={actionId === b.id}>
+                      Delete
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button
-                      className={`admin-btn ${b.pro ? 'admin-btn-unpro' : 'admin-btn-pro'}`}
-                      onClick={() => togglePro(b.id, b.pro ?? false)}
-                      disabled={actionId === b.id}
-                    >
-                      {actionId === b.id ? '…' : b.pro ? 'Remove PRO' : 'Make PRO'}
-                    </button>
-                    <button
-                      className={`admin-btn ${b.status === 'active' ? 'admin-btn-deactivate' : 'admin-btn-approve'}`}
-                      onClick={() => toggleStatus(b.id, b.status)}
-                      disabled={actionId === b.id}
-                    >
-                      {actionId === b.id ? '…' : b.status === 'active' ? 'Deactivate' : 'Activate'}
-                    </button>
-                    <a href={`/directory/${b.id}`} className="admin-btn admin-btn-view" target="_blank" rel="noopener noreferrer">View</a>
+                    {editId === b.id ? (
+                      <>
+                        <button className="admin-btn admin-btn-approve" onClick={() => saveEdit(b.id)} disabled={actionId === b.id}>
+                          {actionId === b.id ? '…' : 'Save'}
+                        </button>
+                        <button className="admin-btn admin-btn-view" onClick={() => setEditId(null)}>Cancel</button>
+                      </>
+                    ) : (
+                      <>
+                        <button className="admin-btn" style={{ background: 'rgba(99,102,241,0.15)', color: '#a5b4fc' }} onClick={() => { startEdit(b); setConfirmDeleteId(null) }} disabled={actionId === b.id}>
+                          Edit
+                        </button>
+                        <button
+                          className={`admin-btn ${b.pro ? 'admin-btn-unpro' : 'admin-btn-pro'}`}
+                          onClick={() => togglePro(b.id, b.pro ?? false)}
+                          disabled={actionId === b.id}
+                        >
+                          {actionId === b.id ? '…' : b.pro ? 'Remove PRO' : 'Make PRO'}
+                        </button>
+                        <button
+                          className={`admin-btn ${b.status === 'active' ? 'admin-btn-deactivate' : 'admin-btn-approve'}`}
+                          onClick={() => toggleStatus(b.id, b.status)}
+                          disabled={actionId === b.id}
+                        >
+                          {actionId === b.id ? '…' : b.status === 'active' ? 'Deactivate' : 'Activate'}
+                        </button>
+                        <a href={`/directory/${b.id}`} className="admin-btn admin-btn-view" target="_blank" rel="noopener noreferrer">View</a>
+                        <button className="admin-btn" style={{ background: 'rgba(220,38,38,0.15)', color: '#f87171' }} onClick={() => { setConfirmDeleteId(b.id); setEditId(null) }} disabled={actionId === b.id}>
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
               </div>
