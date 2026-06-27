@@ -11,8 +11,19 @@ const CATEGORIES = [
 ]
 
 const COUNTRIES = [
-  'USA', 'Canada', 'India', 'UK', 'Singapore', 'Australia',
-  'UAE', 'Germany', 'France', 'Malaysia', 'Sri Lanka', 'South Africa', 'Other',
+  // North America
+  'USA', 'Canada',
+  // South Asia
+  'India', 'Sri Lanka',
+  // Europe
+  'UK', 'Germany', 'France', 'Switzerland', 'Netherlands', 'Norway', 'Sweden', 'Denmark', 'Italy',
+  // Middle East
+  'UAE', 'Qatar', 'Kuwait', 'Bahrain', 'Oman', 'Saudi Arabia',
+  // Asia-Pacific
+  'Singapore', 'Malaysia', 'Australia', 'New Zealand', 'Japan', 'Hong Kong',
+  // Africa
+  'South Africa', 'Mauritius', 'Réunion',
+  'Other',
 ]
 
 const B2B_OPTIONS = [
@@ -324,7 +335,7 @@ export default function AddBusinessStandalone() {
           </F>
           <F label="City" required>
             <input className={cls('city')} placeholder="e.g. Toronto"
-              value={form.city} onChange={set('city')} onBlur={markTouched('city')} />
+              value={form.city} onChange={set('city')} onBlur={markTouched('city')} placeholder="e.g. New York, London, Chennai" />
             {showErr('city') && <Err>{errors.city}</Err>}
           </F>
         </div>
