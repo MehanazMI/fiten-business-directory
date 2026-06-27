@@ -28,6 +28,11 @@ export interface Business {
   employeeCount?: 'solo' | '2-10' | '11-50' | '51-200' | '200+'
   updatedAt?: string
   featured?: boolean
+  // Phase 3 fields
+  country?: string
+  address?: string
+  timezone?: string
+  businessHours?: string
   // Derived at read time
   initials: string
   colorIdx: number

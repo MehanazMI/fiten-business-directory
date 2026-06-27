@@ -62,5 +62,11 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow create: if isAdmin();
     }
+
+    // Listing reports — anyone can create, only admin can read
+    match /reports/{id} {
+      allow read: if isAdmin();
+      allow create: if true;
+    }
   }
 }

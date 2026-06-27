@@ -17,8 +17,17 @@ function waPhone(phone: string) {
   return phone.replace(/\D/g, '')
 }
 
+function mapsQuery(b: Business) {
+  const parts = [b.address, b.city, b.country].filter(Boolean)
+  return encodeURIComponent(parts.join(', '))
+}
+
 export default function BusinessModal({ business: b, lang, onClose, onClaim, isOwner = false }: Props) {
   const [copied, setCopied] = useState(false)
+  const [reportOpen, setReportOpen] = useState(false)
+  const [reportReason, setReportReason] = useState('')
+  const [reportSent, setReportSent] = useState(false)
+  const [reportSending, setReportSending] = useState(false)
 
   if (!b) return null
 
@@ -42,9 +51,25 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
     }
   }
 
+  const handleReport = async () => {
+    if (!reportReason.trim()) return
+    setReportSending(true)
+    try {
+      await fetch('/api/report-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessId: b.id, businessName: b.businessName, reason: reportReason.trim() }),
+      })
+      setReportSent(true)
+    } finally {
+      setReportSending(false)
+    }
+  }
+
   const icon = categoryIcon(b.category)
   const iconColor = categoryColor(b.category)
   const signals = buildSignals(b, { includeConvention: true })
+  const hasLocation = !!(b.address || b.city)
 
   return (
     <div className="detail-overlay open" onClick={onClose}>
@@ -66,7 +91,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             )}
             <div className="detail-cat-loc">
               {b.category}
-              {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}</>}
+              {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.country ? `, ${b.country}` : ''}</>}
               {b.employeeCount && <><span className="meta-dot">·</span><span>{b.employeeCount}</span></>}
               {b.founded && <><span className="meta-dot">·</span><span>Est. {b.founded}</span></>}
             </div>
@@ -92,7 +117,7 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             </>
           )}
 
-          {(b.phone || b.website || b.linkedin || b.twitter) && <div className="detail-sec">Contact</div>}
+          <div className="detail-sec">Contact</div>
           {b.phone && (
             <div className="detail-info-row">
               <i className="ti ti-phone detail-icon" aria-hidden="true" />
@@ -124,6 +149,39 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             </div>
           )}
 
+          {(b.businessHours || b.timezone) && (
+            <>
+              <div className="detail-sec">Hours</div>
+              {b.businessHours && (
+                <div className="detail-info-row">
+                  <i className="ti ti-clock detail-icon" aria-hidden="true" />
+                  <span>{b.businessHours}</span>
+                </div>
+              )}
+              {b.timezone && (
+                <div className="detail-info-row">
+                  <i className="ti ti-world-pin detail-icon" aria-hidden="true" />
+                  <span>{b.timezone}</span>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Google Maps embed for physical businesses */}
+          {hasLocation && (
+            <div className="detail-map">
+              <iframe
+                title={`${b.businessName} location`}
+                width="100%"
+                height="180"
+                style={{ border: 0, borderRadius: '8px', marginTop: '0.75rem' }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps?q=${mapsQuery(b)}&output=embed`}
+              />
+            </div>
+          )}
+
           {b.views > 0 && (
             <div className="detail-stat">
               <i className="ti ti-eye" aria-hidden="true" />
@@ -146,19 +204,56 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             </>
           )}
 
+          {/* Report listing */}
+          {!reportOpen && !reportSent && (
+            <button
+              className="detail-report-btn"
+              onClick={() => setReportOpen(true)}
+            >
+              <i className="ti ti-flag" aria-hidden="true" /> Report this listing
+            </button>
+          )}
+          {reportOpen && !reportSent && (
+            <div className="detail-report-box">
+              <div className="detail-sec" style={{ marginBottom: '0.5rem' }}>Report listing</div>
+              <textarea
+                className="detail-report-textarea"
+                placeholder="Describe the issue — inaccurate info, spam, duplicate, etc."
+                rows={3}
+                value={reportReason}
+                onChange={e => setReportReason(e.target.value)}
+              />
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                <button
+                  className="detail-connect-btn"
+                  style={{ flex: 1 }}
+                  onClick={handleReport}
+                  disabled={reportSending || !reportReason.trim()}
+                >
+                  {reportSending ? 'Sending…' : 'Submit Report'}
+                </button>
+                <button className="detail-share-btn" onClick={() => setReportOpen(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
+          {reportSent && (
+            <p className="detail-report-sent">
+              <i className="ti ti-circle-check" /> Report received — thank you.
+            </p>
+          )}
+
         </div>
 
         <div className="detail-footer">
-          {b.pro ? (
-            <button className="detail-connect-btn" onClick={handleConnect}>
-              <i className={`ti ${b.phone ? 'ti-brand-whatsapp' : 'ti-mail'}`} aria-hidden="true" />
-              {b.phone ? 'WhatsApp' : 'Email'}
+          <button className="detail-connect-btn" onClick={handleConnect}>
+            <i className={`ti ${b.phone ? 'ti-brand-whatsapp' : 'ti-mail'}`} aria-hidden="true" />
+            {b.phone ? 'WhatsApp' : 'Email'}
+          </button>
+          {!isOwner && (
+            <button className="detail-share-btn" onClick={() => { onClaim(b.id, b.businessName); onClose() }}>
+              Claim
             </button>
-          ) : !isOwner ? (
-            <button className="detail-connect-btn" onClick={() => { onClaim(b.id, b.businessName); onClose() }}>
-              Claim Listing
-            </button>
-          ) : null}
+          )}
           <button className="detail-share-btn" onClick={handleShare}>
             {copied ? 'Copied ✓' : 'Share'}
           </button>

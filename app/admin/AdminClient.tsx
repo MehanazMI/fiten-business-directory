@@ -71,14 +71,24 @@ export default function AdminClient() {
 
   async function approve(id: string) {
     setActionId(id)
-    await updateDoc(doc(db, 'businesses', id), { status: 'active' })
+    const token = await user!.getIdToken()
+    await fetch('/api/admin/approve-listing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id }),
+    })
     setBusinesses(prev => prev.filter(b => b.id !== id))
     setActionId(null)
   }
 
   async function reject(id: string) {
     setActionId(id)
-    await updateDoc(doc(db, 'businesses', id), { status: 'rejected' })
+    const token = await user!.getIdToken()
+    await fetch('/api/admin/reject-listing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id }),
+    })
     setBusinesses(prev => prev.filter(b => b.id !== id))
     setActionId(null)
   }

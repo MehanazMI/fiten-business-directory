@@ -62,6 +62,10 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     employeeCount: d.employeeCount as Business['employeeCount'],
     updatedAt: d.updatedAt as string | undefined,
     featured: (d.featured as boolean) ?? false,
+    country: d.country as string | undefined,
+    address: d.address as string | undefined,
+    timezone: d.timezone as string | undefined,
+    businessHours: d.businessHours as string | undefined,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }
@@ -91,6 +95,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const [activeOpps, setActiveOpps] = useState<Array<Business['looking'][number]>>([])
   const [showWomen, setShowWomen] = useState(false)
   const [showSpeaker, setShowSpeaker] = useState(false)
+  const [activeCountry, setActiveCountry] = useState('All')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {
@@ -161,8 +166,13 @@ export default function DirectoryClient({ initialData }: Props) {
       if (activeCat !== 'All' && b.category !== activeCat) return false
       if (activeFilter === 'Pro' && !b.pro) return false
       if (q && !b.businessName.toLowerCase().includes(q) &&
+          !(b.nameTamil ?? '').toLowerCase().includes(q) &&
           !b.description.toLowerCase().includes(q) &&
-          !b.category.toLowerCase().includes(q)) return false
+          !b.category.toLowerCase().includes(q) &&
+          !b.city.toLowerCase().includes(q) &&
+          !(b.country ?? '').toLowerCase().includes(q) &&
+          !(b.region ?? '').toLowerCase().includes(q)) return false
+      if (activeCountry !== 'All' && (b.country ?? '') !== activeCountry) return false
       if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
       if (showWomen && !b.women) return false
       if (showSpeaker && !b.speaker) return false
@@ -175,12 +185,18 @@ export default function DirectoryClient({ initialData }: Props) {
     else list = [...list].sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0))
 
     return list
-  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort, showWomen, showSpeaker])
+  }, [businesses, searchQuery, activeCat, activeFilter, activeOpps, showFavs, favorites, sort, showWomen, showSpeaker, activeCountry])
 
   const catCounts = useMemo(() => {
     const map: Record<string, number> = { All: businesses.length }
     businesses.forEach(b => { map[b.category] = (map[b.category] ?? 0) + 1 })
     return map
+  }, [businesses])
+
+  const countries = useMemo(() => {
+    const set = new Set<string>()
+    businesses.forEach(b => { if (b.country) set.add(b.country) })
+    return ['All', ...Array.from(set).sort()]
   }, [businesses])
 
   const cats = ['All', ...new Set(Object.values(categoryMap))]
@@ -196,7 +212,7 @@ export default function DirectoryClient({ initialData }: Props) {
   const resetAll = () => {
     setActiveCat('All'); setActiveFilter('All'); setSearchQuery('');
     setSort('default'); setActiveOpps([]); setShowFavs(false);
-    setShowWomen(false); setShowSpeaker(false); resetPaging();
+    setShowWomen(false); setShowSpeaker(false); setActiveCountry('All'); resetPaging();
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -207,6 +223,7 @@ export default function DirectoryClient({ initialData }: Props) {
   if (showFavs) activeChips.push({ label: 'Saved', onRemove: () => { setShowFavs(false); resetPaging() } })
   if (showWomen) activeChips.push({ label: 'Women-Led', onRemove: () => { setShowWomen(false); resetPaging() } })
   if (showSpeaker) activeChips.push({ label: 'Speakers', onRemove: () => { setShowSpeaker(false); resetPaging() } })
+  if (activeCountry !== 'All') activeChips.push({ label: activeCountry, onRemove: () => { setActiveCountry('All'); resetPaging() } })
   activeOpps.forEach(op => activeChips.push({ label: oppLabels[op], onRemove: () => { setActiveOpps(prev => prev.filter(x => x !== op)); resetPaging() } }))
 
   return (
@@ -389,6 +406,27 @@ export default function DirectoryClient({ initialData }: Props) {
               ))}
             </div>
           </div>
+
+          <hr className="sidebar-divider" />
+
+          {/* Country */}
+          {countries.length > 1 && (
+            <div className="sb-section">
+              <div className="sb-label">Country</div>
+              <div className="chip-row" style={{ flexDirection: 'column', gap: '0.25rem' }}>
+                {countries.map(c => (
+                  <button
+                    key={c}
+                    className={`chip${activeCountry === c ? ' on' : ''}`}
+                    style={{ justifyContent: 'flex-start' }}
+                    onClick={() => { setActiveCountry(c); resetPaging() }}
+                  >
+                    {c === 'All' ? 'All Countries' : c}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <hr className="sidebar-divider" />
 

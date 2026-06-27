@@ -305,6 +305,12 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 .detail-connect-btn:hover{background:var(--navy-dk)}
 .detail-share-btn{background:transparent;border:0.5px solid var(--border);color:var(--text3);padding:0.7rem 1rem;border-radius:6px;cursor:pointer;font-weight:400;transition:all 0.2s;font-family:var(--font-sans);font-size:0.8rem}
 .detail-share-btn:hover{border-color:var(--navy);color:var(--navy)}
+.detail-map{margin-top:0.75rem}
+.detail-report-btn{background:none;border:none;color:var(--text3);font-size:0.75rem;cursor:pointer;padding:0.75rem 0 0;display:flex;align-items:center;gap:0.3rem;opacity:0.6;transition:opacity 0.2s}
+.detail-report-btn:hover{opacity:1;color:#EF4444}
+.detail-report-box{margin-top:0.75rem;padding:0.75rem;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px}
+.detail-report-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;color:var(--text1);padding:0.5rem 0.6rem;font-size:0.82rem;font-family:var(--font-sans);resize:vertical;box-sizing:border-box}
+.detail-report-sent{color:#4ADE80;font-size:0.82rem;margin-top:0.75rem;display:flex;align-items:center;gap:0.4rem}
 
 /* ━━━ ADD BUSINESS FORM CARD ━━━ */
 .bizform-back{display:inline-flex;align-items:center;gap:0.4rem;color:var(--navy);text-decoration:none;font-weight:600;font-size:0.875rem;margin-bottom:1.5rem;border-bottom:1.5px solid var(--gold);padding-bottom:0.1rem;transition:color 0.15s}

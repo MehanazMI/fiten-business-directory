@@ -51,11 +51,15 @@ export async function POST(req: NextRequest) {
   }
 
   // --- Optional fields ---
-  const phone       = sanitizeString(body.phone)
-  const nameTamil   = sanitizeString(body.nameTamil)
-  const region      = sanitizeString(body.region)
-  const website     = sanitizeUrl(body.website)
-  const logoUrl     = sanitizeUrl(body.logoUrl)
+  const phone         = sanitizeString(body.phone)
+  const nameTamil     = sanitizeString(body.nameTamil)
+  const region        = sanitizeString(body.region)
+  const country       = sanitizeString(body.country)
+  const address       = sanitizeString(body.address)
+  const timezone      = sanitizeString(body.timezone)
+  const businessHours = sanitizeString(body.businessHours)
+  const website       = sanitizeUrl(body.website)
+  const logoUrl       = sanitizeUrl(body.logoUrl)
   const looking     = Array.isArray(body.looking)
     ? (body.looking as unknown[]).filter(v => VALID_LOOKING.includes(v as string)) as string[]
     : []
@@ -94,6 +98,10 @@ export async function POST(req: NextRequest) {
     category,
     city,
     ...(region && { region }),
+    ...(country && { country }),
+    ...(address && { address }),
+    ...(timezone && { timezone }),
+    ...(businessHours && { businessHours }),
     description,
     email,
     ...(phone && { phone }),

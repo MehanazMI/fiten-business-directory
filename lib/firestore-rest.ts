@@ -61,6 +61,10 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     employeeCount: f.employeeCount?.stringValue as Business['employeeCount'],
     updatedAt: f.updatedAt?.timestampValue ?? f.updatedAt?.stringValue,
     featured: f.featured?.booleanValue ?? false,
+    country: f.country?.stringValue,
+    address: f.address?.stringValue,
+    timezone: f.timezone?.stringValue,
+    businessHours: f.businessHours?.stringValue,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }

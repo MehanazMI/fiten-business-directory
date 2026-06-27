@@ -90,9 +90,9 @@ describe('BusinessModal — footer actions', () => {
     expect(screen.getByRole('button', { name: /Email/ })).toBeInTheDocument()
   })
 
-  it('shows Claim Listing button for non-pro', () => {
+  it('shows Claim button for non-pro', () => {
     setup({ pro: false })
-    expect(screen.getByRole('button', { name: 'Claim Listing' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Claim' })).toBeInTheDocument()
   })
 
   it('opens WhatsApp when Connect is clicked and phone exists', async () => {
@@ -111,9 +111,9 @@ describe('BusinessModal — footer actions', () => {
     expect(window.location.href).toContain('mailto:hello@acme.com')
   })
 
-  it('calls onClaim with businessName and then onClose when Claim Listing is clicked', async () => {
+  it('calls onClaim with businessName and then onClose when Claim is clicked', async () => {
     const { user, onClaim, onClose, business } = setup({ pro: false })
-    await user.click(screen.getByRole('button', { name: 'Claim Listing' }))
+    await user.click(screen.getByRole('button', { name: 'Claim' }))
     expect(onClaim).toHaveBeenCalledWith(business.id, business.businessName)
     expect(onClose).toHaveBeenCalled()
   })

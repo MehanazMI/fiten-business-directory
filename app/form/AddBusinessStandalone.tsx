@@ -10,6 +10,20 @@ const CATEGORIES = [
   'Logistics', 'Human Resources', 'Agriculture', 'Entertainment', 'Services', 'Other',
 ]
 
+const COUNTRIES = [
+  'USA', 'Canada', 'India', 'UK', 'Singapore', 'Australia',
+  'UAE', 'Germany', 'France', 'Malaysia', 'Sri Lanka', 'South Africa', 'Other',
+]
+
+const TIMEZONES = [
+  'America/New_York (ET)', 'America/Chicago (CT)', 'America/Denver (MT)', 'America/Los_Angeles (PT)',
+  'America/Toronto (ET)', 'America/Vancouver (PT)',
+  'Europe/London (GMT/BST)', 'Europe/Paris (CET)',
+  'Asia/Kolkata (IST)', 'Asia/Colombo (SLT)',
+  'Asia/Singapore (SGT)', 'Australia/Sydney (AEDT)',
+  'Asia/Dubai (GST)',
+]
+
 const REGIONS_USA = [
   'New York, NY', 'New Jersey, NJ', 'California', 'Texas', 'Illinois',
   'Massachusetts', 'Georgia', 'Washington', 'Pennsylvania', 'Florida', 'Other USA',
@@ -96,6 +110,7 @@ export default function AddBusinessStandalone() {
   const [form, setForm] = useState({
     businessName: '', nameTamil: '', contactName: '', category: '',
     founded: '', employeeCount: '', registrationNo: '', region: '', city: '',
+    country: '', address: '', timezone: '', businessHours: '',
     email: '', phone: '', website: '', linkedin: '', description: '',
   })
   const [services, setServices] = useState<string[]>([])
@@ -199,6 +214,10 @@ export default function AddBusinessStandalone() {
           registrationNo: form.registrationNo.trim(),
           region: form.region,
           city: form.city.trim(),
+          country: form.country,
+          address: form.address.trim(),
+          timezone: form.timezone,
+          businessHours: form.businessHours.trim(),
           email: form.email.trim(),
           phone: form.phone.trim(),
           website: form.website.trim(),
@@ -326,6 +345,12 @@ export default function AddBusinessStandalone() {
         </F>
 
         <div className="bizform-row">
+          <F label="Country" hint="optional">
+            <select className="bizform-input" value={form.country} onChange={set('country')}>
+              <option value="" style={OPT_BG}>Select...</option>
+              {COUNTRIES.map(c => <option key={c} value={c} style={OPT_BG}>{c}</option>)}
+            </select>
+          </F>
           <F label="Region" hint="optional">
             <select className="bizform-input" value={form.region} onChange={set('region')}>
               <option value="" style={OPT_BG}>Select...</option>
@@ -334,6 +359,13 @@ export default function AddBusinessStandalone() {
               <optgroup label="India">{REGIONS_IN.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
               <optgroup label="International">{REGIONS_INTL.map(r => <option key={r} value={r} style={OPT_BG}>{r}</option>)}</optgroup>
             </select>
+          </F>
+        </div>
+
+        <div className="bizform-row">
+          <F label="Street Address" hint="optional — shown on map">
+            <input className="bizform-input" placeholder="e.g. 123 Main St"
+              value={form.address} onChange={set('address')} />
           </F>
           <F label="Registration No." hint="optional — for verification">
             <input className="bizform-input" placeholder="e.g. LLC-12345"
@@ -368,6 +400,19 @@ export default function AddBusinessStandalone() {
           <input className="bizform-input" type="url" placeholder="https://linkedin.com/company/…"
             value={form.linkedin} onChange={set('linkedin')} />
         </F>
+
+        <div className="bizform-row">
+          <F label="Business Hours" hint="optional">
+            <input className="bizform-input" placeholder="e.g. Mon–Fri 9am–6pm"
+              value={form.businessHours} onChange={set('businessHours')} />
+          </F>
+          <F label="Timezone" hint="optional">
+            <select className="bizform-input" value={form.timezone} onChange={set('timezone')}>
+              <option value="" style={OPT_BG}>Select...</option>
+              {TIMEZONES.map(tz => <option key={tz} value={tz} style={OPT_BG}>{tz}</option>)}
+            </select>
+          </F>
+        </div>
 
         <F label="Business Summary" required>
           <textarea className={cls('description')} rows={5} maxLength={DESCRIPTION_MAX}
