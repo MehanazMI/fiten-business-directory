@@ -51,9 +51,9 @@ describe('SiteHeader — default (directory page)', () => {
   })
 })
 
-describe('SiteHeader — form page (page="form")', () => {
+describe('SiteHeader — form page', () => {
   it('renders the FiTEN logo text', () => {
-    render(<SiteHeader page="form" />)
+    render(<SiteHeader activeLink="form" />)
     expect(screen.getByText('Fi')).toBeInTheDocument()
     expect(screen.getByText('TEN')).toBeInTheDocument()
   })
@@ -64,9 +64,9 @@ describe('SiteHeader — form page (page="form")', () => {
     expect(logoLink).toHaveAttribute('href', '/')
   })
 
-  it('shows "Get Listed" CTA in hdr-right', () => {
+  it('hides "Get Listed" CTA when on the form page', () => {
     render(<SiteHeader activeLink="form" />)
     const hdrRight = document.querySelector('.hdr-right') as HTMLElement
-    expect(within(hdrRight).getByRole('link', { name: /Get Listed/i })).toBeInTheDocument()
+    expect(within(hdrRight).queryByRole('link', { name: /Get Listed/i })).not.toBeInTheDocument()
   })
 })
