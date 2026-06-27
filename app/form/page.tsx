@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const BENEFITS = [
   { t: 'Global Reach', d: 'Visible to Tamil entrepreneurs, partners, and investors across the US, India, Canada, UK, Singapore and beyond.' },
   { t: 'SEO-Indexed', d: 'Every listing gets its own URL so customers can find you on Google, not just inside the directory.' },
-  { t: 'Verified Community', d: 'Listings are reviewed by FiTEN community moderators. Provide your registration number to fast-track verification.' },
+  { t: 'Verified Community', d: 'Listings are reviewed by FiTEN community moderators. Upload your business registration or certifications to fast-track verification.' },
   { t: 'B2B Signals', d: 'Tell the network what you need — partners, clients, talent, capital, or mentoring.' },
 ]
 
