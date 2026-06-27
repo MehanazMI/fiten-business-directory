@@ -34,7 +34,7 @@ describe('parseFirestoreDoc (via fetchBusinesses)', () => {
     expect(b.nameTamil).toBe('ரா பிசினஸ்')
     expect(b.category).toBe('Food')           // mapped via categoryMap
     expect(b.city).toBe('Chennai')
-    expect(b.region).toBe('Tamil Nadu')
+    expect(b.country).toBe('India')
     expect(b.pro).toBe(true)
     expect(b.women).toBe(true)
     expect(b.speaker).toBe(false)

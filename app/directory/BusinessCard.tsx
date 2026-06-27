@@ -1,6 +1,6 @@
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
-import { categoryIcon, categoryColor, buildSignals } from '@/lib/business-meta'
+import { categoryIcon, categoryColor, buildB2BSignals, buildCommunityBadges } from '@/lib/business-meta'
 
 export { CAT_ICON, CAT_COLOR } from '@/lib/business-meta'
 
@@ -19,7 +19,8 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
   const iconColor = categoryColor(b.category)
   const isListView = view === 'list'
 
-  const signals = buildSignals(b, { includePro: true })
+  const b2bSignals = buildB2BSignals(b)
+  const communityBadges = buildCommunityBadges(b, { includePro: true })
 
   return (
     <div
@@ -41,7 +42,7 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           <div className="biz-meta">
             <span>{b.category}</span>
             {b.city && <><span className="meta-dot">·</span><span className="biz-location">{b.city}</span></>}
-            {b.employeeCount && <><span className="meta-dot">·</span><span className="card-emp">{b.employeeCount} emp</span></>}
+            {b.country && <><span className="meta-dot">·</span><span className="biz-location">{b.country}</span></>}
           </div>
         </div>
         {b.verified && (
@@ -63,9 +64,21 @@ export default function BusinessCard({ business: b, isFavorited, view = 'grid', 
           </div>
         )}
 
-        {signals.length > 0 && (
+        {b2bSignals.length > 0 && (
           <div className="b2b-signals">
-            {signals.map((s, i) => (
+            {b2bSignals.map((s, i) => (
+              <span key={s.label} className="b2b-signal">
+                {i > 0 && <span className="sig-sep">·</span>}
+                <i className={`ti ${s.icon}`} style={{ color: s.color }} />
+                {s.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {communityBadges.length > 0 && (
+          <div className="b2b-signals" style={{ marginTop: '0.25rem' }}>
+            {communityBadges.map((s, i) => (
               <span key={s.label} className="b2b-signal">
                 {i > 0 && <span className="sig-sep">·</span>}
                 <i className={`ti ${s.icon}`} style={{ color: s.color }} />

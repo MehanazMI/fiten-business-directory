@@ -12,7 +12,7 @@ const VALID_CATEGORIES = new Set([
   'Arts & Entertainment', 'Entertainment', 'Non-Profit', 'Legal', 'Marketing',
   'Logistics', 'Human Resources', 'Agriculture', 'Services', 'Other',
 ])
-const VALID_LOOKING = ['partner', 'client', 'invest', 'hire']
+const VALID_LOOKING = ['partner', 'client', 'invest', 'hire', 'mentor']
 
 export async function POST(req: NextRequest) {
   const { allowed } = rateLimit(getIp(req), { limit: 5, windowMs: 60_000 })
@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
     : []
   const women       = body.women === true
   const speaker     = body.speaker === true
+  const nonprofit   = body.nonprofit === true
   const convention  = body.convention === true
 
   // --- Google auth linkage ---
@@ -113,6 +114,7 @@ export async function POST(req: NextRequest) {
     looking,
     women,
     speaker,
+    nonprofit,
     convention,
     status: 'pending',
     pro: false,

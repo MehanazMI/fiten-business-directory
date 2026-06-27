@@ -11,6 +11,7 @@ const OPP_LABELS: Record<OppType, string> = {
   client:  'New Client',
   invest:  'Investment',
   hire:    'Hiring',
+  mentor:  'Mentorship',
 }
 
 interface Props {

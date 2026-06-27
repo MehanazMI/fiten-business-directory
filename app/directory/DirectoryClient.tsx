@@ -40,7 +40,7 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     nameTamil: d.nameTamil as string | undefined,
     category: categoryMap[d.category as string] ?? (d.category as string) ?? 'Other',
     city: (d.city as string) ?? '',
-    region: (d.region as string) ?? '',
+    country: d.country as string | undefined,
     description: (d.description as string) ?? '',
     email: (d.email as string) ?? '',
     phone: d.phone as string | undefined,
@@ -52,20 +52,14 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     verificationStatus: (d.verificationStatus as Business['verificationStatus']) ?? 'unverified',
     speaker: (d.speaker as boolean) ?? false,
     women: (d.women as boolean) ?? false,
+    nonprofit: (d.nonprofit as boolean) ?? false,
     convention: (d.convention as boolean) ?? false,
     looking: ((d.looking as string[]) ?? []) as Business['looking'],
     views: (d.views as number) ?? 0,
     createdAt: (d.createdAt as string) ?? '',
     services: ((d.services as string[]) ?? []),
-    linkedin: d.linkedin as string | undefined,
-    twitter: d.twitter as string | undefined,
-    employeeCount: d.employeeCount as Business['employeeCount'],
     updatedAt: d.updatedAt as string | undefined,
     featured: (d.featured as boolean) ?? false,
-    country: d.country as string | undefined,
-    address: d.address as string | undefined,
-    timezone: d.timezone as string | undefined,
-    businessHours: d.businessHours as string | undefined,
     initials: rawName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
     colorIdx,
   }
@@ -171,7 +165,7 @@ export default function DirectoryClient({ initialData }: Props) {
           !b.category.toLowerCase().includes(q) &&
           !b.city.toLowerCase().includes(q) &&
           !(b.country ?? '').toLowerCase().includes(q) &&
-          !(b.region ?? '').toLowerCase().includes(q)) return false
+          !(b.country ?? '').toLowerCase().includes(q)) return false
       if (activeCountry !== 'All' && (b.country ?? '') !== activeCountry) return false
       if (activeOpps.length > 0 && !activeOpps.every(op => b.looking.includes(op))) return false
       if (showWomen && !b.women) return false

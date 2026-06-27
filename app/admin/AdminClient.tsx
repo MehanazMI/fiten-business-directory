@@ -157,7 +157,7 @@ export default function AdminClient() {
       businessName: b.businessName,
       category: b.category,
       city: b.city,
-      region: b.region,
+      country: b.country ?? '',
       email: b.email,
       phone: b.phone ?? '',
       website: b.website ?? '',
@@ -275,7 +275,7 @@ export default function AdminClient() {
                 </div>
                 <div className="admin-card-meta">
                   <span><i className="ti ti-tag" aria-hidden="true" /> {b.category}</span>
-                  <span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.region ? `, ${b.region}` : ''}</span>
+                  <span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.country ? `, ${b.country}` : ''}</span>
                   <span><i className="ti ti-mail" aria-hidden="true" /> {b.email}</span>
                   {b.submittedBy && (
                     <span style={{ color: 'var(--gold)' }}>
@@ -306,7 +306,7 @@ export default function AdminClient() {
                     <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem' }} placeholder="Business name" value={editFields.businessName ?? ''} onChange={e => setEditFields(f => ({ ...f, businessName: e.target.value }))} />
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                       <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="City" value={editFields.city ?? ''} onChange={e => setEditFields(f => ({ ...f, city: e.target.value }))} />
-                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Region" value={editFields.region ?? ''} onChange={e => setEditFields(f => ({ ...f, region: e.target.value }))} />
+                      <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Country" value={editFields.country ?? ''} onChange={e => setEditFields(f => ({ ...f, country: e.target.value }))} />
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                       <input className="modal-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem', flex: 1 }} placeholder="Email" value={editFields.email ?? ''} onChange={e => setEditFields(f => ({ ...f, email: e.target.value }))} />

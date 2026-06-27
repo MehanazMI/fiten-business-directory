@@ -7,14 +7,15 @@ import type { Connection } from '@/types/connection'
 import { postConnection } from '@/lib/firestore-rest'
 import { colors, textColors } from '@/lib/utils'
 
-type OppType = 'partner' | 'client' | 'invest' | 'hire'
+type OppType = 'partner' | 'client' | 'invest' | 'hire' | 'mentor'
 type VisitorRole = 'all' | OppType
 
 const OPP_META: Record<OppType, { label: string; icon: string; desc: string; color: string }> = {
-  partner:  { label: 'Partnership',    icon: 'ti-heart-handshake',  desc: 'Open to strategic partnerships & collaborations', color: '#7C3AED' },
-  client:   { label: 'New Clients',    icon: 'ti-users',            desc: 'Actively seeking new clients & customers',        color: '#059669' },
-  invest:   { label: 'Investment',     icon: 'ti-chart-line',       desc: 'Open to investors & funding opportunities',       color: '#C5A059' },
-  hire:     { label: 'Hiring',         icon: 'ti-briefcase',        desc: 'Currently hiring talent',                         color: '#2563EB' },
+  partner:  { label: 'Partnership',    icon: 'ti-heart-handshake', desc: 'Open to strategic partnerships & collaborations', color: '#7C3AED' },
+  client:   { label: 'New Clients',    icon: 'ti-users',           desc: 'Actively seeking new clients & customers',        color: '#059669' },
+  invest:   { label: 'Investment',     icon: 'ti-chart-line',      desc: 'Open to investors & funding opportunities',       color: '#C5A059' },
+  hire:     { label: 'Hiring',         icon: 'ti-briefcase',       desc: 'Currently hiring talent',                         color: '#2563EB' },
+  mentor:   { label: 'Mentorship',     icon: 'ti-user-star',       desc: 'Open to mentoring community members',             color: '#0284C7' },
 }
 
 const ROLE_FILTERS: { value: VisitorRole; label: string; icon: string }[] = [
@@ -23,6 +24,7 @@ const ROLE_FILTERS: { value: VisitorRole; label: string; icon: string }[] = [
   { value: 'client',  label: 'Find Clients',      icon: 'ti-users' },
   { value: 'invest',  label: 'Invest',            icon: 'ti-chart-line' },
   { value: 'hire',    label: 'Find Talent',       icon: 'ti-briefcase' },
+  { value: 'mentor',  label: 'Find Mentors',      icon: 'ti-user-star' },
 ]
 
 const SECTOR_FILTERS = ['All Sectors', 'Tech', 'Healthcare', 'Finance', 'Education', 'Food', 'Legal', 'Retail', 'Services']

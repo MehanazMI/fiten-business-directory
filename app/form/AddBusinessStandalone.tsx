@@ -27,11 +27,18 @@ const COUNTRIES = [
 ]
 
 const B2B_OPTIONS = [
-  { value: 'partner', label: 'Partner' },
-  { value: 'client', label: 'Seeking Clients' },
-  { value: 'invest', label: 'Seeking Investment' },
-  { value: 'hire', label: 'Hiring' },
-  { value: 'speaker', label: 'Speaker' },
+  { value: 'partner', label: 'Open to Partnerships' },
+  { value: 'client',  label: 'Seeking Clients' },
+  { value: 'invest',  label: 'Seeking Investment' },
+  { value: 'hire',    label: 'Hiring Now' },
+  { value: 'mentor',  label: 'Open to Mentoring' },
+]
+
+const COMMUNITY_OPTIONS = [
+  { key: 'women',      label: 'Women-Led Business' },
+  { key: 'speaker',    label: 'Available as Speaker' },
+  { key: 'nonprofit',  label: 'Non-Profit / Social Enterprise' },
+  { key: 'convention', label: 'FeTNA Convention Participant' },
 ]
 
 const DESCRIPTION_MAX = 300
@@ -127,8 +134,7 @@ export default function AddBusinessStandalone() {
   const [services, setServices] = useState<string[]>([])
   const [serviceInput, setServiceInput] = useState('')
   const [looking, setLooking] = useState<string[]>([])
-  const [women, setWomen] = useState(false)
-  const [convention, setConvention] = useState(false)
+  const [community, setCommunity] = useState<Record<string, boolean>>({ women: false, speaker: false, nonprofit: false, convention: false })
   const [consent, setConsent] = useState(false)
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [submitting, setSubmitting] = useState(false)
@@ -144,8 +150,7 @@ export default function AddBusinessStandalone() {
     const t = randomTestBusiness()
     setForm({ businessName: t.businessName, contactName: t.contactName, category: t.category, city: t.city, country: t.country, email: t.email, phone: t.phone ?? '', website: t.website ?? '', description: t.description })
     setLooking(t.looking)
-    setWomen(t.women)
-    setConvention(t.convention)
+    setCommunity({ women: t.women, speaker: false, nonprofit: false, convention: t.convention })
     setConsent(true)
     setTouched({})
   }
@@ -218,9 +223,6 @@ export default function AddBusinessStandalone() {
         setUploadProgress(null)
       }
 
-      const speakerInB2B = looking.includes('speaker')
-      const lookingWithoutSpeaker = looking.filter(v => v !== 'speaker')
-
       const res = await fetch('/api/submit-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -236,10 +238,11 @@ export default function AddBusinessStandalone() {
           website: form.website.trim(),
           description: form.description.trim(),
           services,
-          looking: lookingWithoutSpeaker,
-          speaker: speakerInB2B,
-          women,
-          convention,
+          looking,
+          women: community.women,
+          speaker: community.speaker,
+          nonprofit: community.nonprofit,
+          convention: community.convention,
           logoUrls,
           consentGiven: true,
           consentAt: new Date().toISOString(),
@@ -420,14 +423,15 @@ export default function AddBusinessStandalone() {
           </div>
         </F>
 
-        <F label="Community" hint="optional">
+        <F label="Community" hint="optional — select all that apply">
           <div className="bizform-checks">
-            {[
-              { state: women, setState: setWomen, label: 'Women-Led Business' },
-              { state: convention, setState: setConvention, label: 'FeTNA Convention Participant' },
-            ].map(o => (
-              <label key={o.label} className="bizform-check">
-                <input type="checkbox" checked={o.state} onChange={e => o.setState(e.target.checked)} />
+            {COMMUNITY_OPTIONS.map(o => (
+              <label key={o.key} className="bizform-check">
+                <input
+                  type="checkbox"
+                  checked={community[o.key] ?? false}
+                  onChange={e => setCommunity(c => ({ ...c, [o.key]: e.target.checked }))}
+                />
                 {o.label}
               </label>
             ))}

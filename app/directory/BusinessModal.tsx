@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { Business } from '@/types/business'
 import type { Lang } from '@/lib/utils'
-import { categoryIcon, categoryColor, buildSignals } from '@/lib/business-meta'
+import { categoryIcon, categoryColor, buildB2BSignals, buildCommunityBadges } from '@/lib/business-meta'
 
 interface Props {
   business: Business | null
@@ -18,7 +18,7 @@ function waPhone(phone: string) {
 }
 
 function mapsQuery(b: Business) {
-  const parts = [b.address, b.city, b.country].filter(Boolean)
+  const parts = [b.city, b.country].filter(Boolean)
   return encodeURIComponent(parts.join(', '))
 }
 
@@ -68,8 +68,9 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
 
   const icon = categoryIcon(b.category)
   const iconColor = categoryColor(b.category)
-  const signals = buildSignals(b, { includeConvention: true })
-  const hasLocation = !!(b.address || b.city)
+  const b2bSignals = buildB2BSignals(b)
+  const communityBadges = buildCommunityBadges(b, { includePro: true })
+  const hasLocation = !!(b.city)
 
   return (
     <div className="detail-overlay open" onClick={onClose}>
@@ -92,8 +93,6 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             <div className="detail-cat-loc">
               {b.category}
               {b.city && <><span className="meta-dot">·</span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.country ? `, ${b.country}` : ''}</>}
-              {b.employeeCount && <><span className="meta-dot">·</span><span>{b.employeeCount}</span></>}
-              {b.founded && <><span className="meta-dot">·</span><span>Est. {b.founded}</span></>}
             </div>
             {(b.pro || b.verified) && (
               <div className="detail-badges">
@@ -136,36 +135,6 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
               </a>
             </div>
           )}
-          {b.linkedin && (
-            <div className="detail-info-row">
-              <i className="ti ti-brand-linkedin detail-icon" aria-hidden="true" />
-              <a href={b.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-          )}
-          {b.twitter && (
-            <div className="detail-info-row">
-              <i className="ti ti-brand-twitter detail-icon" aria-hidden="true" />
-              <a href={b.twitter} target="_blank" rel="noopener noreferrer">Twitter / X</a>
-            </div>
-          )}
-
-          {(b.businessHours || b.timezone) && (
-            <>
-              <div className="detail-sec">Hours</div>
-              {b.businessHours && (
-                <div className="detail-info-row">
-                  <i className="ti ti-clock detail-icon" aria-hidden="true" />
-                  <span>{b.businessHours}</span>
-                </div>
-              )}
-              {b.timezone && (
-                <div className="detail-info-row">
-                  <i className="ti ti-world-pin detail-icon" aria-hidden="true" />
-                  <span>{b.timezone}</span>
-                </div>
-              )}
-            </>
-          )}
 
           {/* Google Maps embed for physical businesses */}
           {hasLocation && (
@@ -189,11 +158,26 @@ export default function BusinessModal({ business: b, lang, onClose, onClaim, isO
             </div>
           )}
 
-          {signals.length > 0 && (
+          {b2bSignals.length > 0 && (
             <>
-              <div className="detail-sec">Open to</div>
+              <div className="detail-sec">Looking for</div>
               <div className="b2b-signals" style={{ marginBottom: '0.4rem' }}>
-                {signals.map((s, i) => (
+                {b2bSignals.map((s, i) => (
+                  <span key={s.label} className="b2b-signal">
+                    {i > 0 && <span className="sig-sep">·</span>}
+                    <i className={`ti ${s.icon}`} style={{ color: s.color }} />
+                    {s.label}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+
+          {communityBadges.length > 0 && (
+            <>
+              <div className="detail-sec">Community</div>
+              <div className="b2b-signals" style={{ marginBottom: '0.4rem' }}>
+                {communityBadges.map((s, i) => (
                   <span key={s.label} className="b2b-signal">
                     {i > 0 && <span className="sig-sep">·</span>}
                     <i className={`ti ${s.icon}`} style={{ color: s.color }} />
