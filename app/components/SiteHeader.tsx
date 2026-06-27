@@ -28,7 +28,7 @@ export default function SiteHeader({ activeLink }: SiteHeaderProps = {}) {
       </nav>
 
       <div className="hdr-right">
-        <a className="hdr-btn" href="/form">Get Listed</a>
+        {activeLink !== 'form' && <a className="hdr-btn" href="/form">Get Listed</a>}
         <AuthButton />
         <MobileNav activeLink={activeLink} />
       </div>
