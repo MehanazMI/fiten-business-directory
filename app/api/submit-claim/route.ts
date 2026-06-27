@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
+import { isValidEmail } from '@/lib/sanitize'
+import { rateLimit, getIp } from '@/lib/rate-limit'
 import { sendVerificationEmail } from '@/lib/email'
 import { randomBytes } from 'crypto'
 
 export async function POST(req: NextRequest) {
+  const { allowed } = rateLimit(getIp(req), { limit: 5, windowMs: 60_000 })
+  if (!allowed) {
+    return NextResponse.json({ error: 'too_many_requests' }, { status: 429 })
+  }
+
   try {
     const body = await req.json()
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
@@ -14,6 +21,9 @@ export async function POST(req: NextRequest) {
 
     if (!email || !businessId || !businessName) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: 'invalid_email' }, { status: 400 })
     }
 
     const token = randomBytes(32).toString('hex')
@@ -31,9 +41,11 @@ export async function POST(req: NextRequest) {
       ...(submittedByUid && { submittedBy: { uid: submittedByUid, email: submittedByEmail } }),
     })
 
-    sendVerificationEmail(email, businessName, token).catch(err =>
+    try {
+      await sendVerificationEmail(email, businessName, token)
+    } catch (err) {
       console.error('Claim verification email failed:', err)
-    )
+    }
 
     return NextResponse.json({ ok: true })
   } catch (err) {

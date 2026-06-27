@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
+import { rateLimit, getIp } from '@/lib/rate-limit'
 
 export async function GET(req: NextRequest) {
+  const { allowed } = rateLimit(getIp(req), { limit: 10, windowMs: 60_000 })
+  if (!allowed) {
+    return NextResponse.json({ error: 'too_many_requests' }, { status: 429 })
+  }
+
   const token = req.nextUrl.searchParams.get('token')
   if (!token || token.length !== 64) {
     return NextResponse.json({ error: 'invalid_token' }, { status: 400 })
