@@ -3,21 +3,6 @@ import type { Connection } from '@/types/connection'
 import type { Event } from '@/types/event'
 import { stableColorIdx, categoryMap } from '@/lib/utils'
 
-function deriveCountry(country: string | undefined, region: string | undefined): string | undefined {
-  if (country) return country
-  const r = region ?? ''
-  if (/canada|toronto|vancouver|montreal|ottawa|calgary|edmonton/i.test(r)) return 'Canada'
-  if (/\busa\b|new york|new jersey|california|texas|illinois|massachusetts|georgia|washington|pennsylvania|florida/i.test(r)) return 'USA'
-  if (/\bindia\b|chennai|coimbatore|madurai|bengaluru|mumbai|delhi/i.test(r)) return 'India'
-  if (/\buk\b|united kingdom|england|london/i.test(r)) return 'UK'
-  if (/singapore/i.test(r)) return 'Singapore'
-  if (/australia/i.test(r)) return 'Australia'
-  if (/middle east|uae|dubai/i.test(r)) return 'UAE'
-  if (/germany|france|europe/i.test(r)) return 'Europe'
-  if (/malaysia/i.test(r)) return 'Malaysia'
-  if (/sri lanka/i.test(r)) return 'Sri Lanka'
-  return undefined
-}
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
@@ -77,7 +62,7 @@ function parseFirestoreDoc(doc: FirestoreRestDoc): Business {
     employeeCount: f.employeeCount?.stringValue as Business['employeeCount'],
     updatedAt: f.updatedAt?.timestampValue ?? f.updatedAt?.stringValue,
     featured: f.featured?.booleanValue ?? false,
-    country: deriveCountry(f.country?.stringValue, f.region?.stringValue),
+    country: f.country?.stringValue,
     address: f.address?.stringValue,
     timezone: f.timezone?.stringValue,
     businessHours: f.businessHours?.stringValue,

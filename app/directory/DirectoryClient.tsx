@@ -29,22 +29,6 @@ const CAT_ICONS: Record<string, string> = {
   'Services':     'ti-tool',
 }
 
-function deriveCountry(country: string | undefined, region: string | undefined): string | undefined {
-  if (country) return country
-  const r = region ?? ''
-  if (/canada|toronto|vancouver|montreal|ottawa|calgary|edmonton/i.test(r)) return 'Canada'
-  if (/\busa\b|new york|new jersey|california|texas|illinois|massachusetts|georgia|washington|pennsylvania|florida/i.test(r)) return 'USA'
-  if (/\bindia\b|chennai|coimbatore|madurai|bengaluru|mumbai|delhi/i.test(r)) return 'India'
-  if (/\buk\b|united kingdom|england|london/i.test(r)) return 'UK'
-  if (/singapore/i.test(r)) return 'Singapore'
-  if (/australia/i.test(r)) return 'Australia'
-  if (/middle east|uae|dubai/i.test(r)) return 'UAE'
-  if (/germany|france|europe/i.test(r)) return 'Europe'
-  if (/malaysia/i.test(r)) return 'Malaysia'
-  if (/sri lanka/i.test(r)) return 'Sri Lanka'
-  return undefined
-}
-
 function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Business {
   const d = doc.data() as Record<string, unknown>
   const id = doc.id
@@ -78,7 +62,7 @@ function parseDoc(doc: { id: string; data: () => Record<string, unknown> }): Bus
     employeeCount: d.employeeCount as Business['employeeCount'],
     updatedAt: d.updatedAt as string | undefined,
     featured: (d.featured as boolean) ?? false,
-    country: deriveCountry(d.country as string | undefined, d.region as string | undefined),
+    country: d.country as string | undefined,
     address: d.address as string | undefined,
     timezone: d.timezone as string | undefined,
     businessHours: d.businessHours as string | undefined,
