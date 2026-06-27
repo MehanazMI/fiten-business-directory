@@ -20,10 +20,11 @@ const REGIONS = [
 ]
 
 const B2B_OPTIONS = [
-  { value: 'partner', label: 'Seeking Business Partners' },
-  { value: 'hire', label: 'Hiring' },
-  { value: 'invest', label: 'Seeking Investment' },
-  { value: 'client', label: 'Seeking Clients' },
+  { value: 'partner', label: 'Open to Partnerships' },
+  { value: 'client',  label: 'Seeking Clients' },
+  { value: 'invest',  label: 'Seeking Investment' },
+  { value: 'hire',    label: 'Hiring Now' },
+  { value: 'mentor',  label: 'Open to Mentoring' },
 ]
 
 

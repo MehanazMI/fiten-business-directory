@@ -18,10 +18,11 @@ const CATEGORIES = [
 ]
 
 const B2B_OPTIONS = [
-  { value: 'partner', label: 'Seeking Business Partners' },
-  { value: 'hire', label: 'Hiring' },
-  { value: 'invest', label: 'Seeking Investment' },
-  { value: 'client', label: 'Seeking Clients' },
+  { value: 'partner', label: 'Open to Partnerships' },
+  { value: 'client',  label: 'Seeking Clients' },
+  { value: 'invest',  label: 'Seeking Investment' },
+  { value: 'hire',    label: 'Hiring Now' },
+  { value: 'mentor',  label: 'Open to Mentoring' },
 ]
 
 export default function DashboardClient() {
@@ -194,7 +195,7 @@ export default function DashboardClient() {
                 <span>Community</span>
                 <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem' }}>
                   <label className="dashboard-check"><input type="checkbox" checked={women} onChange={e => setWomen(e.target.checked)} /> Women-Led</label>
-                  <label className="dashboard-check"><input type="checkbox" checked={speaker} onChange={e => setSpeaker(e.target.checked)} /> Open to Speak</label>
+                  <label className="dashboard-check"><input type="checkbox" checked={speaker} onChange={e => setSpeaker(e.target.checked)} /> Available as Speaker</label>
                 </div>
               </div>
             </div>

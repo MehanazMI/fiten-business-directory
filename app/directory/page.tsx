@@ -9,7 +9,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: { absolute: 'FiTEN Business Directory — Tamil Business Network' },
-  description: 'Discover Tamil-owned businesses worldwide. Connect with partners, clients, investors, and talent across the global Tamil business community.',
+  description: 'Discover Tamil-owned businesses worldwide. Connect with partners, clients, investors, talent, and mentors across the global Tamil business community.',
   alternates: { canonical: '/directory' },
 }
 
