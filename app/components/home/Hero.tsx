@@ -71,7 +71,7 @@ export default function Hero({ businesses, cities, sectors, continents, trending
 
         <p className="home-hero-sub">
           The network where Tamil businesses find each other. Browse verified listings, connect with
-          partners, hire talent, and attract investment — all in one place.
+          partners, hire talent, attract investment, and find mentors — all in one place.
         </p>
 
         <form onSubmit={submit} className="home-hero-search">

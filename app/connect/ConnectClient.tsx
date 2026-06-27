@@ -206,7 +206,7 @@ export default function ConnectClient({ businesses }: { businesses: Business[] }
             Tamil business, <em>connected.</em>
           </h1>
           <p className="connect-hero-sub">
-            Browse businesses actively seeking partners, clients, investors, and talent.
+            Browse businesses actively seeking partners, clients, investors, talent, and mentors.
             One community — infinite possibilities.
           </p>
 

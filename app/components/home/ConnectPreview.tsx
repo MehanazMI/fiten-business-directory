@@ -58,7 +58,7 @@ export default function ConnectPreview({ businesses }: { businesses: Business[] 
             Businesses ready to <em>connect.</em>
           </h2>
           <p className="home-featured-lede">
-            Find members actively seeking partners, clients, investment, and talent right now.
+            Find members actively seeking partners, clients, investment, talent, and mentoring right now.
           </p>
         </div>
 

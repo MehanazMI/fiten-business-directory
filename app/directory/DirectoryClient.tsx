@@ -532,7 +532,7 @@ export default function DirectoryClient({ initialData }: Props) {
       {/* ── CTA ── */}
       <section className="cta-listing">
         <h2>Ready to list your business on FiTEN?</h2>
-        <p>Join Tamil businesses trusted by partners, clients, and investors worldwide. It only takes a few minutes to get listed.</p>
+        <p>Join Tamil businesses trusted by partners, clients, investors, and mentors worldwide. It only takes a few minutes to get listed.</p>
         <a className="cta-listing-btn" href="/form">
           Add Your Business
         </a>
