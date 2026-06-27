@@ -75,16 +75,19 @@ export async function POST(req: NextRequest) {
   const businessEmailFlag = isBusinessEmail(email)
   const domainMatchFlag   = businessEmailFlag && domainsMatch(email, website ?? '')
 
-  // --- Duplicate check ---
-  const existing = await adminDb
-    .collection('businesses')
-    .where('email', '==', email)
-    .where('status', 'in', ['active', 'pending'])
-    .limit(1)
-    .get()
-
-  if (!existing.empty) {
-    return NextResponse.json({ error: 'business_exists' }, { status: 409 })
+  // --- Duplicate check (skipped for demo email to allow repeated test submissions) ---
+  const demoEmail = process.env.DEMO_EMAIL
+  const isDemoSubmission = demoEmail && email === demoEmail
+  if (!isDemoSubmission) {
+    const existing = await adminDb
+      .collection('businesses')
+      .where('email', '==', email)
+      .where('status', 'in', ['active', 'pending'])
+      .limit(1)
+      .get()
+    if (!existing.empty) {
+      return NextResponse.json({ error: 'business_exists' }, { status: 409 })
+    }
   }
 
   // --- Verification token (48h expiry) ---
