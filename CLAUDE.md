@@ -70,6 +70,51 @@ Every push to a non-`main` branch auto-generates a preview URL.
 
 ---
 
+## Git workflow (REQUIRED — follow this every session)
+
+**Never commit directly to `main`.** All work must go through a feature branch.
+
+### Branch naming
+```
+feat/<short-description>     # new feature
+fix/<short-description>      # bug fix
+chore/<short-description>    # tooling, deps, docs
+```
+
+### Step-by-step
+```bash
+# 1. Start from latest main
+git checkout main
+git pull
+
+# 2. Create feature branch
+git checkout -b feat/my-feature
+
+# 3. Make changes, then commit
+git add <files>
+git commit -m "feat: describe the change"
+
+# 4. Run tests — must pass before merging
+npm test
+
+# 5. Merge to main (fast-forward to keep history clean)
+git checkout main
+git merge feat/my-feature --no-ff -m "feat: describe the change"
+
+# 6. Push main (triggers Vercel production deploy)
+git push
+
+# 7. Delete the feature branch
+git branch -d feat/my-feature
+```
+
+### Why
+- Every push to `main` triggers a Vercel production deploy
+- A broken commit on `main` = broken production site
+- Feature branches give a safe place to iterate; Vercel also generates a preview URL for every non-`main` branch push
+
+---
+
 ## Architecture
 
 ### Data flow
