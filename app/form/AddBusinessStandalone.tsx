@@ -176,7 +176,6 @@ export default function AddBusinessStandalone() {
     setForm({ businessName: t.businessName, contactName: t.contactName, category: t.category, city: t.city, country: t.country, email: t.email, phone: t.phone ?? '', website: t.website ?? '', description: t.description })
     setLooking(t.looking)
     setCommunity({ women: t.women, speaker: false, nonprofit: false, convention: t.convention })
-    setConsent(true)
     setTouched({})
   }
 
