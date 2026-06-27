@@ -334,8 +334,8 @@ export default function AddBusinessStandalone() {
             {showErr('country') && <Err>{errors.country}</Err>}
           </F>
           <F label="City" required>
-            <input className={cls('city')} placeholder="e.g. Toronto"
-              value={form.city} onChange={set('city')} onBlur={markTouched('city')} placeholder="e.g. New York, London, Chennai" />
+            <input className={cls('city')} placeholder="e.g. New York, London, Chennai"
+              value={form.city} onChange={set('city')} onBlur={markTouched('city')} />
             {showErr('city') && <Err>{errors.city}</Err>}
           </F>
         </div>
