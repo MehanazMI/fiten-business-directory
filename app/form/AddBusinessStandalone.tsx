@@ -42,12 +42,16 @@ const COMMUNITY_OPTIONS = [
 ]
 
 const DESCRIPTION_MAX = 300
-const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']
+const MAX_LOGO_SIZE_MB = 5
+const MAX_LOGO_SIZE_BYTES = MAX_LOGO_SIZE_MB * 1024 * 1024
 
 const STORAGE_BUCKET = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
   ?? `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`
 
 async function uploadFile(file: File, submissionId: string): Promise<string> {
+  if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) throw new Error(`Invalid file type: ${file.name}`)
+  if (file.size > MAX_LOGO_SIZE_BYTES) throw new Error(`${file.name} exceeds ${MAX_LOGO_SIZE_MB} MB limit`)
   const path = `submissions/${submissionId}/${Date.now()}_${file.name}`
   const url = `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o`
     + `?uploadType=media&name=${encodeURIComponent(path)}&key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`
@@ -144,6 +148,7 @@ export default function AddBusinessStandalone() {
   const [newDocId, setNewDocId] = useState('')
   const [dragOver, setDragOver] = useState(false)
   const [files, setFiles] = useState<File[]>([])
+  const [fileError, setFileError] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const fillTestData = () => {
@@ -173,10 +178,21 @@ export default function AddBusinessStandalone() {
 
   const addFiles = useCallback((fl: FileList | null) => {
     if (!fl) return
-    const valid = Array.from(fl).filter(f => ACCEPTED_TYPES.includes(f.type))
+    setFileError('')
+    const all = Array.from(fl)
+    const wrongType = all.filter(f => !ACCEPTED_IMAGE_TYPES.includes(f.type))
+    const tooBig = all.filter(f => ACCEPTED_IMAGE_TYPES.includes(f.type) && f.size > MAX_LOGO_SIZE_BYTES)
+    if (wrongType.length > 0) {
+      setFileError(`Only image files are accepted (PNG, JPG, GIF, WebP). Rejected: ${wrongType.map(f => f.name).join(', ')}`)
+      return
+    }
+    if (tooBig.length > 0) {
+      setFileError(`Each logo must be under ${MAX_LOGO_SIZE_MB} MB. Rejected: ${tooBig.map(f => f.name).join(', ')}`)
+      return
+    }
     setFiles(prev => {
       const names = new Set(prev.map(f => f.name))
-      return [...prev, ...valid.filter(f => !names.has(f.name))]
+      return [...prev, ...all.filter(f => !names.has(f.name))]
     })
   }, [])
 
@@ -438,7 +454,7 @@ export default function AddBusinessStandalone() {
           </div>
         </F>
 
-        <F label="Logo & Documentation" hint="optional">
+        <F label="Business Logo" hint="optional">
           <div
             className={`bizform-drop${dragOver ? ' over' : ''}`}
             onDragOver={e => { e.preventDefault(); setDragOver(true) }}
@@ -446,14 +462,16 @@ export default function AddBusinessStandalone() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
           >
-            <input ref={fileInputRef} type="file" multiple accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.docx"
+            <input ref={fileInputRef} type="file" multiple accept=".png,.jpg,.jpeg,.gif,.webp"
               style={{ display: 'none' }} onChange={e => addFiles(e.target.files)} />
             <p className="bizform-drop-text">
-              Drop your logo, brand assets, or business registration here.
+              Drop your logo here or click to browse.
               <br />
-              <span className="bizform-drop-hint">PNG, PDF, or DOCX · Up to 25 MB · Uploaded to secure storage</span>
+              <span className="bizform-drop-hint">PNG, JPG, GIF, or WebP · Max {MAX_LOGO_SIZE_MB} MB per file</span>
             </p>
           </div>
+
+          {fileError && <p className="bizform-err" style={{ marginTop: '0.4rem' }}>{fileError}</p>}
 
           {files.length > 0 && (
             <div className="bizform-files">
