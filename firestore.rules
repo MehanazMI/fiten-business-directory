@@ -56,5 +56,11 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if isAdmin();
     }
+
+    // GDPR audit log — admin write (from client after delete/edit), admin read only
+    match /gdpr_log/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+    }
   }
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import {
-  collection, query, where, getDocs, doc, updateDoc, deleteDoc, orderBy,
+  collection, query, where, getDocs, doc, updateDoc, deleteDoc, orderBy, addDoc, serverTimestamp,
 } from 'firebase/firestore'
 import { auth, googleProvider, db } from '@/lib/firebase-client'
 import { useAuth } from '@/lib/auth-context'
@@ -125,7 +125,17 @@ export default function AdminClient() {
 
   async function hardDelete(id: string) {
     setActionId(id)
+    const target = businesses.find(b => b.id === id)
     await deleteDoc(doc(db, 'businesses', id))
+    await addDoc(collection(db, 'gdpr_log'), {
+      action: 'hard_delete',
+      businessId: id,
+      businessName: target?.businessName ?? '',
+      email: target?.email ?? '',
+      adminUid: user!.uid,
+      adminEmail: user!.email,
+      timestamp: serverTimestamp(),
+    })
     setBusinesses(prev => prev.filter(b => b.id !== id))
     setConfirmDeleteId(null)
     setActionId(null)
@@ -147,7 +157,21 @@ export default function AdminClient() {
 
   async function saveEdit(id: string) {
     setActionId(id)
+    const target = businesses.find(b => b.id === id)
+    const changedFields = Object.keys(editFields).filter(
+      k => editFields[k as keyof typeof editFields] !== target?.[k as keyof AdminBusiness]
+    )
     await updateDoc(doc(db, 'businesses', id), editFields as Record<string, unknown>)
+    await addDoc(collection(db, 'gdpr_log'), {
+      action: 'admin_edit',
+      businessId: id,
+      businessName: editFields.businessName ?? target?.businessName ?? '',
+      email: target?.email ?? '',
+      adminUid: user!.uid,
+      adminEmail: user!.email,
+      changedFields,
+      timestamp: serverTimestamp(),
+    })
     setBusinesses(prev => prev.map(b => b.id === id ? { ...b, ...editFields } : b))
     setEditId(null)
     setActionId(null)
