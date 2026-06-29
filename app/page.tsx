@@ -9,7 +9,6 @@ import ConnectPreview from '@/app/components/home/ConnectPreview'
 import WorldMap from '@/app/components/home/WorldMapLazy'
 import TestimonialMarquee from '@/app/components/home/TestimonialMarquee'
 import AnimatedCounter from '@/app/components/home/AnimatedCounter'
-import FetnaPromo from '@/app/components/home/FetnaPromo'
 
 export const metadata: Metadata = {
   title: 'FiTEN Business Directory — Connect with Tamil Businesses Worldwide',
@@ -70,7 +69,6 @@ export default async function HomePage() {
 
       <Hero businesses={active.length} cities={cities} sectors={sectors} continents={continents} trending={trending} />
 
-      <FetnaPromo />
 
       <FeaturedListings businesses={active} />
 

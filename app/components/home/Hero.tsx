@@ -66,7 +66,7 @@ export default function Hero({ businesses, cities, sectors, continents, trending
         </div>
 
         <h1 className="home-hero-title">
-          The trusted network <em className="gold-gradient">Tamil businesses deserve.</em>
+          Tamil business, <em className="gold-gradient">global reach.</em>
         </h1>
 
         <p className="home-hero-sub">
