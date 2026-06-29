@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import AnimatedCounter from './AnimatedCounter'
 
 const PLACEHOLDERS = [
-  'Lawyers in Toronto…',
-  'IT services in Dubai…',
-  'Catering in London…',
+  'Accountants in London…',
+  'IT services in Singapore…',
+  'Catering in New York…',
   'Cloud security firms…',
-  'Bridal saree Toronto…',
-  'Accountants in Singapore…',
+  'Bridal saree in Chennai…',
+  'Lawyers in Sydney…',
 ]
 
 interface Props {
