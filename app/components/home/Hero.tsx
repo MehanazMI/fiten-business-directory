@@ -61,17 +61,17 @@ export default function Hero({ businesses, cities, sectors, continents, trending
       <div className="home-hero-glow" aria-hidden="true" />
       <div className="home-hero-inner">
         <div className="home-hero-badge">
-          <i className="ti ti-world home-hero-badge-globe" aria-hidden="true" />
-          Tamil Business Network
+          <i className="ti ti-star home-hero-badge-globe" aria-hidden="true" />
+          Founding Member Program — Free Forever
         </div>
 
         <h1 className="home-hero-title">
-          Tamil business, <em className="gold-gradient">global reach.</em>
+          The trusted network <em className="gold-gradient">Tamil businesses deserve.</em>
         </h1>
 
         <p className="home-hero-sub">
-          The network where Tamil businesses find each other. Browse verified listings, connect with
-          partners, hire talent, attract investment, and find mentors — all in one place.
+          A private, verified business network for the Tamil community. Find partners, clients,
+          talent, investment, and mentors — all within a community that holds each other accountable.
         </p>
 
         <form onSubmit={submit} className="home-hero-search">
@@ -104,6 +104,12 @@ export default function Hero({ businesses, cities, sectors, continents, trending
             </div>
           ))}
         </div>
+
+        <p className="home-hero-founding-note">
+          <i className="ti ti-lock-open" aria-hidden="true" />
+          First 100 businesses join free — and stay free forever.{' '}
+          <a href="/form">Claim your spot →</a>
+        </p>
       </div>
     </section>
   )

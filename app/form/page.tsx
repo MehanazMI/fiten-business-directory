@@ -40,13 +40,19 @@ export default async function FormPage() {
       <div className="form-page">
 
         <aside className="form-intro">
+          <div className="form-founding-banner">
+            <i className="ti ti-star" aria-hidden="true" />
+            <div>
+              <strong>Founding Member — Free Forever</strong>
+              <span>You&rsquo;re among the first 100 businesses. Your listing is free, and stays free.</span>
+            </div>
+          </div>
           <p className="form-intro-kicker">For Business Owners</p>
           <h1 className="form-intro-title">
             Add your business <em>to FiTEN</em>
           </h1>
           <p className="form-intro-lede">
-            Join Tamil-led businesses trusted by partners, clients, and investors worldwide. Listings are
-            free for the community — sponsorship unlocks priority placement and verified status.
+            Join the verified Tamil business network trusted by partners, clients, and investors worldwide. Free for founding members — sponsorship unlocks priority placement.
           </p>
 
           <div className="form-intro-benefits">
