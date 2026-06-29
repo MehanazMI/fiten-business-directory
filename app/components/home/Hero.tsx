@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import AnimatedCounter from './AnimatedCounter'
 
 const PLACEHOLDERS = [
-  'Accountants in London…',
+  'Accountants in New Jersey…',
   'IT services in Singapore…',
   'Catering in New York…',
   'Cloud security firms…',
