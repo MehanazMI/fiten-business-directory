@@ -143,13 +143,12 @@ export default async function HomePage() {
       <section className="home-join">
         <div className="home-join-grid" aria-hidden="true" />
         <div className="home-join-inner">
-          <div className="sec-kicker sec-kicker-gold">For Business Owners</div>
+          <div className="sec-kicker sec-kicker-gold">Founding Member Program</div>
           <h2 className="sec-title sec-title-light">
-            Get found by the people <em className="gold-text">who already trust you.</em>
+            Join free. <em className="gold-text">Stay free forever.</em>
           </h2>
           <p className="home-join-text">
-            List your business in minutes and get discovered by the community that already values your
-            work.
+            The first 100 businesses join as Founding Members — free listing, locked in permanently. Be part of building the Tamil business network from day one.
           </p>
           <div className="home-join-benefits">
             {JOIN_BENEFITS.map(b => (
@@ -161,7 +160,7 @@ export default async function HomePage() {
           </div>
           <div className="home-join-cta">
             <a href="/form" className="home-btn-gold">
-              Add Your Business
+              Claim Your Founding Spot
             </a>
             <a href="/directory" className="home-btn-ghost">
               Browse Directory
