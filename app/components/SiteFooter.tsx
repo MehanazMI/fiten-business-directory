@@ -1,10 +1,25 @@
+import Image from 'next/image'
+
 export default function SiteFooter() {
   return (
     <footer className="dir-footer">
       <div className="dir-footer-grid">
         <div>
-          <div className="dir-footer-brand">
-            Fi<span>TEN</span>
+          <div className="dir-footer-brand-logos">
+            <Image
+              src="/logos/fiten-logo.png"
+              alt="FiTEN — FeTNA International Tamil Entrepreneur Network"
+              width={120}
+              height={48}
+              style={{ objectFit: 'contain' }}
+            />
+            <Image
+              src="/logos/fetna-logo-Edited.png"
+              alt="FeTNA — Federation of Tamil Sangams, North America"
+              width={48}
+              height={48}
+              style={{ objectFit: 'contain' }}
+            />
           </div>
           <p className="dir-footer-tagline">
             The official Tamil business directory of FeTNA — connecting professionals, partners, and investors across the global Tamil community.
