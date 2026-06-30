@@ -61,8 +61,8 @@ export default function Hero({ businesses, cities, sectors, continents, trending
       <div className="home-hero-glow" aria-hidden="true" />
       <div className="home-hero-inner">
         <div className="home-hero-badge">
-          <i className="ti ti-star home-hero-badge-globe" aria-hidden="true" />
-          Founding Member Program — Free Forever
+          <i className="ti ti-network home-hero-badge-globe" aria-hidden="true" />
+          Tamil Business Network
         </div>
 
         <h1 className="home-hero-title">
@@ -70,8 +70,8 @@ export default function Hero({ businesses, cities, sectors, continents, trending
         </h1>
 
         <p className="home-hero-sub">
-          A private, verified business network for the Tamil community. Find partners, clients,
-          talent, investment, and mentors — all within a community that holds each other accountable.
+          The network where Tamil businesses find each other. Browse verified listings, connect with
+          partners, hire talent, attract investment, and find mentors — all in one place.
         </p>
 
         <form onSubmit={submit} className="home-hero-search">
