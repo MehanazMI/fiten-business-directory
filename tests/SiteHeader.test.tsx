@@ -3,15 +3,14 @@ import { render, screen, within } from '@testing-library/react'
 import SiteHeader from '@/app/components/SiteHeader'
 
 describe('SiteHeader — default (directory page)', () => {
-  it('renders the FiTEN logo text', () => {
+  it('renders the FiTEN logo image', () => {
     render(<SiteHeader />)
-    expect(screen.getByText('Fi')).toBeInTheDocument()
-    expect(screen.getByText('TEN')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /FiTEN/i })).toBeInTheDocument()
   })
 
   it('logo links to home', () => {
     render(<SiteHeader />)
-    const logoLink = screen.getByRole('link', { name: /FiTEN.*Business Directory/i })
+    const logoLink = screen.getByRole('link', { name: /FiTEN/i })
     expect(logoLink).toHaveAttribute('href', '/')
   })
 
@@ -52,15 +51,14 @@ describe('SiteHeader — default (directory page)', () => {
 })
 
 describe('SiteHeader — form page', () => {
-  it('renders the FiTEN logo text', () => {
+  it('renders the FiTEN logo image', () => {
     render(<SiteHeader activeLink="form" />)
-    expect(screen.getByText('Fi')).toBeInTheDocument()
-    expect(screen.getByText('TEN')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /FiTEN/i })).toBeInTheDocument()
   })
 
   it('logo still links to home', () => {
     render(<SiteHeader activeLink="form" />)
-    const logoLink = screen.getByRole('link', { name: /FiTEN.*Business Directory/i })
+    const logoLink = screen.getByRole('link', { name: /FiTEN/i })
     expect(logoLink).toHaveAttribute('href', '/')
   })
 
