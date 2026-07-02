@@ -13,7 +13,7 @@ type VisitorRole = 'all' | OppType
 const OPP_META: Record<OppType, { label: string; icon: string; desc: string; color: string }> = {
   partner:  { label: 'Partnership',    icon: 'ti-heart-handshake', desc: 'Open to strategic partnerships & collaborations', color: '#7C3AED' },
   client:   { label: 'New Clients',    icon: 'ti-users',           desc: 'Actively seeking new clients & customers',        color: '#059669' },
-  invest:   { label: 'Investment',     icon: 'ti-chart-line',      desc: 'Open to investors & funding opportunities',       color: '#C5A059' },
+  invest:   { label: 'Investment',     icon: 'ti-chart-line',      desc: 'Open to investors & funding opportunities',       color: '#FF6B57' },
   hire:     { label: 'Hiring',         icon: 'ti-briefcase',       desc: 'Currently hiring talent',                         color: '#2563EB' },
   mentor:   { label: 'Mentorship',     icon: 'ti-user-star',       desc: 'Open to mentoring community members',             color: '#0284C7' },
 }

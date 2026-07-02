@@ -1,39 +1,39 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 :root{
-  --navy:#0F172A;
-  --navy-dk:#1E293B;
-  --navy-lt:#ECEEF2;
-  --navy-90:rgba(15,23,42,0.9);
-  --navy-70:rgba(15,23,42,0.7);
-  --navy-40:rgba(15,23,42,0.4);
-  --navy-20:rgba(15,23,42,0.15);
-  --navy-10:rgba(15,23,42,0.07);
-  --navy-05:rgba(15,23,42,0.04);
-  --gold:#C5A059;
-  --gold-hero:#C5A059;
-  --gold-lt:#F5ECD8;
-  --gold-10:rgba(197,160,89,0.1);
-  --gold-40:rgba(197,160,89,0.4);
-  --amber:#A07820;
-  --amber-deep:#7A5800;
-  --sage:#3D7068;
-  --sage-lt:#EEF5F4;
-  --sage-zone:#E8EFE4;
-  --sage-fg:#3D5C3F;
-  --charcoal:#0F172A;
-  --charcoal-90:rgba(15,23,42,0.9);
-  --cream:#FDFCFB;
-  --home-band:#F4F1EA;
-  --cream-70:rgba(253,252,251,0.7);
-  --cream-20:rgba(253,252,251,0.2);
-  --cream-10:rgba(253,252,251,0.1);
-  --text:#1A1A1A;
-  --text2:#555;
-  --text3:#888;
-  --border:#E2E5EA;
-  --card-divider:#F2EBE0;
-  --slate:#64748B;
+  --navy:#252B33;
+  --navy-dk:#1B2028;
+  --navy-lt:#E4E8EC;
+  --navy-90:rgba(37,43,51,0.9);
+  --navy-70:rgba(37,43,51,0.7);
+  --navy-40:rgba(37,43,51,0.4);
+  --navy-20:rgba(37,43,51,0.15);
+  --navy-10:rgba(37,43,51,0.07);
+  --navy-05:rgba(37,43,51,0.04);
+  --gold:#FF6B57;
+  --gold-hero:#FF6B57;
+  --gold-lt:#FCE7E1;
+  --gold-10:rgba(255,107,87,0.1);
+  --gold-40:rgba(255,107,87,0.4);
+  --amber:#E24A34;
+  --amber-deep:#C43D2A;
+  --sage:#1F9E92;
+  --sage-lt:#E8F7F5;
+  --sage-zone:#E3F4F1;
+  --sage-fg:#16776E;
+  --charcoal:#252B33;
+  --charcoal-90:rgba(37,43,51,0.9);
+  --cream:#F5F1EB;
+  --home-band:#F0EBE1;
+  --cream-70:rgba(245,241,235,0.7);
+  --cream-20:rgba(245,241,235,0.2);
+  --cream-10:rgba(245,241,235,0.1);
+  --text:#252B33;
+  --text2:#6B7683;
+  --text3:#9AA2AB;
+  --border:#D9DEE4;
+  --card-divider:#EDE6DC;
+  --slate:#6B7683;
   --font-sans:'Inter',system-ui,-apple-system,sans-serif;
   --font-serif:'Playfair Display',Georgia,serif;
   --shadow-xs:0 1px 3px rgba(0,0,0,0.05);
@@ -169,7 +169,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--text);min-
 /* ━━━ CONTENT AREA ━━━ */
 .content{padding:0;background:transparent;min-width:0}
 /* Map view (decorative world map like the home page) */
-.map-view-card{background:#0f172a;border:0.5px solid rgba(255,255,255,0.08);padding:1.5rem;border-radius:12px}
+.map-view-card{background:#252B33;border:0.5px solid rgba(255,255,255,0.08);padding:1.5rem;border-radius:12px}
 .map-view-caption{margin-top:1.25rem;text-align:center;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,255,255,0.45)}
 /* Toolbar: result count + sort + view toggle */
 .content-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;gap:0.75rem;flex-wrap:wrap}
@@ -684,7 +684,7 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 .sec-title em{font-style:italic}
 .sec-title-center{text-align:center;margin:0 auto}
 .sec-title-light{color:#fff}
-.gold-gradient{font-style:italic;background-image:linear-gradient(135deg,#C5A059 0%,#E8C870 45%,#C5A059 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gold-gradient{font-style:italic;background-image:linear-gradient(135deg,#FF6B57 0%,#FF9A87 45%,#FF6B57 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .gold-text{font-style:italic;color:var(--gold)}
 
 .home-btn-navy{display:inline-block;background:var(--navy);color:#fff;padding:0.85rem 2rem;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;text-decoration:none;transition:all 0.18s}
@@ -1374,7 +1374,7 @@ select.bizform-input{appearance:none;-webkit-appearance:none;padding-right:2.5re
 .dashboard-status-active{background:rgba(26,188,156,.12);color:#1abc9c}
 .dashboard-status-pending{background:rgba(197,160,89,.15);color:var(--amber)}
 .dashboard-edit-btn{padding:7px 16px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:.83rem;font-weight:500;cursor:pointer}
-.dashboard-edit-btn:hover{background:#1e293b}
+.dashboard-edit-btn:hover{background:#1B2028}
 .dashboard-save-btn{padding:7px 16px;background:var(--gold);color:var(--navy);border:none;border-radius:6px;font-size:.83rem;font-weight:600;cursor:pointer}
 .dashboard-save-btn:disabled{opacity:.6;cursor:not-allowed}
 .dashboard-cancel-btn{padding:7px 14px;background:none;border:.5px solid var(--border);color:var(--text2);border-radius:6px;font-size:.83rem;cursor:pointer}

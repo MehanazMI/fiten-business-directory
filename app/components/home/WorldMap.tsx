@@ -30,9 +30,9 @@ export default function WorldMap({
   const isDark = theme === 'dark'
   const landFill   = isDark ? '#213d61' : '#c8d6e5'
   const landHover  = isDark ? '#2c5183' : '#a8c4d8'
-  const landStroke = isDark ? 'rgba(197,160,89,0.28)' : 'rgba(15,23,42,0.20)'
-  const gridStroke = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.06)'
-  const pinColor   = '#C5A059'
+  const landStroke = isDark ? 'rgba(255,107,87,0.28)' : 'rgba(37,43,51,0.20)'
+  const gridStroke = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(37,43,51,0.06)'
+  const pinColor   = '#FF6B57'
 
   const [tooltip, setTooltip] = useState<{ city: string; x: number; y: number } | null>(null)
 
@@ -105,8 +105,8 @@ export default function WorldMap({
           top: tooltip.y - 36,
           transform: 'translateX(-50%)',
           background: isDark ? 'rgba(10,18,35,0.95)' : 'rgba(255,255,255,0.95)',
-          border: `1px solid ${isDark ? 'rgba(197,160,89,0.5)' : 'rgba(15,23,42,0.2)'}`,
-          color: isDark ? '#C5A059' : '#0f172a',
+          border: `1px solid ${isDark ? 'rgba(255,107,87,0.5)' : 'rgba(37,43,51,0.2)'}`,
+          color: isDark ? '#FF6B57' : '#252B33',
           fontSize: '11px',
           fontWeight: 700,
           fontFamily: 'Inter, sans-serif',
