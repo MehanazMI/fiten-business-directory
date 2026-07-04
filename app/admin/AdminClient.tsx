@@ -278,7 +278,7 @@ export default function AdminClient() {
                   <span><i className="ti ti-map-pin" aria-hidden="true" /> {b.city}{b.country ? `, ${b.country}` : ''}</span>
                   <span><i className="ti ti-mail" aria-hidden="true" /> {b.email}</span>
                   {b.submittedBy && (
-                    <span style={{ color: 'var(--teal)' }}>
+                    <span style={{ color: 'var(--gold)' }}>
                       <i className="ti ti-brand-google" aria-hidden="true" /> {b.submittedBy.email}
                     </span>
                   )}

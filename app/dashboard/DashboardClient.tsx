@@ -219,7 +219,7 @@ export default function DashboardClient() {
               )}
               {b.status === 'rejected' && (
                 <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)' }}>
-                  This listing was not approved. <a href="/form" style={{ color: 'var(--teal)' }}>Submit a new listing</a> if you'd like to try again.
+                  This listing was not approved. <a href="/form" style={{ color: 'var(--gold)' }}>Submit a new listing</a> if you'd like to try again.
                 </p>
               )}
             </div>

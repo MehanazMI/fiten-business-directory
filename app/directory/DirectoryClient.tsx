@@ -246,7 +246,7 @@ export default function DirectoryClient({ initialData }: Props) {
           </div>
           <div className="hero-inline-stats">
             <div className="his-item">
-              <i className="ti ti-building-store" style={{ color: '#FF6B57', fontSize: '1.1rem' }} />
+              <i className="ti ti-building-store" style={{ color: '#C5A059', fontSize: '1.1rem' }} />
               <strong>{bizCount}</strong><span>Businesses</span>
             </div>
             <div className="his-sep" />
