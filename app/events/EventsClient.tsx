@@ -91,7 +91,7 @@ export default function EventsClient({ events }: { events: Event[] }) {
       <div className="events-hero">
         <div className="events-hero-inner">
           <div className="events-hero-badge">
-            <i className="ti ti-calendar-event" aria-hidden="true" style={{ color: 'var(--gold)', fontSize: '1rem' }} />
+            <i className="ti ti-calendar-event" aria-hidden="true" style={{ color: 'var(--teal)', fontSize: '1rem' }} />
             Global Tamil Business Network
           </div>
           <h1>Community Events, <em>All in One Place</em></h1>
@@ -100,7 +100,7 @@ export default function EventsClient({ events }: { events: Event[] }) {
           </p>
           <div className="events-hero-stats">
             <div className="events-hero-stat-pill">
-              <i className="ti ti-calendar-check" style={{ color: 'var(--gold)', fontSize: '1rem' }} aria-hidden="true" />
+              <i className="ti ti-calendar-check" style={{ color: 'var(--teal)', fontSize: '1rem' }} aria-hidden="true" />
               <strong>{totalUpcoming}</strong><span>Upcoming</span>
             </div>
             <div className="events-hero-stat-pill">

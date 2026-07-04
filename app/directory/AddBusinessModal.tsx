@@ -110,8 +110,8 @@ export default function AddBusinessModal({ onClose }: Props) {
 
         {success ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-            <i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', display: 'inline-block' }} aria-hidden="true" />
-            <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>Submitted!</h3>
+            <i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--teal)', marginBottom: '1rem', display: 'inline-block' }} aria-hidden="true" />
+            <h3 style={{ color: 'var(--teal)', marginBottom: '0.5rem' }}>Submitted!</h3>
             <p style={{ color: 'var(--cream-70)', lineHeight: 1.6 }}>
               Check your email for a verification link to activate your listing instantly. If you prefer, our team can also approve it manually within 5 business days.
             </p>
@@ -189,9 +189,9 @@ export default function AddBusinessModal({ onClose }: Props) {
               <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} style={{ marginTop: '0.15rem', flexShrink: 0 }} />
               <span>
                 I agree to the{' '}
-                <Link href="/terms" target="_blank" style={{ color: 'var(--gold)' }}>Terms of Use</Link>
+                <Link href="/terms" target="_blank" style={{ color: 'var(--teal)' }}>Terms of Use</Link>
                 {' '}and{' '}
-                <Link href="/privacy" target="_blank" style={{ color: 'var(--gold)' }}>Privacy Policy</Link>
+                <Link href="/privacy" target="_blank" style={{ color: 'var(--teal)' }}>Privacy Policy</Link>
                 , and consent to my business information being publicly displayed in the FiTEN directory. *
               </span>
             </label>

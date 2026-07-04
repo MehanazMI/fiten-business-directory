@@ -30,9 +30,9 @@ export default function WorldMap({
   const isDark = theme === 'dark'
   const landFill   = isDark ? '#213d61' : '#c8d6e5'
   const landHover  = isDark ? '#2c5183' : '#a8c4d8'
-  const landStroke = isDark ? 'rgba(255,107,87,0.28)' : 'rgba(37,43,51,0.20)'
+  const landStroke = isDark ? 'rgba(46,145,136,0.28)' : 'rgba(37,43,51,0.20)'
   const gridStroke = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(37,43,51,0.06)'
-  const pinColor   = '#FF6B57'
+  const pinColor   = '#2E9188'
 
   const [tooltip, setTooltip] = useState<{ city: string; x: number; y: number } | null>(null)
 
@@ -92,8 +92,8 @@ export default function WorldMap({
               opacity={0.6}
               style={{ animation: `rsm-pulse 2.2s ease-out ${i * 220}ms infinite`, pointerEvents: 'none' }}
             />
-            <circle r={3} fill="#E8C77E" style={{ pointerEvents: 'none' }} />
-            <circle r={1.2} fill="#FFF3DA" style={{ pointerEvents: 'none' }} />
+            <circle r={3} fill="#6FD9CB" style={{ pointerEvents: 'none' }} />
+            <circle r={1.2} fill="#EAFBF8" style={{ pointerEvents: 'none' }} />
           </Marker>
         ))}
       </ComposableMap>
@@ -105,8 +105,8 @@ export default function WorldMap({
           top: tooltip.y - 36,
           transform: 'translateX(-50%)',
           background: isDark ? 'rgba(10,18,35,0.95)' : 'rgba(255,255,255,0.95)',
-          border: `1px solid ${isDark ? 'rgba(255,107,87,0.5)' : 'rgba(37,43,51,0.2)'}`,
-          color: isDark ? '#FF6B57' : '#252B33',
+          border: `1px solid ${isDark ? 'rgba(46,145,136,0.5)' : 'rgba(37,43,51,0.2)'}`,
+          color: isDark ? '#2E9188' : '#252B33',
           fontSize: '11px',
           fontWeight: 700,
           fontFamily: 'Inter, sans-serif',

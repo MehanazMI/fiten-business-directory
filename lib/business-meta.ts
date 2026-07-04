@@ -77,7 +77,7 @@ export function buildB2BSignals(b: Business): SignalMeta[] {
 
 export function buildCommunityBadges(b: Business, opts: { includePro?: boolean } = {}): SignalMeta[] {
   return [
-    ...(opts.includePro && b.pro ? [{ icon: 'ti-rosette', label: 'FeTNA Sponsor', color: '#C5A059' }] : []),
+    ...(opts.includePro && b.pro ? [{ icon: 'ti-rosette', label: 'FeTNA Sponsor', color: '#8A6B2E' }] : []),
     ...(b.women     ? [COMMUNITY_META.women]      : []),
     ...(b.nonprofit ? [COMMUNITY_META.nonprofit]  : []),
     ...(b.speaker   ? [COMMUNITY_META.speaker]    : []),

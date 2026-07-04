@@ -370,7 +370,7 @@ export default function AddBusinessStandalone() {
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem' }}>
           <button type="button" onClick={fillTestData}
-            style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold)', border: '1px dashed rgba(201,168,76,0.4)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}>
+            style={{ background: 'rgba(46,145,136,0.12)', color: 'var(--teal)', border: '1px dashed rgba(46,145,136,0.4)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}>
             ⚡ Fill test data
           </button>
         </div>
